@@ -15,8 +15,10 @@
   </properties>
 
     <modules>
-        <!--<module>webapp-core</module>
-        <module>mongo-utils</module>-->
+        <module>webapp-core</module>
+        <module>mongo-utils</module>
+        <!--<module>mdiss-thumbnailer</module>
+        <module>mdiss-notifier</module>-->
     </modules>
 
   <dependencies>
