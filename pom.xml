@@ -1,46 +1,46 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.mdissjava.mdissphoto</groupId>
-  <artifactId>mdissphoto</artifactId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
+    <groupId>org.mdissjava.mdissphoto</groupId>
+    <artifactId>mdissphoto</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
 
-  <name>mdissphoto</name>
-  <url>http://maven.apache.org</url>
+    <name>mdissphoto</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <modules>
-        <module>webapp-core</module>
+        <!--<module>webapp-core</module>-->
         <module>mongo-utils</module>
-        <!--<module>mdiss-thumbnailer</module>
-        <module>mdiss-notifier</module>-->
+        <!--<module>mdiss-thumbnailer</module>-->
+        <!--<module>mdiss-notifier</module>-->
     </modules>
 
-  <dependencies>
-    <!-- Junit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <!-- lsf4j -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.6.4</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.6.4</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <!-- Junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- lsf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+    </dependencies>
 </project>
