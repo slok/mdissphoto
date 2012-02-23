@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#main#index.xhtml" PATH="/main/index.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#main#index.xhtml:0" NAME="item"
+   PATH="/main/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="list::#main#photos#imageList.xhtml"
+    NAME="output" PATH="/main/photos/imageList.xhtml"
+    TARGET="rules:#main#photos#imageList.xhtml" TITLE="list" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#main#photos#imageList.xhtml"
+  PATH="/main/photos/imageList.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#main#photos#imageList.xhtml:0" NAME="item"
+   PATH="/main/photos/imageList.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="detail::#main#photos#imageDetail.xhtml"
+    NAME="output" PATH="/main/photos/imageDetail.xhtml"
+    TARGET="rules:#main#photos#imageDetail.xhtml" TITLE="detail" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#main#photos#imageDetail.xhtml"
+  PATH="/main/photos/imageDetail.xhtml" SHAPE="448,17,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

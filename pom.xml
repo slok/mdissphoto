@@ -15,10 +15,12 @@
     </properties>
 
     <modules>
-        <!--<module>webapp-core</module>-->
+        <module>mdiss-core</module>
         <module>mongo-utils</module>
         <!--<module>mdiss-thumbnailer</module>-->
         <!--<module>mdiss-notifier</module>-->
+        <!--<module>mysql-utils</module>-->
+        <!--<module>common-utils</module>-->
     </modules>
 
     <dependencies>
