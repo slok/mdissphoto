@@ -26,5 +26,12 @@ public class GridfsDataStorerTest {
 		InputStream is = getClass().getResourceAsStream("/slackware.png");
 		gds.saveData(is);	
 	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void saveDataTestNull() throws IOException
+	{
+		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test");
+		gds.saveData(null);	
+	}
 
 }

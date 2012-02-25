@@ -86,11 +86,19 @@ public class GridfsDataStorer implements DataStorer {
 	@Override
 	public String saveData(InputStream data) throws IOException 
 	{
-		if (data == null)
-			throw new IllegalStateException("No data/file. Nothing to store.");
-		
 		//get uuid (unique and random)
 		String uuid = UUID.randomUUID().toString();
+
+		this.saveData(data, uuid);
+		
+		return uuid;
+	}
+
+	@Override
+	public void saveData(InputStream data, String id) throws IOException{
+		
+		if (data == null)
+			throw new IllegalStateException("No data/file. Nothing to store.");
 		
 		//Connect and create/get database &  Create namespace
 		try {
@@ -103,27 +111,21 @@ public class GridfsDataStorer implements DataStorer {
 			GridFSInputFile gfsInputFile = gfsFile.createFile(data);
 			
 			// set a filename for identification purposes. We use the previously created UUID
-			gfsInputFile.setFilename(uuid);
+			gfsInputFile.setFilename(id);
 			
 			// save the file file into mongoDB and disconnect
 			gfsInputFile.save();
 			
-			this.logger.info("[File][GridFS] File with " + uuid + "UUID data Stored");
+			this.logger.info("[File][GridFS] File with {} UUID data Stored", id);
 			
-			return uuid;
+
 		}catch (UnknownHostException e) {
-			this.logger.error("[File][GridFS] File with " + uuid + "UUID not Stored");
+			this.logger.error("[File][GridFS] File with {} UUID not Stored", id);
 			throw new IOException("Unknown host exception, Data not stored");
 		} catch (MongoException e) {
-			this.logger.error("[File][GridFS] File with " + uuid + "UUID not Stored");
+			this.logger.error("[File][GridFS] File with {}UUID not Stored", id);
 			throw new IOException("Mongo exception, Data not stored");
 		}
-	}
-
-	@Override
-	public void saveData(InputStream data, String id) throws IOException{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
