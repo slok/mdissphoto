@@ -20,6 +20,8 @@ public final class MongoDBConnection
 {
 	private static MongoDBConnection instance = null;
 	private Mongo connection = null;
+	String URL = null;
+	int port = 0;
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private MongoDBConnection()
@@ -67,11 +69,17 @@ public final class MongoDBConnection
 		this.connection = new Mongo(URL, port);*/
 		
 		//only one object needed for all the application (pool is automanged)
-		if(this.connection == null)
+		//if the connection URI is different or null then create a new different connection but don't close 
+		//the previous one (maybe there are active connections )
+		if(this.connection == null || !this.URL.equals(URL) || this.port != port)
 		{
 			this.logger.info("New Mongo connection {}:{}", URL, port);
 			this.connection = new Mongo(URL, port);
+			this.URL = URL;
+			this.port = port;
 		}
+		else
+			this.logger.info("Using previous connection {}:{}", this.URL, this.port);
 		
 	}
 	

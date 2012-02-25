@@ -13,12 +13,6 @@ public class MongoDBConnectionTest {
 	
 	private MongoDBConnection mdbc;
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	@After
-	public void tearDown() throws Exception 
-	{
-		MongoDBConnection.releaseInstance();
-	}
 	
 	@Test
 	public void testConnection() throws UnknownHostException, MongoException 
