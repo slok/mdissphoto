@@ -1,4 +1,4 @@
-package org.mdissjava.commonutils.mongo;
+package org.mdissjava.commonutils.mongo.db;
 
 import java.net.UnknownHostException;
 
