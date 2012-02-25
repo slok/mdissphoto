@@ -1,15 +1,12 @@
 package org.mdissjava.commonutils.mongo.gridfs;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -66,7 +63,7 @@ public class GridfsDataStorerTest {
 	public void retrieveMissingData() throws IOException
 	{
 		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test");
-		OutputStream baos = gds.getData("D03sn'7 3x15t");
+		gds.getData("D03sn'7 3x15t");
 	}
 	
 	@Test
@@ -89,6 +86,40 @@ public class GridfsDataStorerTest {
 		assertTrue(Arrays.equals(outBytes,inBytes));
 	}
 	
+	@Test
+	public void notSameInSameOut() throws IOException, NoSuchAlgorithmException
+	{
+		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test");
+
+		InputStream is = getClass().getResourceAsStream("/slackware.png");
+		gds.saveData(is, "myCustomName");	
+		ByteArrayOutputStream baos = (ByteArrayOutputStream)gds.getData("myCustomName");
+		
+		//check
+		//out image
+		byte[] outBytes = baos.toByteArray();
+		
+		//in image
+		byte[] inBytes = "A fake image".getBytes();
+		
+		assertFalse(Arrays.equals(outBytes,inBytes));
+	}
+	
+	@Test(expected=IOException.class)
+	public void deleteData() throws IOException
+	{
+		String id = "7h15 w1ll n07 574y much 71m3 1n d474b453";
+		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test");
+		//load the file to store
+		InputStream is = getClass().getResourceAsStream("/slackware.png");
+		
+		gds.saveData(is, id);
+		gds.getData(id);
+		//delete and retrieve to test
+		gds.deleteData(id);
+		gds.getData(id);
+		
+	}
 	/**
 	 * Method taken from: http://stackoverflow.com/questions/1264709/convert-inputstream-to-byte-in-java
 	 */

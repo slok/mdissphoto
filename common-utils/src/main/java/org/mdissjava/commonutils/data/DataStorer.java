@@ -48,6 +48,6 @@ public interface DataStorer
 	 * 
 	 * @param id The identifier that identifies the stored data
 	 */
-	void deleteData(String id);
+	void deleteData(String id) throws IOException;
 
 }

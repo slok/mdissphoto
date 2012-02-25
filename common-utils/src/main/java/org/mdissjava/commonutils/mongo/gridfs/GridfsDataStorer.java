@@ -159,16 +159,29 @@ public class GridfsDataStorer implements DataStorer {
 			this.logger.error("[File][GridFS] File with {} id not retrieved", id);
 			throw new IOException("Unknown host exception, Data not retrieved");
 		} catch (MongoException e) {
-			this.logger.error("[File][GridFS] File with {} UUID not retrieved", id);
+			this.logger.error("[File][GridFS] File with {} id not retrieved", id);
 			throw new IOException("Mongo exception, Data not retrieved");
 		}
 
 	}
 
 	@Override
-	public void deleteData(String id) {
-		// TODO Auto-generated method stub
-
+	public void deleteData(String id) throws IOException
+	{
+	
+		try {
+			this.connectMongo();
+			Mongo mdb = this.mongoConn.getConnection(); 
+			GridFS gfs = new GridFS(mdb.getDB(this.database), this.collection);
+			gfs.remove(id);
+		}catch (UnknownHostException e) {
+			this.logger.error("[File][GridFS] File with {} id not deleted", id);
+			throw new IOException("Unknown host exception, Data not deleted");
+		} catch (MongoException e) {
+			this.logger.error("[File][GridFS] File with {} id not deleted", id);
+			throw new IOException("Mongo exception, Data not deleted");
+		}
+		
 	}
 
 }
