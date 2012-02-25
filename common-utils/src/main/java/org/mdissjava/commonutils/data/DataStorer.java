@@ -39,8 +39,9 @@ public interface DataStorer
 	 * 
 	 * @param id The identifier that identifies the stored data
 	 * @return Returns the retrieved data in an outputStream
+	 * @throws IOException If the data could not be retrieved because of the connection, corrupt data... this exception will be thrown
 	 */
-	OutputStream getData(String id);
+	OutputStream getData(String id) throws IOException;
 	
 	/**
 	 * Deletes the previously stored data with the id that is passed in the param

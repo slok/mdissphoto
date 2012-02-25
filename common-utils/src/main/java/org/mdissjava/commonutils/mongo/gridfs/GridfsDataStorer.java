@@ -1,5 +1,6 @@
 package org.mdissjava.commonutils.mongo.gridfs;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
 /**
@@ -116,22 +118,51 @@ public class GridfsDataStorer implements DataStorer {
 			// save the file file into mongoDB and disconnect
 			gfsInputFile.save();
 			
-			this.logger.info("[File][GridFS] File with {} UUID data Stored", id);
+			this.logger.info("[File][GridFS] File with {} id data Stored", id);
 			
 
 		}catch (UnknownHostException e) {
-			this.logger.error("[File][GridFS] File with {} UUID not Stored", id);
+			this.logger.error("[File][GridFS] File with {} id not Stored", id);
 			throw new IOException("Unknown host exception, Data not stored");
 		} catch (MongoException e) {
-			this.logger.error("[File][GridFS] File with {}UUID not Stored", id);
+			this.logger.error("[File][GridFS] File with {} id not Stored", id);
 			throw new IOException("Mongo exception, Data not stored");
 		}
 	}
 
 	@Override
-	public OutputStream getData(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public OutputStream getData(String id) throws IOException{
+		if (id == null)
+			throw new IllegalStateException("No id! Nothing to retrieve.");
+		
+		try {
+			this.connectMongo();
+			Mongo mdb = this.mongoConn.getConnection(); 
+			GridFS gfs = new GridFS(mdb.getDB(this.database), this.collection);
+			GridFSDBFile fileForOutput = gfs.findOne(id);
+			
+			//If the file is null then we know that there isn't in the database
+			if (fileForOutput == null)
+			{
+				this.logger.error("[File][GridFS] Can not retrieve item: {}", id);
+				throw new IOException(id + " Item not found in Mongo database");
+			}
+			
+			//kind of clone (we need to clone and change format)
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			fileForOutput.writeTo(baos);
+			
+			this.logger.info("[File][GridFS] File with {} id data retrieved", id );
+			
+			return baos;
+		}catch (UnknownHostException e) {
+			this.logger.error("[File][GridFS] File with {} id not retrieved", id);
+			throw new IOException("Unknown host exception, Data not retrieved");
+		} catch (MongoException e) {
+			this.logger.error("[File][GridFS] File with {} UUID not retrieved", id);
+			throw new IOException("Mongo exception, Data not retrieved");
+		}
+
 	}
 
 	@Override
