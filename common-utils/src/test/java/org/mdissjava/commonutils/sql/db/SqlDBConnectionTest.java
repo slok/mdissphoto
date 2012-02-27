@@ -22,6 +22,8 @@ public class SqlDBConnectionTest {
 		
 		this.msqldbc = SqlDBConnection.getInstance();
 		this.msqldbc.connect(DRIVER,CONSTR);
+		
+		this.msqldbc.disconnect();
 	}
 	
 	@Test(expected=SQLException.class)
@@ -32,6 +34,7 @@ public class SqlDBConnectionTest {
 		this.msqldbc = SqlDBConnection.getInstance();
 		this.msqldbc.connect(DRIVER, "jdbc:mysql://localhost/test?user=fake&password=fake");
 		
+		this.msqldbc.disconnect();
 	}
 
 	@Test(expected=ClassNotFoundException.class)
@@ -42,5 +45,6 @@ public class SqlDBConnectionTest {
 		this.msqldbc = SqlDBConnection.getInstance();
 		this.msqldbc.connect("com.mysql.jdbc.FakeDriver", CONSTR);
 		
+		this.msqldbc.disconnect();	
 	}
 }
