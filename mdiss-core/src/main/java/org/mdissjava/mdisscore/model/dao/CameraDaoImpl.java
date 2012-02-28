@@ -2,6 +2,7 @@ package org.mdissjava.mdisscore.model.dao;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.pojo.Camera;
 
 import com.google.code.morphia.Datastore;
@@ -9,7 +10,6 @@ import com.google.code.morphia.dao.BasicDAO;
 import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;
-import com.sun.corba.se.spi.ior.ObjectId;
 
 public class CameraDaoImpl extends BasicDAO<Camera, ObjectId> implements
 		CameraDao {
@@ -17,6 +17,10 @@ public class CameraDaoImpl extends BasicDAO<Camera, ObjectId> implements
 	public CameraDaoImpl(Datastore ds) {
 		super(ds);
 		// TODO Auto-generated constructor stub
+	}
+
+	private Query<Camera> queryToFindMe(ObjectId id) {
+		return ds.createQuery(Camera.class).field(Mapper.ID_KEY).equal(id);
 	}
 
 	@Override
@@ -38,7 +42,7 @@ public class CameraDaoImpl extends BasicDAO<Camera, ObjectId> implements
 		if (camera.getModel() != null) {
 			query.field("model").equal(camera.getModel());
 		}
-		if (camera.getVotes() != null) {
+		if (!camera.getVotes().isEmpty()) {
 			query.field("votes").equal(camera.getVotes());
 		}
 		List<Camera> cameras = query.asList();
@@ -49,29 +53,16 @@ public class CameraDaoImpl extends BasicDAO<Camera, ObjectId> implements
 
 	@Override
 	public void updateCamera(Camera camera) {
-		if (camera.getId() != null) {
-			Query<Camera> updateQuery = ds
-					.createQuery(Camera.class).field(Mapper.ID_KEY)
-					.equal(camera.getId());
-			UpdateOperations<Camera> ops = ds
-					.createUpdateOperations(Camera.class);
-
-			if (camera.getBrand() != null) {
-				ops.set("brand", camera.getBrand());
-			}
-			if (camera.getModel() != null) {
-				ops.set("photos", camera.getModel());
-			}
-			if (camera.getVotes() != null) {
-				ops.set("title", camera.getVotes());
-			}
-			ds.update(updateQuery, ops);
-		}
+		UpdateOperations<Camera> ops = ds.createUpdateOperations(Camera.class)
+				.set("brand", camera.getBrand())
+				.set("model", camera.getModel())
+				.set("votes", camera.getVotes());
+		ds.update(this.queryToFindMe(camera.getId()), ops);
 	}
 
 	@Override
 	public void deleteCamera(Camera camera) {
-		
+
 		ds.delete(camera);
 
 	}

@@ -1,6 +1,9 @@
 package org.mdissjava.mdisscore.model.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
@@ -17,7 +20,7 @@ public class Camera {
 
 	/** The unique id who represents a camera */
 	@Id
-	private String id;
+	private ObjectId id;
 
 	/** The brand of the camera. */
 	private String brand;
@@ -29,12 +32,16 @@ public class Camera {
 	@Embedded
 	private List<Vote> votes;
 
+	public Camera() {
+		votes = new ArrayList<Vote>();
+	}
+
 	/**
 	 * Gets the id.
 	 * 
 	 * @return the id
 	 */
-	public String getId() {
+	public ObjectId getId() {
 		return this.id;
 	}
 
@@ -44,7 +51,7 @@ public class Camera {
 	 * @param id
 	 *            the new id
 	 */
-	public void setId(String id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
