@@ -71,20 +71,8 @@ public class CameraDaoImpl extends BasicDAO<Camera, ObjectId> implements
 
 	@Override
 	public void deleteCamera(Camera camera) {
-		Query<Camera> query = ds.createQuery(Camera.class);
-		if (camera.getBrand() != null) {
-			query.field("brand").equal(camera.getBrand());
-		}
-		if (camera.getId() != null) {
-			query.field("id").equal(camera.getId());
-		}
-		if (camera.getModel() != null) {
-			query.field("model").equal(camera.getModel());
-		}
-		if (camera.getVotes() != null) {
-			query.field("votes").equal(camera.getVotes());
-		}
-		ds.delete(query);
+		
+		ds.delete(camera);
 
 	}
 }

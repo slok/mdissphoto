@@ -40,6 +40,30 @@ public class CameraDaoImplTest {
 		assertEquals(cameraList.get(0).getId(), "id1");
 	}
 	
+	@Test
+	public void testDelete() {
+		MongoDBConnection mongodb = MongoDBConnection.getInstance();
+		Datastore db = null;
+		try {
+			mongodb.connect();
+			Mongo mongo = mongodb.getConnection();
+			db = new Morphia().map(Camera.class).createDatastore(mongo, "MyMongoDb");
+			db.ensureIndexes();
+		} catch (Exception e) {
+			fail("Failed connecting to the MongoDB");
+		} 
+		CameraDao cameraDao = new CameraDaoImpl(db);
+		Camera camera = new Camera();
+		camera.setBrand("Brand2");
+		camera.setId("id2");
+		camera.setModel("Canon 40D");
+		cameraDao.insertCamera(camera);
+		cameraDao.deleteCamera(camera);
+		List<Camera> cameraList = cameraDao.findCamera(camera);
+		assertTrue(cameraList.isEmpty());
+		
+	}
+	
 	
 
 }
