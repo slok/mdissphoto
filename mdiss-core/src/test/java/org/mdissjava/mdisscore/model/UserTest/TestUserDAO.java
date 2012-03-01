@@ -7,7 +7,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mdissjava.mdisscore.model.dao.DBManager;
+import org.mdissjava.mdisscore.model.DBManager;
 import org.mdissjava.mdisscore.model.dao.Login.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.dao.User.*;
 import org.mdissjava.mdisscore.model.pojo.*;
