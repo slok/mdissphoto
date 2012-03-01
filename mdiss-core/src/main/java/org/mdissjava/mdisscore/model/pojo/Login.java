@@ -1,14 +1,12 @@
 package org.mdissjava.mdisscore.model.pojo;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-
-
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
-//@Table(name="login")
+@Table(name="login")
 public class Login {
 
 	@Id private String id;

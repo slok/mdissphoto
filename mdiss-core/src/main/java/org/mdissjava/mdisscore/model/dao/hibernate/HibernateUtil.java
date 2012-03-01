@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao.Login.hibernate;
+package org.mdissjava.mdisscore.model.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +15,7 @@ public class HibernateUtil {
    
    public static void openSessionFactory() {
            
-	   	sessionFactory = new AnnotationConfiguration().configure("/org/mdissjava/mdisscore/model/dao/Login/hibernate/hibernate.cfg.xml").buildSessionFactory();
+	   	sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
         session = sessionFactory.openSession();
    }
 

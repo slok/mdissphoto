@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao.Login;
+package org.mdissjava.mdisscore.model.dao;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.pojo.Login;

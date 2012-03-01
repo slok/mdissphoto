@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao.User;
+package org.mdissjava.mdisscore.model.dao;
 
 
 import org.bson.types.ObjectId;

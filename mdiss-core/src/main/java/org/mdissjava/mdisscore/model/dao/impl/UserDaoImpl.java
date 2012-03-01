@@ -1,10 +1,10 @@
-package org.mdissjava.mdisscore.model.dao.User;
+package org.mdissjava.mdisscore.model.dao.impl;
 
 import java.util.Date;
 
 import org.bson.types.ObjectId;
-import org.mdissjava.mdisscore.model.dao.Login.LoginDao;
-import org.mdissjava.mdisscore.model.dao.Login.LoginDaoImpl;
+import org.mdissjava.mdisscore.model.dao.LoginDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.Login;

@@ -1,10 +1,11 @@
-package org.mdissjava.mdisscore.model.dao.Login;
+package org.mdissjava.mdisscore.model.dao.impl;
 
 
 import org.bson.types.ObjectId;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.mdissjava.mdisscore.model.dao.Login.hibernate.HibernateUtil;
+import org.mdissjava.mdisscore.model.dao.LoginDao;
+import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.pojo.Login;
 import org.mdissjava.mdisscore.model.pojo.User;
 

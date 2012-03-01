@@ -1,8 +1,9 @@
-package org.mdissjava.mdisscore.model.dao.Camera;
+package org.mdissjava.mdisscore.model.dao.impl;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.mdissjava.mdisscore.model.dao.CameraDao;
 import org.mdissjava.mdisscore.model.pojo.Camera;
 
 import com.google.code.morphia.Datastore;

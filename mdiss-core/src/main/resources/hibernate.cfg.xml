@@ -26,7 +26,7 @@
         <property name="use_sql_comments">true</property>
         -->
 
-        <mapping class="com.mdiss.pojos.Login"/>
+        <mapping class="org.mdissjava.mdisscore.model.pojo.Login"/>
 
 		
     </session-factory>
