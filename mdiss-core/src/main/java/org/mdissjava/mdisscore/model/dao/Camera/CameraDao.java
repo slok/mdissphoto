@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao;
+package org.mdissjava.mdisscore.model.dao.Camera;
 
 import java.util.List;
 

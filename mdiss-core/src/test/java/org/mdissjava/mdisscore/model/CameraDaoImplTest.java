@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.mdissjava.commonutils.mongo.db.MongoDBConnection;
-import org.mdissjava.mdisscore.model.dao.CameraDao;
-import org.mdissjava.mdisscore.model.dao.CameraDaoImpl;
+import org.mdissjava.mdisscore.model.dao.Camera.CameraDao;
+import org.mdissjava.mdisscore.model.dao.Camera.CameraDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Camera;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
