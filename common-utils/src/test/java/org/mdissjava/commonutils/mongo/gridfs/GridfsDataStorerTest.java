@@ -34,7 +34,7 @@ public class GridfsDataStorerTest {
 	public void saveDataTestWrongConnection() throws IOException
 	{
 		this.logger.info("[TEST][GridFS] saveDataTestWrongConnection");
-		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test","127.0.0.2", 8098 );
+		GridfsDataStorer gds = new GridfsDataStorer("mdissphoto", "test","127.0.0.23", 12345 );
 		//load the file to store
 		InputStream is = getClass().getResourceAsStream("/slackware.png");
 		gds.saveData(is);	

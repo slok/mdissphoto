@@ -2,7 +2,6 @@ package org.mdissjava.commonutils.mongo.db;
 
 import java.net.UnknownHostException;
 
-import org.junit.After;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,7 @@ public class MongoDBConnectionTest {
 		this.logger.info("TEST(MongoDB) testConnectionWrongPort");
 		
 		this.mdbc = MongoDBConnection.getInstance();
-		this.mdbc.connect("127.0.0.23", 90);
+		this.mdbc.connect("127.0.0.23", 12345);
 		
 		//Probe connection
 		this.mdbc.getConnection().getDatabaseNames();
