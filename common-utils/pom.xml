@@ -15,7 +15,17 @@
         <artifactId>mdissphoto</artifactId>
         <version>1.0</version>
     </parent>
-  
+
+	<!-- Dependency repositories-->
+	<repositories>
+		<!-- Morphia updated repo -->
+        <repository>
+            <id>morphia.googlecode.com</id>
+            <name>Morphia Repo at Google Code</name>
+            <url>http://morphia.googlecode.com/svn/mavenrepo</url>
+        </repository>
+	</repositories>
+      
     <dependencies>
         <!-- MongoDB-->
         <dependency>
@@ -29,6 +39,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.18</version>
 		</dependency>
-            
+        
+		<dependency>
+            <groupId>com.google.code.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.99.1-SNAPSHOT</version> 
+		</dependency>
+       
     </dependencies>
 </project>
