@@ -16,7 +16,7 @@ import com.mongodb.MongoException;
  * MorphiaDatastoreConnection mnages the mongo connection and datastore instances
  * for the morphia objects manipulation
  * 
- * @author slok
+ * @author MDISS Java team 2011-2012 University of Deusto
  *
  */
 public class MorphiaDatastoreConnection {

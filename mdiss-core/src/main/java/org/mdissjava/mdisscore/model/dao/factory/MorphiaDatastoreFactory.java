@@ -13,7 +13,7 @@ import com.google.code.morphia.Datastore;
 /**
  * This Factory automates the Morphia Datastore process 
  * 
- * @author slok
+ * @author MDISS Java team 2011-2012 University of Deusto
  *
  */
 public class MorphiaDatastoreFactory {
