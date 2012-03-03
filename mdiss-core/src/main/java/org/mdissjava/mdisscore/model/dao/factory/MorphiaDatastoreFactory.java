@@ -27,7 +27,7 @@ public class MorphiaDatastoreFactory {
 	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Datastore getDatastore(String database) throws IOException, ClassNotFoundException{
+	public static Datastore getDatastore(String database){
 		
 		ArrayList<Class> classes = (ArrayList<Class>)getClasses();
 		
@@ -46,7 +46,7 @@ public class MorphiaDatastoreFactory {
 	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("rawtypes")
-	private static List<Class> getClasses() throws IOException, ClassNotFoundException{
+	private static List<Class> getClasses(){
 	
 
 		ArrayList<Class> classes = new ArrayList<Class>();
