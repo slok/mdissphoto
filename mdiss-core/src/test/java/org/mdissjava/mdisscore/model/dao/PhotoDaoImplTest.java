@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import org.mdissjava.commonutils.mongo.db.MongoDBConnection;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
@@ -24,19 +25,9 @@ public class PhotoDaoImplTest {
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Test
-	public void testInsertFind() {
-		MongoDBConnection mongodb = MongoDBConnection.getInstance();
-		Datastore db = null;
-		this.logger.info("[TEST] testInsertFind PhotoDaoImpl");
-		try { // Mongo connection and Morphia creation, if it fails an exception
-				// is thrown and the test fails
-			mongodb.connect();
-			Mongo mongo = mongodb.getConnection();
-			db = new Morphia().map(Photo.class).createDatastore(mongo, "test");
-			db.ensureIndexes();
-		} catch (Exception e) {
-			fail("Failed connecting to the MongoDB");
-		}
+	public void testInsertFind() {		
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+		this.logger.info("[TEST] testInsertField");
 
 		PhotoDao photodao = new PhotoDaoImpl(db);
 		Photo photo = new Photo();
@@ -55,17 +46,8 @@ public class PhotoDaoImplTest {
 	@Test
 	public void testDelete() {
 		this.logger.info("[TEST] testDelete PhotoDaoImpl");
-		MongoDBConnection mongodb = MongoDBConnection.getInstance();
-		Datastore db = null;
-		try { // Mongo connection and Morphia creation, if it fails an exception
-				// is thrown and the test fails
-			mongodb.connect();
-			Mongo mongo = mongodb.getConnection();
-			db = new Morphia().map(Photo.class).createDatastore(mongo, "test");
-			db.ensureIndexes();
-		} catch (Exception e) {
-			fail("Failed connecting to the MongoDB");
-		}
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+
 		PhotoDao photodao = new PhotoDaoImpl(db);
 		Photo photo = new Photo();
 		photo.setPlus18(true);
@@ -85,17 +67,8 @@ public class PhotoDaoImplTest {
 	@Test
 	public void testUpdate() {
 		this.logger.info("[TEST] testUpdate PhotoDaoImpl");
-		MongoDBConnection mongodb = MongoDBConnection.getInstance();
-		Datastore db = null;
-		try { // Mongo connection and Morphia creation, if it fails an exception
-				// is thrown and the test fails
-			mongodb.connect();
-			Mongo mongo = mongodb.getConnection();
-			db = new Morphia().map(Photo.class).createDatastore(mongo, "test");
-			db.ensureIndexes();
-		} catch (Exception e) {
-			fail("Failed connecting to the MongoDB");
-		}
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+
 		PhotoDao photodao = new PhotoDaoImpl(db);
 		Photo photo = new Photo();
 		photo.setPlus18(false);
