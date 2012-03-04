@@ -5,7 +5,7 @@ import org.mdissjava.mdisscore.model.bo.UserBo;
 
 public interface UserBll {
 	
-	void addUser(UserBo user);
+	String saveUser(UserBo user);
 	void deleteUser(UserBo user);
 //	void loggedIn(ObjectId id);
 	UserBo getUserById(String id);

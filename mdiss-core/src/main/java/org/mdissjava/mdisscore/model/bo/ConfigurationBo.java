@@ -1,10 +1,9 @@
-package org.mdissjava.mdisscore.model.pojo;
+package org.mdissjava.mdisscore.model.bo;
 
-import com.google.code.morphia.annotations.Embedded;
+import org.mdissjava.mdisscore.model.pojo.Configuration;
 
-@Embedded
-public class Configuration {
-	
+public class ConfigurationBo {
+
 	private boolean showNick;
 	private boolean	showName;
 	private boolean showSurname;
@@ -18,19 +17,19 @@ public class Configuration {
 	private boolean showZip;	
 	private boolean showCameras;
 	
-	public Configuration(){
-		showNick = true;
-		showName = true;
-		showSurname = true;
-		showEmail = false;
-		showBirthdate = false;
-		showPhone = false;
-		showGender = true;
-		showCity = false;
-		showCountry = false;
-		showAddress = false;
-		showZip = false;
-		showCameras = false;
+	ConfigurationBo( Configuration conf){
+		showNick = conf.isShowNick();
+		showName = conf.isShowName();
+		showSurname = conf.isShowEmail();
+		showEmail = conf.isShowEmail();
+		showBirthdate = conf.isShowBirthdate();
+		showPhone = conf.isShowPhone();
+		showGender = conf.isShowGender();
+		showCity= conf.isShowCity();
+		showCountry = conf.isShowCountry();
+		showAddress = conf.isShowAddress();
+		showZip = conf.isShowZip();
+		showCameras = conf.isShowCameras();
 	}
 	
 	public boolean isShowNick() {
@@ -105,4 +104,6 @@ public class Configuration {
 	public void setShowCameras(boolean showCameras) {
 		this.showCameras = showCameras;
 	}	
+	
+	
 }

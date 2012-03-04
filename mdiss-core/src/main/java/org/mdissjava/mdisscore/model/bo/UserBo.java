@@ -3,14 +3,16 @@ package org.mdissjava.mdisscore.model.bo;
 import java.util.Date;
 import java.util.List;
 
-import org.mdissjava.mdisscore.model.pojo.Address;
-import org.mdissjava.mdisscore.model.pojo.Configuration;
-import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.bll.UserBll;
 import org.mdissjava.mdisscore.model.pojo.User;
-import org.mdissjava.mdisscore.model.pojo.User.Gender;
+
 
 public class UserBo {
 
+	private UserBll userBll;
+	
+	public static enum Gender {Male,Female};
+	
 	private String id="";	
 	private String nick;
 	private String name;	
@@ -113,10 +115,10 @@ public class UserBo {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	public List<User> getFriends() {
+	public List<UserBo> getFriends() {
 		return friends;
 	}
-	public void setFriends(List<User> friends) {
+	public void setFriends(List<UserBo> friends) {
 		this.friends = friends;
 	}
 	public AddressBo getAddress() {
@@ -163,8 +165,10 @@ public class UserBo {
 	
 	public void Save()
 	{
-		
-		
+		String code;
+		code=userBll.saveUser(this);
+		if(!code.isEmpty())
+			this.id=code;	
 	}
 	/**change the active mode and other things**/
 	public void Delete()
@@ -177,11 +181,7 @@ public class UserBo {
 	/**equals method for all variable data**/
 	public boolean Equals(UserBo user)
 	{
-				
-		this.pass=user.getPass();
-		this.friends=user.getFriends();	
-		this.address=user.getAddress(); 
-		this.configuration=user.getConfiguration();)
+
 		if (!id.equals(user.id)) return false;
         if (!nick.equals(user.nick)) return false;
         if (!name.equals(user.name)) return false;

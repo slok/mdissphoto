@@ -9,9 +9,20 @@ public class UserBllImpl implements UserBll {
 	private UserDao userdao ;
 	
 	@Override
-	public void addUser(UserBo user) {
-		//si es nuevo usuario poner fecha del registro
+	public String saveUser(UserBo user) {
+		//si es nuevo usuario poner fecha del registro, y guardar
+		if(user.getId().isEmpty())
+		{//alta de nuevo usuario
+	
+			
+			return 
+		}
+		else
+		{//salvar una modificación
 
+			return "";
+		}
+		
 	}
 
 	@Override
