@@ -106,4 +106,23 @@ public class ConfigurationBo {
 	}	
 	
 	
+	public boolean equals(ConfigurationBo conf)
+	{
+		if(!(showNick==conf.isShowNick()))return false;
+		if(!(showName==conf.isShowName()))return false;
+		if(!(showSurname==conf.isShowSurname()))return false;
+		if(!(showEmail==conf.isShowEmail()))return false;
+		if(!(showBirthdate==conf.isShowBirthdate()))return false;
+		if(!(showPhone==conf.isShowPhone()))return false;
+		if(!(showGender==conf.isShowGender()))return false;
+		if(!(showCity==conf.isShowCity()))return false;
+		if(!(showCountry==conf.isShowCountry()))return false;
+		if(!(showAddress==conf.isShowAddress()))return false;
+		if(!(showZip==conf.isShowZip()))return false;
+		if(!(showCameras==conf.isShowCameras()))return false;
+		return true;
+		
+		
+	}
+	
 }

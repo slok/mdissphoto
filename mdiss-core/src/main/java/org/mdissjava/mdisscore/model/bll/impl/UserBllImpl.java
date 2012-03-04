@@ -15,7 +15,7 @@ public class UserBllImpl implements UserBll {
 		{//alta de nuevo usuario
 	
 			
-			return 
+			return "id del usuario";
 		}
 		else
 		{//salvar una modificación
