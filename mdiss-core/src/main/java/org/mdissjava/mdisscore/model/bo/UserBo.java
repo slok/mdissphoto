@@ -11,13 +11,13 @@ import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 public class UserBo {
 
-	private String id;	
+	private String id="";	
 	private String nick;
 	private String name;	
 	private String surname;	
 	private Date birthdate;	
 	private int phone;
-	private Photo avatar;
+	private PhotoBo avatar;
 	private Date registeredDate;	
 	private boolean active;
 	private Date lastSession;
@@ -26,9 +26,9 @@ public class UserBo {
 	private Gender gender;		
 	private String email;
 	private String pass;
-	private List<User> friends;	
-	private Address address; 
-	private Configuration configuration;
+	private List<UserBo> friends;	
+	private AddressBo address; 
+	private ConfigurationBo configuration;
 	
 	//clase get and set, menos id , que solo es get
 	public String getNick() {
@@ -61,18 +61,16 @@ public class UserBo {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	public Photo getAvatar() {
+	public PhotoBo getAvatar() {
 		return avatar;
 	}
-	public void setAvatar(Photo avatar) {
+	public void setAvatar(PhotoBo avatar) {
 		this.avatar = avatar;
 	}
 	public Date getRegisteredDate() {
 		return registeredDate;
 	}
-	public void setRegisteredDate(Date registeredDate) {
-		this.registeredDate = registeredDate;
-	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -121,16 +119,16 @@ public class UserBo {
 	public void setFriends(List<User> friends) {
 		this.friends = friends;
 	}
-	public Address getAddress() {
+	public AddressBo getAddress() {
 		return address;
 	}
-	public void setAddress(Address address) {
+	public void setAddress(AddressBo address) {
 		this.address = address;
 	}
-	public Configuration getConfiguration() {
+	public ConfigurationBo getConfiguration() {
 		return configuration;
 	}
-	public void setConfiguration(Configuration configuration) {
+	public void setConfiguration(ConfigurationBo configuration) {
 		this.configuration = configuration;
 	}
 	public String getId() {
@@ -167,6 +165,37 @@ public class UserBo {
 	{
 		
 		
+	}
+	/**change the active mode and other things**/
+	public void Delete()
+	{}
+	
+	/**Save the data of the logout**/
+	public void CloseSession()
+	{}
+	
+	/**equals method for all variable data**/
+	public boolean Equals(UserBo user)
+	{
+				
+		this.pass=user.getPass();
+		this.friends=user.getFriends();	
+		this.address=user.getAddress(); 
+		this.configuration=user.getConfiguration();)
+		if (!id.equals(user.id)) return false;
+        if (!nick.equals(user.nick)) return false;
+        if (!name.equals(user.name)) return false;
+        if (!surname.equals(user.surname)) return false;
+        if (!birthdate.equals(user.birthdate)) return false;
+        if (phone != user.phone) return false;
+        if (!avatar.getId().equals(user.avatar.getId())) return false;
+		if (!role.equals(user.role))return false;
+		if (!preferences.equals(user.preferences))return false;
+		if (!gender.equals(user.gender))return false;
+		if (!email.equals(user.email))return false;
+		if (!address.equals(user.address))return false;
+		if (!configuration.equals(user.configuration))return false;		
+		return true;
 	}
 	
 	
