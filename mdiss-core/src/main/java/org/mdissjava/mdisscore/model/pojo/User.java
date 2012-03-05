@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.mdissjava.mdisscore.model.bo.UserBo;
 
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
@@ -47,6 +48,15 @@ public class User {
 		preferences = new ArrayList<String>();		
 		registeredDate = new Date();
 		lastSession = new Date();		
+	}
+	public User(UserBo user)
+	{
+		this.id=new ObjectId(user.getId());
+		this.nick=user.getNick();
+		this.name=user.getName();
+		this.surname=user.getSurname();
+		this.birthdate=user.getBirthdate();
+		this.
 	}
 		
 	public ObjectId getId() {

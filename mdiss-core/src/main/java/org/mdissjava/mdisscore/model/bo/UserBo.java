@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.mdissjava.mdisscore.model.bll.UserBll;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
 public class UserBo {
 
 	private UserBll userBll;
 	
-	public static enum Gender {Male,Female};
 	
 	private String id="";	
 	private String nick;
@@ -19,7 +19,7 @@ public class UserBo {
 	private String surname;	
 	private Date birthdate;	
 	private int phone;
-	private PhotoBo avatar;
+	private int avatar;
 	private Date registeredDate;	
 	private boolean active;
 	private Date lastSession;
@@ -31,6 +31,7 @@ public class UserBo {
 	private List<UserBo> friends;	
 	private AddressBo address; 
 	private ConfigurationBo configuration;
+	private List<AlbumBo> albums;
 	
 	//clase get and set, menos id , que solo es get
 	public String getNick() {
@@ -64,6 +65,7 @@ public class UserBo {
 		this.phone = phone;
 	}
 	public PhotoBo getAvatar() {
+		UserBll.getPhoto(avatar);
 		return avatar;
 	}
 	public void setAvatar(PhotoBo avatar) {
@@ -116,8 +118,17 @@ public class UserBo {
 		this.pass = pass;
 	}
 	public List<UserBo> getFriends() {
+		
+		if(friends.size()==0)
+			friends=userBll.getFriends(this.id);
 		return friends;
 	}
+	
+	public void addFriend(UserBo user)
+	{
+		this.friends.add(user);
+	}
+	
 	public void setFriends(List<UserBo> friends) {
 		this.friends = friends;
 	}
@@ -156,9 +167,12 @@ public class UserBo {
 		this.gender=user.getGender();	
 		this.email=user.getEmail();
 		this.pass=user.getPass();
-		this.friends=user.getFriends();	
-		this.address=user.getAddress(); 
-		this.configuration=user.getConfiguration();
+		this.address=new AddressBo(user.getAddress()); 
+		this.configuration=new ConfigurationBo(user.getConfiguration());	
+
+	//			this.friends=user.getFriends();
+			
+			
 	}
 	
 	/**Save the user changes or create a new user if not exists*/
@@ -168,7 +182,8 @@ public class UserBo {
 		String code;
 		code=userBll.saveUser(this);
 		if(!code.isEmpty())
-			this.id=code;	
+			this.id=code;
+	
 	}
 	/**change the active mode and other things**/
 	public void Delete()
@@ -188,7 +203,7 @@ public class UserBo {
         if (!surname.equals(user.surname)) return false;
         if (!birthdate.equals(user.birthdate)) return false;
         if (phone != user.phone) return false;
-        if (!avatar.getId().equals(user.avatar.getId())) return false;
+        if (avatar!=user.avatar) return false;
 		if (!role.equals(user.role))return false;
 		if (!preferences.equals(user.preferences))return false;
 		if (!gender.equals(user.gender))return false;
@@ -197,6 +212,7 @@ public class UserBo {
 		if (!configuration.equals(user.configuration))return false;		
 		return true;
 	}
+	
 	
 	
 	

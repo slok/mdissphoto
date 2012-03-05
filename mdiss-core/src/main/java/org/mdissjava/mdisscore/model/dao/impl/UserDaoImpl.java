@@ -32,10 +32,11 @@ public class UserDaoImpl extends BasicDAO<User, ObjectId> implements UserDao {
 	}
 	
 	@Override
-	public void addUser(User user) {
+	public string addUser(User user) {
 		ds.save(user);
 		Login login = new Login(user.getId().toString(), user.getEmail(), user.getPass());
-		loginDao.addLoginDetails(login);				
+		loginDao.addLoginDetails(login);
+		
 	}
 
 	@Override
