@@ -1,5 +1,7 @@
 package org.mdissjava.mdisscore.model.pojo;
 
+import org.mdissjava.mdisscore.model.bo.AddressBo;
+
 import com.google.code.morphia.annotations.Embedded;
 
 @Embedded
@@ -10,6 +12,18 @@ public class Address {
 	private String zip;	
 	private String country;
 	private String state;
+	
+	public Address(){}
+	
+	Address(AddressBo Add)
+	{
+		this.street=Add.getStreet();
+		this.city=Add.getCity();
+		this.country=Add.getCountry();
+		this.zip=Add.getZip();
+		this.state=Add.getState();
+	
+	}
 	
 	public String getStreet() {
 		return street;

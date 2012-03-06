@@ -10,6 +10,10 @@ public class AddressBo {
 	private String country;
 	private String state;
 	
+	
+	AddressBo()
+	{}
+	
 	AddressBo(Address address){
 		this.street=address.getStreet();
 		this.city=address.getCity();

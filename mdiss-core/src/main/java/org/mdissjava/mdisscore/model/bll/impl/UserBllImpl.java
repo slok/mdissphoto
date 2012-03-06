@@ -3,10 +3,12 @@ package org.mdissjava.mdisscore.model.bll.impl;
 import java.util.List;
 
 import org.mdissjava.mdisscore.model.bll.UserBll;
+import org.mdissjava.mdisscore.model.bo.PhotoBo;
 import org.mdissjava.mdisscore.model.bo.UserBo;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.User;
 
 public class UserBllImpl implements UserBll {
 
@@ -17,13 +19,12 @@ public class UserBllImpl implements UserBll {
 		//si es nuevo usuario poner fecha del registro, y guardar
 		if(user.getId().isEmpty())
 		{//alta de nuevo usuario
-			userdao.addUser(user);
-			
-			return "id del usuario";
+			String id=userdao.addUser(new User(user));			
+			return id;
 		}
 		else
 		{//salvar una modificación
-
+			
 			return "";
 		}
 		
@@ -50,7 +51,8 @@ public class UserBllImpl implements UserBll {
 	@Override
 	public PhotoBo getPhoto(int PhotoId)
 	{
-		return null;
+		
+		return new PhotoBo();
 	}
 	
 	

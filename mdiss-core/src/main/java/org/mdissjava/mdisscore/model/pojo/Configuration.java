@@ -1,5 +1,7 @@
 package org.mdissjava.mdisscore.model.pojo;
 
+import org.mdissjava.mdisscore.model.bo.ConfigurationBo;
+
 import com.google.code.morphia.annotations.Embedded;
 
 @Embedded
@@ -31,6 +33,22 @@ public class Configuration {
 		showAddress = false;
 		showZip = false;
 		showCameras = false;
+	}
+	
+	Configuration(ConfigurationBo conf)
+	{
+		showNick = conf.isShowNick();
+		showName = conf.isShowName();
+		showSurname = conf.isShowSurname();
+		showEmail = conf.isShowEmail();
+		showBirthdate = conf.isShowBirthdate();
+		showPhone = conf.isShowPhone();
+		showGender = conf.isShowGender();
+		showCity = conf.isShowCity();
+		showCountry = conf.isShowCountry();
+		showAddress = conf.isShowAddress();
+		showZip = conf.isShowZip();
+		showCameras = conf.isShowCameras();
 	}
 	
 	public boolean isShowNick() {

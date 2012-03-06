@@ -10,7 +10,7 @@ import org.mdissjava.mdisscore.model.pojo.User;
 
 public interface UserDao {
 
-	void addUser(User user);
+	String addUser(User user);
 	void deleteUser(User user);
 	void loggedIn(ObjectId id);
 	User getUserById(ObjectId id);

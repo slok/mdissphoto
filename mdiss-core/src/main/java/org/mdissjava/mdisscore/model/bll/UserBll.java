@@ -2,6 +2,7 @@ package org.mdissjava.mdisscore.model.bll;
 
 import java.util.List;
 
+import org.mdissjava.mdisscore.model.bo.PhotoBo;
 import org.mdissjava.mdisscore.model.bo.UserBo;
 
 
@@ -14,7 +15,7 @@ public interface UserBll {
 	//void modifyAddress(ObjectId id, Address address);
 	//void modifyConfiguration(ObjectId id, Configuration conf);
 	List<UserBo> getFriends(String id);
-	PhotoBo getPhoto(int IdPhoto);
+	PhotoBo  getPhoto(int IdPhoto);
 	
 	
 }

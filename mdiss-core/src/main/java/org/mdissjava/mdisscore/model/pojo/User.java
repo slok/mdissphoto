@@ -56,7 +56,16 @@ public class User {
 		this.name=user.getName();
 		this.surname=user.getSurname();
 		this.birthdate=user.getBirthdate();
-		this.
+		this.phone=user.getPhone();
+		this.avatar=user.getAvatarId();
+		this.registeredDate=user.getRegisteredDate();
+		this.active=user.isActive();
+		this.lastSession=user.getLastSession();
+		this.role=user.getRole();
+		this.preferences=user.getPreferences();
+		this.gender=user.getGender();
+		this.address=new Address(user.getAddress());
+		this.configuration=new Configuration(user.getConfiguration());
 	}
 		
 	public ObjectId getId() {

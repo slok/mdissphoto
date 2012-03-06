@@ -33,6 +33,33 @@ public class UserBo {
 	private ConfigurationBo configuration;
 	private List<AlbumBo> albums;
 	
+	public UserBo(){}
+	
+	public UserBo(User user)
+	{
+		this.id=user.getId().toString();
+		this.nick=user.getNick();
+		this.name=user.getName();	
+		this.surname=user.getNick();	
+		this.birthdate=user.getBirthdate();	
+		this.phone=user.getPhone();
+		this.avatar=user.getAvatar();
+		this.registeredDate=user.getRegisteredDate();	
+		this.active=user.isActive();
+		this.lastSession=user.getLastSession();
+		this.role=user.getRole();
+		this.preferences=user.getPreferences();		
+		this.gender=user.getGender();	
+		this.email=user.getEmail();
+		this.pass=user.getPass();
+		this.address=new AddressBo(user.getAddress()); 
+		this.configuration=new ConfigurationBo(user.getConfiguration());	
+
+	//			this.friends=user.getFriends();
+			
+			
+	}
+
 	//clase get and set, menos id , que solo es get
 	public String getNick() {
 		return nick;
@@ -64,11 +91,14 @@ public class UserBo {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	public PhotoBo getAvatar() {
-		UserBll.getPhoto(avatar);
-		return avatar;
+	public int getAvatarId()
+	{return avatar;}
+	
+	public PhotoBo getAvatarPhoto() {
+		return null;		
+//		return UserBll.getPhoto(avatar);
 	}
-	public void setAvatar(PhotoBo avatar) {
+	public void setAvatar(int avatar) {
 		this.avatar = avatar;
 	}
 	public Date getRegisteredDate() {
@@ -96,6 +126,12 @@ public class UserBo {
 	public List<String> getPreferences() {
 		return preferences;
 	}
+	
+	public void addPreference(String preferencia)
+	{
+		this.preferences.add(preferencia);
+	}
+	
 	public void setPreferences(List<String> preferences) {
 		this.preferences = preferences;
 	}
@@ -148,32 +184,7 @@ public class UserBo {
 		return id;
 	}
 
-	UserBo(){}
 	
-	UserBo(User user)
-	{
-		this.id=user.getId().toString();
-		this.nick=user.getNick();
-		this.name=user.getName();	
-		this.surname=user.getNick();	
-		this.birthdate=user.getBirthdate();	
-		this.phone=user.getPhone();
-		this.avatar=user.getAvatar();
-		this.registeredDate=user.getRegisteredDate();	
-		this.active=user.isActive();
-		this.lastSession=user.getLastSession();
-		this.role=user.getRole();
-		this.preferences=user.getPreferences();		
-		this.gender=user.getGender();	
-		this.email=user.getEmail();
-		this.pass=user.getPass();
-		this.address=new AddressBo(user.getAddress()); 
-		this.configuration=new ConfigurationBo(user.getConfiguration());	
-
-	//			this.friends=user.getFriends();
-			
-			
-	}
 	
 	/**Save the user changes or create a new user if not exists*/
 	
