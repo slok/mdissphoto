@@ -35,7 +35,10 @@ public class User {
 	private String email;
 	@Transient
 	private String pass;
-	
+	@Transient
+	public List<Camera> cameras;
+	//@Transient
+	//public List<Album> albums;;
 	@Transient
 	private List<User> friends;	
 	@Embedded
@@ -210,13 +213,6 @@ public class User {
 	public void addPreference(String preference){
 		this.preferences.add(preference);	
 	}
-		
-	/*
-	@Reference
-	public List<Camera> cameras;
-	@Reference
-	public List<Album> albums;
-	*/	
 	
 	
     public String getEmail() {
@@ -233,6 +229,14 @@ public class User {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public List<Camera> getCameras() {
+		return cameras;
+	}
+
+	public void setCameras(List<Camera> cameras) {
+		this.cameras = cameras;
 	}
 
 	@Override
