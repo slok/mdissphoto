@@ -51,6 +51,7 @@ public class User {
 	}
 	public User(UserBo user)
 	{
+		if(!user.getId().isEmpty())
 		this.id=new ObjectId(user.getId());
 		this.nick=user.getNick();
 		this.name=user.getName();
@@ -58,14 +59,25 @@ public class User {
 		this.birthdate=user.getBirthdate();
 		this.phone=user.getPhone();
 		this.avatar=user.getAvatarId();
-		this.registeredDate=user.getRegisteredDate();
+		if(user.getRegisteredDate()!=null)
+			this.registeredDate=user.getRegisteredDate();
+		else
+			this.registeredDate = new Date();
 		this.active=user.isActive();
-		this.lastSession=user.getLastSession();
+		if(user.getLastSession()!=null)
+			this.lastSession=user.getLastSession();
+		else
+			this.lastSession=new Date();	
 		this.role=user.getRole();
 		this.preferences=user.getPreferences();
 		this.gender=user.getGender();
 		this.address=new Address(user.getAddress());
-		this.configuration=new Configuration(user.getConfiguration());
+		if(user.getConfiguration()!=null)
+			this.configuration=new Configuration(user.getConfiguration());
+		else
+			this.configuration=new Configuration();
+		this.email=user.getEmail();
+		this.pass=user.getPass();
 	}
 		
 	public ObjectId getId() {

@@ -17,9 +17,9 @@ public class ConfigurationBo {
 	private boolean showZip;	
 	private boolean showCameras;
 	
-	ConfigurationBo(){}
+	public ConfigurationBo(){}
 	
-	ConfigurationBo( Configuration conf){
+	public ConfigurationBo( Configuration conf){
 		showNick = conf.isShowNick();
 		showName = conf.isShowName();
 		showSurname = conf.isShowEmail();

@@ -1,16 +1,18 @@
 package org.mdissjava.mdisscore.model.bo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.mdissjava.mdisscore.model.bll.UserBll;
+import org.mdissjava.mdisscore.model.bll.impl.UserBllImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
 public class UserBo {
 
-	private UserBll userBll;
+	private UserBll userBll= new UserBllImpl();
 	
 	
 	private String id="";	
@@ -24,7 +26,7 @@ public class UserBo {
 	private boolean active;
 	private Date lastSession;
 	private String role;
-	private List<String> preferences;		
+	private List<String> preferences=new ArrayList<String>();		
 	private Gender gender;		
 	private String email;
 	private String pass;

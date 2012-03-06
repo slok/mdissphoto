@@ -11,10 +11,10 @@ public class AddressBo {
 	private String state;
 	
 	
-	AddressBo()
+	public AddressBo()
 	{}
 	
-	AddressBo(Address address){
+	public AddressBo(Address address){
 		this.street=address.getStreet();
 		this.city=address.getCity();
 		this.zip=address.getZip();

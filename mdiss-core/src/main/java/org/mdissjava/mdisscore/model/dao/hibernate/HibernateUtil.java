@@ -17,6 +17,7 @@ public class HibernateUtil {
            
 	   	sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
         session = sessionFactory.openSession();
+        
    }
 
    /**

@@ -52,7 +52,7 @@ public class UserBllImpl implements UserBll {
 	public PhotoBo getPhoto(int PhotoId)
 	{
 		
-		return new PhotoBo();
+		return null;//new PhotoBo();
 	}
 	
 	
