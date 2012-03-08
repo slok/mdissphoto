@@ -75,8 +75,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
 		
+		if (user != null) {
+			Session session = HibernateUtil.getSession();
+			Transaction tx = session.beginTransaction();
+			session.update(user);
+			tx.commit();
+		}		
 	}
 
 	@Override

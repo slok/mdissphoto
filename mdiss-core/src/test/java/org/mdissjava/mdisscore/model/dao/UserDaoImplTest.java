@@ -137,4 +137,44 @@ public class UserDaoImplTest {
 		
 		
 	}
+
+	@Test
+	public void updateUserTest(){
+		
+		this.logger.info("TEST(UserDao) updateUser");
+		
+		Address address = new Address();		
+		address.setStreet("Madariaga 64");		
+		address.setCity("Bilbao");
+		address.setState("Vizcaya");
+		address.setCountry("Spain");
+		
+		Configuration conf = new Configuration();
+		
+		User user = new User();
+		user.setNick("jessAgain");
+		user.setActive(true);
+		user.setName("JessicaAgain");		
+		user.setSurname("SmithAgain");
+		user.setPhone(944655877);
+		user.setBirthdate(new Date());
+		user.setGender(Gender.Female);
+		user.setAddress(address);
+		user.setConfiguration(conf);		
+		user.addPreference("nature");
+		user.addPreference("horses");
+		user.addPreference("sunsets");
+		user.setEmail("pruebaUpdate@prueba.com");
+		user.setPass("prueba");
+		
+		UserDao dao = new UserDaoImpl();
+		dao.addUser(user);
+		
+		user.setEmail("pruebaUpdateCorrecta@prueba.com");
+		
+		dao.updateUser(user);
+		
+		assertEquals(user, session.get(User.class, user.getId()));
+	}
+
 }
