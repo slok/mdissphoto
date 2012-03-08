@@ -1,6 +1,8 @@
 package org.mdissjava.mdisscore.model.dao;
 
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
@@ -20,4 +22,10 @@ public interface UserDao {
 	void modifyAddress(ObjectId id, Address address);
 	
 	void modifyConfiguration(ObjectId id, Configuration conf);
+	
+	void updateUser(User user);
+	
+	List<User> findFriends(User user);
+	
+	Configuration findConfiguration(User user);
 }

@@ -1,6 +1,7 @@
 package org.mdissjava.mdisscore.model.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
@@ -54,10 +55,50 @@ public class UserDaoImplTest {
 		user.addPreference("sunsets");
 		user.setEmail("prueba@prueba.com");
 		user.setPass("prueba");
-		
+
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
 		assertEquals(user, session.get(User.class, user.getId()));				
+	}
+	
+	@Test
+	public void deleteUserTest(){
+
+		
+		this.logger.info("TEST(UserDao) addUser");
+		
+		Address address = new Address();		
+		address.setStreet("Madariaga 6");		
+		address.setCity("Bilbao");
+		address.setState("Vizcaya");
+		address.setCountry("Spain");
+		
+		Configuration conf = new Configuration();
+										
+		User user = new User();
+		user.setNick("Prueba");
+		user.setName("Prueba");		
+		user.setSurname("Smith");
+		user.setPhone(944655877);
+		user.setBirthdate(new Date());
+		user.setGender(Gender.Female);
+		user.setAddress(address);
+		user.setConfiguration(conf);		
+		user.addPreference("nature");
+		user.addPreference("horses");
+		user.addPreference("sunsets");
+		user.setEmail("prueba@prueba.com");
+		user.setPass("prueba");
+		
+		UserDao dao = new UserDaoImpl();
+		
+		dao.addUser(user);
+		assertEquals(user, session.get(User.class, user.getId()));				
+
+		dao.deleteUser(user);				
+		assertNull(session.get(User.class, user.getId()));		
+		
+		
 	}
 
 }

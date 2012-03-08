@@ -1,6 +1,7 @@
 package org.mdissjava.mdisscore.model.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.hibernate.Session;
@@ -30,7 +31,12 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void deleteUser(User user) {
-
+		if (user != null) {
+			Session session = HibernateUtil.getSession();
+			Transaction tx = session.beginTransaction();
+			session.delete(user);
+			tx.commit();			
+		}
 	}
 		
 	@Override
@@ -54,6 +60,24 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void modifyConfiguration(ObjectId id, Configuration conf){
 
+	}
+
+	@Override
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<User> findFriends(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Configuration findConfiguration(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
