@@ -43,6 +43,7 @@ public class UserDaoImplTest {
 										
 		User user = new User();
 		user.setNick("jess");
+		user.setActive(true);
 		user.setName("Jessica");		
 		user.setSurname("Smith");
 		user.setPhone(944655877);
@@ -90,7 +91,10 @@ public class UserDaoImplTest {
 		user.setEmail("prueba@prueba.com");
 		user.setPass("prueba");
 		
-		UserDao dao = new UserDaoImpl();		
+		UserDao dao = new UserDaoImpl();
+		
+		dao.addUser(user);
+		assertEquals(user, session.get(User.class, user.getId()));				
 
 		dao.deleteUser(user);				
 		assertNull(session.get(User.class, user.getId()));		
@@ -123,12 +127,13 @@ public class UserDaoImplTest {
 		user.addPreference("pojos");
 		user.setEmail("prueba@prueba.com");
 		user.setPass("mdiss");
-		user.setId(25);
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);
 		
-		assertEquals(user, dao.getUserById(25));
+		User user2 = dao.getUserById(user.getId());
+		
+		assertEquals(user, user2);
 		
 		
 	}

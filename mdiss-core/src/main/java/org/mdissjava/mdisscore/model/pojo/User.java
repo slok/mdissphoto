@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
 
 
 @Entity
@@ -20,7 +25,7 @@ public class User implements Serializable {
 	
 	public static enum Gender {Male,Female};
 	
-	@Id private int id;	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id;	
 	private String nick;
 	private String name;	
 	private String surname;	
@@ -30,6 +35,8 @@ public class User implements Serializable {
 	private int avatar;
 	private Date registeredDate;	
 	private Date lastSession;
+	//@Column(columnDefinition = "TINYINT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;	
 	private String preferences;
 	private String role;
