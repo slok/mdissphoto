@@ -7,7 +7,6 @@ import java.util.List;
 import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
 import org.mdissjava.mdisscore.model.pojo.Camera;
 import org.mdissjava.mdisscore.model.pojo.Photo;
-import org.mdissjava.mdisscore.model.pojo.User;
 
 import com.google.code.morphia.Datastore;
 
@@ -55,8 +54,7 @@ public class MorphiaDatastoreFactory {
 		//Declare the classes to register
 		final Class CLAZZEZ[] = {
 				Camera.class,
-				Photo.class
-				
+				Photo.class				
 		};
 		
 		//add to the array
