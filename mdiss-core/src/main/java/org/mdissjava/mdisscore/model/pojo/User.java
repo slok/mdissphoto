@@ -1,93 +1,81 @@
 package org.mdissjava.mdisscore.model.pojo;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
-import org.mdissjava.mdisscore.model.bo.UserBo;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.google.code.morphia.annotations.Embedded;
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Transient;
 
-
-@Entity("users")
-public class User {
+@Entity
+@Table(name="users")
+public class User implements Serializable {
 	
 	public static enum Gender {Male,Female};
 	
-	@Id private ObjectId id;	
+	@Id private int id;	
 	private String nick;
 	private String name;	
 	private String surname;	
+	private Gender gender;	
 	private Date birthdate;	
 	private int phone;
 	private int avatar;
 	private Date registeredDate;	
-	private boolean active;
 	private Date lastSession;
+	private boolean active;	
+	private String preferences;
 	private String role;
-	private List<String> preferences;		
-	private Gender gender;	
 	
 	private String email;
-	@Transient
 	private String pass;
-	@Transient
-	public List<Camera> cameras;
-	//@Transient
-	//public List<Album> albums;;
-	@Transient
-	private List<User> friends;	
+
+
+	@ManyToMany
+	@JoinTable(name="friends",
+	 joinColumns=@JoinColumn(name="userId"),
+	 inverseJoinColumns=@JoinColumn(name="friendId")
+	)
+	private List<User> friends;
+	
+	@ManyToMany
+	@JoinTable(name="friends",
+	 joinColumns=@JoinColumn(name="friendId"),
+	 inverseJoinColumns=@JoinColumn(name="userId")
+	)
+	private List<User> friendOf;
+	
+
 	@Embedded
 	private Address address;
 	@Embedded 
 	private Configuration configuration;
 	
+	@Transient
+	public List<Camera> cameras;
+	//@Transient
+	//public List<Album> albums;*/
+	
+	
 	public User(){
-		configuration = new Configuration();
-		preferences = new ArrayList<String>();		
+		configuration = new Configuration();		
 		registeredDate = new Date();
 		lastSession = new Date();		
 	}
-	public User(UserBo user)
-	{
-		if(!user.getId().isEmpty())
-		this.id=new ObjectId(user.getId());
-		this.nick=user.getNick();
-		this.name=user.getName();
-		this.surname=user.getSurname();
-		this.birthdate=user.getBirthdate();
-		this.phone=user.getPhone();
-		this.avatar=user.getAvatarId();
-		if(user.getRegisteredDate()!=null)
-			this.registeredDate=user.getRegisteredDate();
-		else
-			this.registeredDate = new Date();
-		this.active=user.isActive();
-		if(user.getLastSession()!=null)
-			this.lastSession=user.getLastSession();
-		else
-			this.lastSession=new Date();	
-		this.role=user.getRole();
-		this.preferences=user.getPreferences();
-		this.gender=user.getGender();
-		this.address=new Address(user.getAddress());
-		if(user.getConfiguration()!=null)
-			this.configuration=new Configuration(user.getConfiguration());
-		else
-			this.configuration=new Configuration();
-		this.email=user.getEmail();
-		this.pass=user.getPass();
-	}
+
 		
-	public ObjectId getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(ObjectId id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -171,11 +159,11 @@ public class User {
 		this.role = role;
 	}
 	
-	public List<String> getPreferences() {
+	public String getPreferences() {
 		return preferences;
 	}
 	
-	public void setPreferences(List<String> preferences) {
+	public void setPreferences(String preferences) {
 		this.preferences = preferences;
 	}
 	
@@ -194,6 +182,14 @@ public class User {
 		this.friends = friends;
 	}
 	
+	public List<User> getFriendOf() {
+		return friendOf;
+	}
+
+	public void setFriendOf(List<User> friendsOf) {
+		this.friendOf = friendsOf;
+	}
+
 	public Address getAddress() {
 		return address;
 	}
@@ -211,9 +207,9 @@ public class User {
 	}
 	
 	public void addPreference(String preference){
-		this.preferences.add(preference);	
-	}
-	
+		this.preferences += preference;	
+	}			
+
 	
     public String getEmail() {
 		return email;
@@ -245,14 +241,12 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (id != user.id) return false;
         if (nick != null ? !nick.equals(user.nick) : user.nick != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;        
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (birthdate != null ? !birthdate.equals(user.birthdate) : user.birthdate != null) return false;
         if (phone != (user.phone)) return false;
-       // if (Avatar != null ? !Avatar.equals(user.Avatar) : user.Avatar != null) return false;
-
         if (registeredDate != null ? !registeredDate.equals(user.registeredDate) : user.registeredDate != null) return false;
         if (lastSession != null ? !lastSession.equals(user.lastSession) : user.lastSession != null) return false;
         if (role != null ? !role.equals(user.role) : user.role != null) return false;
@@ -269,4 +263,5 @@ public class User {
 
 		return rest;
 	}
+	
 }
