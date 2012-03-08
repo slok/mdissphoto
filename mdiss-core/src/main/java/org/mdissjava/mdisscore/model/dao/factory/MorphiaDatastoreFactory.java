@@ -54,7 +54,6 @@ public class MorphiaDatastoreFactory {
 		
 		//Declare the classes to register
 		final Class CLAZZEZ[] = {
-				User.class,
 				Camera.class,
 				Photo.class
 				
