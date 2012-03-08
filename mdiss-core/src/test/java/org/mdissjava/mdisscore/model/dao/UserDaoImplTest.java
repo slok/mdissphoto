@@ -105,6 +105,8 @@ public class UserDaoImplTest {
 	@Test
 	public void getByIdTest(){
 		
+		this.logger.info("TEST(UserDao) getUserByID");
+
 		Address address = new Address();		
 		address.setStreet("Avda Universidades");		
 		address.setCity("Bilbao");
@@ -130,10 +132,8 @@ public class UserDaoImplTest {
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);
-		
-		User user2 = dao.getUserById(user.getId());
-		
-		assertEquals(user, user2);
+				
+		assertEquals(user,  dao.getUserById(user.getId()));
 		
 		
 	}
