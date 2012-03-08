@@ -65,7 +65,7 @@ public class UserDaoImplTest {
 	public void deleteUserTest(){
 
 		
-		this.logger.info("TEST(UserDao) addUser");
+		this.logger.info("TEST(UserDao) deleteUser");
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
@@ -90,10 +90,7 @@ public class UserDaoImplTest {
 		user.setEmail("prueba@prueba.com");
 		user.setPass("prueba");
 		
-		UserDao dao = new UserDaoImpl();
-		
-		dao.addUser(user);
-		assertEquals(user, session.get(User.class, user.getId()));				
+		UserDao dao = new UserDaoImpl();		
 
 		dao.deleteUser(user);				
 		assertNull(session.get(User.class, user.getId()));		
@@ -101,4 +98,38 @@ public class UserDaoImplTest {
 		
 	}
 
+	@Test
+	public void getByIdTest(){
+		
+		Address address = new Address();		
+		address.setStreet("Avda Universidades");		
+		address.setCity("Bilbao");
+		address.setState("Vizcaya");
+		address.setCountry("Spain");
+		
+		Configuration conf = new Configuration();
+										
+		User user = new User();
+		user.setNick("MDISS");
+		user.setName("Java");		
+		user.setSurname("Master");
+		user.setPhone(944655877);
+		user.setBirthdate(new Date());
+		user.setGender(Gender.Female);
+		user.setAddress(address);
+		user.setConfiguration(conf);		
+		user.addPreference("java");
+		user.addPreference("programming");
+		user.addPreference("pojos");
+		user.setEmail("prueba@prueba.com");
+		user.setPass("mdiss");
+		user.setId(25);
+		
+		UserDao dao = new UserDaoImpl();
+		dao.addUser(user);
+		
+		assertEquals(user, dao.getUserById(25));
+		
+		
+	}
 }

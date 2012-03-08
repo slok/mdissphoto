@@ -17,7 +17,7 @@ public interface UserDao {
 	
 	void loggedIn(ObjectId id);
 	
-	User getUserById(ObjectId id);
+	User getUserById(int id);
 	
 	void modifyAddress(ObjectId id, Address address);
 	

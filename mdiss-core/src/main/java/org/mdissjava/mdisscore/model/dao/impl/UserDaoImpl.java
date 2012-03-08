@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.mdissjava.mdisscore.model.dao.UserDao;
@@ -40,8 +41,18 @@ public class UserDaoImpl implements UserDao {
 	}
 		
 	@Override
-	public User getUserById( ObjectId id ) {	  
-		return null;
+	public User getUserById( int id ) {	  
+
+		User user = null;
+		Session session = HibernateUtil.getSession();
+
+		Query q = session.createQuery("" + "from User as user "
+				+ "where user.id =" + id);
+		user = (User) q.uniqueResult();
+
+		
+		return user;
+	
 	}
 	
 	
