@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      
+	<f:view locale="#{facesContext.externalContext.requestLocale}">
+
+        <h:head>
+            <title><ui:insert name="title">#{msg.indexTitle}</ui:insert></title>
+            <!-- CSS -->
+            <h:outputStylesheet library="css" name="bootstrap.css"  />
+            <h:outputStylesheet library="css" name="style.css"  />
+            <!-- Javascript -->
+            <!-- Other -->
+            <ui:insert name="head"></ui:insert>
+        </h:head>
+
+        <h:body>
+		<div class="container">        	
+        	<header>
+	        	<ui:insert name="header">
+	        	
+	       		</ui:insert>
+			</header>
+        	
+<!-- ########################## -->
+        	<ui:insert name="body">
+        	
+        	</ui:insert>
+<!-- ########################## -->
+			<hr/>
+			<ui:insert name="footer">
+			
+			<p><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons 3.0 by-sa </a> | 2012 MdissJava group</small></p>
+			
+			</ui:insert>
+		</div>
+        </h:body>
+<!-- ########################## -->
+	</f:view>
+</html>
