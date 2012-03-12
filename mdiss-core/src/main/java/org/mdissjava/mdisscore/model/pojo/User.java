@@ -16,11 +16,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 
 @Entity
 @Table(name="users")
+@DynamicInsert(false)
+@DynamicUpdate(true)
 public class User implements Serializable {
 	
 	public static enum Gender {Male,Female};

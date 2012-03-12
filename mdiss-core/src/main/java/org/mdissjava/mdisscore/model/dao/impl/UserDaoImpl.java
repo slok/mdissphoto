@@ -63,15 +63,6 @@ public class UserDaoImpl implements UserDao {
 	
 	}
 		
-	@Override
-	public void modifyAddress(ObjectId id, Address address){
-
-	}
-	
-	@Override
-	public void modifyConfiguration(ObjectId id, Configuration conf){
-
-	}
 
 	@Override
 	public void updateUser(User user) {
@@ -91,9 +82,17 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Configuration findConfiguration(User user) {
+	public void addFriend(int userid) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
+	@Override
+	public void deleteFriend(int userid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }

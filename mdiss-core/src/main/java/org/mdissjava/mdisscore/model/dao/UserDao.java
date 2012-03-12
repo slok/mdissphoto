@@ -19,13 +19,17 @@ public interface UserDao {
 	
 	User getUserById(int id);
 	
-	void modifyAddress(ObjectId id, Address address);
+//	void modifyAddress(ObjectId id, Address address);
 	
-	void modifyConfiguration(ObjectId id, Configuration conf);
+//	void modifyConfiguration(ObjectId id, Configuration conf);
 	
 	void updateUser(User user);
 	
 	List<User> findFriends(User user);
 	
-	Configuration findConfiguration(User user);
+	void addFriend(int userid);
+	
+	void deleteFriend(int userid);
+	
+//	Configuration findConfiguration(User user);
 }

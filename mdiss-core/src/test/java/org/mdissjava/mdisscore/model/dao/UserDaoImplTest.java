@@ -175,6 +175,55 @@ public class UserDaoImplTest {
 		dao.updateUser(user);
 		
 		assertEquals(user, session.get(User.class, user.getId()));
+		
+	}
+	
+	@Test
+	public void updateUserAdressTest(){
+		this.logger.info("TEST(UserDao) addUser");
+		
+		Address address = new Address();		
+		address.setStreet("Madariaga 6");		
+		address.setCity("Bilbao");
+		address.setState("Vizcaya");
+		address.setCountry("Spain");
+		
+		Configuration conf = new Configuration();
+										
+		User user = new User();
+		user.setNick("javi");
+		user.setActive(true);
+		user.setName("Javier");		
+		user.setSurname("Gonzalez");
+		user.setPhone(944655877);
+		user.setBirthdate(new Date());
+		user.setGender(Gender.Male);
+		user.setAddress(address);
+		user.setConfiguration(conf);		
+		user.addPreference("Jamon");
+		user.addPreference("Cocina");
+		user.addPreference("Paisajes");
+		user.setEmail("Javier@prueba.com");
+		user.setPass("javi");
+
+		UserDao dao = new UserDaoImpl();
+		dao.addUser(user);				
+		assertEquals(user, session.get(User.class, user.getId()));	
+		
+		user.getAddress().setCity("Tudela");
+		user.getAddress().setCountry("España");
+		user.getAddress().setState("Navarra");
+		
+		user.getConfiguration().setShowName(false);
+		user.getConfiguration().setShowPhone(true);
+		user.getConfiguration().setShowEmail(true);
+		
+		dao.updateUser(user);
+		
+		assertEquals(user, session.get(User.class, user.getId()));
+	
+	
+	
 	}
 
 }
