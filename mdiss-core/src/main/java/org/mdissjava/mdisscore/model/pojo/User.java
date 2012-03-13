@@ -1,6 +1,7 @@
 package org.mdissjava.mdisscore.model.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -189,8 +190,23 @@ public class User implements Serializable {
 	public List<User> getFriends() {
 		return friends;
 	}
+	
+	public void addFriend(User friend)
+	{
+		if(this.friends==null)
+			friends=new ArrayList<User>();
+		this.friends.add(friend);
+	}
+	
 	public void setFriends(List<User> friends) {
 		this.friends = friends;
+	}
+	
+	public void addFriendOf(User friend)
+	{
+		if(this.friendOf==null)
+			friendOf=new ArrayList<User>();
+		this.friendOf.add(friend);
 	}
 	
 	public List<User> getFriendOf() {

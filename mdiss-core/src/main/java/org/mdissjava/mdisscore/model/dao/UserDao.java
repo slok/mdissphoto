@@ -27,9 +27,9 @@ public interface UserDao {
 	
 	List<User> findFriends(User user);
 	
-	void addFriend(int userid);
+	void addFriend(int userid, int friendid);
 	
-	void deleteFriend(int userid);
+	void deleteFriend(int userid, int friendid);
 	
 //	Configuration findConfiguration(User user);
 }

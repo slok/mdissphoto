@@ -1,5 +1,6 @@
 package org.mdissjava.mdisscore.model.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,20 +76,27 @@ public class UserDaoImpl implements UserDao {
 		}		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> findFriends(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> users = new ArrayList<User>();
+		Session session = HibernateUtil.getSession();
+
+		Query q = session.createQuery("" + "from friends as users "
+				+ "where friends.userId =" + user.getId());
+		users =  q.list();
+		
+		return users;
 	}
 
 	@Override
-	public void addFriend(int userid) {
-		// TODO Auto-generated method stub
+	public void addFriend(int userid, int friendid) {
+
 		
 	}
 
 	@Override
-	public void deleteFriend(int userid) {
+	public void deleteFriend(int userid, int friendid) {
 		// TODO Auto-generated method stub
 		
 	}
