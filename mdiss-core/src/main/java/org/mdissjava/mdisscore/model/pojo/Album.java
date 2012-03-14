@@ -19,8 +19,7 @@ public class Album {
 	private String title;
 	private Date creationDate;
 	
-	@Reference
-	private User user;
+	private int userId;
 	
 	@Reference
 	private Photo photos;
@@ -44,17 +43,17 @@ public class Album {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public Photo getPhotos() {
 		return photos;
 	}
 	public void setPhotos(Photo photos) {
 		this.photos = photos;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 	
