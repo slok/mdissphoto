@@ -1,8 +1,8 @@
 package org.mdissjava.mdisscore.model.pojo;
 
-import com.google.code.morphia.annotations.Embedded;
+import javax.persistence.Embeddable;
 
-@Embedded
+@Embeddable
 public class Configuration {
 	
 	private boolean showNick;
@@ -25,14 +25,14 @@ public class Configuration {
 		showEmail = false;
 		showBirthdate = false;
 		showPhone = false;
-		showGender = false;
 		showGender = true;
+		showCity = false;
 		showCountry = false;
 		showAddress = false;
 		showZip = false;
 		showCameras = false;
 	}
-	
+		
 	public boolean isShowNick() {
 		return showNick;
 	}

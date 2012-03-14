@@ -1,8 +1,8 @@
 package org.mdissjava.mdisscore.model.pojo;
 
-import com.google.code.morphia.annotations.Embedded;
+import javax.persistence.Embeddable;
 
-@Embedded
+@Embeddable
 public class Address {
 	
 	private String street;
@@ -10,6 +10,8 @@ public class Address {
 	private String zip;	
 	private String country;
 	private String state;
+	
+	public Address(){}
 	
 	public String getStreet() {
 		return street;

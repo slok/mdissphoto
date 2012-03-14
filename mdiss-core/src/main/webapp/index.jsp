@@ -1,1 +1,1 @@
-<jsp:forward page="index.html"/>
+<% response.sendRedirect("index.jsf"); %>
