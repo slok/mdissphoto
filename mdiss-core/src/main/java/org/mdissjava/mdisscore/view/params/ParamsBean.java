@@ -1,5 +1,14 @@
 package org.mdissjava.mdisscore.view.params;
 
+/**
+ * ParamsBean is a bean with a unique target. The ParamsBean will be used to pass 
+ * parameters from one bean to an other. This is managed with Prettyfaces. The data
+ * of the URLs will be set in this bean and the other beans will access to this bean
+ * to get that parameter
+ * 
+ * @author MDISS Java team 2011-2012 University of Deusto
+ *
+ */
 public class ParamsBean {
 	
 	private String userId;
