@@ -13,13 +13,8 @@
     </application>
     
     <!--navigation rules-->
-    <!--<navigation-rule>
-		<from-view-id>/aaaaa/bbbbb.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>xxxxx</from-outcome>
-			<to-view-id>/yyyy/zzzzz.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>-->
+	<!-- The navigation rules are managed with Prettyfaces
+	see "pretty-config.xml" in this folder -->
     
     
 </faces-config>

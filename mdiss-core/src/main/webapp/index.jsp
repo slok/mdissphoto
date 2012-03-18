@@ -1,1 +1,1 @@
-<% response.sendRedirect("index.jsf"); %>
+<% response.sendRedirect("faces/index.jsf"); %>

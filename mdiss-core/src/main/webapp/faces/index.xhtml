@@ -16,7 +16,7 @@
 		</ui:define>
 		
 		<ui:define name="body">
-			<article>
+			<div>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu lectus lacus. Mauris tellus ante, cursus non tristique at, scelerisque a quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus sapien tellus, luctus at pretium in, varius at nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras blandit velit sit amet arcu tristique eget pretium ipsum ultrices. In laoreet diam in dolor dignissim tempor. Nunc blandit vehicula dolor, id aliquam augue consectetur sed. Vestibulum gravida lacinia erat ut elementum. Cras gravida lacus consectetur neque euismod in tincidunt sapien elementum.</p>
 	
 				<p>Praesent vel odio eleifend ligula semper venenatis sit amet eu nunc. Fusce nec augue et tortor pharetra tincidunt eget vitae ligula. Nullam nisl augue, imperdiet nec egestas non, elementum sit amet justo. Fusce sit amet felis enim. Aenean pellentesque semper facilisis. Phasellus id ipsum ac tellus pulvinar euismod in vitae nisi. Ut ac turpis eu dolor consequat dictum. Sed leo dolor, sodales a varius at, lacinia vitae tellus. In quis augue velit, ut porta urna. Fusce ornare lobortis ultrices. Nulla facilisi. Vestibulum tempus ante a turpis sodales et faucibus lacus elementum.</p>
@@ -36,8 +36,15 @@
 				<p>Vestibulum leo nibh, dictum quis aliquet ac, congue eu odio. Nullam eget elit quam. Vestibulum suscipit venenatis tellus a vehicula. Aliquam imperdiet fermentum faucibus. Vivamus vestibulum, ipsum quis aliquam rutrum, mauris felis scelerisque elit, sit amet volutpat sem neque a orci. Fusce id nibh vitae mi venenatis ultrices. Nam dictum dignissim ipsum, vel mattis lorem cursus at. Sed tortor est, gravida et placerat ac, volutpat ut diam. Aliquam at nibh eu erat commodo facilisis. Integer vel aliquam neque. Vestibulum mauris sapien, consequat quis fringilla quis, sollicitudin vel odio. Curabitur non urna id elit posuere molestie. Duis a turpis at mi pretium ullamcorper dapibus vitae diam.</p>
 				
 				<p>Vivamus nunc elit, blandit eget sagittis eget, feugiat vel lorem. Donec leo ante, scelerisque quis lobortis id, pharetra ac tortor. Nulla leo sem, porta et pretium eget, fringilla ut ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et nisl lorem, in aliquet velit. Aliquam mollis varius dolor tincidunt venenatis. Sed et faucibus enim. Duis vitae metus a urna fermentum auctor ut ut mauris. Fusce in dapibus diam. Vivamus posuere, sem nec egestas congue, odio lorem tempus tellus, sed blandit dui tellus sit amet purus. Donec placerat vestibulum neque, quis accumsan metus dictum et. Praesent convallis, metus consequat ultricies viverra, mi nunc suscipit tortor, pellentesque fringilla leo nisl quis nisi. Maecenas adipiscing turpis et tellus feugiat condimentum. Maecenas vestibulum suscipit dapibus. Donec tincidunt auctor nisi, in dapibus ligula consequat a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-			</article>
+			</div>
+			<h:form>
+			<p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
+			    <h:outputText value="What PrimeFaces has so far is just the beginning!" style="color:#FFCC00;font-size:36px;" />
+			</p:notificationBar>
 			
+			<p:commandButton value="Show" onclick="bar.show()" type="button" />
+			<p:commandButton value="Hide" onclick="bar.hide()" type="button" />
+			</h:form>
 		</ui:define>
 		
     </ui:composition>
