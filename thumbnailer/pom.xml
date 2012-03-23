@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mdissjava.thumbnailer</groupId>
+    <artifactId>thumbnailer</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>thumbnailer</name>
+    <url>http://maven.apache.org</url>
+  
+    <parent>
+        <groupId>org.mdissjava.mdissphoto</groupId>
+        <artifactId>mdissphoto</artifactId>
+        <version>1.0</version>
+    </parent>
+
+	<!-- Dependency repositories-->
+	<repositories>
+        
+	</repositories>
+      
+    <dependencies>
+       
+    </dependencies>
+</project>
