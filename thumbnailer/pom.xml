@@ -18,10 +18,27 @@
 
 	<!-- Dependency repositories-->
 	<repositories>
-        
+		<repository>
+			<id>mvn.mdiss.info</id>
+			<name>MDISS custom repo</name>
+			<url>http://mvn.mdiss.info</url>
+		</repository>
 	</repositories>
       
     <dependencies>
-       
+       <!-- Thumbnails -->
+		<dependency>
+			<groupId>net.coobird.thumbnailator</groupId>
+			<artifactId>Thumbnailator</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+		
+		<!-- Gearman -->
+
+		<dependency>
+			<groupId>org.gearman</groupId>
+			<artifactId>gearman-java</artifactId>
+			<version>0.04</version>
+		</dependency>
     </dependencies>
 </project>
