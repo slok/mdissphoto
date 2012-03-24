@@ -54,13 +54,12 @@ public interface IThumbnailer
 	 * resize will be ????x1024. ALWAYS: [Width]x[Height] = horizontal x vertical 
 	 * 
 	 * @param pixels are the pixels in width or height to scale
-	 * @param crop
 	 * @return The thumbnail is returned
 	 * @throws IllegalArgumentException Is thrown if the value passed isn't a good resolution 
 	 * to execute the action of minimize, for example if the image is smaller than the resolution to
 	 * minimize
 	 */
-	BufferedImage autoThumbnailizeImage(int pixels, boolean crop) throws IllegalArgumentException;
+	BufferedImage autoThumbnailizeImage(int pixels) throws IllegalArgumentException;
 	
 	/**
 	 * 
