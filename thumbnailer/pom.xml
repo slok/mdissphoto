@@ -16,6 +16,11 @@
         <version>1.0</version>
     </parent>
 
+	<properties>
+    	<mdiss.resources.home>${env.MDISS_RESOURCES_HOME}</mdiss.resources.home>
+	</properties>
+	
+	
 	<!-- Dependency repositories-->
 	<repositories>
 		<repository>
@@ -43,6 +48,16 @@
     </dependencies>
     
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!-- resources for all -->
+			<resource>
+				<directory>${mdiss.resources.home}</directory>
+			</resource>
+		</resources>
+	    
 	    <plugins>
 			<!-- Add dependencies (libs) to jar and make executable -->
 			<plugin>
