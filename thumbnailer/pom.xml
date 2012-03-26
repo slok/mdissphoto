@@ -16,11 +16,6 @@
         <version>1.0</version>
     </parent>
 
-	<properties>
-    	<mdiss.resources.home>${env.MDISS_RESOURCES_HOME}</mdiss.resources.home>
-	</properties>
-	
-	
 	<!-- Dependency repositories-->
 	<repositories>
 		<repository>
@@ -45,18 +40,17 @@
 			<artifactId>gearman-java</artifactId>
 			<version>0.04</version>
 		</dependency>
+		
+		<!-- Common utils -->
+		<dependency>
+            <groupId>org.mdissjava.commonutils</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
     </dependencies>
     
     <build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<!-- resources for all -->
-			<resource>
-				<directory>${mdiss.resources.home}</directory>
-			</resource>
-		</resources>
 	    
 	    <plugins>
 			<!-- Add dependencies (libs) to jar and make executable -->
@@ -65,7 +59,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.mdissjava.thumbnailer.gearman.client.GearmanDaemonWorker</mainClass>
+							<mainClass>org.mdissjava.thumbnailer.gearman.worker.GearmanDaemonWorker</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
