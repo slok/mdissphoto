@@ -34,7 +34,6 @@ public class PropertiesFacade {
 			while(em.hasMoreElements())
 			{
 				key = (String)em.nextElement();
-				System.out.println(key);
 				PROPERTIES.put(key, properties.getProperty(key));
 			}
 			
