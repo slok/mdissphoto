@@ -67,7 +67,7 @@
 					</descriptorRefs>
 				</configuration>
 				
-				<executions>
+				<!--<executions>
 					<execution>
 					<id>jar-with-dependencies</id>
 					<phase>package</phase>
@@ -75,7 +75,7 @@
 						<goal>single</goal>
 					</goals>
 					</execution>
-				</executions>
+				</executions> -->
 				
 			</plugin>
 			
