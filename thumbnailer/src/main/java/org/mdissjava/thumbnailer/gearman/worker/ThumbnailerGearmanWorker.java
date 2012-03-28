@@ -1,5 +1,6 @@
 package org.mdissjava.thumbnailer.gearman.worker;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ThumbnailerGearmanWorker {
 		this(Constants.GEARMAN_DEFAULT_TCP_HOST, Constants.GEARMAN_DEFAULT_TCP_PORT);
 	}
     
-    public void start() throws InvalidAttributeValueException{
+    public void start() throws InvalidAttributeValueException, IOException{
         //if there are no functions to attach to gearman then gearman doesn't work...
     	if (functions.isEmpty())
         	throw new InvalidAttributeValueException("There are no Gearman functions to attach to the workers. Set some ;)");
@@ -50,11 +51,16 @@ public class ThumbnailerGearmanWorker {
     	{
     		//If we reuse the instance then stop the attached worker before launching the new
     		this.stop();
-    		
+
 	        //Create a new worker
     		worker = new GearmanWorkerImpl();
-	        worker.addServer(conn);
-	        
+    		
+    		//connect and check if the connection fails
+			if(!worker.addServer(conn))
+			{
+				this.logger.error("Could not connect to Gearman");
+				throw new IOException("Could not connect to Gearman");
+			}
 	        //attach the workers functions
 	        for (Class<GearmanFunction> fun : functions) {
 	            worker.registerFunction(fun);
