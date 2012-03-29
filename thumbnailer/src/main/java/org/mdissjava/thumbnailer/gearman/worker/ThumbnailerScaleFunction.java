@@ -35,25 +35,34 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 	 *  The method that gearman will execute. This method will call the needed the 
 	 *  methods to create all the thumbnails
 	 */
+	@SuppressWarnings("finally")
 	@Override
 	public GearmanJobResult executeFunction() {
 		this.imageId = new String(ByteUtils.fromUTF8Bytes((byte[]) this.data));
 		this.logger.info("Executing Gearman Thumbnail worker function with '{}' data", this.imageId);
+		byte[] exception = new byte[0];
+		boolean result = true;
 		
+		//FIXME: Doesn't return COMPLETE package to gearman!!!!
 		try {
 			createThumbnails();
-		} catch (IOException e) {
+			
+		} catch (Exception e) {
 			this.logger.error("Something went worng with '{}' Image thumbnail creation", this.imageId);
-			e.printStackTrace();
+			exception = e.toString().getBytes();
+			result = false;
+		} finally{
+			//return the result to the client
+			final GearmanJobResult gjr = new GearmanJobResultImpl(this.jobHandle, 
+															result, this.imageId.getBytes(), 
+															new byte[0], exception,
+															0, 0);
+			
+			this.logger.info("Returning worker result of '{}' to gearman", this.imageId);
+			return gjr;
+			
 		}
 		
-		//return the result to the client
-		GearmanJobResult gjr = new GearmanJobResultImpl(this.jobHandle, 
-														true, this.imageId.getBytes(), 
-														new byte[0], new byte[0],
-														0, 0);
-		
-		return gjr;
 	}
 
 	/**
@@ -95,6 +104,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			
 			this.scaleImageAndSave(Integer.valueOf(key), bucket);
 		}
+
 	}
 	
 	

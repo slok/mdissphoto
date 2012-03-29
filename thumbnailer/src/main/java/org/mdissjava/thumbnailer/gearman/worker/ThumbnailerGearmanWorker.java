@@ -61,10 +61,12 @@ public class ThumbnailerGearmanWorker {
 				this.logger.error("Could not connect to Gearman");
 				throw new IOException("Could not connect to Gearman");
 			}
+			
 	        //attach the workers functions
 	        for (Class<GearmanFunction> fun : functions) {
 	            worker.registerFunction(fun);
 	        }
+	        
 	        this.logger.info("Starting gearman worker");
 	        worker.work();
     	}
