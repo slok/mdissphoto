@@ -29,6 +29,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 	private static final String THUMBNAILS_PROPERTIES_KEY = "thumbnails";
 	private static final String THUMBNAILS_DB = "thumbnails";
 	private static final String ORIGINAL_BUCKET = "original";
+	private String imageFormat = "png";
 	private Thumbnailer thumnailer = null;
 	
 	/**
@@ -135,7 +136,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			//convert to buffered image to inputStream
 			
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(scaledImage, "jpg", os);
+			ImageIO.write(scaledImage, imageFormat, os);
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
 			
 			gds.saveData(is,this.imageId);
