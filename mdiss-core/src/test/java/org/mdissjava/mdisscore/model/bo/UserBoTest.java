@@ -78,7 +78,7 @@ public class UserBoTest {
 		user.addPreference("horses");
 		user.addPreference("sunsets");
 		user.setEmail("prueba@prueba.com");
-		user.setPass("prueba");
+		user.setPassword("1234");
 
 		user.Save();
 		
@@ -99,6 +99,19 @@ public class UserBoTest {
 			user.setSurname("Abradacurcis");
 			user.Save();			
 		}
+		
+	}
+	
+	public void DeleteUserBoTest() throws Exception{
+		
+		UserBo user=userbll.getUserById(idUsuario);
+		if(user==null)
+			throw new Exception("El usuario es nulo");
+		else
+		{
+			user.Delete();			
+		}
+		
 		
 	}
 	

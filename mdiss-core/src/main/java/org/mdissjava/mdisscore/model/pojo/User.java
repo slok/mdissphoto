@@ -111,7 +111,7 @@ public class User implements Serializable {
 			else
 				this.configuration=new Configuration();
 			this.email=userBo.getEmail();
-			this.pass=userBo.getPass();
+		//	this.pass=userBo.getPass();
 		
 	}
 
@@ -132,7 +132,7 @@ public class User implements Serializable {
 		this.address.setAddressBoData(userBo.getAddress());
 		this.configuration.setConfigurationBoData(userBo.getConfiguration());
 		this.email=userBo.getEmail();
-		this.pass=userBo.getPass();
+		//this.pass=userBo.getPass();
 		
 	}
 	

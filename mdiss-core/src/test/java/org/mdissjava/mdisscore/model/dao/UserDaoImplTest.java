@@ -31,20 +31,6 @@ public class UserDaoImplTest {
 		HibernateUtil.openSessionFactory();
 		session = HibernateUtil.getSession();
 	}
-	/* @Test
- public void passwordHashtest()
- {
-	 PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
-	 String salt = null;
-	 String plainPassword = "slok";
-	 String password = sha256Encoder.encodePassword(plainPassword, salt);
-	 System.out.println("El hash generado de password es :"+password);
-	 System.out.println("Resultado es :"+sha256Encoder.isPasswordValid(password,"slok",null));
-	 if(!sha256Encoder.isPasswordValid(password,"slok",null))
-		 throw new IllegalArgumentException();
- }
-	
-}*/
 	
 	@Test
 	public void addUserTest(){		

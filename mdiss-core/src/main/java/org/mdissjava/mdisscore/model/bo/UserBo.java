@@ -53,7 +53,7 @@ public class UserBo {
 		this.preferences=getPreferencesList(user.getPreferences());		
 		this.gender=user.getGender();	
 		this.email=user.getEmail();
-		this.pass=user.getPass();
+	//	this.pass=user.getPass();
 		this.address=new AddressBo(user.getAddress()); 
 		this.configuration=new ConfigurationBo(user.getConfiguration());	
 
@@ -147,10 +147,10 @@ public class UserBo {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPass() {
+	public String getPassword() {
 		return pass;
 	}
-	public void setPass(String pass) {
+	public void setPassword(String pass) {
 		this.pass = pass;
 	}
 	public List<UserBo> getFriends() {
@@ -203,8 +203,12 @@ public class UserBo {
 	}
 	
 	/**Save the data of the logout**/
-	public void CloseSession()
-	{}
+	public boolean CloseSession()
+	{
+		this.lastSession=new Date();
+		Save();
+		return true;
+	}
 	
 	/**equals method for all variable data**/
 	public boolean Equals(UserBo user)

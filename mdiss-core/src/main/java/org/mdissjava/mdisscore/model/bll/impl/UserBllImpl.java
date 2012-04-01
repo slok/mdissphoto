@@ -8,6 +8,8 @@ import org.mdissjava.mdisscore.model.bo.UserBo;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class UserBllImpl implements UserBll {
 	//MorphiaDatastoreFactory.getDatastore("test")
@@ -19,6 +21,7 @@ public class UserBllImpl implements UserBll {
 		if(user.getId()==0)
 		{//alta de nuevo usuario
 			User usuario=new User(user);
+			usuario.setPass(PEncoder(user.getPassword()));
 			userdao.addUser(usuario);			
 			return usuario.getId();
 		}
@@ -59,13 +62,28 @@ public class UserBllImpl implements UserBll {
 		
 		return null;//new PhotoBo();
 	}
-
+	
 	@Override
-	public boolean CloseSession(UserBo user) {
-		// TODO Auto-generated method stub
-		return false;
+	public void ChangePassword(UserBo user, String newPassword) {
+		User usuario=userdao.getUserById(user.getId());
+		usuario.setPass(PEncoder(newPassword));
+		userdao.updateUser(usuario);		
 	}
 	
-	
+	/**
+	 * Password hashing function sha-256
+	 * @param password
+	 * 			the orignal password
+	 * @return string
+	 * 			the hash code
+	 */
+	 
+	private String PEncoder(String password)
+	{
+		PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
+		 return sha256Encoder.encodePassword(password,null);
+	}
+
+
 
 }
