@@ -17,6 +17,8 @@ import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 
 public class UserDaoImplTest {
@@ -29,7 +31,21 @@ public class UserDaoImplTest {
 		HibernateUtil.openSessionFactory();
 		session = HibernateUtil.getSession();
 	}
-
+	/* @Test
+ public void passwordHashtest()
+ {
+	 PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
+	 String salt = null;
+	 String plainPassword = "slok";
+	 String password = sha256Encoder.encodePassword(plainPassword, salt);
+	 System.out.println("El hash generado de password es :"+password);
+	 System.out.println("Resultado es :"+sha256Encoder.isPasswordValid(password,"slok",null));
+	 if(!sha256Encoder.isPasswordValid(password,"slok",null))
+		 throw new IllegalArgumentException();
+ }
+	
+}*/
+	
 	@Test
 	public void addUserTest(){		
 		this.logger.info("TEST(UserDao) addUser");
@@ -306,9 +322,9 @@ public class UserDaoImplTest {
 			List<User> listaAmigos=user.getFriends();
 			System.out.print("el usuario con Id:"+ user.getId() +" tiene estos -");
 			for(int i=0;i<listaAmigos.size();i++)
-			{System.out.println("Amigos Id:"+listaAmigos.get(i).getId());}*/
+			{System.out.println("Amigos Id:"+listaAmigos.get(i).getId());}
+		}*/
+	
 		}
-	
-	
 
 }

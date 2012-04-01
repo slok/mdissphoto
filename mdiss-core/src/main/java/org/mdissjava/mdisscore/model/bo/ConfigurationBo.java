@@ -1,12 +1,9 @@
-package org.mdissjava.mdisscore.model.pojo;
+package org.mdissjava.mdisscore.model.bo;
 
-import javax.persistence.Embeddable;
+import org.mdissjava.mdisscore.model.pojo.Configuration;
 
-import org.mdissjava.mdisscore.model.bo.ConfigurationBo;
+public class ConfigurationBo {
 
-@Embeddable
-public class Configuration {
-	
 	private boolean showNick;
 	private boolean	showName;
 	private boolean showSurname;
@@ -20,37 +17,23 @@ public class Configuration {
 	private boolean showZip;	
 	private boolean showCameras;
 	
-	public Configuration(){
-		showNick = true;
-		showName = true;
-		showSurname = true;
-		showEmail = false;
-		showBirthdate = false;
-		showPhone = false;
-		showGender = true;
-		showCity = false;
-		showCountry = false;
-		showAddress = false;
-		showZip = false;
-		showCameras = false;
-	}
+	public ConfigurationBo(){}
 	
-	public Configuration(ConfigurationBo conf)
-	{
+	public ConfigurationBo( Configuration conf){
 		showNick = conf.isShowNick();
 		showName = conf.isShowName();
-		showSurname = conf.isShowSurname();
+		showSurname = conf.isShowEmail();
 		showEmail = conf.isShowEmail();
 		showBirthdate = conf.isShowBirthdate();
 		showPhone = conf.isShowPhone();
 		showGender = conf.isShowGender();
-		showCity = conf.isShowCity();
+		showCity= conf.isShowCity();
 		showCountry = conf.isShowCountry();
 		showAddress = conf.isShowAddress();
 		showZip = conf.isShowZip();
 		showCameras = conf.isShowCameras();
 	}
-		
+	
 	public boolean isShowNick() {
 		return showNick;
 	}
@@ -123,4 +106,25 @@ public class Configuration {
 	public void setShowCameras(boolean showCameras) {
 		this.showCameras = showCameras;
 	}	
+	
+	
+	public boolean equals(ConfigurationBo conf)
+	{
+		if(!(showNick==conf.isShowNick()))return false;
+		if(!(showName==conf.isShowName()))return false;
+		if(!(showSurname==conf.isShowSurname()))return false;
+		if(!(showEmail==conf.isShowEmail()))return false;
+		if(!(showBirthdate==conf.isShowBirthdate()))return false;
+		if(!(showPhone==conf.isShowPhone()))return false;
+		if(!(showGender==conf.isShowGender()))return false;
+		if(!(showCity==conf.isShowCity()))return false;
+		if(!(showCountry==conf.isShowCountry()))return false;
+		if(!(showAddress==conf.isShowAddress()))return false;
+		if(!(showZip==conf.isShowZip()))return false;
+		if(!(showCameras==conf.isShowCameras()))return false;
+		return true;
+		
+		
+	}
+	
 }
