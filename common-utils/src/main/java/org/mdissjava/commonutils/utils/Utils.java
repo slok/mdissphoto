@@ -1,6 +1,7 @@
 package org.mdissjava.commonutils.utils;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,6 +58,11 @@ public class Utils {
 		
 		output.close();
 		is.close();
+	}
+	
+	public static ByteArrayInputStream byteArrayOutputStreamToByteArrayInputStream(ByteArrayOutputStream baos)
+	{
+		return new ByteArrayInputStream(baos.toByteArray());	
 	}
 	
 
