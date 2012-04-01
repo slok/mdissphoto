@@ -11,7 +11,7 @@ import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
 public class UserBo {
-
+	
 	private UserBll userBll= new UserBllImpl();
 	
 	
@@ -57,9 +57,7 @@ public class UserBo {
 		this.address=new AddressBo(user.getAddress()); 
 		this.configuration=new ConfigurationBo(user.getConfiguration());	
 
-	//			this.friends=user.getFriends();
-			
-			
+	//			this.friends=user.getFriends();			
 	}
 
 	//clase get and set, menos id , que solo es get
@@ -200,7 +198,9 @@ public class UserBo {
 	}
 	/**change the active mode and other things**/
 	public void Delete()
-	{}
+	{
+		userBll.deleteUser(this);
+	}
 	
 	/**Save the data of the logout**/
 	public void CloseSession()

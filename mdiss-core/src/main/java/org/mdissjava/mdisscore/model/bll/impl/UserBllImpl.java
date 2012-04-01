@@ -24,22 +24,25 @@ public class UserBllImpl implements UserBll {
 		}
 		else
 		{//salvar una modificación
-			
-			return 0;
+			User usuario=userdao.getUserById(user.getId());
+			usuario.SetUserBoData(user);
+			userdao.updateUser(usuario);
+			return usuario.getId();
 		}
 		
 	}
 
 	@Override
-	public void deleteUser(UserBo user) {
-		// poner modo activo a false
+	public void deleteUser(UserBo userbo) {
+		User user=userdao.getUserById(userbo.getId());
+		userdao.deleteUser(user);
 
 	}
 
 	@Override
 	public UserBo getUserById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new UserBo(userdao.getUserById(id));
 	}
 
 	@Override
@@ -48,11 +51,19 @@ public class UserBllImpl implements UserBll {
 		return null;
 	}
 	
+	
+	
 	@Override
 	public PhotoBo getPhoto(int PhotoId)
 	{
 		
 		return null;//new PhotoBo();
+	}
+
+	@Override
+	public boolean CloseSession(UserBo user) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

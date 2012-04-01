@@ -50,6 +50,22 @@ public class Configuration {
 		showZip = conf.isShowZip();
 		showCameras = conf.isShowCameras();
 	}
+	
+	public void setConfigurationBoData(ConfigurationBo conf)
+	{
+		showNick = conf.isShowNick();
+		showName = conf.isShowName();
+		showSurname = conf.isShowSurname();
+		showEmail = conf.isShowEmail();
+		showBirthdate = conf.isShowBirthdate();
+		showPhone = conf.isShowPhone();
+		showGender = conf.isShowGender();
+		showCity = conf.isShowCity();
+		showCountry = conf.isShowCountry();
+		showAddress = conf.isShowAddress();
+		showZip = conf.isShowZip();
+		showCameras = conf.isShowCameras();
+	}
 		
 	public boolean isShowNick() {
 		return showNick;

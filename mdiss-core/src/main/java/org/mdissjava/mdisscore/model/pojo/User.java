@@ -115,7 +115,28 @@ public class User implements Serializable {
 		
 	}
 
+	public void SetUserBoData(UserBo userBo)
+	{
+		this.nick=userBo.getNick();
+		this.name=userBo.getName();
+		this.surname=userBo.getSurname();
+		this.birthdate=userBo.getBirthdate();
+		this.phone=userBo.getPhone();
+		this.avatar=userBo.getAvatarId();
+		this.registeredDate=userBo.getRegisteredDate();
+		this.active=userBo.isActive();
+		this.lastSession=userBo.getLastSession();
+		this.role=userBo.getRole();
+		this.preferences=getConvertPreferences(userBo.getPreferences());
+		this.gender=userBo.getGender();
+		this.address.setAddressBoData(userBo.getAddress());
+		this.configuration.setConfigurationBoData(userBo.getConfiguration());
+		this.email=userBo.getEmail();
+		this.pass=userBo.getPass();
 		
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

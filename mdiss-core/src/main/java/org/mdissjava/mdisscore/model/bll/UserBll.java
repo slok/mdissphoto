@@ -16,6 +16,6 @@ public interface UserBll {
 	//void modifyConfiguration(ObjectId id, Configuration conf);
 	List<UserBo> getFriends(int id);
 	PhotoBo  getPhoto(int IdPhoto);
-	
+	boolean CloseSession(UserBo user);
 	
 }
