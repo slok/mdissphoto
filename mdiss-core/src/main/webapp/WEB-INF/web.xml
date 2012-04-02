@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
+	
+	
+	<!-- Image streaming for custom dynamic images -->
+	<servlet>
+		<servlet-name>imageServlet</servlet-name>
+		<servlet-class>org.mdissjava.mdisscore.view.upload.DynamicImageSevlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imageServlet</servlet-name>
+		<url-pattern>/dynamic/image/*</url-pattern>
+	</servlet-mapping>
+	
+	
 	<!-- JSF 2 -->
 	
 	<servlet>
@@ -48,15 +61,15 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
   
-    <!--file upload-->
-	<!--<filter>
+    <!--file upload with 50MB max upload --> 
+	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
 		<filter-class>		
 			org.primefaces.webapp.filter.FileUploadFilter	
 		</filter-class>
 		<init-param>
 			<param-name>thresholdSize</param-name>
-			<param-value>51200</param-value>
+			<param-value>52428800</param-value> 
 		</init-param>
 		<init-param>
 			<param-name>uploadDirectory</param-name>
@@ -66,6 +79,8 @@
 	
 	<filter-mapping>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
-		<servlet-name>Faces Servlet</servlet-name>
-	</filter-mapping>-->
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
 </web-app>
