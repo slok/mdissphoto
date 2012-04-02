@@ -12,15 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This in theory isn't a connection pool (is an instance pool) because we aren't reusing the same connections every time
+ * This is a connection/instance pool. Can act like both closing connections and controlling the instances or can reuse the
+ * connections and control the instances too. Maybe someone wants to close connections and not reuse them
  * This is because sometimes clients are waiting to the response and we want to go ahead 
- * (is a background process and we don't need to wait for it, we can do also...)
+ * (is a background process and we don't need to wait for it, we can do also...) If we don't close the connection the other thread
+ * gets stuck waiting until the job is finished or the instance is deleted by the server.
  * 
- * So this class is to provide a max connection controlling and reusing the same instances of connection 
- * (connection instances not the connection perse) every time, when there are no connections avaiable, the 
- * pool checks zombie connections, this is a stablished connection but with the job done
+ * So this class is to provide a max connection controlling and reusing the same instances or connection 
+ * every time, when there are no connections available, the pool checks zombie connections, this is a 
+ * stablished connection but with the job done.
  * 
- * So in other words we control that the RAM isn't going to do a stack overflow
+ * So in other words we control that the RAM isn't going to do a stack overflow with more and more instances adn connections
+ * This class is singleton and thread safe (I guess ;))
  * 
  * @author slok
  *
@@ -30,6 +33,7 @@ public class ThumbnailerGearmanClientPool {
 	private final int minConn;
 	private final int maxConn;
 	private final int maxTries;
+	private final boolean closeConnections;
 	
 	private static ThumbnailerGearmanClientPool instance = null;
 	
@@ -38,7 +42,7 @@ public class ThumbnailerGearmanClientPool {
 	private List<AbstractGearmanClient> busyConnections;
 	private List<AbstractGearmanClient> idleConnections;
 	
-	public ThumbnailerGearmanClientPool() throws IllegalArgumentException, IOException {
+	private ThumbnailerGearmanClientPool() throws IllegalArgumentException, IOException {
 		
 		busyConnections = new ArrayList<AbstractGearmanClient>();
 		idleConnections = new ArrayList<AbstractGearmanClient>();
@@ -53,6 +57,10 @@ public class ThumbnailerGearmanClientPool {
 		
 		conns = p.getProperty("gearman.pool.connection.tries");
 		maxTries = Integer.valueOf(conns);
+		
+		conns = p.getProperty("gearman.pool.close.connections");
+		closeConnections = conns.equals("true")?true:false;
+		
 		
 		for(int i = 0; i < this.minConn; i++)
 		{
@@ -96,9 +104,13 @@ public class ThumbnailerGearmanClientPool {
 							//check if some has the connection open and has finished
 							if (i.getJob().isDone())
 							{
-								//shutdown and stablish new connection again
-								i.shutdown();
-								i.stablishClientConnection();
+								//shutdown and stablish new connection again -> NOT NEEDED IF WE ARE REUSING CONNECTIONS
+								if (closeConnections)
+								{
+									i.shutdown();
+									i.stablishClientConnection();
+								}
+								
 								it.remove();
 								logger.info("Closing a zombie connection... remaining: {}", this.maxConn - busyConnections.size());
 								idleConnections.add(i);
@@ -145,8 +157,11 @@ public class ThumbnailerGearmanClientPool {
 		if (removed)
 		{
 			logger.info("Releasing a client...");
-			//close the previous connection
-			((ThumbnailerGearmanClient)client).shutdown();
+			
+			//close the previous connection -> NOT NEEDED IF WE ARE REUSING CONNECTIONS
+			if (closeConnections)
+				((ThumbnailerGearmanClient)client).shutdown();
+			
 			idleConnections.add(client);
 			notifyAll();
 		}

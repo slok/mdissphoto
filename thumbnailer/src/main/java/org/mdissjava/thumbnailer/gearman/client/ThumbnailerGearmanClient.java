@@ -63,8 +63,8 @@ public class ThumbnailerGearmanClient extends AbstractGearmanClient{
 	{
 		if (client != null)
 		{
-			this.logger.error("Can't restablish, client active connection, first shutdown the client!");
-			throw new IllegalStateException("Can't restablish, client active connection, first shutdown the client!");
+			this.logger.error("Can't stablish, client active connection, first shutdown the assigned client");
+			throw new IllegalStateException("Can't stablish, client active connection, first shutdown the assigned client");
 		}
 		client = new GearmanClientImpl();
 		client.addJobServer(connection);
