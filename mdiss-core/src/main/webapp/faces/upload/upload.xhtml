@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/base.xhtml">
+      
+		<ui:define name="title">
+		Upload File #{uploadBean.userId}
+		</ui:define>
+		
+		<ui:define name="header">
+		
+		</ui:define>
+		
+		<ui:define name="body">
+			<div>
+				<h:form enctype="multipart/form-data">  
+					<p:fileUpload fileUploadListener="#{uploadBean.handleFileUpload}"   
+						mode="advanced"  
+						multiple="true"  
+						onstart="alert('test')"
+						sizeLimit="10000000"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+				</h:form>  
+			</div>
+			
+		</ui:define>
+		
+    </ui:composition>
+</html>
