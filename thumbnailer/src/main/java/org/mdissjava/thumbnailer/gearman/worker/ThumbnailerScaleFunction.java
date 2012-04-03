@@ -27,8 +27,11 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 	private BufferedImage imageData = null;
 	private static final String RESOLUTIONS_PROPERTIES_KEY = "resolutions";
 	private static final String THUMBNAILS_PROPERTIES_KEY = "thumbnails";
-	private static final String THUMBNAILS_DB = "thumbnails";
-	private static final String ORIGINAL_BUCKET = "original";
+	private static String THUMBNAILS_DB;
+	private static String ORIGINAL_BUCKET;
+	private static final String GLOBALS_KEY = "globals";
+	private PropertiesFacade propertiesFacade = null;
+	private String imageFormat = "png";
 	private Thumbnailer thumnailer = null;
 	
 	/**
@@ -43,8 +46,12 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 		byte[] exception = new byte[0];
 		boolean result = true;
 		
-		//FIXME: Doesn't return COMPLETE package to gearman!!!!
+		//FIXME: Doesn't return COMPLETE package to gearman in async!!!!
 		try {
+			this.propertiesFacade = new PropertiesFacade();
+			Properties globals = this.propertiesFacade.getProperties(GLOBALS_KEY);
+			THUMBNAILS_DB = globals.getProperty("images.db");
+			ORIGINAL_BUCKET = globals.getProperty("images.bucket");
 			createThumbnails();
 			
 		} catch (Exception e) {
@@ -79,8 +86,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 		byte[] data = baos.toByteArray();
 		this.imageData = ImageIO.read(new ByteArrayInputStream(data));
 		
-		//get all the resolutions
-		PropertiesFacade propertiesFacade = new PropertiesFacade();
+		//Get all the resolutions
 		Properties resolutionProps = propertiesFacade.getProperties(RESOLUTIONS_PROPERTIES_KEY);
 		
 		//get the bucket props
@@ -135,7 +141,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			//convert to buffered image to inputStream
 			
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(scaledImage, "jpg", os);
+			ImageIO.write(scaledImage, imageFormat, os);
 			InputStream is = new ByteArrayInputStream(os.toByteArray());
 			
 			gds.saveData(is,this.imageId);
