@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/base.xhtml">
+      
+		<ui:define name="title">
+		</ui:define>
+		
+		<ui:define name="header">
+		
+		</ui:define>
+		
+		<ui:define name="body">
+			
+			<ul class="thumbnails">
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.30&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.75&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.150&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li class="span3">
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.100&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.240&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.320&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.500&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.640&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.800&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+				<li>
+					<div class="thumbnail">
+						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.1024&amp;id=#{uploadProcessingBean.imageId}" />
+					</div>
+				</li>
+			</ul>
+		</ui:define>
+		
+    </ui:composition>
+</html>

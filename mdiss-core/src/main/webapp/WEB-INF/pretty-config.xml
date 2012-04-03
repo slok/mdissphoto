@@ -27,7 +27,7 @@
 	</url-mapping>
 	
 	<url-mapping id="user_profile">
-		<pattern value="/user/#{user:paramsBean.userId}" />
+		<pattern value="/user/#{user:paramsBean.userId}/" />
 		<view-id value="/faces/users/profile.jsf" />
 	</url-mapping>
 	
@@ -37,22 +37,37 @@
 	</url-mapping>
 
 	<url-mapping id="user_album">
-		<pattern value="/user/#{user:paramsBean.userId}/albums/#{album:paramsBean.albumId}" />
+		<pattern value="/user/#{user:paramsBean.userId}/albums/#{album:paramsBean.albumId}/" />
 		<view-id value="/faces/users/album.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="user_public">
 		<pattern value="/user/#{user:paramsBean.userId}/public/" />
 		<view-id value="/faces/users/public.jsf" />
-	</url-mapping>
+	</url-mapping>S
 	
 	<url-mapping id="user_upload">
 		<pattern value="/user/#{user:paramsBean.userId}/upload/" />
-		<view-id value="/faces/users/upload.jsf" />
+		<view-id value="/faces/upload/upload.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="user_upload_processing">
+		<pattern value="/user/#{user:paramsBean.userId}/upload/processing/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/upload/upload_processing.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="user_upload_details">
+		<pattern value="/user/#{user:paramsBean.userId}/upload/details/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/upload/upload_details.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="user_upload_error">
+		<pattern value="/user/#{user:paramsBean.userId}/upload/error/" />
+		<view-id value="/faces/upload/upload_error.jsf" />
 	</url-mapping>
 
 	<url-mapping id="photo_detail">
-		<pattern value="/user/#{user:paramsBean.userId}/photos/#{photo:paramsBean.photoId}" />
+		<pattern value="/user/#{user:paramsBean.userId}/photos/#{photo:paramsBean.photoId}/" />
 		<view-id value="/faces/photos/photo.jsf" />
 	</url-mapping>
 	
@@ -72,17 +87,17 @@
 	</url-mapping>
 
 	<url-mapping id="camera_detail">
-		<pattern value="/cameras/#{camera:paramsBean.cameraId}" />
+		<pattern value="/cameras/#{camera:paramsBean.cameraId}/" />
 		<view-id value="/faces/cameras/camera.jsf" />
 	</url-mapping>
 
 	<url-mapping id="camera_detail">
-		<pattern value="/cameras/#{camera:paramsBean.cameraId}" />
+		<pattern value="/cameras/#{camera:paramsBean.cameraId}/" />
 		<view-id value="/faces/cameras/camera.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="top">
-		<pattern value="/top/#{time:paramsBean.time}" />
+		<pattern value="/top/#{time:paramsBean.time}/" />
 		<view-id value="/faces/top.jsf" />
 	</url-mapping>
 

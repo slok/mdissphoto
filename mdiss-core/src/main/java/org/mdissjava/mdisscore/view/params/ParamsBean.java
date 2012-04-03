@@ -1,5 +1,8 @@
 package org.mdissjava.mdisscore.view.params;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 /**
  * ParamsBean is a bean with a unique target. The ParamsBean will be used to pass 
  * parameters from one bean to an other. This is managed with Prettyfaces. The data
@@ -9,6 +12,9 @@ package org.mdissjava.mdisscore.view.params;
  * @author MDISS Java team 2011-2012 University of Deusto
  *
  */
+
+@RequestScoped
+@ManagedBean
 public class ParamsBean {
 	
 	private String userId;

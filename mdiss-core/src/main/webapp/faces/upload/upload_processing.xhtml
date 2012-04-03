@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/base.xhtml">
+      
+		<ui:define name="title">
+		</ui:define>
+		
+		<ui:define name="header">
+			<script>
+		        window.onload = function() {
+		            document.getElementById('hidden:link').onclick();
+		        }
+	    	</script>
+		</ui:define>
+		
+		<ui:define name="body">
+			<h:form id="hidden" style="display:none">
+		        <h:commandLink id="link">
+		            <f:ajax event="click" listener="#{uploadProcessingBean.init}" />
+		        </h:commandLink>
+		    </h:form>
+		    
+			<div class="row show-grid">		
+					<h2 class="load-icon span5 offset3">We are processing your image</h2>
+			</div>		
+			
+			<div class="row show-grid">		
+					<div class="load-icon span4 offset4">
+						<h:graphicImage value="/resources/img/processing_spin.png"/>
+					</div>
+			</div>
+			
+			<div class="row show-grid">
+					
+					<p>Wait a few seconds to automatically redirect to the detail page of #{uploadProcessingBean.imageId} image</p> 
+					<p>If you don't like waiting, you can go directly to the detail page while we process your image :)</p>
+					 
+					 <h:form>
+					 	<h:commandButton styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{uploadProcessingBean.toDetails}" />
+					 </h:form>
+				
+			</div>
+		</ui:define>
+		
+    </ui:composition>
+</html>
