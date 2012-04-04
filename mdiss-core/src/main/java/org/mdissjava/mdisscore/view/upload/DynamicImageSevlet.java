@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
+import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
 
 public class DynamicImageSevlet extends HttpServlet
@@ -26,6 +27,8 @@ public class DynamicImageSevlet extends HttpServlet
 	// Constants ----------------------------------------------------------------------------------
 
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
+
+	private static String IMAGE_NOT_FOUND;
 
     // Actions ------------------------------------------------------------------------------------
 
@@ -49,8 +52,17 @@ public class DynamicImageSevlet extends HttpServlet
             return;
         }
 
+        IMAGE_NOT_FOUND =  new PropertiesFacade().getProperties("globals").getProperty("no.image.available");
+        
+        ByteArrayOutputStream baos = null;
         // Lookup Image by ImageId in database.
-        ByteArrayOutputStream baos = (ByteArrayOutputStream)imageDAO.getData(imageId);
+        try
+        {
+        	baos = (ByteArrayOutputStream)imageDAO.getData(imageId);
+        }catch(IOException e){
+        	
+        	baos = (ByteArrayOutputStream)imageDAO.getData(IMAGE_NOT_FOUND);
+        }
         // Check if image is actually retrieved from database.
         if (baos == null) {
             // Do your thing if the image does not exist in database.
