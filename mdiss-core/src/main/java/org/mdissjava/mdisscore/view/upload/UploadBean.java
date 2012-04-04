@@ -49,27 +49,38 @@ public class UploadBean {
 
 	public void handleFileUpload(FileUploadEvent event) throws IOException
 	{
-		this.logger.info("Entering the upload");
-		InputStream data =  event.getFile().getInputstream();
-		//String outPath = "/home/slok/Desktop/" + event.getFile().getFileName();
-		//Utils.inputStreamToFile(is, outPath);
-		this.imageId = gfs.saveData(data);
-		this.logger.info("upload and stored: {}", this.imageId);
 		
-		//set the paramas in the url
-		ParamsBean params = getPrettyfacesParams();
-		params.setPhotoId(this.imageId);
-		params.setUserId(this.userId);
-		
-		
-		System.out.println(this.imageId + ":" +this.userId);
-		params.setPhotoId(this.imageId);
-		params.setUserId(this.userId);
-		
-		//call
+		String outcome = null;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String outcome = "pretty:user_upload_processing"; // Do your thing?
-		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+		
+		try{
+			this.logger.info("Entering the upload");
+			InputStream data =  event.getFile().getInputstream();
+			//String outPath = "/home/slok/Desktop/" + event.getFile().getFileName();
+			//Utils.inputStreamToFile(is, outPath);
+			this.imageId = gfs.saveData(data);
+			this.logger.info("upload and stored: {}", this.imageId);
+			
+			//set the paramas in the url
+			ParamsBean params = getPrettyfacesParams();
+			params.setPhotoId(this.imageId);
+			params.setUserId(this.userId);
+			
+			
+			System.out.println(this.imageId + ":" +this.userId);
+			params.setPhotoId(this.imageId);
+			params.setUserId(this.userId);
+		
+			outcome = "pretty:user_upload_processing";
+			
+		}catch(Exception e){
+			
+			outcome = "pretty:user_upload_error";
+		
+		}finally{
+			//call
+			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+		}
 
 	}
 	
