@@ -1,11 +1,12 @@
 package org.mdissjava.commonutils.photo.status;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.After;
 import org.junit.Before;
@@ -54,30 +55,41 @@ public class PhotoStatusManagerTest {
 	}
 	
 	@Test
-	public void markProcessedTest() throws IOException
+	public void processedStatusTest() throws IOException
 	{
-		this.logger.info("[TEST] markProcessedTest");
-		photoStatusManager.createPhotoStatus(NAME);
+		this.logger.info("[TEST] processedStatusTest");
 		
-		assertFalse(photoStatusManager.isProcessed(NAME));
-		photoStatusManager.markAsProcessed(NAME);
-		assertTrue(photoStatusManager.isProcessed(NAME));
-		photoStatusManager.unmarkAsProcessed(NAME);
-		assertFalse(photoStatusManager.isProcessed(NAME));
+		//creation first state to null ->  need to process
+		photoStatusManager.createPhotoStatus(NAME);
+		assertTrue(photoStatusManager.needsToBeProcessed(NAME));
+		assertFalse(photoStatusManager.hasStartedProcessing(NAME));
+		assertFalse(photoStatusManager.hasFinishedProcessing(NAME));
+		
+		//second state,  the process has been started (in the job queue) -> no need to process
+		photoStatusManager.markAsProcessedStarted(NAME);
+		assertFalse(photoStatusManager.needsToBeProcessed(NAME));
+		assertTrue(photoStatusManager.hasStartedProcessing(NAME));
+		assertFalse(photoStatusManager.hasFinishedProcessing(NAME));
+		
+		//third state, the process has finished -> no need to process
+		photoStatusManager.markAsProcessedFinished(NAME);
+		assertFalse(photoStatusManager.needsToBeProcessed(NAME));
+		assertTrue(photoStatusManager.hasStartedProcessing(NAME));
+		assertTrue(photoStatusManager.hasFinishedProcessing(NAME));
+
 		
 	}
 	
 	@Test
-	public void markDetailedTest() throws IOException
+	public void detailedStatusTest() throws IOException
 	{
-		this.logger.info("[TEST] markDetailedTest");
-		photoStatusManager.createPhotoStatus(NAME);
+		this.logger.info("[TEST] detailedStatusTest");
 		
-		assertFalse(photoStatusManager.isDetailed(NAME));
+		photoStatusManager.createPhotoStatus(NAME);
+		assertTrue(photoStatusManager.needsToBeDetailed(NAME));
+		
 		photoStatusManager.markAsDetailed(NAME);
-		assertTrue(photoStatusManager.isDetailed(NAME));
-		photoStatusManager.unmarkAsDetailed(NAME);
-		assertFalse(photoStatusManager.isDetailed(NAME));
+		assertFalse(photoStatusManager.needsToBeDetailed(NAME));
 		
 	}
 }

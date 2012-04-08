@@ -19,10 +19,21 @@ import com.google.code.morphia.annotations.Id;
  *  | 	ID		Processed		Detailed		Action
  *  |---------------------------------------------------  
  *  | 	xxxxx	false			false			Delete
- *  | 	xxxxx	true			false			Delete (2 days)
+ *  | 	xxxxx	true			false			Delete (X days)
  *  |	xxxxx	false			true			Process
  * 
  * 	If the three states are true then we delete from the database
+ * 
+ * The available states for the attributes are:
+ * 
+ * - ID: a String with the id of the new stored photo
+ * - Processed: ¿The image has been processed (thumbnailization made)?
+ * 		+ null: No processed
+ *		+ false: The action has been delegate to gearman
+ *		+ true: Gearman has finished the job
+ * - Detailed: ¿Some details have been saved?
+ * 		+ false: no one has detailed the photo (title...)
+ * 		+ true: Some details have been saved 
  * 
  */
 @Entity

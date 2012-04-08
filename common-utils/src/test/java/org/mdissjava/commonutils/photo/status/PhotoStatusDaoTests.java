@@ -14,8 +14,6 @@ import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.code.morphia.Datastore;
-
 public class PhotoStatusDaoTests {
 
 	final Logger logger = LoggerFactory.getLogger(this.getClass());

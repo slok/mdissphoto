@@ -31,7 +31,8 @@ public class PhotoStatusManager {
 			throw new IOException("The object " + name + " already existis in database");
 		
 		//add the rest to the object to insert
-		photoStatus.setProcessed(false);
+		//nulll because we have 3 states (no processed = null, start processing = false, processed = true )
+		photoStatus.setProcessed(null); 
 		photoStatus.setDetailed(false);
 		photoStatus.setUpdateDate(new Date());
 		
@@ -48,22 +49,93 @@ public class PhotoStatusManager {
 		this.logger.info("deleted the photo status");
 	}
 	
-	public void markAsProcessed(String name) throws IOException
+	public boolean needsToBeProcessed(String name) throws IOException
 	{
-		PhotoStatus ps = this.searchUniqueUtil(name);
-		ps.setProcessed(true);
-		ps.setUpdateDate(new Date());
-		this.photoStatusDao.updatePhotoStatus(ps);
-		this.logger.info("Updated the photo status marking as processed");
+		boolean result = false;
+		
+		PhotoStatus ps = searchUniqueUtil(name);
+		
+		//only process if is null
+		//false means that we have called gearman to process but gearman doesn't finished jet
+		//this means that the work is in the job stack already
+		if (ps.isProcessed() == null)
+			result = true;
+		
+		return result;
+		
 	}
 	
-	public void unmarkAsProcessed(String name) throws IOException
+	public boolean hasStartedProcessing(String name) throws IOException
+	{
+		boolean result = false;
+		
+		PhotoStatus ps = searchUniqueUtil(name);
+		if (ps.isProcessed() != null)
+			result = true;
+		
+		return result;
+	}
+	
+	public boolean hasFinishedProcessing(String name) throws IOException
+	{
+		boolean result;
+		
+		PhotoStatus ps = searchUniqueUtil(name);
+		if (ps.isProcessed() == null || ps.isProcessed() == false) //if is null and we do only the true check then the program fails with null pointer exception
+			result = false;
+		else
+			result = true;
+		
+		return result;
+	}
+	
+	public void markAsProcessedStarted(String name) throws IOException
 	{
 		PhotoStatus ps = this.searchUniqueUtil(name);
 		ps.setProcessed(false);
 		ps.setUpdateDate(new Date());
 		this.photoStatusDao.updatePhotoStatus(ps);
-		this.logger.info("Updated the photo status marking as unprocessed");
+		this.logger.info("Updated the photo status marking as process started");
+	}
+	
+	public void markAsProcessedFinished(String name) throws IOException
+	{
+		PhotoStatus ps = this.searchUniqueUtil(name);
+		ps.setProcessed(true);
+		ps.setUpdateDate(new Date());
+		this.photoStatusDao.updatePhotoStatus(ps);
+		this.logger.info("Updated the photo status marking as process finished");
+	}
+	
+	public void markAsNeedsToBeProcessed(String name) throws IOException
+	{
+		PhotoStatus ps = this.searchUniqueUtil(name);
+		ps.setProcessed(null);
+		ps.setUpdateDate(new Date());
+		this.photoStatusDao.updatePhotoStatus(ps);
+		this.logger.info("Updated the photo status marking as process needded");
+	}
+	
+	public boolean needsToBeDetailed(String name) throws IOException
+	{
+		boolean result = false;
+		
+		PhotoStatus ps = searchUniqueUtil(name);
+		
+		if (ps.isDetailed() == false)
+			result = true;
+		
+		return result;
+		
+	}
+	
+	public void markAsNeedsTobeDetailed(String name) throws IOException
+	{
+		PhotoStatus ps = this.searchUniqueUtil(name);
+		ps.setDetailed(false);
+		ps.setUpdateDate(new Date());
+		this.photoStatusDao.updatePhotoStatus(ps);
+		this.logger.info("Updated the photo status marking as undetailed");
 	}
 	
 	public void markAsDetailed(String name) throws IOException
@@ -74,27 +146,6 @@ public class PhotoStatusManager {
 		this.photoStatusDao.updatePhotoStatus(ps);
 		
 		this.logger.info("Updated the photo status marking as detailed");
-	}
-	
-	public void unmarkAsDetailed(String name) throws IOException
-	{
-		PhotoStatus ps = this.searchUniqueUtil(name);
-		ps.setDetailed(false);
-		ps.setUpdateDate(new Date());
-		this.photoStatusDao.updatePhotoStatus(ps);
-		this.logger.info("Updated the photo status marking as undetailed");
-	}
-	
-	public Boolean isProcessed(String name) throws IOException
-	{
-		PhotoStatus ps = this.searchUniqueUtil(name);
-		return ps.isProcessed();
-	}
-	
-	public Boolean isDetailed(String name) throws IOException
-	{
-		PhotoStatus ps = this.searchUniqueUtil(name);
-		return ps.isDetailed();
 	}
 	
 	private PhotoStatus searchUniqueUtil(String name) throws IOException
