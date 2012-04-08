@@ -8,11 +8,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
+import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.mdissjava.thumbnailer.gearman.client.ThumbnailerGearmanClient;
 import org.mdissjava.thumbnailer.gearman.client.ThumbnailerGearmanClientPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.code.morphia.Datastore;
 
 @ViewScoped
 @ManagedBean
@@ -22,6 +26,7 @@ public class UploadProcessingBean {
 	private ThumbnailerGearmanClient thumbClient = null;
 	private String imageId = null;
 	private String userId = null;
+	private final String DATABASE = "mdissphoto";
 	
 	
 	public UploadProcessingBean() throws InterruptedException {
@@ -44,11 +49,23 @@ public class UploadProcessingBean {
 		params.setPhotoId(this.imageId);
 		params.setUserId(this.userId);
 		
-		try {			
-			//create the connection with gearman
-			this.thumbClient = (ThumbnailerGearmanClient) ThumbnailerGearmanClientPool.getInstance().getClient();
-			//wait to process...
-			thumbClient.ThumbnailizeImageSynchronous(this.imageId);
+		Datastore ds = MorphiaDatastoreFactory.getDatastore(this.DATABASE);
+		PhotoStatusManager photoManager = new PhotoStatusManager(ds);
+		
+		try {
+			//check if the job is already in gearman or it has finished
+			if (photoManager.needsToBeProcessed(this.imageId))
+			{
+				//set process to second state (false) -> start
+				photoManager.markAsProcessedStarted(this.imageId);
+				
+				//create the connection with gearman
+				this.thumbClient = (ThumbnailerGearmanClient) ThumbnailerGearmanClientPool.getInstance().getClient();
+				//wait to process...
+				thumbClient.ThumbnailizeImageSynchronous(this.imageId);
+				
+			}
+			
 			
 			//select where to go from here
 			logger.info("Thumbnailed: {}", this.imageId);
@@ -64,6 +81,10 @@ public class UploadProcessingBean {
 			try {
 				gfs.deleteData(imageId);
 				logger.info("Rollback done for image: {}", this.imageId);
+				
+				//rollback the state too
+				//set process to first state (null)
+				photoManager.markAsNeedsToBeProcessed(this.imageId);
 				outcome = "pretty:user_upload_error"; // Do your thing?
 			} catch (IOException e1) {
 				logger.error("Error in the rollback of {}", this.imageId);

@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -15,10 +16,15 @@ import org.gearman.client.GearmanJobResultImpl;
 import org.gearman.util.ByteUtils;
 import org.gearman.worker.AbstractGearmanFunction;
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
+import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
+import org.mdissjava.commonutils.photo.status.PhotoStatus;
+import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.thumbnailer.thumbnails.Thumbnailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.code.morphia.Datastore;
 
 public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 
@@ -27,6 +33,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 	private BufferedImage imageData = null;
 	private static final String RESOLUTIONS_PROPERTIES_KEY = "resolutions";
 	private static final String THUMBNAILS_PROPERTIES_KEY = "thumbnails";
+	private static final String DATABASE = "mdissphoto";
 	private static String THUMBNAILS_DB;
 	private static String ORIGINAL_BUCKET;
 	private static final String GLOBALS_KEY = "globals";
@@ -48,18 +55,24 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 		
 		//FIXME: Doesn't return COMPLETE package to gearman in async!!!!
 		try {
+			//create all the thumbnails
 			this.propertiesFacade = new PropertiesFacade();
 			Properties globals = this.propertiesFacade.getProperties(GLOBALS_KEY);
 			THUMBNAILS_DB = globals.getProperty("images.db");
 			ORIGINAL_BUCKET = globals.getProperty("images.bucket");
 			createThumbnails();
 			
+			//Set the new status for the photo process (true) -> finished
+			Datastore ds = this.connectToMorphia();
+			PhotoStatusManager photoManager = new PhotoStatusManager(ds);
+			photoManager.markAsProcessedFinished(this.imageId);
+			
 		} catch (Exception e) {
 			this.logger.error("Something went worng with '{}' Image thumbnail creation", this.imageId);
 			exception = e.toString().getBytes();
 			result = false;
 		} finally{
-			//return the result to the client
+			//return the result to the client (always9
 			final GearmanJobResult gjr = new GearmanJobResultImpl(this.jobHandle, 
 															result, this.imageId.getBytes(), 
 															new byte[0], exception,
@@ -153,6 +166,19 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			this.logger.error("Resolution to resize is higher than the image");
 		}
 		
+	}
+	
+	private Datastore connectToMorphia()
+	{
+			
+			@SuppressWarnings("rawtypes")
+			ArrayList<Class> classes = new ArrayList<Class>();
+			classes.add(PhotoStatus.class);
+			
+			MorphiaDatastoreConnection mdc = MorphiaDatastoreConnection.getInstance();
+			mdc.connect("127.0.0.1", 27017, DATABASE, classes);
+			return mdc.getDatastore();
+			
 	}
 
 }
