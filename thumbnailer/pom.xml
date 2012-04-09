@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mdissjava.thumbnailer</groupId>
+    <artifactId>thumbnailer</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>thumbnailer</name>
+    <url>http://maven.apache.org</url>
+  
+    <parent>
+        <groupId>org.mdissjava.mdissphoto</groupId>
+        <artifactId>mdissphoto</artifactId>
+        <version>1.0</version>
+    </parent>
+
+	<!-- Dependency repositories-->
+	<repositories>
+		<repository>
+			<id>mvn.mdiss.info</id>
+			<name>MDISS custom repo</name>
+			<url>http://mvn.mdiss.info</url>
+		</repository>
+	</repositories>
+      
+    <dependencies>
+       <!-- Thumbnails -->
+		<dependency>
+			<groupId>net.coobird.thumbnailator</groupId>
+			<artifactId>Thumbnailator</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+		
+		<!-- Gearman -->
+
+		<dependency>
+			<groupId>org.gearman</groupId>
+			<artifactId>gearman-java</artifactId>
+			<version>0.04</version>
+		</dependency>
+		
+		<!-- Common utils -->
+		<dependency>
+            <groupId>org.mdissjava.commonutils</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+    </dependencies>
+    
+    <build>
+	    
+	    <plugins>
+			<!-- Add dependencies (libs) to jar and make executable -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.mdissjava.thumbnailer.gearman.worker.GearmanDaemonWorker</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				
+				<!--<executions>
+					<execution>
+					<id>jar-with-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+					</execution>
+				</executions> -->
+				
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>

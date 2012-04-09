@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao;
+package org.mdissjava.mdisscore.model.bo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -9,6 +9,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
+import org.mdissjava.mdisscore.model.bll.UserBll;
+import org.mdissjava.mdisscore.model.bll.impl.UserBllImpl;
 import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Address;
@@ -21,7 +23,7 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 
-public class UserDaoImplTest {
+public class UserBoTest {
 
 	private Session session ;
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -31,42 +33,92 @@ public class UserDaoImplTest {
 		HibernateUtil.openSessionFactory();
 		session = HibernateUtil.getSession();
 	}
+	/* @Test
+ public void passwordHashtest()
+ {
+	 PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
+	 String salt = null;
+	 String plainPassword = "slok";
+	 String password = sha256Encoder.encodePassword(plainPassword, salt);
+	 System.out.println("El hash generado de password es :"+password);
+	 System.out.println("Resultado es :"+sha256Encoder.isPasswordValid(password,"slok",null));
+	 if(!sha256Encoder.isPasswordValid(password,"slok",null))
+		 throw new IllegalArgumentException();
+ }
+	
+}*/
+	
+	
+	private UserBll userbll=new UserBllImpl();
+	private static int idUsuario;
 	
 	@Test
-	public void addUserTest(){		
+	public void addUserBoTest() throws Exception{		
 		this.logger.info("TEST(UserDao) addUser");
 	
-		Address address = new Address();		
+		AddressBo address = new AddressBo();		
 		address.setStreet("Madariaga 6");		
 		address.setCity("Bilbao");
 		address.setState("Vizcaya");
 		address.setCountry("Spain");
 		
-		Configuration conf = new Configuration();
+		ConfigurationBo conf = new ConfigurationBo();
 										
-		User user = new User();
-		user.setNick("jess");
+		UserBo user = new UserBo();
+		user.setNick("Juan");
 		user.setActive(true);
-		user.setName("Jessica");		
-		user.setSurname("Smith");
+		user.setName("Juanjo");		
+		user.setSurname("Guerra");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
-		user.setGender(Gender.Female);
+		user.setGender(Gender.Male);
 		user.setAddress(address);
 		user.setConfiguration(conf);		
 		user.addPreference("nature");
 		user.addPreference("horses");
 		user.addPreference("sunsets");
 		user.setEmail("prueba@prueba.com");
-		user.setPass("prueba");
+		user.setPassword("1234");
 
-		UserDao dao = new UserDaoImpl();
-		dao.addUser(user);				
-		assertEquals(user, session.get(User.class, user.getId()));	
+		user.Save();
 		
-	
+		if(user.getId()==0)
+			throw new Exception("El objeto guardado no a recibido correctamente el nuevo id de almacenaje");
+		else
+			idUsuario=user.getId();
 	}
 	
+	@Test
+	public void UpdateUserBoTest() throws Exception{
+		
+		UserBo user=userbll.getUserById(idUsuario);
+		if(user==null)
+			throw new Exception("El usuario es nulo");
+		else
+		{
+			user.setSurname("Abradacurcis");
+			user.Save();			
+		}
+		
+	}
+	
+	public void DeleteUserBoTest() throws Exception{
+		
+		UserBo user=userbll.getUserById(idUsuario);
+		if(user==null)
+			throw new Exception("El usuario es nulo");
+		else
+		{
+			user.Delete();			
+		}
+		
+		
+	}
+	
+	
+	
+}
+	/*
 	@Test
 	public void deleteUserTest(){
 
@@ -309,8 +361,8 @@ public class UserDaoImplTest {
 			System.out.print("el usuario con Id:"+ user.getId() +" tiene estos -");
 			for(int i=0;i<listaAmigos.size();i++)
 			{System.out.println("Amigos Id:"+listaAmigos.get(i).getId());}
-		}*/
+		}
 	
 		}
 
-}
+}*/

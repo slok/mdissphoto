@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
+import org.mdissjava.mdisscore.model.bo.UserBo;
 
 
 @Entity
@@ -81,8 +82,61 @@ public class User implements Serializable {
 		registeredDate = new Date();
 		lastSession = new Date();		
 	}
-
+	
+	public User(UserBo userBo)
+	{
+		if(userBo.getId()>0)
+			this.id=userBo.getId();
+			this.nick=userBo.getNick();
+			this.name=userBo.getName();
+			this.surname=userBo.getSurname();
+			this.birthdate=userBo.getBirthdate();
+			this.phone=userBo.getPhone();
+			this.avatar=userBo.getAvatarId();
+			if(userBo.getRegisteredDate()!=null)
+				this.registeredDate=userBo.getRegisteredDate();
+			else
+				this.registeredDate = new Date();
+			this.active=userBo.isActive();
+			if(userBo.getLastSession()!=null)
+				this.lastSession=userBo.getLastSession();
+			else
+				this.lastSession=new Date();	
+			this.role=userBo.getRole();
+			this.preferences=getConvertPreferences(userBo.getPreferences());
+			this.gender=userBo.getGender();
+			this.address=new Address(userBo.getAddress());
+			if(userBo.getConfiguration()!=null)
+				this.configuration=new Configuration(userBo.getConfiguration());
+			else
+				this.configuration=new Configuration();
+			this.email=userBo.getEmail();
+		//	this.pass=userBo.getPass();
 		
+	}
+
+	public void SetUserBoData(UserBo userBo)
+	{
+		this.nick=userBo.getNick();
+		this.name=userBo.getName();
+		this.surname=userBo.getSurname();
+		this.birthdate=userBo.getBirthdate();
+		this.phone=userBo.getPhone();
+		this.avatar=userBo.getAvatarId();
+		this.registeredDate=userBo.getRegisteredDate();
+		this.active=userBo.isActive();
+		this.lastSession=userBo.getLastSession();
+		this.role=userBo.getRole();
+		this.preferences=getConvertPreferences(userBo.getPreferences());
+		this.gender=userBo.getGender();
+		this.address.setAddressBoData(userBo.getAddress());
+		this.configuration.setConfigurationBoData(userBo.getConfiguration());
+		this.email=userBo.getEmail();
+		//this.pass=userBo.getPass();
+		
+	}
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -234,7 +288,7 @@ public class User implements Serializable {
 	}
 	
 	public void addPreference(String preference){
-		this.preferences += preference;	
+		this.preferences +=","+preference;	
 	}			
 
 	
@@ -289,6 +343,20 @@ public class User implements Serializable {
 			   "Avatar:" + avatar +  " RegisteredDate:" + registeredDate + "\n";
 
 		return rest;
+	}
+	
+	
+	private String getConvertPreferences(List<String> lista)
+	{
+		String cadena="";
+		for(int i=0;i<lista.size();i++)
+		{
+			if(i<lista.size())
+				cadena+=lista.get(i)+",";
+			else
+				cadena+=lista.get(i);
+		}
+		return cadena;
 	}
 	
 }

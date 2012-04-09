@@ -16,6 +16,11 @@
         <version>1.0</version>
     </parent>
 
+	<properties>
+    	<mdiss.resources.home>${env.MDISS_RESOURCES_HOME}</mdiss.resources.home>
+	</properties>
+	
+
 	<!-- Dependency repositories-->
 	<repositories>
 		<!-- Morphia updated repo -->
@@ -47,4 +52,38 @@
 		</dependency>
        
     </dependencies>
+    
+        <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!-- resources for all -->
+			<resource>
+				<directory>${mdiss.resources.home}</directory>
+			</resource>
+		</resources>
+	    
+	    <plugins>
+			<!-- Add dependencies (libs) to jar and make executable -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<!-- <executions>
+					<execution>
+					<id>jar-with-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+					</execution>
+				</executions> -->
+			</plugin>
+		</plugins>
+	</build>
+    
 </project>

@@ -20,3 +20,10 @@ body
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 	
 }
+
+.load-icon
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
