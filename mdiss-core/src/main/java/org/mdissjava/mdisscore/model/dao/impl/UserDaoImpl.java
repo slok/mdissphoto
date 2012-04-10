@@ -18,7 +18,7 @@ import org.mdissjava.mdisscore.model.pojo.User;
 public class UserDaoImpl implements UserDao {
 	
 	public UserDaoImpl() {
-
+		HibernateUtil.openSessionFactory();
 	}	
 	
 	@Override
@@ -99,6 +99,18 @@ public class UserDaoImpl implements UserDao {
 	public void deleteFriend(int userid, int friendid) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public User getUserByName(String username) {
+		
+		User user = null;
+		Session session = HibernateUtil.getSession();
+		
+		Query q = session.createQuery("" + "from User as user where user.nick =" + "'" + username + "'");
+		user = (User) q.uniqueResult();
+		
+		return user;
 	}
 
 

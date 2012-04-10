@@ -19,6 +19,8 @@ public interface UserDao {
 	
 	User getUserById(int id);
 	
+	User getUserByName(String username);
+	
 //	void modifyAddress(ObjectId id, Address address);
 	
 //	void modifyConfiguration(ObjectId id, Configuration conf);

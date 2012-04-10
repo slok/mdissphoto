@@ -33,11 +33,11 @@
 	</http>
 
 	<!-- Scan the packages for services -->
-	<context:annotation-config />
     <context:component-scan base-package="org.mdissjava.mdisscore" />
+    <context:annotation-config />
 
 	<!-- I DON'T KNOW IF THIS IS NEEDED!!. IS IMPLICIT WITH THE AUTHENTICATION MANAGER, I THINK YES? -->
-	<!--  <beans:bean id="daoAuthenticationProvider"
+	<beans:bean id="daoAuthenticationProvider"
 	 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 	  <beans:property name="userDetailsService" ref="userDetailsService"/>
 	</beans:bean>
@@ -49,7 +49,7 @@
 	      <beans:ref local="daoAuthenticationProvider" />
 	    </beans:list>
 	  </beans:property>
-	</beans:bean> -->
+	</beans:bean>
 	
 
 	<!-- Select the hash and our service Detail for the DAO -->

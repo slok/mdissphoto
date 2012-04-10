@@ -23,13 +23,10 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class UserDaoImplTest {
 
-	private Session session ;
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Before
 	public void setUp() throws Exception {
-		HibernateUtil.openSessionFactory();
-		session = HibernateUtil.getSession();
 	}
 	
 	@Test
@@ -61,10 +58,10 @@ public class UserDaoImplTest {
 		user.setPass("prueba");
 
 		UserDao dao = new UserDaoImpl();
-		dao.addUser(user);				
-		assertEquals(user, session.get(User.class, user.getId()));	
 		
-	
+		dao.addUser(user);				
+		assertEquals(user, dao.getUserByName(user.getNick()));
+		
 	}
 	
 	@Test
@@ -98,11 +95,10 @@ public class UserDaoImplTest {
 		
 		UserDao dao = new UserDaoImpl();
 		
-		dao.addUser(user);
-		assertEquals(user, session.get(User.class, user.getId()));				
+		dao.addUser(user);		
 
 		dao.deleteUser(user);				
-		assertNull(session.get(User.class, user.getId()));		
+		assertNull(dao.getUserByName("Prueba")); 		
 		
 		
 	}
@@ -121,7 +117,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("MDISS");
+		user.setNick("mdiss");
 		user.setName("Java");		
 		user.setSurname("Master");
 		user.setPhone(944655877);
@@ -133,14 +129,16 @@ public class UserDaoImplTest {
 		user.addPreference("programming");
 		user.addPreference("pojos");
 		user.setEmail("prueba@prueba.com");
-		user.setPass("mdiss");
+		user.setPass("9e2c6781e1d498c41d3b146262158a5803f9724067af0d30e7179856ad66c74f");
+		user.setRole("USER");
+		user.setActive(true);
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);
 				
-		assertEquals(user,  dao.getUserById(user.getId()));
+		assertEquals(user, dao.getUserByName(user.getNick()));
 		
-		User user2=dao.getUserById(user.getId());
+		User user2=dao.getUserByName(user.getNick());
 		if(user2.getEmail()!=user.getEmail())
 			throw new IllegalArgumentException("error");
 		
@@ -182,7 +180,7 @@ public class UserDaoImplTest {
 		
 		dao.updateUser(user);
 		
-		assertEquals(user, session.get(User.class, user.getId()));
+		assertEquals(user, dao.getUserByName(user.getNick()));
 		
 	}
 	
@@ -216,7 +214,7 @@ public class UserDaoImplTest {
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
-		assertEquals(user, session.get(User.class, user.getId()));	
+		assertEquals(user, dao.getUserByName(user.getNick()));	
 		user.getAddress().setCity("Tudela");
 		user.getAddress().setCountry("España");
 		user.getAddress().setState("Navarra");
@@ -227,7 +225,7 @@ public class UserDaoImplTest {
 		
 		dao.updateUser(user);
 		
-		assertEquals(user, session.get(User.class, user.getId()));
+		assertEquals(user, dao.getUserByName(user.getNick()));
 	
 		}
 		@Test
@@ -260,7 +258,7 @@ public class UserDaoImplTest {
 			
 			UserDao dao = new UserDaoImpl();
 			dao.addUser(user);				
-			assertEquals(user, session.get(User.class, user.getId()));
+			assertEquals(user, dao.getUserByName(user.getNick()));
 			
 			System.out.println("El id del usuario es : ********************"+ user.getId());
 			
@@ -290,27 +288,39 @@ public class UserDaoImplTest {
 			
 			
 			dao.addUser(user2);				
-			assertEquals(user2, session.get(User.class, user2.getId()));
+			assertEquals(user, dao.getUserByName(user.getNick()));
 			System.out.println("El id del usuario2 es : ********************"+ user2.getId());
 			user.addFriend(user2);
 			
 			dao.updateUser(user);	
-			assertEquals(user, session.get(User.class, user.getId()));
+			assertEquals(user, dao.getUserByName(user.getNick()));
 		}
-	
+		
+		/*
 		@Test
 		public void findFriendTest(){
 			
 			//funciona , pero hay que cambiar el 115 , por un id de un usuario con amigos
-		/*	this.logger.info("TEST(UserDao) findFriend");	
+			this.logger.info("TEST(UserDao) findFriend");	
 			UserDao dao = new UserDaoImpl();
 			User user=dao.getUserById(115);
 			List<User> listaAmigos=user.getFriends();
 			System.out.print("el usuario con Id:"+ user.getId() +" tiene estos -");
 			for(int i=0;i<listaAmigos.size();i++)
 			{System.out.println("Amigos Id:"+listaAmigos.get(i).getId());}
-		}*/
+		}
 	
+		} */
+		
+		@Test
+		public void getByNameTest()throws IllegalArgumentException{
+			
+			this.logger.info("TEST(UserDao) getUserByName");
+			
+			UserDao dao = new UserDaoImpl();
+					
+			assertEquals("mdiss",  dao.getUserByName("mdiss").getNick());
+			
 		}
 
 }
