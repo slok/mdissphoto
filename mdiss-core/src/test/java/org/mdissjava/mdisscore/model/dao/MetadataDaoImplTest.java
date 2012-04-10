@@ -15,8 +15,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mdissjava.mdisscore.metadata.MetadataExtractor;
+import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.dao.impl.MetadataDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,16 +49,16 @@ public class MetadataDaoImplTest {
 		try{
 		
 			this.logger.info("[TEST] testExtractMetadataJPG MetadataDaoImpl");
-			MetadataDao metadataDao = new MetadataDaoImpl();
+			MetadataExtractor metadataExtractor = new MetadataExtractorImpl();
 			
 			//TODO Improve file extension extraction
 			File photo = new File("src/main/resources/test/metadata/photo/testPhotoJPG.jpg");
-			String format = metadataDao.getExtension(photo);
+			String format = metadataExtractor.getExtension(photo);
 			assertEquals(format, "jpg");
 		
 			FileInputStream filePhoto = new FileInputStream(photo);
 			
-			Metadata metadata = metadataDao.obtenerMetadata(filePhoto, format);
+			Metadata metadata = metadataExtractor.obtenerMetadata(filePhoto, format);
 			
 			//Check if the Aperture value for the photoTestJPG's metadata is 5.65 and file format is jpg
 			assertEquals(metadata.getAperture(), "5.65");	
@@ -94,16 +95,16 @@ public class MetadataDaoImplTest {
 		try{
 			
 			this.logger.info("[TEST] testExtractMetadataJPG MetadataDaoImpl");
-			MetadataDao metadataDao = new MetadataDaoImpl();
+			MetadataExtractor metadataExtractor = new MetadataExtractorImpl();
 			
 			//TODO Improve file extension extraction
 			File photo = new File("src/main/resources/test/metadata/photo/testPhotoTIF.tif");
-			String format = metadataDao.getExtension(photo);
+			String format = metadataExtractor.getExtension(photo);
 			assertEquals(format, "tif");
 		
 			FileInputStream filePhoto = new FileInputStream(photo);
 			
-			Metadata metadata = metadataDao.obtenerMetadata(filePhoto, format);
+			Metadata metadata = metadataExtractor.obtenerMetadata(filePhoto, format);
 			
 			assertEquals(metadata.getSize(), 6242922, 0.0);
 			assertEquals(metadata.getFormat(), "tif");

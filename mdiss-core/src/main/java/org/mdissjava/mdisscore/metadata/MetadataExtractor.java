@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao;
+package org.mdissjava.mdisscore.metadata;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -11,7 +11,7 @@ import org.mdissjava.mdisscore.model.pojo.Metadata;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 
-public interface MetadataDao {
+public interface MetadataExtractor {
 
 	public Metadata obtenerMetadata(FileInputStream foto, String format) throws MetadataException, ImageProcessingException, IOException;
 	public String getExtension(File f);

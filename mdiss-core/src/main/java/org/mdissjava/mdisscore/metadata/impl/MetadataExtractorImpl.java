@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao.impl;
+package org.mdissjava.mdisscore.metadata.impl;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.mdissjava.mdisscore.model.dao.MetadataDao;
+import org.mdissjava.mdisscore.metadata.MetadataExtractor;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.Resolution;
@@ -23,7 +23,7 @@ import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;
 
-public class MetadataDaoImpl implements MetadataDao {
+public class MetadataExtractorImpl implements MetadataExtractor {
 	
 	@Override
 	public Metadata obtenerMetadata(FileInputStream photo, String format) throws MetadataException, ImageProcessingException, IOException {
