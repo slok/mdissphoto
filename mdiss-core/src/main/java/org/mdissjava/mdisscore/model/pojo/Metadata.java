@@ -2,7 +2,10 @@ package org.mdissjava.mdisscore.model.pojo;
 
 import java.util.Date;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Embedded;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Reference;
 
 /**
@@ -12,7 +15,7 @@ import com.google.code.morphia.annotations.Reference;
  */
 @Embedded
 public class Metadata {
-
+	
 	/** The camera which took the photo */
 	@Reference
 	private Camera camera;
@@ -44,7 +47,7 @@ public class Metadata {
 
 	/** The format of the file (Ex. JPG, BMP, PNG...). */
 	private String format;
-
+	
 	/**
 	 * Gets the camera.
 	 * 
