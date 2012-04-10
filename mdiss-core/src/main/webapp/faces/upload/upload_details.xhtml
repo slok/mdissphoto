@@ -8,67 +8,120 @@
     
     <ui:composition template="/templates/base.xhtml">
       
+      
+      	<ui:define name="head">
+      	
+      		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+			<h:outputScript library="js" name="tag-it.js" />
+			<h:outputStylesheet library="css" name="jquery.tagit.css"  />
+			
+			 <script type="text/javascript">
+						    $(document).ready(function() {
+						        $("#myTags").tagit();
+						    });
+			</script>
+      	
+      	</ui:define>
 		<ui:define name="title">
 		</ui:define>
 		
-		<ui:define name="header">
-		
+		<ui:define name="header">	
 		</ui:define>
 		
-		<ui:define name="body">
-			
-			<ul class="thumbnails">
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.30&amp;id=#{uploadProcessingBean.imageId}" />
+		<ui:define name="body">			
+	    	<div class="row-fluid">
+   				  <div class="span4 offset4">
+					<h:graphicImage styleClass="thumbnail" value="#{uploadDetailsBean.imageURL}" />
+   				  </div>
+			</div>
+			<div class="row-fluid">
+			<div class="span10">		    
+		        <h:form prependId="false" styleClass="well">
+							<p:growl id="growl" showDetail="true" sticky="true" />  
+							
+					<!-- Title -->
+					<div class="row-fluid">
+		   				<div class="span2">		
+				            <h:outputLabel for="title" value="Title *:" />
+				        </div>
+				        <div class="span2">	  
+				            <p:inputText id="title" value="#{uploadDetailsBean.title}" required="true" requiredMessage="Required attr">
+				            	 <p:ajax event="blur" update="growl" process="@this"  listener="#{uploadDetailsBean.titleValidator}"/>  
+				            </p:inputText>
+				        </div>
+				        <div class="span3">	  
+							<p:message id="titleMessage" for="title"/>
+						</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.75&amp;id=#{uploadProcessingBean.imageId}" />
+		           	
+		           	<!-- album -->
+					<div class="row-fluid">
+		   				<div class="span2">
+				            <h:outputLabel for="album" value="Album *:" />  
+						</div>
+				        <div class="span4">	
+				            <h:selectOneMenu value="#{uploadDetailsBean.album}">
+					   			<f:selectItems value="#{uploadDetailsBean.albums}" />
+					   		</h:selectOneMenu>
+						</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=square.150&amp;id=#{uploadProcessingBean.imageId}" />
+					
+					<!-- Public -->
+					<div class="row-fluid">
+		   				<div class="span2">
+						 	<h:outputLabel for="scopeCheckbox" value="Scope:" /> 
+						</div>
+						<div class="span4">
+							<h:selectOneRadio id="scopeCheckbox" value="#{uploadDetailsBean.publicPhotoScope}">
+					   			<f:selectItems value="#{uploadDetailsBean.publicPhotoList}"/>
+					   			<p:ajax event="change" update="growl,plus18" listener="#{uploadDetailsBean.plus18Validator}" />
+					   		</h:selectOneRadio>
+					   	</div>
 					</div>
-				</li>
-				<li class="span3">
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.100&amp;id=#{uploadProcessingBean.imageId}" />
+					
+		            <!-- +18 -->
+					<div class="row-fluid">
+		   				<div class="span2">
+				            <h:outputLabel for="plus18" value="+18:" />  
+						</div>
+						<div class="span4">
+							<h:selectBooleanCheckbox id="plus18" value="#{uploadDetailsBean.plus18}" >
+								 <p:ajax event="change" update="growl,scopeCheckbox" listener="#{uploadDetailsBean.plus18Validator}" />
+							</h:selectBooleanCheckbox> 
+						</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.240&amp;id=#{uploadProcessingBean.imageId}" />
+					
+		            <!-- License -->
+					<div class="row-fluid">
+						<div class="span2">
+							<h:outputLabel for="license" value="License:" />
+						</div>
+						<div class="span4"> 
+				            <h:selectOneMenu value="#{uploadDetailsBean.license}">
+					   			<f:selectItems value="#{uploadDetailsBean.licenses}" />
+					   		</h:selectOneMenu>
+					   	</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.320&amp;id=#{uploadProcessingBean.imageId}" />
+		            <!-- Tags -->
+		            <div class="row-fluid">
+						<div class="span2">
+			            	<h:outputLabel for="myTags" value="Tags:" /> 
+						</div>
+						<div class="span4">
+							<h:inputText id="myTags" value="#{uploadDetailsBean.tags}" />
+						</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.500&amp;id=#{uploadProcessingBean.imageId}" />
+					
+				 	<!-- Submit button -->
+					<div class="row-fluid">
+						<div class="span2">
+					 		<h:commandButton styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{uploadDetailsBean.saveDetails}" />
+						</div>
 					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.640&amp;id=#{uploadProcessingBean.imageId}" />
-					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.800&amp;id=#{uploadProcessingBean.imageId}" />
-					</div>
-				</li>
-				<li>
-					<div class="thumbnail">
-						<h:graphicImage value="/dynamic/image?db=thumbnails&amp;bucket=scale.1024&amp;id=#{uploadProcessingBean.imageId}" />
-					</div>
-				</li>
-			</ul>
+	       		</h:form>
+	       	</div>
+            </div>
 		</ui:define>
 		
     </ui:composition>
