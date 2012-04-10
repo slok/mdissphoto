@@ -28,7 +28,7 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	@Override
 	public Metadata obtenerMetadata(FileInputStream photo, String format) throws MetadataException, ImageProcessingException, IOException {
 		
-		if((format.equals("jpg"))||(format.equals("tif")))
+		if((format.equals("jpg"))||(format.equals("tif"))||(format.equals("JPG"))||(format.equals("TIF")))
 		{
 			Metadata metadata = new Metadata();
 			Resolution resolution = new Resolution();
