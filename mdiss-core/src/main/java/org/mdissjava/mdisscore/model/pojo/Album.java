@@ -20,7 +20,7 @@ public class Album {
 	private String title;
 	private Date creationDate;
 	
-	private int userId;
+	private String userNick;
 	
 	@Reference
 	private List<Photo> photos;
@@ -29,32 +29,39 @@ public class Album {
 	public ObjectId getId() {
 		return id;
 	}
+	
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
+	
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public Date getCreationDate() {
 		return creationDate;
 	}
+	
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+	
 	public List<Photo> getPhotos() {
 		return photos;
 	}
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
-	public int getUserId() {
-		return userId;
+
+	public String getUserNick() {
+		return userNick;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
 	}
 	
 	
