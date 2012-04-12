@@ -11,6 +11,7 @@
         <property name="hibernate.id.new_generator_mappings">true"</property>        
 		<property name="dialect">org.mdissjava.mdisscore.model.dao.hibernate.MDISSMySQL5Dialect</property>
         <property name="hbm2ddl.auto">validate</property>
+        <mapping class="org.mdissjava.mdisscore.model.pojo.User"/>
         
 		<!-- C3p0 pool connection manager
         <property name="hibernate.c3p0.min_size">5</property>
