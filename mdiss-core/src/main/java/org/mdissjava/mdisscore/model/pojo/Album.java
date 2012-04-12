@@ -1,6 +1,7 @@
 package org.mdissjava.mdisscore.model.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -22,7 +23,7 @@ public class Album {
 	private int userId;
 	
 	@Reference
-	private Photo photos;
+	private List<Photo> photos;
 	
 	
 	public ObjectId getId() {
@@ -43,10 +44,10 @@ public class Album {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Photo getPhotos() {
+	public List<Photo> getPhotos() {
 		return photos;
 	}
-	public void setPhotos(Photo photos) {
+	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
 	public int getUserId() {

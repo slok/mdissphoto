@@ -4,13 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.AlbumDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +32,27 @@ public class AlbumDaoImplTest {
 		Album album = new Album();
 		album.setTitle("Fiestas de Bilbao 2012");
 
+		//insert some photos
+		Photo p = new Photo();
+		p.setTitle("Me and my cat");
+		p.setPlus18(false);
+		p.setDataId("23456784567");
+		
+		Photo p2 = new Photo();
+		p2.setTitle("Me and my dog");
+		p2.setPlus18(false);
+		p2.setDataId("43265123124");
+		
+		PhotoDao pDao = new PhotoDaoImpl(db);
+		pDao.insertPhoto(p);
+		pDao.insertPhoto(p2);
+		
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		photos.add(p);
+		photos.add(p2);
+		
+		album.setPhotos(photos);
+		
 		// Insertion in the Mongo db
 		albumdao.insertAlbum(album);
 
