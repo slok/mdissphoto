@@ -68,6 +68,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			photoManager.markAsProcessedFinished(this.imageId);
 			
 		} catch (Exception e) {
+			e.printStackTrace();//check witch is the exception (we catch many)
 			this.logger.error("Something went worng with '{}' Image thumbnail creation", this.imageId);
 			exception = e.toString().getBytes();
 			result = false;
