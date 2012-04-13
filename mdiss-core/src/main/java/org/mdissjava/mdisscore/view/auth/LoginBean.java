@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 @RequestScoped
 @ManagedBean
@@ -38,7 +39,7 @@ public class LoginBean {
         RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("/j_spring_security_check?j_username=" + this.username + "&j_password=" + this.password);
         dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
         FacesContext.getCurrentInstance().responseComplete();
-        // It's OK to return null here because Faces is just going to exit.
+        // It's OK to return null here because Faces is just going to exit.     
         return null;
 	}
 
