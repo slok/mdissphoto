@@ -313,5 +313,35 @@ public class Photo {
 	public void setPlus18(Boolean plus18) {
 		this.plus18 = plus18;
 	}
+	
+	/**
+	 *the lazy loading obtains different object and needs to check by argument 
+	 *and no by reference like the Object class equals, because dey are loaded 
+	 *in different instances.
+	 *Example:
+	 *	lazy load with equals this and that(obj)
+	 *		this: org.mdissjava.mdisscore.model.pojo.Photo@3d5311bd
+	 *		that: org.mdissjava.mdisscore.model.pojo.Photo@18b1aebf
+	 *
+	 *	without lazy load with equals this and that(obj)
+	 *		this: org.mdissjava.mdisscore.model.pojo.Photo@15e232b5
+	 *		that: org.mdissjava.mdisscore.model.pojo.Photo@15e232b5
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || this.getClass() != obj.getClass())
+			return false;
+
+		Photo photo = (Photo)obj;
+		if (this.id.equals(photo.id))
+			return true;
+		else
+		{
+			System.out.println("4");
+			return false;
+		}
+	}
 
 }
