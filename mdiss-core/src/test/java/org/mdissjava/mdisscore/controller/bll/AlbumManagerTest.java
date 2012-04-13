@@ -28,8 +28,11 @@ public class AlbumManagerTest {
 	private Datastore ds = null;
 	private final String ALBUM_NAME = "Summer 2099";
 	private final String USER_NICK = "Predator #16";
-	private final String PHOTO_1 = "Me smashing an aliens head :D";
-	private final String PHOTO_2 = "Oh noes! aliens :(";
+	private final String PHOTO_TITLE_1 = "Me smashing an aliens head :D";
+	private final String PHOTO_TITLE_2 = "Oh noes! aliens :(";
+	private final String PHOTO_ID_1 = "123456789";
+	private final String PHOTO_ID_2 = "987654321";
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Before
@@ -45,8 +48,8 @@ public class AlbumManagerTest {
 		try
 		{
 			albumManager.deleteAlbum(ALBUM_NAME, USER_NICK);
-			photoManager.deletePhoto(PHOTO_1);
-			photoManager.deletePhoto(PHOTO_2);
+			photoManager.deletePhoto(PHOTO_ID_1);
+			photoManager.deletePhoto(PHOTO_ID_2);
 			this.albumManager = null;
 			this.photoManager = null;
 		}catch (Exception e) {
@@ -95,7 +98,9 @@ public class AlbumManagerTest {
 		
 		//create photo
 		Photo p = new Photo();
-		p.setTitle(PHOTO_1);
+		p.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
 		
 		//insert the photo in the album
 		this.albumManager.addNewPhotoToAlbum(USER_NICK, ALBUM_NAME, p);
@@ -106,7 +111,7 @@ public class AlbumManagerTest {
 		a.setUserNick(USER_NICK);
 		Album album = this.albumManager.findAlbum(a).get(0);
 		
-		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_1);
+		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_TITLE_1);
 		
 		//IMPORTANT: before deleting the photo we need to delete it from the album
 		album.setPhotos(new ArrayList<Photo>());
@@ -125,7 +130,10 @@ public class AlbumManagerTest {
 		//insert a photo
 		//create photo
 		Photo p = new Photo();
-		p.setTitle(PHOTO_1);
+		p.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
+		
 		new PhotoDaoImpl(ds).insertPhoto(p);
 		
 		//create album and store
@@ -133,7 +141,9 @@ public class AlbumManagerTest {
 		
 		//create photo
 		Photo p2 = new Photo();
-		p2.setTitle(PHOTO_1);
+		p2.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
 		
 		//insert the photo in the album
 		try
@@ -156,8 +166,9 @@ public class AlbumManagerTest {
 		
 		//create photo
 		Photo p = new Photo();
-		p.setPhotoId(PHOTO_1);
-		p.setTitle(PHOTO_1);
+		p.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
 		
 		//insert photo to the first album
 		this.albumManager.addNewPhotoToAlbum(USER_NICK, ALBUM_NAME, p);
@@ -168,7 +179,7 @@ public class AlbumManagerTest {
 		a.setTitle(ALBUM_NAME);
 		a.setUserNick(USER_NICK);
 		Album album = this.albumManager.findAlbum(a).get(0);
-		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_1);
+		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_TITLE_1);
 		
 		//second
 		Album a2 = new Album();
@@ -178,7 +189,7 @@ public class AlbumManagerTest {
 		assertTrue(album2.getPhotos().isEmpty());
 		
 		//Move
-		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME+"_2", PHOTO_1);
+		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME+"_2", PHOTO_ID_1);
 		
 		// check the photos that is in the second album and not in the first
 		//first
@@ -186,7 +197,7 @@ public class AlbumManagerTest {
 		a.setTitle(ALBUM_NAME+"_2");
 		a.setUserNick(USER_NICK);
 		album = this.albumManager.findAlbum(a).get(0);
-		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_1);
+		assertEquals(album.getPhotos().get(0).getTitle(), PHOTO_TITLE_1);
 		
 		//second
 		a2 = new Album();
@@ -196,7 +207,7 @@ public class AlbumManagerTest {
 		assertTrue(album2.getPhotos().isEmpty());
 		
 		//delete all
-		this.photoManager.deletePhoto(PHOTO_1);
+		this.photoManager.deletePhoto(PHOTO_ID_1);
 		this.albumManager.deleteAlbum(ALBUM_NAME+"_2", USER_NICK);
 		
 	}
@@ -205,7 +216,7 @@ public class AlbumManagerTest {
 	public void moveMissingPhotoTest() throws IllegalArgumentException, IOException
 	{
 		this.albumManager.insertAlbum(ALBUM_NAME, USER_NICK);
-		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME, PHOTO_1);
+		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME, PHOTO_ID_1);
 	}
 	
 	@Test(expected=IOException.class)
@@ -213,13 +224,14 @@ public class AlbumManagerTest {
 	{
 		//create photo
 		Photo p = new Photo();
-		p.setPhotoId(PHOTO_1);
-		p.setTitle(PHOTO_1);
+		p.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
 		
 		//insert photo to the first album
 		this.albumManager.addNewPhotoToAlbum(USER_NICK, ALBUM_NAME, p);
 		
-		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME+"_2", PHOTO_1);
+		albumManager.movePhotoToAlbum(USER_NICK, ALBUM_NAME+"_2", PHOTO_TITLE_1);
 	}
 	
 	@Test
@@ -232,12 +244,14 @@ public class AlbumManagerTest {
 		
 		//create 2 photos and 
 		Photo p = new Photo();
-		p.setPhotoId(PHOTO_1);
-		p.setTitle(PHOTO_1);
+		p.setTitle(PHOTO_TITLE_1);
+		p.setPhotoId(PHOTO_ID_1);
+		p.setDataId(PHOTO_ID_1);
 		
 		Photo p2 = new Photo();
-		p2.setPhotoId(PHOTO_2);
-		p2.setTitle(PHOTO_2);
+		p2.setTitle(PHOTO_TITLE_2);
+		p2.setPhotoId(PHOTO_ID_2);
+		p2.setDataId(PHOTO_ID_2);
 		
 		//Insert in the album
 		this.albumManager.addNewPhotoToAlbum(USER_NICK, ALBUM_NAME, p);
@@ -264,11 +278,11 @@ public class AlbumManagerTest {
 		PhotoManager photoManager =  new PhotoManagerImpl(ds);
 		
 		p = new Photo();
-		p.setPhotoId(PHOTO_1);
+		p.setPhotoId(PHOTO_ID_1);
 		assertEquals(photoManager.findPhoto(p).get(0).getAlbum().getTitle(), "Master");
 		
 		p = new Photo();
-		p.setPhotoId(PHOTO_2);
+		p.setPhotoId(PHOTO_ID_2);
 		assertEquals(photoManager.findPhoto(p).get(0).getAlbum().getTitle(), "Master");
 		
 		this.albumManager.deleteUserAllAlbumsAndPhotos(USER_NICK);
@@ -286,10 +300,14 @@ public class AlbumManagerTest {
 		this.albumManager.insertAlbum(DEFAULT_ALBUM_NAME, USER_NICK);
 				
 		//delete
-		this.albumManager.deleteAlbum(DEFAULT_ALBUM_NAME, USER_NICK);
-		
-		//now force the deletion
-		this.albumManager.deleteUserAllAlbumsAndPhotos(USER_NICK);
+		try
+		{
+			this.albumManager.deleteAlbum(DEFAULT_ALBUM_NAME, USER_NICK);
+		}catch (IllegalArgumentException iae) {
+			//now force the deletion
+			this.albumManager.deleteUserAllAlbumsAndPhotos(USER_NICK);
+			throw new IllegalArgumentException(iae.toString());
+		}
 	}
 	
 	@Test(expected=IOException.class)
