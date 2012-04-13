@@ -28,6 +28,9 @@ public class Photo {
 	/** The title of the photo. */
 	private String title;
 
+	/** the reference to the album */
+	@Reference(lazy = true) private Album album;
+	
 	/** Represents if the photo is public, can be seen by anyone, or private. */
 	private Boolean publicPhoto;
 
@@ -120,6 +123,24 @@ public class Photo {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	
+	/**
+	 * gets the album (we use lazyness so we don't have until we call some of this methods)
+	 * @return
+	 */
+	public Album getAlbum() {
+		return album;
+	}
+
+	/**
+	 * Sets the album reference
+	 * 
+	 * @param album
+	 */
+	public void setAlbum(Album album) {
+		this.album = album;
 	}
 
 	/**
