@@ -15,7 +15,7 @@
         <version.jboss.as>7.0.2.Final</version.jboss.as>
     </properties>
     
-    <parent>
+    <parent> 
         <groupId>org.mdissjava.mdissphoto</groupId>
         <artifactId>mdissphoto</artifactId>
         <version>1.0</version>

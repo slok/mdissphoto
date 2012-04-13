@@ -47,6 +47,8 @@ public class PhotoDaoImplTest {
 			photo.setPlus18(true);
 			photo.setPublicPhoto(false);
 			photo.setTitle("MiFoto");
+			photo.setPhotoId("this is a mighty ID");
+			photo.setDataId(photo.getPhotoId());
 
 			// Insertion in the Mongo db
 			photodao.insertPhoto(photo);

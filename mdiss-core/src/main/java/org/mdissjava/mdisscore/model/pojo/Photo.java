@@ -20,9 +20,11 @@ import com.google.code.morphia.annotations.Reference;
 public class Photo {
 
 	/** The unique id. */
-	@Id
-	private ObjectId id;
+	@Id private ObjectId id;
 
+	/** The photo id (normally the same as data ID) */
+	private String photoId;
+	
 	/** The title of the photo. */
 	private String title;
 
@@ -30,8 +32,7 @@ public class Photo {
 	private Boolean publicPhoto;
 
 	/** The list of all voted the photo has received. */
-	@Embedded
-	private List<Vote> votes;
+	@Embedded private List<Vote> votes;
 
 	/** The date when the photo was uploaded. */
 	private Date uploadDate;
@@ -40,19 +41,16 @@ public class Photo {
 	 * The next photo in the sequence, used to short the photos in the users
 	 * gallery.
 	 */
-	@Reference
-	private Photo nextPhoto;
+	@Reference private Photo nextPhoto;
 
 	/**
 	 * The previous photo in the sequence, used to short the photos in the users
 	 * gallery.
 	 */
-	@Reference
-	private Photo backwardPhoto;
+	@Reference private Photo backwardPhoto;
 
 	/** The metadata. */
-	@Embedded
-	private Metadata metadata;
+	@Embedded private Metadata metadata;
 
 	/** The list of tags associated to the photo . */
 	private List<String> tags;
@@ -85,6 +83,24 @@ public class Photo {
 	 */
 	public void setId(ObjectId id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Gets the photo ID
+	 * 
+	 * @return
+	 */
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	/**
+	 * Sets the photoId
+	 * 
+	 * @param photoId
+	 */
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
 	}
 
 	/**

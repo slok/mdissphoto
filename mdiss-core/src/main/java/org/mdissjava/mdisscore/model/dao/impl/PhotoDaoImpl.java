@@ -34,6 +34,9 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getId() != null) {
 			query.field("id").equal(photo.getId());
 		}
+		if (photo.getPhotoId() != null) {
+			query.field("photoId").equal(photo.getPhotoId());
+		}
 		if (photo.getTitle() != null) {
 			query.field("title").equal(photo.getTitle());
 		}
@@ -74,6 +77,9 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		UpdateOperations<Photo> ops = ds.createUpdateOperations(Photo.class);
 		if (photo.getTitle() != null) {
 			ops.set("title", photo.getTitle());
+		}
+		if (photo.getPhotoId() != null) {
+			ops.set("photoId", photo.getPhotoId());
 		}
 		if (photo.getPublicPhoto() != null) {
 			ops.set("publicPhoto", photo.getPublicPhoto());
