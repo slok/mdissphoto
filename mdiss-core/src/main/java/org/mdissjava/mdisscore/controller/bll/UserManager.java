@@ -6,7 +6,7 @@ import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 
 
-public interface UserBll {
+public interface UserManager {
 	
 	void saveUser(User user);
 	void deleteUser(User user);

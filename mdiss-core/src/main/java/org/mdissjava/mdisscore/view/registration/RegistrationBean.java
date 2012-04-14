@@ -6,8 +6,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import org.mdissjava.mdisscore.controller.bll.UserBll;
-import org.mdissjava.mdisscore.controller.bll.impl.UserBllImpl;
+import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
@@ -15,7 +15,7 @@ import org.mdissjava.mdisscore.model.pojo.User.Gender;
 @RequestScoped
 public class RegistrationBean {
 
-	UserBll userBll= new UserBllImpl();
+	UserManager userBll= new UserManagerImpl();
 	User user=new User();
 	
 	
@@ -23,7 +23,7 @@ public class RegistrationBean {
 	{
 	}
 	
-	public void setUserBll(UserBll userBll) {
+	public void setUserBll(UserManager userBll) {
 		this.userBll = userBll;
 	}
 	
