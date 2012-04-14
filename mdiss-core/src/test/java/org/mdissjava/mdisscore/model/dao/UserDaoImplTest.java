@@ -65,6 +65,21 @@ public class UserDaoImplTest {
 	}
 	
 	@Test
+	public void ReplicationTest() throws Exception{
+		UserDao dao = new UserDaoImpl();
+		if(dao.emailAllReadyExists("prueba@prueba.com"))
+		{}
+		else
+			throw new Exception("email not found exception");
+		
+		if(dao.nickAllReadyExists("jess"))
+		{}
+		else
+			throw new Exception(" nick not found exception");
+	
+	}
+	
+	@Test
 	public void deleteUserTest(){
 
 		

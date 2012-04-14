@@ -108,10 +108,8 @@ public class RegistrationBean {
 	
 	
 	public String register()
-	{ 
-		
-		userBll.saveUser(this.user);
-		
+	{ 		
+		userBll.saveUser(this.user);		
 		return "";
 	}
 }

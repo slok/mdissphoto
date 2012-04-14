@@ -19,7 +19,30 @@ public class UserDaoImpl implements UserDao {
 	
 	public UserDaoImpl() {
 
-	}	
+	}
+	@Override
+	public boolean emailAllReadyExists(String email)
+	{
+		Session session = HibernateUtil.getSession();
+
+		int num = (Integer) session.createQuery("from User where email = '"+email+"'").list().size();
+		if(num>0)
+			return true;
+		else
+			return false;
+	}
+	
+	@Override
+	public boolean nickAllReadyExists(String nick)
+	{
+		Session session = HibernateUtil.getSession();
+
+		int num = (Integer) session.createQuery("from User where nick = '"+nick+"'").list().size();
+		if(num>0)
+			return true;
+		else
+			return false;
+	}
 	
 	@Override
 	public void addUser(User user) {

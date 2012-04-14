@@ -19,6 +19,10 @@ public interface UserDao {
 	
 	User getUserById(int id);
 	
+	boolean emailAllReadyExists(String email);
+	
+	boolean nickAllReadyExists(String nick);
+	
 //	void modifyAddress(ObjectId id, Address address);
 	
 //	void modifyConfiguration(ObjectId id, Configuration conf);
