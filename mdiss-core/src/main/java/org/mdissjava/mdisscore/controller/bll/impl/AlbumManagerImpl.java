@@ -52,8 +52,12 @@ public class AlbumManagerImpl implements AlbumManager{
 	 */
 	@Override
 	public void insertAlbum(String albumTitle, String userNickname) throws IllegalArgumentException, IOException{
+		
 		if (albumTitle == null || userNickname == null)
-			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
+		}
 		
 		Album a = new Album();
 		a.setTitle(albumTitle);
@@ -71,12 +75,20 @@ public class AlbumManagerImpl implements AlbumManager{
 	 */
 	@Override
 	public void insertAlbum(Album album) throws IllegalArgumentException, IOException{
+		
 		if (album == null)
+		{
+			this.logger.error("Album argument is null, can't continue with the action");
 			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
+		
+		this.logger.debug("Inserting new album {} from {}", album.getTitle(), album.getUserNick());
 		
 		if (this.findAlbum(album).size() > 0)
+		{
+			this.logger.error("{} album already exists in database", album.getTitle());
 			throw new IOException(album.getTitle() + " album already exists in database");
-		
+		}
 		this.albumDao.insertAlbum(album);
 	}
 	
@@ -106,9 +118,13 @@ public class AlbumManagerImpl implements AlbumManager{
 	 */
 	@Override
 	public void addNewPhotoToAlbum(String userNickname, String albumTitle, Photo photo) throws IllegalArgumentException, IOException{
+		
+		
 		if (userNickname == null || albumTitle == null || photo == null)
 			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
 		
+		this.logger.debug("Adding new photo {} to {}", photo.getTitle(), albumTitle);
+
 		//the album exists? (the search utility throws IOException)
 		Album album = null;
 		album = this.searchAlbumUniqueUtil(albumTitle, userNickname);
@@ -117,7 +133,10 @@ public class AlbumManagerImpl implements AlbumManager{
 		
 		//check if the photo exists (this is not a new photo)
 		if ( !photoManager.findPhoto(photo).isEmpty() )
-			throw new IOException(" photo exists already in database. Use move instead");
+		{
+			this.logger.error("photo exists already in database. Use move instead");
+			throw new IOException("photo exists already in database. Use move instead");
+		}
 		
 		//We are setting the album although is set. Maybe is null or is bad set
 		photo.setAlbum(album);
@@ -132,8 +151,6 @@ public class AlbumManagerImpl implements AlbumManager{
 		//update the album
 		this.updateAlbum(album);
 		
-		
-		
 	}
 	
 	/**
@@ -145,8 +162,11 @@ public class AlbumManagerImpl implements AlbumManager{
 	@Override
 	public void movePhotoToAlbum(String userNickname, String albumTitle, String photoId) throws IllegalArgumentException, IOException{
 		if (userNickname == null || albumTitle == null || photoId == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
-
+		}
+		
 		//check if the photo exists already (if not, IOException)
 		PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
 		Photo photo = photoManager.searchPhotoUniqueUtil(photoId);
@@ -164,8 +184,12 @@ public class AlbumManagerImpl implements AlbumManager{
 	@Override
 	public void movePhotoToAlbum(String userNickname, String albumTitle, Photo photo) throws IllegalArgumentException, IOException{
 		if (userNickname == null || albumTitle == null || photo == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
-
+		}
+		this.logger.debug("moving photo {} to {}", photo.getTitle(), albumTitle);
+		
 		//the album exists? (the search util throws IOException)
 		Album album = null;
 		album = this.searchAlbumUniqueUtil(albumTitle, userNickname);
@@ -200,8 +224,11 @@ public class AlbumManagerImpl implements AlbumManager{
 	public void updateAlbum(Album album) throws IllegalArgumentException
 	{
 		if (album == null)
+		{
+			this.logger.error("Album argument is null, can't continue with the action");
 			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
-		
+		}
+		this.logger.debug("updating album");
 		this.albumDao.updateAlbum(album);
 	}
 	
@@ -215,10 +242,17 @@ public class AlbumManagerImpl implements AlbumManager{
 	public void deleteAlbum(Album album) throws IllegalArgumentException, IOException{
 		
 		if (album == null)
+		{
+			this.logger.error("Album argument is null, can't continue with the action");
 			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
 		if (album.getTitle().equals(DEFAULT_ALBUM_TITLE))
+		{
+			this.logger.error("Cannot delete the default album");
 			throw new IllegalArgumentException("Cannot delete the default album");
+		}
 		
+		this.logger.debug("Deleting album {}", album.getTitle());
 		//final Album DEFAULT_ALBUM = this.searchAlbumUniqueUtil(DEFAULT_ALBUM_TITLE, album.getUserNick());
 		
 		//unload the reference to this album to all its photos
@@ -241,9 +275,12 @@ public class AlbumManagerImpl implements AlbumManager{
 	 * @throws IOException
 	 */
 	public void deleteAlbum(String albumId, String userNickname) throws IllegalArgumentException, IOException {
-		if (albumId == null || userNickname == null)
-			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
 		
+		if (albumId == null || userNickname == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
+		}
 		//if the album dowsn't exist then exception will be thrown
 		Album album = this.searchAlbumUniqueUtil(albumId, userNickname);
 		this.deleteAlbum(album);
@@ -257,9 +294,13 @@ public class AlbumManagerImpl implements AlbumManager{
 	 */
 	@Override
 	public void deleteUserAllAlbumsAndPhotos(String userNickname) throws IllegalArgumentException, IOException {
-		if (userNickname == null)
-			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
 		
+		if (userNickname == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
+		}
+		this.logger.debug("Forcing the deletion of all the albums and photos of user {}", userNickname);
 		PhotoManager photoManager = new PhotoManagerImpl(datastore);
 		
 		Album album = new Album();
@@ -292,9 +333,13 @@ public class AlbumManagerImpl implements AlbumManager{
 	 */
 	@Override
 	public List<Album> findAlbum(Album album) throws IllegalArgumentException{
-		if (album == null)
-			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
 		
+		if (album == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
+		this.logger.debug("finding album list");
 		return this.albumDao.findAlbum(album);
 	}
 	
@@ -311,7 +356,7 @@ public class AlbumManagerImpl implements AlbumManager{
 	//package scope (other managers could use to search)
 	Album searchAlbumUniqueUtil(String albumTitle, String userNickname) throws IOException
 	{
-		this.logger.info("Searching for the album {} from {} user", albumTitle, userNickname);
+		this.logger.debug("Searching for the album {} from {} user", albumTitle, userNickname);
 		List<Album> aList = new ArrayList<Album>();
 		Album a = new Album();
 		
@@ -321,11 +366,17 @@ public class AlbumManagerImpl implements AlbumManager{
 		aList = this.albumDao.findAlbum(a);
 		
 		if (aList.isEmpty())
+		{
+			this.logger.error("No {} album from {} named is stored in database", albumTitle, userNickname);
 			throw new IOException("No " + albumTitle + " album from "+ userNickname +" named is stored in database");
-	
-		if (aList.size() > 1)
-			throw new IllegalStateException("Too many albums found, expected only one");
+		}
 		
+		int quantity = aList.size();
+		if (quantity > 1)
+		{
+			this.logger.error("Too many albums found({}), expected only one", quantity);
+			throw new IllegalStateException("Too many albums found(" + quantity + "), expected only one");
+		}
 		return aList.get(0);
 		
 	}
