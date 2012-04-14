@@ -74,7 +74,20 @@
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 	
-	<!-- Custo filter -->
+	<!-- Custom filter -->
+	
+	<filter>
+        <filter-name>Restrict Page Access Filter</filter-name>
+        <filter-class>org.mdissjava.mdisscore.filter.RestrictPageAccessFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+          <filter-name>Restrict Page Access Filter</filter-name>
+          <url-pattern>/faces/users/*</url-pattern>
+          <dispatcher>FORWARD</dispatcher> 
+		<dispatcher>REQUEST</dispatcher> 
+		<dispatcher>ERROR</dispatcher>
+    </filter-mapping>
   	
     <!--theme-->
 	<!--<context-param>  

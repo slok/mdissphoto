@@ -5,11 +5,7 @@ import java.util.Collection;
 
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.security.config.authentication.PasswordEncoderParser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.User;
@@ -41,8 +37,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		
 		//Get the user from the DAO
 		org.mdissjava.mdisscore.model.pojo.User user = dao.getUserByName(username);
-	    
-		//TODO: User Verification
 		
 	    String password = user.getPass();
 	    String role = user.getRole();

@@ -20,7 +20,7 @@
 		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
 		<intercept-url pattern="/users/*/public/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/dashboard/" access="ROLE_USER"/>
-		<intercept-url pattern="/users/**" access="ROLE_USER"/>
+		<intercept-url pattern="/user/**" access="ROLE_USER"/>
 		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
 		<!--<intercept-url pattern="/**" access="ROLE_USER"/>  -->
 		<form-login

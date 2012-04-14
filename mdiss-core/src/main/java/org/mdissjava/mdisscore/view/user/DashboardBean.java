@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.User;
 public class DashboardBean {
 	private String user;
 	private String user2;
+	
+	//TODO: Clean up this class
 
 	//method 1 for getting the user from the session
 	public String getUser() {
@@ -24,7 +26,6 @@ public class DashboardBean {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return user.getUsername(); //get logged in username
 	}
-	
 
 	public void setUser(String user) {
 		this.user = user;

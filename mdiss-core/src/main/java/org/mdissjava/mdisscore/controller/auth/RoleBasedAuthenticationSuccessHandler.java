@@ -18,7 +18,6 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
 
     public void onAuthenticationSuccess(HttpServletRequest request,HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	
-    	System.out.println("Wolooooooooooooooooooooooooooooooooooooooo");
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String role = userDetails.getAuthorities().isEmpty() ? null : userDetails.getAuthorities().toArray()[0].toString();
