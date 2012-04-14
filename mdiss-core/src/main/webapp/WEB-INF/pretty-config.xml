@@ -18,7 +18,7 @@
 
 	<url-mapping id="signup">
 		<pattern value="/signup/" />
-		<view-id value="/faces/auth/register.jsf" />
+		<view-id value="/faces/auth/registration.jsf" />
 	</url-mapping>
 
 	<url-mapping id="dashboard">

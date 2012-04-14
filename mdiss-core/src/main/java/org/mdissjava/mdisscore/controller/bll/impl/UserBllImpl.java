@@ -1,12 +1,11 @@
-package org.mdissjava.mdisscore.model.bll.impl;
+package org.mdissjava.mdisscore.controller.bll.impl;
 
 import java.util.List;
 
-import org.mdissjava.mdisscore.model.bll.UserBll;
-import org.mdissjava.mdisscore.model.bo.PhotoBo;
-import org.mdissjava.mdisscore.model.bo.UserBo;
+import org.mdissjava.mdisscore.controller.bll.UserBll;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -16,40 +15,36 @@ public class UserBllImpl implements UserBll {
 	private UserDao userdao =new UserDaoImpl();
 	
 	@Override
-	public int saveUser(UserBo user) {
+	public void saveUser(User user) {
 		//si es nuevo usuario poner fecha del registro, y guardar
 		if(user.getId()==0)
-		{//alta de nuevo usuario
-			User usuario=new User(user);
-			usuario.setPass(PEncoder(user.getPassword()));
-			userdao.addUser(usuario);			
-			return usuario.getId();
+		{//alta de nuevo usuario			
+			user.setPass(PEncoder(user.getPass()));
+			userdao.addUser(user);				
 		}
 		else
 		{//salvar una modificación
-			User usuario=userdao.getUserById(user.getId());
-			usuario.SetUserBoData(user);
-			userdao.updateUser(usuario);
-			return usuario.getId();
+			
+			userdao.updateUser(user);
+			
 		}
 		
 	}
 
 	@Override
-	public void deleteUser(UserBo userbo) {
-		User user=userdao.getUserById(userbo.getId());
+	public void deleteUser(User user) {		
 		userdao.deleteUser(user);
 
 	}
 
 	@Override
-	public UserBo getUserById(int id) {
+	public User getUserById(int id) {
 		
-		return new UserBo(userdao.getUserById(id));
+		return userdao.getUserById(id);
 	}
 
 	@Override
-	public List<UserBo> getFriends(int id) {
+	public List<User> getFriends(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -57,17 +52,16 @@ public class UserBllImpl implements UserBll {
 	
 	
 	@Override
-	public PhotoBo getPhoto(int PhotoId)
+	public Photo getPhoto(int PhotoId)
 	{
 		
 		return null;//new PhotoBo();
 	}
 	
 	@Override
-	public void ChangePassword(UserBo user, String newPassword) {
-		User usuario=userdao.getUserById(user.getId());
-		usuario.setPass(PEncoder(newPassword));
-		userdao.updateUser(usuario);		
+	public void ChangePassword(User user, String newPassword) {		
+		user.setPass(PEncoder(newPassword));
+		userdao.updateUser(user);		
 	}
 	
 	/**

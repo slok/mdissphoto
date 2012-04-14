@@ -2,8 +2,6 @@ package org.mdissjava.mdisscore.model.pojo;
 
 import javax.persistence.Embeddable;
 
-import org.mdissjava.mdisscore.model.bo.AddressBo;
-
 @Embeddable
 public class Address {
 	
@@ -14,24 +12,6 @@ public class Address {
 	private String state;
 	
 	public Address(){}
-	
-	public Address(AddressBo Add)
-	{
-		this.street=Add.getStreet();
-		this.city=Add.getCity();
-		this.country=Add.getCountry();
-		this.zip=Add.getZip();
-		this.state=Add.getState();
-	}
-	
-	public void setAddressBoData(AddressBo Add)
-	{
-		this.street=Add.getStreet();
-		this.city=Add.getCity();
-		this.country=Add.getCountry();
-		this.zip=Add.getZip();
-		this.state=Add.getState();
-	}
 	
 	public String getStreet() {
 		return street;
