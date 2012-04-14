@@ -35,10 +35,19 @@
 					<h:graphicImage styleClass="thumbnail" value="#{uploadDetailsBean.imageURL}" />
    				  </div>
 			</div>
+			
+			<p:dialog id="modalDialog" header="Add new album" widgetVar="dlg2" modal="true" height="100"> 
+				    <h:form prependId="false">
+			            <p:inputText id="newAlbum" value="#{uploadDetailsBean.newAlbumTitle}" required="true" requiredMessage="Required attr" />
+			            <h:commandButton styleClass="btn btn-primary btn-mini" value="Add" type="submit" action="#{uploadDetailsBean.newAlbum}" />
+				    </h:form>
+			</p:dialog>  
+			
+			<p:growl id="growl" showDetail="true"/>
+			
 			<div class="row-fluid">
 			<div class="span10">		    
 		        <h:form prependId="false" styleClass="well">
-							<p:growl id="growl" showDetail="true" sticky="true" />  
 							
 					<!-- Title -->
 					<div class="row-fluid">
@@ -47,10 +56,10 @@
 				        </div>
 				        <div class="span2">	  
 				            <p:inputText id="title" value="#{uploadDetailsBean.title}" required="true" requiredMessage="Required attr">
-				            	 <p:ajax event="blur" update="growl" process="@this"  listener="#{uploadDetailsBean.titleValidator}"/>  
+				            	 <p:ajax event="blur" update="growl,formSubmitButton" process="@this"  listener="#{uploadDetailsBean.titleValidator}"/>  
 				            </p:inputText>
 				        </div>
-				        <div class="span3">	  
+				        <div class="span6">	  
 							<p:message id="titleMessage" for="title"/>
 						</div>
 					</div>
@@ -64,6 +73,16 @@
 				            <h:selectOneMenu value="#{uploadDetailsBean.album}">
 					   			<f:selectItems value="#{uploadDetailsBean.albums}" />
 					   		</h:selectOneMenu>
+						</div>
+						<div class="span2">
+							
+							<!-- <p:commandButton styleClass="btn btn-success btn-small" icon=" icon-plus" id="modalDialogButton"  onclick="dlg2.show();" type="button"/>-->
+							 <h:commandLink id="modalDialogButton"  onclick="dlg2.show(); return false;" >
+								<i class="icon-plus"></i>							 	
+							 </h:commandLink> 
+							 
+							  
+							
 						</div>
 					</div>
 					
@@ -116,7 +135,7 @@
 				 	<!-- Submit button -->
 					<div class="row-fluid">
 						<div class="span2">
-					 		<h:commandButton styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{uploadDetailsBean.saveDetails}" />
+					 		<p:commandButton id="formSubmitButton" disabled="#{uploadDetailsBean.formButtonDisabled}" styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{uploadDetailsBean.saveDetails}" />
 						</div>
 					</div>
 	       		</h:form>

@@ -1,8 +1,6 @@
 package org.mdissjava.mdisscore.view.upload;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,7 +8,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +26,8 @@ public class UploadDetailsBean {
 	private boolean plus18;
 	private String album;
 	private String license;
+	private String newAlbumTitle;
+	private boolean formButtonDisabled;
 	
 	private HashMap<String, String> albums;
 	private HashMap<String, String> licenses;
@@ -41,6 +40,7 @@ public class UploadDetailsBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);	
 		this.imageID = pb.getPhotoId();
+		this.formButtonDisabled = false;
 		
 		//TODO: Get the user from session
 		this.userID = "slok";
@@ -84,6 +84,13 @@ public class UploadDetailsBean {
 		
 	}
 	
+	public void newAlbum()
+	{
+		//TODO
+		this.albums.put(this.newAlbumTitle, this.newAlbumTitle);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Album created", "Album " + this.newAlbumTitle + " has been created"));
+	}
+	
 	/**
 	 * unchecks public checkbox if +18 is active and viceversa
 	 * 
@@ -91,10 +98,7 @@ public class UploadDetailsBean {
 	 */
 	public void plus18Validator(AjaxBehaviorEvent event)
 	{
-		System.out.println(this.plus18 + ":" + this.publicPhotoScope);
-		
 		String component = event.getComponent().getId();
-		System.out.println(component);
 		
 		//if plus18 component has triggered the event then plublic needs to be updated
 		//otherwise public has triggered the event and plus18 needs to be updated
@@ -121,10 +125,17 @@ public class UploadDetailsBean {
 		System.out.println("Checking name: "+this.title);
 		//TODO: Check if the image name exists already 
 		if (this.title.contains("info"))
+		{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"OK", null));  
+		}
 		if (this.title.contains("error"))
+		{
+			this.formButtonDisabled = true;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "Duplicated name"));
-		
+		}else
+		{
+			this.formButtonDisabled = false;
+		}
 	}
 	
 
@@ -240,6 +251,24 @@ public class UploadDetailsBean {
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
 	}
+
+	public String getNewAlbumTitle() {
+		return newAlbumTitle;
+	}
+
+	public void setNewAlbumTitle(String newAlbumTitle) {
+		this.newAlbumTitle = newAlbumTitle;
+	}
+
+	public boolean isFormButtonDisabled() {
+		return formButtonDisabled;
+	}
+
+	public void setFormButtonDisabled(boolean formButtonDisabled) {
+		this.formButtonDisabled = formButtonDisabled;
+	}
+	
+	
 	
 	
 }
