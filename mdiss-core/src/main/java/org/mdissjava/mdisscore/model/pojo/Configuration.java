@@ -2,7 +2,6 @@ package org.mdissjava.mdisscore.model.pojo;
 
 import javax.persistence.Embeddable;
 
-
 @Embeddable
 public class Configuration {
 	
@@ -32,9 +31,7 @@ public class Configuration {
 		showAddress = false;
 		showZip = false;
 		showCameras = false;
-	}
-	
-	
+	}	
 		
 	public boolean isShowNick() {
 		return showNick;

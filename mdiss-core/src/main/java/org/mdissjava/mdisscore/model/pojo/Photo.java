@@ -20,18 +20,22 @@ import com.google.code.morphia.annotations.Reference;
 public class Photo {
 
 	/** The unique id. */
-	@Id
-	private ObjectId id;
+	@Id private ObjectId id;
 
+	/** The photo id (normally the same as data ID) */
+	private String photoId;
+	
 	/** The title of the photo. */
 	private String title;
 
+	/** the reference to the album */
+	@Reference(lazy = true) private Album album;
+	
 	/** Represents if the photo is public, can be seen by anyone, or private. */
 	private Boolean publicPhoto;
 
 	/** The list of all voted the photo has received. */
-	@Embedded
-	private List<Vote> votes;
+	@Embedded private List<Vote> votes;
 
 	/** The date when the photo was uploaded. */
 	private Date uploadDate;
@@ -40,19 +44,16 @@ public class Photo {
 	 * The next photo in the sequence, used to short the photos in the users
 	 * gallery.
 	 */
-	@Reference
-	private Photo nextPhoto;
+	@Reference private Photo nextPhoto;
 
 	/**
 	 * The previous photo in the sequence, used to short the photos in the users
 	 * gallery.
 	 */
-	@Reference
-	private Photo backwardPhoto;
+	@Reference private Photo backwardPhoto;
 
 	/** The metadata. */
-	@Embedded
-	private Metadata metadata;
+	@Embedded private Metadata metadata;
 
 	/** The list of tags associated to the photo . */
 	private List<String> tags;
@@ -86,6 +87,24 @@ public class Photo {
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
+	
+	/**
+	 * Gets the photo ID
+	 * 
+	 * @return
+	 */
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	/**
+	 * Sets the photoId
+	 * 
+	 * @param photoId
+	 */
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
+	}
 
 	/**
 	 * Gets the title.
@@ -104,6 +123,24 @@ public class Photo {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	
+	/**
+	 * gets the album (we use lazyness so we don't have until we call some of this methods)
+	 * @return
+	 */
+	public Album getAlbum() {
+		return album;
+	}
+
+	/**
+	 * Sets the album reference
+	 * 
+	 * @param album
+	 */
+	public void setAlbum(Album album) {
+		this.album = album;
 	}
 
 	/**
@@ -275,6 +312,36 @@ public class Photo {
 	 */
 	public void setPlus18(Boolean plus18) {
 		this.plus18 = plus18;
+	}
+	
+	/**
+	 *the lazy loading obtains different object and needs to check by argument 
+	 *and no by reference like the Object class equals, because dey are loaded 
+	 *in different instances.
+	 *Example:
+	 *	lazy load with equals this and that(obj)
+	 *		this: org.mdissjava.mdisscore.model.pojo.Photo@3d5311bd
+	 *		that: org.mdissjava.mdisscore.model.pojo.Photo@18b1aebf
+	 *
+	 *	without lazy load with equals this and that(obj)
+	 *		this: org.mdissjava.mdisscore.model.pojo.Photo@15e232b5
+	 *		that: org.mdissjava.mdisscore.model.pojo.Photo@15e232b5
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || this.getClass() != obj.getClass())
+			return false;
+
+		Photo photo = (Photo)obj;
+		if (this.id.equals(photo.id))
+			return true;
+		else
+		{
+			System.out.println("4");
+			return false;
+		}
 	}
 
 }

@@ -6,14 +6,16 @@ import java.io.InputStream;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
+import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.code.morphia.Datastore;
 
 @RequestScoped
 @ManagedBean
@@ -23,6 +25,7 @@ public class UploadBean {
 	private String imageId;
 	private String userId;
 	private GridfsDataStorer gfs = null;
+	private final String DATABASE = "mdissphoto";
 	
 	public UploadBean()
 	{
@@ -54,20 +57,22 @@ public class UploadBean {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		
 		try{
+			//Save in database
 			this.logger.info("Entering the upload");
 			InputStream data =  event.getFile().getInputstream();
-			//String outPath = "/home/slok/Desktop/" + event.getFile().getFileName();
-			//Utils.inputStreamToFile(is, outPath);
 			this.imageId = gfs.saveData(data);
 			this.logger.info("upload and stored: {}", this.imageId);
+			
+			//set the new status to the photo
+			Datastore ds = MorphiaDatastoreFactory.getDatastore(this.DATABASE);
+			PhotoStatusManager photoManager = new PhotoStatusManager(ds);
+			photoManager.createPhotoStatus(this.imageId);
 			
 			//set the paramas in the url
 			ParamsBean params = getPrettyfacesParams();
 			params.setPhotoId(this.imageId);
 			params.setUserId(this.userId);
 			
-			
-			System.out.println(this.imageId + ":" +this.userId);
 			params.setPhotoId(this.imageId);
 			params.setUserId(this.userId);
 		

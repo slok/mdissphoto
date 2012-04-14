@@ -34,8 +34,16 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getId() != null) {
 			query.field("id").equal(photo.getId());
 		}
+		if (photo.getPhotoId() != null) {
+			query.field("photoId").equal(photo.getPhotoId());
+		}
 		if (photo.getTitle() != null) {
 			query.field("title").equal(photo.getTitle());
+		}
+		if (photo.getAlbum() != null) {
+			//query.field("album").equal(photo.getAlbum());
+			//don't let find by album , user the album entity instead
+			throw new IllegalStateException("Use album to search photos by album");
 		}
 		if (photo.getPublicPhoto() != null) {
 			query.field("publicPhoto").equal(photo.getPublicPhoto());
@@ -74,6 +82,12 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		UpdateOperations<Photo> ops = ds.createUpdateOperations(Photo.class);
 		if (photo.getTitle() != null) {
 			ops.set("title", photo.getTitle());
+		}
+		if (photo.getPhotoId() != null) {
+			ops.set("photoId", photo.getPhotoId());
+		}
+		if (photo.getAlbum() != null) {
+			ops.set("album", photo.getAlbum());
 		}
 		if (photo.getPublicPhoto() != null) {
 			ops.set("publicPhoto", photo.getPublicPhoto());

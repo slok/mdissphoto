@@ -42,8 +42,8 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 		if (album.getCreationDate() != null) {
 			query.field("creationDate").equal(album.getCreationDate());
 		}
-		if (album.getUserId() != 0) {
-			query.field("user").equal(album.getUserId());
+		if (album.getUserNick() != null) {
+			query.field("userNick").equal(album.getUserNick());
 		}
 		if (album.getPhotos() != null) {
 			query.field("photos").equal(album.getPhotos());
@@ -64,8 +64,8 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 			if (album.getCreationDate() !=null){
 				ops.set("creationDay", album.getCreationDate());
 			}
-			if (album.getUserId() != 0){
-				ops.set("user", album.getUserId());
+			if (album.getUserNick() != null){
+				ops.set("userNick", album.getUserNick());
 			}
 			if (album.getPhotos() !=null){
 				ops.set("photos", album.getPhotos());

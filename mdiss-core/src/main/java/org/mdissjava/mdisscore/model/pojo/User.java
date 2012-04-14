@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -170,8 +169,7 @@ public class User implements Serializable {
 		this.role = role;
 	}
 	
-	public List<String> getPreferences() {
-		
+	public List<String> getPreferences() {		
 		return getPreferencesList(this.preferences);
 	}
 	

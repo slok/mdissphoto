@@ -10,7 +10,7 @@ public class MorphiaDatastoreFactoryTest {
 	
 	@Test
 	public void MorphiaDataStoreCorrectInstanceTest(){
-		
+		System.out.println(this.getClass());
 		this.logger.info("[TEST] MorphiaDataStoreCorrectInstanceTest");
 		MorphiaDatastoreFactory.getDatastore("test");
 	}

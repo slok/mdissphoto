@@ -102,12 +102,20 @@ public class GridfsDataStorer implements DataStorer {
 		if (data == null)
 			throw new IllegalStateException("No data/file. Nothing to store.");
 		
+		
 		//Connect and create/get database &  Create namespace
 		try {
 			this.connectMongo();
 			Mongo mdb = this.mongoConn.getConnection();
 			//get a "file" of gridFS with the database + bucket(collection) 
 			GridFS gfsFile = new GridFS(mdb.getDB(this.database), this.collection);
+			
+			//check if exists (Delete + insert = update)
+			if(gfsFile.findOne(id) != null)
+			{
+				gfsFile.remove(id);
+				this.logger.info("[File][GridFS] File with {} id exists. Deleted the old one to insert the new one (update)", id);
+			}
 			
 			// Load in a GridFS file the Inptustream
 			GridFSInputFile gfsInputFile = gfsFile.createFile(data);

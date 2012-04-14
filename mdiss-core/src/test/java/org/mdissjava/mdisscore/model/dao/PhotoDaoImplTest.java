@@ -11,7 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.dao.impl.AlbumDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,25 +41,33 @@ public class PhotoDaoImplTest {
 
 	@Test
 	public void testInsertFind() {
-		try {
 
-			this.logger.info("[TEST] testInsertField");
+		this.logger.info("[TEST] testInsertField");
 
-			Photo photo = new Photo();
-			photo.setPlus18(true);
-			photo.setPublicPhoto(false);
-			photo.setTitle("MiFoto");
+		Photo photo = new Photo();
+		photo.setPlus18(true);
+		photo.setPublicPhoto(false);
+		photo.setTitle("MiFoto");
+		photo.setPhotoId("this is a mighty ID");
+		photo.setDataId(photo.getPhotoId());
+		
+		//insert album BEFORE adding to the photo
+		Album a = new Album();
+		a.setTitle("the mighty album");
+		new AlbumDaoImpl(db).insertAlbum(a);
+		
+		photo.setAlbum(a);
 
-			// Insertion in the Mongo db
-			photodao.insertPhoto(photo);
-			// The inserted photo is find in the Mongo db
-			List<Photo> photoList = photodao.findPhoto(photo);
-			// If the returned photo's title is "MiFoto" the insert went good
-			assertEquals(photoList.get(0).getTitle(), "MiFoto");
-		} catch (Exception e) {
-			this.logger.error(e.getMessage());
-			fail("Exception not expected");
-		}
+		// Insertion in the Mongo db
+		photodao.insertPhoto(photo);
+		// The inserted photo is searched in the Mongo db
+		Photo searchPhoto = new Photo();
+		searchPhoto.setDataId("this is a mighty ID");
+		
+		Photo p = photodao.findPhoto(searchPhoto).get(0);
+		// Check the photo title and the album title (check if the references are fine)
+		assertEquals(p.getTitle(), "MiFoto");
+		assertEquals(p.getAlbum().getTitle(), "the mighty album");
 	}
 
 	@Test
