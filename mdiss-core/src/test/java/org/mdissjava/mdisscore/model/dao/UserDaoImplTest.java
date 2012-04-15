@@ -300,7 +300,7 @@ public class UserDaoImplTest {
 			
 			
 			dao.addUser(user2);				
-			assertEquals(user, dao.getUserByName(user.getNick()));
+			assertEquals(user2, dao.getUserByName(user.getNick()));
 			System.out.println("El id del usuario2 es : ********************"+ user2.getId());
 			user.addFriend(user2);
 			

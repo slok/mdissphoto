@@ -18,13 +18,11 @@ import org.slf4j.LoggerFactory;
 public class UserManagerTest {
 
 
-	private Session session ;
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Before
 	public void setUp() throws Exception {
-		HibernateUtil.openSessionFactory();
-		session = HibernateUtil.getSession();
+		HibernateUtil.getSession();
 	}
 	
 	

@@ -18,7 +18,6 @@ import org.mdissjava.mdisscore.model.pojo.User;
 public class UserDaoImpl implements UserDao {
 	
 	public UserDaoImpl() {
-		HibernateUtil.openSessionFactory();
 	}	
 	
 	@Override
