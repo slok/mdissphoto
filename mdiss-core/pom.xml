@@ -24,6 +24,7 @@
     
     <!-- Dependency repositories-->
 	<repositories>
+	
 		 <!-- Maven primefaces repo-->
 		<repository>  
 			<id>prime-repo</id>  
@@ -31,6 +32,7 @@
 			<url>http://repository.primefaces.org</url>  
 			<layout>default</layout>  
 		</repository>
+		
 		<!-- Morphia updated repo -->
         <repository>
             <id>morphia.googlecode.com</id>
@@ -156,7 +158,6 @@
             <version>0.99.1-SNAPSHOT</version> 
 		</dependency>
 		
-<<<<<<< HEAD
 		<!-- Morphia lazy loading dependencies -->
 		<dependency>
 			<groupId>cglib</groupId>
