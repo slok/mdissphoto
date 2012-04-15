@@ -17,18 +17,14 @@
 		
 		<ui:define name="body">
 			<div>
+				<h1>Adminitrator</h1>
+			</div>
+			
+			<div>
 				<h:form>
-					<h:commandLink action="pretty:login"> Login </h:commandLink>
+					<h:commandLink action="pretty:logout"> Logout </h:commandLink>
 				</h:form> 
 			</div>
-			<h:form>
-			<p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">
-			    <h:outputText value="What PrimeFaces has so far is just the beginning!" style="color:#FFCC00;font-size:36px;" />
-			</p:notificationBar>
-			
-			<p:commandButton value="Show" onclick="bar.show()" type="button" />
-			<p:commandButton value="Hide" onclick="bar.hide()" type="button" />
-			</h:form>
 		</ui:define>
 		
     </ui:composition>

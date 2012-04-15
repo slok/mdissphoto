@@ -15,15 +15,35 @@
 		<pattern value="/login/" />
 		<view-id value="/faces/auth/login.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<view-id value="/j_spring_security_logout" />
+	</url-mapping>
+	
+	<url-mapping id="login_error">
+		<pattern value="/login/error/" />
+		<view-id value="/faces/auth/error.jsf" />
+	</url-mapping>
 
 	<url-mapping id="signup">
 		<pattern value="/signup/" />
 		<view-id value="/faces/auth/registration.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="admin">
+		<pattern value="/admin/" />
+		<view-id value="/faces/admin.jsf" />
+	</url-mapping>
 
 	<url-mapping id="dashboard">
 		<pattern value="/dashboard/" />
 		<view-id value="/faces/dashboard.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="restricted_error">
+		<pattern value="/user/error/" />
+		<view-id value="/faces/auth/restrictedError.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="user_profile">
@@ -44,7 +64,7 @@
 	<url-mapping id="user_public">
 		<pattern value="/user/#{user:paramsBean.userId}/public/" />
 		<view-id value="/faces/users/public.jsf" />
-	</url-mapping>S
+	</url-mapping>
 	
 	<url-mapping id="user_upload">
 		<pattern value="/user/#{user:paramsBean.userId}/upload/" />

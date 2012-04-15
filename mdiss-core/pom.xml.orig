@@ -169,7 +169,17 @@
 			<artifactId>proxytoys</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+		
+		<!-- Spring security hash -->
+    	<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>3.0.3.RELEASE</version>
+		</dependency>   
+		
+		
+=======
+>>>>>>> security
 		<!-- Our dependencies -->
 		<dependency>
             <groupId>org.mdissjava.commonutils</groupId>
