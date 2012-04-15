@@ -5,19 +5,30 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
+import org.mdissjava.mdisscore.model.pojo.Address;
+import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 @ManagedBean(name = "registrationbean")
-@RequestScoped
+@ViewScoped
 public class RegistrationBean {
 
 	UserManager userBll= new UserManagerImpl();
-	User user=new User();
-	
+	private String nick;
+	private String name;
+	private String surname;
+	private Date birthdate;
+	private int phone ;
+	private List<String> preferences;
+	private Gender gender;
+	private String email;
+	private String password;
+	private String city;
 	
 	public RegistrationBean()
 	{
@@ -28,65 +39,69 @@ public class RegistrationBean {
 	}
 	
 	public String getNick() {
-		return user.getNick();
+		return this.nick;
 	}
 	public void setNick(String nick) {
-		this.user.setNick(nick);
+		this.nick=nick;
 	}
 	public String getName() {
-		return user.getName();
+		return this.name;
 	}
 	public void setName(String name) {
-		this.user.setName(name);
+		this.name=name;
 	}
 	public String getSurname() {
-		return user.getSurname();
+		return this.surname;
 	}
 	public void setSurname(String surname) {
-		this.user.setSurname(surname);
+		this.surname=surname;
 	}
 	public Date getBirthdate() {
-		return user.getBirthdate();
+		return this.birthdate;
 	}
 	public void setBirthdate(Date birthdate) {
-		this.user.setBirthdate(birthdate);
+		this.birthdate=birthdate;
 	}
 	public int getPhone() {
-		return user.getPhone();
+		return this.phone;
 	}
 	public void setPhone(int phone) {
-		this.user.setPhone(phone);
+		this.phone=phone;
 	}
 	
+	public String getIndexPreference(int index)
+	{
+		return this.preferences.get(index);
+	}
 	public List<String> getPreferences() {
-		return user.getPreferences();
+		return this.preferences;
 	}
 	public void addPreference(String preferencia)
 	{
-		this.user.addPreference(preferencia);
+		this.preferences.add(preferencia);
 	}
 	public Gender getGender() {
-		return user.getGender();
+		return this.gender;
 	}
 	
 	public void setGender(Gender gender) {
-		this.user.setGender(gender);
+		this.gender=gender;
 	}
 	
 	public String getEmail() {
-		return user.getEmail();
+		return this.email;
 	}
 	
 	public void setEmail(String email) {
-		this.user.setEmail(email);
+		this.email=email;
 	}
 	
 	public String getPassword() {
-		return user.getPass();
+		return this.password;
 	}
 	
 	public void setPassword(String pass) {
-		this.user.setPass(pass);
+		this.password=pass;
 	}
 	
 /*	public void setCity(String city){
@@ -108,8 +123,43 @@ public class RegistrationBean {
 	
 	
 	public String register()
-	{ 		
-		userBll.saveUser(this.user);		
+	{ 	
+		User user=new User();
+		user.setActive(false);
+		user.setNick(getNick());
+		user.setName(getName());
+		user.setSurname(getSurname());
+		user.setPass(getPassword());
+		user.setEmail(getEmail());
+		user.setPhone(getPhone());
+		
+		
+	/*	Address address = new Address();		
+		address.setStreet("Madariaga 6");		
+		address.setCity("Bilbao");
+		address.setState("Vizcaya");
+		address.setCountry("Spain");
+		
+		Configuration conf = new Configuration();
+										
+		User user = new User();
+		user.setNick("Palomo");
+		user.setActive(true);
+		user.setName("Uriarte");		
+		user.setSurname("Fermino");
+		user.setPhone(944655877);
+		user.setBirthdate(new Date());
+		user.setGender(Gender.Male);
+		user.setAddress(address);
+		user.setConfiguration(conf);		
+		user.addPreference("nature");
+		user.addPreference("horses");
+		user.addPreference("sunsets");
+		user.setEmail("Palomo@iturnia.com");
+		user.setPass("1234");*/
+		
+		
+		userBll.saveUser(user);		
 		return "";
 	}
 }
