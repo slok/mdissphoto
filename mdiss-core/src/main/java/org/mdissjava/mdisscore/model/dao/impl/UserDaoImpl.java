@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
 	public UserDaoImpl() {
 		HibernateUtil.openSessionFactory();
 	}	
-	}
+	
 	@Override
 	public boolean emailAllReadyExists(String email)
 	{
