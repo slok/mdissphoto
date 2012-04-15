@@ -31,7 +31,7 @@ public class Configuration {
 		showAddress = false;
 		showZip = false;
 		showCameras = false;
-	}
+	}	
 		
 	public boolean isShowNick() {
 		return showNick;

@@ -5,8 +5,8 @@ import java.sql.Types;
 import org.hibernate.dialect.MySQL5Dialect;
 
 /**
- * There is a problem with the new hibernate way of getting the boolean values.
- * To fix this problem the normal MySQL5Dialect is extended adn chage the 
+ * There is a problem with the new Hibernate way of getting the boolean values.
+ * To fix this problem the normal MySQL5Dialect is extended and change the 
  * way Hibernate maps the boolean values from MySQL
  * 
  * @author MDISS Java team 2011-2012 University of Deusto

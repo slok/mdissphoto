@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/jdbc
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<http auto-config="true" access-denied-page="/login/error/">
+		<intercept-url pattern="/javax.faces.resource/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<!--  <intercept-url pattern="/login/error/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/login/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+		<intercept-url pattern="/users/*/public/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/dashboard/" access="ROLE_USER"/>
+		<intercept-url pattern="/user/**" access="ROLE_USER"/>
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<!--<intercept-url pattern="/**" access="ROLE_USER"/>  -->
+		<form-login
+            login-page="/login/"
+            authentication-success-handler-ref="redirectRoleStrategy"
+            authentication-failure-url="/login/error/"/> 
+			<logout logout-success-url="/" />
+	</http>
+
+	<!-- Scan the packages for services -->
+    <context:component-scan base-package="org.mdissjava.mdisscore" />
+    <context:annotation-config />
+
+	<!-- I DON'T KNOW IF THIS IS NEEDED!!. IS IMPLICIT WITH THE AUTHENTICATION MANAGER, I THINK YES? -->
+	<beans:bean id="daoAuthenticationProvider"
+	 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+	  <beans:property name="userDetailsService" ref="userDetailsService"/>
+	</beans:bean>
+	
+	<beans:bean id="authenticationManager"
+	    class="org.springframework.security.authentication.ProviderManager">
+	  <beans:property name="providers">
+	    <beans:list>
+	      <beans:ref local="daoAuthenticationProvider" />
+	    </beans:list>
+	  </beans:property>
+	</beans:bean>
+	
+	<beans:bean id="redirectRoleStrategy" class="org.mdissjava.mdisscore.controller.auth.RoleBasedAuthenticationSuccessHandler">
+	    <beans:property name="roleUrlMap">
+	        <beans:map>
+	            <beans:entry key="ROLE_ADMIN" value="/admin/"/>
+	            <beans:entry key="ROLE_USER" value="/dashboard/"/>
+	        </beans:map>
+	    </beans:property>
+	</beans:bean>
+	
+	<!-- Select the hash and our service Detail for the DAO -->
+	<authentication-manager>
+		<authentication-provider  user-service-ref="userDetailsService">
+			<password-encoder hash="sha-256"/>
+			<!-- For testing pourposes -->
+			<!--<user-service>
+				<user name="slok" password="9dcb34304e12c366b755f9fa699b2b57231198293eeaab9012052507a037f623" authorities="ROLE_USER" />
+				<user name="chuck" password="11d6fe94df911d49e71b6c4aae7b9d4a397662a3c1767cf578b785ed35372ec7" authorities="ROLE_USER" />
+				<user name="admin" password="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" authorities="ROLE_ADMIN" />
+			 </user-service>-->
+		</authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>

@@ -79,7 +79,7 @@ public class User implements Serializable {
 		configuration = new Configuration();		
 		registeredDate = new Date();
 		lastSession = new Date();		
-	}
+	}	
 	
 	public int getId() {
 		return id;
@@ -169,12 +169,12 @@ public class User implements Serializable {
 		this.role = role;
 	}
 	
-	public String getPreferences() {
-		return preferences;
+	public List<String> getPreferences() {		
+		return getPreferencesList(this.preferences);
 	}
 	
-	public void setPreferences(String preferences) {
-		this.preferences = preferences;
+	public void setPreferences(List<String> preferences) {
+		this.preferences =getConvertPreferences(preferences);
 	}
 	
 	public Gender getGender() {
@@ -301,6 +301,24 @@ public class User implements Serializable {
 				cadena+=lista.get(i);
 		}
 		return cadena;
+	}
+	
+	private List<String> getPreferencesList(String UserPreferences)
+	{
+		List<String> Preferences=new ArrayList<String>();
+		String Cadena="";
+		for(int i=0;i<UserPreferences.length();i++)
+		{
+			if(UserPreferences.charAt(i)==',')
+			{
+				Preferences.add(Cadena);
+				Cadena="";
+			}
+			else
+			{Cadena+=UserPreferences.charAt(i);}
+		}
+		Preferences.add(Cadena);
+		return Preferences;
 	}
 	
 }

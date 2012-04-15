@@ -18,9 +18,9 @@ import org.mdissjava.mdisscore.model.pojo.User;
 public class UserDaoImpl implements UserDao {
 	
 	public UserDaoImpl() {
-		HibernateUtil.openSessionFactory();
-	}	
-	
+<<<<<<< HEAD
+
+	}
 	@Override
 	public boolean emailAllReadyExists(String email)
 	{
@@ -44,6 +44,10 @@ public class UserDaoImpl implements UserDao {
 		else
 			return false;
 	}
+=======
+		HibernateUtil.openSessionFactory();
+	}	
+>>>>>>> security
 	
 	@Override
 	public void addUser(User user) {

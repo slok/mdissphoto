@@ -19,10 +19,13 @@ public interface UserDao {
 	
 	User getUserById(int id);
 	
+<<<<<<< HEAD
 	boolean emailAllReadyExists(String email);
 	
 	boolean nickAllReadyExists(String nick);
+=======
 	User getUserByName(String username);
+>>>>>>> security
 	
 //	void modifyAddress(ObjectId id, Address address);
 	

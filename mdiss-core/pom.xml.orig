@@ -24,7 +24,6 @@
     
     <!-- Dependency repositories-->
 	<repositories>
-	
 		 <!-- Maven primefaces repo-->
 		<repository>  
 			<id>prime-repo</id>  
@@ -32,7 +31,6 @@
 			<url>http://repository.primefaces.org</url>  
 			<layout>default</layout>  
 		</repository>
-		
 		<!-- Morphia updated repo -->
         <repository>
             <id>morphia.googlecode.com</id>
@@ -158,6 +156,7 @@
             <version>0.99.1-SNAPSHOT</version> 
 		</dependency>
 		
+<<<<<<< HEAD
 		<!-- Morphia lazy loading dependencies -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -170,7 +169,17 @@
 			<artifactId>proxytoys</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+		
+		<!-- Spring security hash -->
+    	<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>3.0.3.RELEASE</version>
+		</dependency>   
+		
+		
+=======
+>>>>>>> security
 		<!-- Our dependencies -->
 		<dependency>
             <groupId>org.mdissjava.commonutils</groupId>
