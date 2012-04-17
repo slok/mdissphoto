@@ -9,6 +9,7 @@ import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.AlbumDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
@@ -132,7 +133,10 @@ public class AlbumManagerImpl implements AlbumManager{
 		PhotoManager photoManager = new PhotoManagerImpl(datastore);
 		
 		//check if the photo exists (this is not a new photo)
-		if ( !photoManager.findPhoto(photo).isEmpty() )
+		//check by photoId only
+		Photo pTemp = new Photo();
+		pTemp.setPhotoId(photo.getPhotoId());
+		if ( !photoManager.findPhoto(pTemp).isEmpty() )
 		{
 			this.logger.error("photo exists already in database. Use move instead");
 			throw new IOException("photo exists already in database. Use move instead");
@@ -143,7 +147,7 @@ public class AlbumManagerImpl implements AlbumManager{
 		
 		//insert photo in database (before inserting a reference in a model , 
 		//the reference needs to be inserted in its model)
-		photoManager.insertPhoto(albumTitle, userNickname, photo);
+		new PhotoDaoImpl(this.datastore).insertPhoto(photo);
 		
 		//add photo to album
 		album.getPhotos().add(photo);
@@ -341,6 +345,24 @@ public class AlbumManagerImpl implements AlbumManager{
 		}
 		this.logger.debug("finding album list");
 		return this.albumDao.findAlbum(album);
+	}
+	/**
+	 * Returns the all the user albums
+	 * 
+	 */
+	@Override
+	public List<Album> findUserAlbums(String userNick) throws IllegalArgumentException{
+		
+		if (userNick == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
+		this.logger.debug("finding users albums");
+		Album album = new Album();
+		album.setUserNick(userNick);
+		
+		return this.findAlbum(album);
 	}
 	
 	/**

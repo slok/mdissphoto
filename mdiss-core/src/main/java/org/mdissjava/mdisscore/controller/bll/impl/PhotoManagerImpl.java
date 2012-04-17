@@ -61,45 +61,6 @@ public class PhotoManagerImpl implements PhotoManager{
 		
 		return tagList;
 	}
-
-	//TODO
-	/**
-	 * Inserts a photo (pojo) with the album data
-	 * 
-	 * @param albumTitle
-	 * @param userNickname
-	 * @param photo
-	 * @throws IllegalArgumentException
-	 * @throws IOException 
-	 */
-	@Override
-	public void insertPhoto(String albumTitle, String userNickname, Photo photo) throws IllegalArgumentException, IOException{
-		
-		this.logger.debug("Inserting new photo {} in {}", photo.getTitle(), albumTitle);
-		
-		if (photo == null || albumTitle == null || userNickname == null || 
-				photo.getPhotoId() == null || photo.getTitle() == null || photo.getDataId() == null)
-		{
-			this.logger.error("Some arguments is/are null, can't continue with the action");
-			throw new IllegalArgumentException("Some arguments is/are null, can't continue with the action");
-		}
-		//unload the album to bypass the not searching by album in the photo
-		Album tempAlbum = photo.getAlbum();
-		photo.setAlbum(null); 
-		
-		if (this.findPhoto(photo).size() > 0)
-			throw new IOException(photo.getTitle() + " album already exists in database");
-		
-		//set again the album
-		photo.setAlbum(tempAlbum);
-		this.photoDao.insertPhoto(photo);
-		
-		//add photo to album
-		
-		//	Album album = new AlbumManagerImpl(this.datastore).searchAlbumUniqueUtil(albumTitle, userNickname) 
-			
-		//	album.getPhotos()
-	}
 	
 	/**
 	 * Inserts a photo with the data given the necessary arguments, some are necessary other no
@@ -137,9 +98,13 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setTitle(title);
 		p.setPublicPhoto(publicPhoto);
 		p.setPlus18(plus18);
-		p.setTags(this.splitTags(tags, "\\,"));
 		
-		this.insertPhoto(albumTitle, userNickname, p);
+		if (tags.isEmpty())
+			p.setTags(null);
+		else
+			p.setTags(this.splitTags(tags, "\\,"));
+		
+		new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
 		
 	}
 
@@ -228,6 +193,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		
 	}
 	
+	
 	/**
 	 * Searchs a photo from a given id
 	 * 
@@ -235,8 +201,7 @@ public class PhotoManagerImpl implements PhotoManager{
 	 * @return the photo pojo itself
 	 * @throws IOException
 	 */
-	//package scope (other managers could use to search)
-	Photo searchPhotoUniqueUtil(String photoId) throws IOException
+	public Photo searchPhotoUniqueUtil(String photoId) throws IOException
 	{
 		
 		this.logger.debug("Searching for the photo with {} name", photoId);
@@ -262,4 +227,6 @@ public class PhotoManagerImpl implements PhotoManager{
 		return pList.get(0);
 		
 	}
+
+	
 }

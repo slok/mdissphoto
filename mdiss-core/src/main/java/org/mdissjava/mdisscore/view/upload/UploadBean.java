@@ -72,9 +72,6 @@ public class UploadBean {
 			ParamsBean params = getPrettyfacesParams();
 			params.setPhotoId(this.imageId);
 			params.setUserId(this.userId);
-			
-			params.setPhotoId(this.imageId);
-			params.setUserId(this.userId);
 		
 			outcome = "pretty:user_upload_processing";
 			

@@ -19,5 +19,6 @@ public interface AlbumManager {
 	void deleteAlbum(String albumId, String userNickname) throws IllegalArgumentException, IOException;
 	void deleteUserAllAlbumsAndPhotos(String userNickname) throws IllegalArgumentException, IOException;
 	List<Album> findAlbum(Album album) throws IllegalArgumentException;
+	List<Album> findUserAlbums(String userNick);
 
 }

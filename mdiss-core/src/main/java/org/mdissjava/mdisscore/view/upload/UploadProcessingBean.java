@@ -40,6 +40,7 @@ public class UploadProcessingBean {
 	
 	public void init(AjaxBehaviorEvent event)
 	{
+		
 		//TODO: check processed image in the DAO
 		
 		//set the paramas in the url
@@ -60,6 +61,7 @@ public class UploadProcessingBean {
 				photoManager.markAsProcessedStarted(this.imageId);
 				
 				//create the connection with gearman
+				logger.info("calling gearman");
 				this.thumbClient = (ThumbnailerGearmanClient) ThumbnailerGearmanClientPool.getInstance().getClient();
 				//wait to process...
 				thumbClient.ThumbnailizeImageSynchronous(this.imageId);
@@ -73,7 +75,6 @@ public class UploadProcessingBean {
 			
 			//free the connection (No need, the pool will do  it for us)
 			
-			//TODO: Processed done
 		
 		} catch (Exception e) {
 			logger.error("Error processing image: {}, rollback image...", this.imageId);

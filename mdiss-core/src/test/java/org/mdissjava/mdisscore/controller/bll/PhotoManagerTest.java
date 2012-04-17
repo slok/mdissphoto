@@ -40,24 +40,18 @@ public class PhotoManagerTest {
 		this.photoManager = null;
 	}
 	
-	@Test
+	/*@Test
 	public void creationTest() throws IllegalStateException, IOException {
 		
-		List<String> tags = new ArrayList<String>();
-		tags.add("animals"); tags.add("cats"); tags.add("dogs"); tags.add("police");
-		Photo p = new Photo();
-		p.setTitle("yeaaaaaaaaaaaaah");
-		p.setPhotoId(NAME);
-		p.setDataId(NAME);
-		p.setPublicPhoto(true);
-		p.setTags(tags);
-		p.setUploadDate(new Date());
-		
+		String tags = "animals, cats, dogs, police" ;
 		
 		String albumTitle = "Jaiak 2012";
 		String userNickname = "slok";
-		this.photoManager.insertPhoto(albumTitle, userNickname, p);
 		
-	}
+		this.photoManager.insertPhoto(NAME, userNickname, 
+				"yeaaaaaaaaaaaah", albumTitle, true, false, 
+				"CC", tags);
+		
+	}*/
 
 }

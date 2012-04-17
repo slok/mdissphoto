@@ -1,6 +1,8 @@
 package org.mdissjava.mdisscore.view.upload;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,15 +10,30 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
+import org.mdissjava.mdisscore.controller.bll.AlbumManager;
+import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
+import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.google.code.morphia.Datastore;
 
 @ViewScoped
 @ManagedBean
 public class UploadDetailsBean {
 
-	private String userID;
+	private Datastore datastore;	
+	private AlbumManager albumManager;
+	private PhotoManagerImpl photoManager;
+	private PhotoStatusManager photoStatusManager;
+	
+	private String userNick;
 	private String imageID;
 	private String title;
 	private String titleResult;
@@ -28,24 +45,74 @@ public class UploadDetailsBean {
 	private String license;
 	private String newAlbumTitle;
 	private boolean formButtonDisabled;
-	
 	private HashMap<String, String> albums;
 	private HashMap<String, String> licenses;
 	private String imageURL;
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 	public UploadDetailsBean() {
-		//load the needed data
+		this.datastore = MorphiaDatastoreFactory.getDatastore("mdissphoto");
+		
 		logger.info("Creating Upload details instance");
-		FacesContext context = FacesContext.getCurrentInstance();
-		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);	
+		
+		//load the needed data (photo ID and set the button form to enabled)
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ParamsBean pb = (ParamsBean) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{paramsBean}", ParamsBean.class);	
+		
 		this.imageID = pb.getPhotoId();
 		this.formButtonDisabled = false;
+	
+		//Get the user from session
+		this.retrieveSessionUserNick();
 		
-		//TODO: Get the user from session
-		this.userID = "slok";
 		
+		this.photoManager = new PhotoManagerImpl(datastore);
+		this.photoStatusManager= new PhotoStatusManager(datastore);
+		String outcome = null;
+				
+		//TODO: Is detailed the photo already? if yes then redirect to the final photo 
+		//web page, if no the prepare the form
+		try {
+			if(photoStatusManager.needsToBeDetailed(this.imageID))
+			{
+				//show the form
+				this.prepareForm();
+			}else
+			{
+				//redirect to the final photo
+				ParamsBean params = getPrettyfacesParams();
+				params.setPhotoId(this.imageID);
+				params.setUserId(this.userNick);
+				
+				outcome = "pretty:photo_detail";
+				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+				
+			}
+		} catch (IOException e) {
+			//to error!
+			ParamsBean params = getPrettyfacesParams();
+			params.setPhotoId(this.imageID);
+			params.setUserId(this.userNick);
+			
+			outcome = "pretty:user_upload_error";
+			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+			
+		}
+	}
+
+	private void retrieveSessionUserNick() {
+		//Get the current logged user's username
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		this.userNick = auth.getName();
+		
+	}
+
+	private void prepareForm()
+	{
+		System.out.println("New photo :)");
 		//TODO: load metadata (Maite)
+		
 		
 		//TODO:Load the best fitting image (320 -> 240 -> 150 -> 100 -> 75 -> 30)
 		String db = "thumbnails";
@@ -58,11 +125,8 @@ public class UploadDetailsBean {
 		this.publicPhotoList.put("Public", true);
 		this.publicPhotoList.put("Private", false);
 		
-		//TODO: Load the albums
-		this.albums = new HashMap<String, String>();
-		this.albums.put("animals", "animals");
-		this.albums.put("places", "places");
-		this.albums.put("summer 2009", "summer 2009");
+		//Load the albums
+		this.loadAlbums();
 		
 		//TODO: Load the licenses
 		this.licenses = new HashMap<String, String>();
@@ -70,25 +134,54 @@ public class UploadDetailsBean {
 		this.licenses.put("GPL", "GPL");
 		this.licenses.put("AGPL", "AGPL");
 		this.licenses.put("C", "C");
-		
-		//TODO: Is there some data already in the database (previous details)?
-		//If yes, load it!
+		this.licenses.put("Apache", "Apache");
 		
 		//default public
 		this.publicPhotoScope = true;
 	}
-
+	
 	public void saveDetails()
 	{
+		//TODO: Check again public +18... the user could disable javascript in the browser... ¬¬
+		try {
+			this.photoManager.insertPhoto(this.imageID, this.userNick, this.title, 
+											this.album, this.publicPhotoScope, this.plus18, 
+											this.license, this.tags);
+			
+			//Set status to detailed
+			this.photoStatusManager.markAsDetailed(this.imageID);
+			
+			//redirect to the final photo
+			ParamsBean params = getPrettyfacesParams();
+			params.setPhotoId(this.imageID);
+			params.setUserId(this.userNick);
+			
+			String outcome = "pretty:photo_detail";
+			FacesContext facesContext =  FacesContext.getCurrentInstance();
+			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+			
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
 	
 	public void newAlbum()
 	{
-		//TODO
-		this.albums.put(this.newAlbumTitle, this.newAlbumTitle);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Album created", "Album " + this.newAlbumTitle + " has been created"));
+		//add the album to database
+		try {
+			this.albumManager.insertAlbum(this.newAlbumTitle, userNick);
+			//load the album directly in the map (we don't want to load all the other albums again) 
+			this.albums.put(this.newAlbumTitle, this.newAlbumTitle);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"OK", "Album " + this.newAlbumTitle + " has been created"));
+		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "Error creating " + this.newAlbumTitle + " album"));
+		}
 	}
 	
 	/**
@@ -138,6 +231,18 @@ public class UploadDetailsBean {
 		}
 	}
 	
+	//utilities
+	private void loadAlbums()
+	{
+		this.albumManager = new AlbumManagerImpl();
+		List<Album> albums = this.albumManager.findUserAlbums(userNick);
+		this.albums = new HashMap<String, String>();
+		
+		for (Album i: albums)
+		{
+			this.albums.put(i.getTitle(), i.getTitle());
+		}
+	}
 
 	public HashMap<String, Boolean> getPublicPhotoList() {
 		return publicPhotoList;
@@ -155,12 +260,12 @@ public class UploadDetailsBean {
 		this.publicPhotoScope = publicPhotoScope;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getUserNick() {
+		return userNick;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
 	}
 
 	public String getTitle() {
@@ -269,6 +374,11 @@ public class UploadDetailsBean {
 	}
 	
 	
-	
+	private ParamsBean getPrettyfacesParams()
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
+		return pb;
+	}
 	
 }

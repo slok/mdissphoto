@@ -84,6 +84,7 @@
     <filter-mapping>
           <filter-name>Restrict Page Access Filter</filter-name>
           <url-pattern>/faces/users/*</url-pattern>
+          <url-pattern>/faces/upload/*</url-pattern>
           <dispatcher>FORWARD</dispatcher> 
 		<dispatcher>REQUEST</dispatcher> 
 		<dispatcher>ERROR</dispatcher>
