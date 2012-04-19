@@ -2,6 +2,7 @@ package org.mdissjava.mdisscore.view.upload;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -9,6 +10,7 @@ import javax.faces.context.FacesContext;
 
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
 import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
+import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.primefaces.event.FileUploadEvent;
@@ -29,9 +31,25 @@ public class UploadBean {
 	
 	public UploadBean()
 	{
-		ParamsBean pb = getPrettyfacesParams();
-		this.userId = pb.getUserId();
-		gfs = new GridfsDataStorer("thumbnails", "original");
+		try {
+			ParamsBean pb = getPrettyfacesParams();
+			this.userId = pb.getUserId();
+			//TODO: Load from properties
+			
+			Properties globals;
+			globals = new PropertiesFacade().getProperties("globals");
+			String db  = globals.getProperty("morphia.db");
+			String bucket  = globals.getProperty("original");
+	
+			gfs = new GridfsDataStorer(db, bucket);
+			
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String getImageId() {

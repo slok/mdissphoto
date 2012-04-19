@@ -52,14 +52,34 @@ public class GearmanClientTest {
 	
 	
 	@Test
-	public void asyncGearmanClientCall() throws InterruptedException, ExecutionException
+	public void asyncGearmanClientCall() throws InterruptedException, ExecutionException, IOException
 	{
 		Thread.sleep(100); //for the connection thread
 		
+		String imageId = "iris1";
+		
+		//insert in database  testing image
+		PropertiesFacade propertiesFacade = new PropertiesFacade();
+		Properties globals = propertiesFacade.getProperties("globals");
+		final String THUMBNAILS_DB = globals.getProperty("images.db");
+		final String ORIGINAL_BUCKET = globals.getProperty("images.bucket");
+		GridfsDataStorer gds = new GridfsDataStorer(THUMBNAILS_DB,  ORIGINAL_BUCKET);
+		InputStream is = getClass().getResourceAsStream("/Iris.jpg");		
+		gds.saveData(is, imageId);
+		
+		//set the status for the photo
+		Datastore ds = this.connectToMorphia();
+		PhotoStatusManager photoManager = new PhotoStatusManager(ds);
+		photoManager.createPhotoStatus(imageId);
+
 		ThumbnailerGearmanClient tgc = new ThumbnailerGearmanClient();
 		AtomicBoolean exit = new AtomicBoolean();
 		exit.set(false);
 		tgc.ThumbnailizeImageAsynchronous("iris1", exit);
+		
+		//delete data
+		gds.deleteData(imageId);
+		photoManager.deletePhotoStatus(imageId);
 		
 	}
 	
@@ -78,6 +98,7 @@ public class GearmanClientTest {
 		GridfsDataStorer gds = new GridfsDataStorer(THUMBNAILS_DB,  ORIGINAL_BUCKET);
 		InputStream is = getClass().getResourceAsStream("/Iris.jpg");		
 		gds.saveData(is, imageId);
+		
 		//set the status for the photo
 		Datastore ds = this.connectToMorphia();
 		PhotoStatusManager photoManager = new PhotoStatusManager(ds);

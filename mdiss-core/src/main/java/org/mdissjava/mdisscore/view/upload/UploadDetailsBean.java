@@ -3,6 +3,7 @@ package org.mdissjava.mdisscore.view.upload;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
+import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
@@ -28,6 +30,7 @@ import com.google.code.morphia.Datastore;
 @ManagedBean
 public class UploadDetailsBean {
 
+	
 	private Datastore datastore;	
 	private AlbumManager albumManager;
 	private PhotoManagerImpl photoManager;
@@ -110,34 +113,45 @@ public class UploadDetailsBean {
 
 	private void prepareForm()
 	{
-		System.out.println("New photo :)");
-		//TODO: load metadata (Maite)
+		try {
+			System.out.println("New photo :)");
+			//TODO: load metadata (Maite)
+			
+			
+			//TODO:Load the best fitting image (320 -> 240 -> 150 -> 100 -> 75 -> 30)
+			
+			//Load from properties
+			Properties globals = new PropertiesFacade().getProperties("globals");
+			Properties scales = new PropertiesFacade().getProperties("thumbnails");
+			String db  = globals.getProperty("morphia.db");
+			String bucket  = scales.getProperty("thumbnail.scale.320px.bucket.name");
+			
+			//TODO: Load the image url
+			this.imageURL = "/dynamic/image?db="+db+"&amp;bucket="+bucket+"&amp;id="+this.imageID;
+			
+			//set the radiobuttons for public and private
+			this.publicPhotoList = new HashMap<String, Boolean>();
+			this.publicPhotoList.put("Public", true);
+			this.publicPhotoList.put("Private", false);
+			
+			//Load the albums
+			this.loadAlbums();
+			
+			//TODO: Load the licenses
+			this.licenses = new HashMap<String, String>();
+			this.licenses.put("CC 2.0", "CC 2.0");
+			this.licenses.put("GPL", "GPL");
+			this.licenses.put("AGPL", "AGPL");
+			this.licenses.put("C", "C");
+			this.licenses.put("Apache", "Apache");
+			
+			//default public
+			this.publicPhotoScope = true;
 		
-		
-		//TODO:Load the best fitting image (320 -> 240 -> 150 -> 100 -> 75 -> 30)
-		String db = "thumbnails";
-		String bucket = "scale.320";
-		//TODO: Load the image url
-		this.imageURL = "/dynamic/image?db="+db+"&amp;bucket="+bucket+"&amp;id="+this.imageID;
-		
-		//set the radiobuttons for public and private
-		this.publicPhotoList = new HashMap<String, Boolean>();
-		this.publicPhotoList.put("Public", true);
-		this.publicPhotoList.put("Private", false);
-		
-		//Load the albums
-		this.loadAlbums();
-		
-		//TODO: Load the licenses
-		this.licenses = new HashMap<String, String>();
-		this.licenses.put("CC 2.0", "CC 2.0");
-		this.licenses.put("GPL", "GPL");
-		this.licenses.put("AGPL", "AGPL");
-		this.licenses.put("C", "C");
-		this.licenses.put("Apache", "Apache");
-		
-		//default public
-		this.publicPhotoScope = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void saveDetails()

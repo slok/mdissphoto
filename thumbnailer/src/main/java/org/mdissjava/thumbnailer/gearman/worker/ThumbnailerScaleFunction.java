@@ -29,14 +29,17 @@ import com.google.code.morphia.Datastore;
 public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private String imageId = null; 
 	private BufferedImage imageData = null;
 	private static final String RESOLUTIONS_PROPERTIES_KEY = "resolutions";
 	private static final String THUMBNAILS_PROPERTIES_KEY = "thumbnails";
-	private static final String DATABASE = "mdissphoto";
+	
+	private static String MORPHIA_DB;
 	private static String THUMBNAILS_DB;
 	private static String ORIGINAL_BUCKET;
 	private static final String GLOBALS_KEY = "globals";
+	
 	private PropertiesFacade propertiesFacade = null;
 	private String imageFormat = "png";
 	private Thumbnailer thumnailer = null;
@@ -55,11 +58,14 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 		
 		//FIXME: Doesn't return COMPLETE package to gearman in async!!!!
 		try {
-			//create all the thumbnails
+			//Load the needed properties
 			this.propertiesFacade = new PropertiesFacade();
 			Properties globals = this.propertiesFacade.getProperties(GLOBALS_KEY);
+			MORPHIA_DB = globals.getProperty("morphia.db");
 			THUMBNAILS_DB = globals.getProperty("images.db");
 			ORIGINAL_BUCKET = globals.getProperty("images.bucket");
+			
+			//Create the thumbnails
 			createThumbnails();
 			
 			//Set the new status for the photo process (true) -> finished
@@ -73,7 +79,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			exception = e.toString().getBytes();
 			result = false;
 		} finally{
-			//return the result to the client (always9
+			//return the result to the client (always)
 			final GearmanJobResult gjr = new GearmanJobResultImpl(this.jobHandle, 
 															result, this.imageId.getBytes(), 
 															new byte[0], exception,
@@ -177,7 +183,7 @@ public class ThumbnailerScaleFunction extends AbstractGearmanFunction{
 			classes.add(PhotoStatus.class);
 			
 			MorphiaDatastoreConnection mdc = MorphiaDatastoreConnection.getInstance();
-			mdc.connect("127.0.0.1", 27017, DATABASE, classes);
+			mdc.connect("127.0.0.1", 27017, MORPHIA_DB, classes);
 			return mdc.getDatastore();
 			
 	}
