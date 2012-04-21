@@ -123,7 +123,7 @@ public class UploadDetailsBean {
 			//Load from properties
 			Properties globals = new PropertiesFacade().getProperties("globals");
 			Properties scales = new PropertiesFacade().getProperties("thumbnails");
-			String db  = globals.getProperty("morphia.db");
+			String db  = globals.getProperty("images.db");
 			String bucket  = scales.getProperty("thumbnail.scale.320px.bucket.name");
 			
 			//TODO: Load the image url

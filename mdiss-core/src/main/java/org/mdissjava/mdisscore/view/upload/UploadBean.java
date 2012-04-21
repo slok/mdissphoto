@@ -27,7 +27,10 @@ public class UploadBean {
 	private String imageId;
 	private String userId;
 	private GridfsDataStorer gfs = null;
-	private final String DATABASE = "mdissphoto";
+	
+	private String morphiaDB;
+	private String imageDB;
+	private String originalImageBucket;
 	
 	public UploadBean()
 	{
@@ -38,10 +41,11 @@ public class UploadBean {
 			
 			Properties globals;
 			globals = new PropertiesFacade().getProperties("globals");
-			String db  = globals.getProperty("morphia.db");
-			String bucket  = globals.getProperty("original");
+			morphiaDB = globals.getProperty("morphia.db");
+			imageDB = globals.getProperty("images.db");
+			originalImageBucket  = globals.getProperty("images.bucket");
 	
-			gfs = new GridfsDataStorer(db, bucket);
+			gfs = new GridfsDataStorer(imageDB, originalImageBucket);
 			
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -82,7 +86,7 @@ public class UploadBean {
 			this.logger.info("upload and stored: {}", this.imageId);
 			
 			//set the new status to the photo
-			Datastore ds = MorphiaDatastoreFactory.getDatastore(this.DATABASE);
+			Datastore ds = MorphiaDatastoreFactory.getDatastore(this.morphiaDB);
 			PhotoStatusManager photoManager = new PhotoStatusManager(ds);
 			photoManager.createPhotoStatus(this.imageId);
 			
