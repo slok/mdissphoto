@@ -1,22 +1,27 @@
 body
 {
-  	background-image:url("#{resource['img:bg.png']}");
-	padding-top: 20px;
-   	padding-bottom: 20px;
+  /*background-image:url("#{resource['img:bg.png']}");*/
+   	padding-top: 60px;
+    padding-bottom: 40px;
 
+}
+
+.index-inputs{
+	width: 170px;
+	/*height: 15px;*/	
 }
 
 .container
 {
-	background-image:url("#{resource['img:bg_container.png']}");
+	//background-image:url("#{resource['img:bg_container.png']}");
 	
-	-moz-border-radius: 9px;
-	-webkit-border-radius: 9px;
-	border-radius: 9px;
+	//-moz-border-radius: 9px;
+	//-webkit-border-radius: 9px;
+	//border-radius: 9px;
 	/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
-	-moz-box-shadow: 0px 0px 7px #000000;
-	-webkit-box-shadow: 0px 0px 7px #000000;
-	box-shadow: 0px 0px 7px #000000;
+	//-moz-box-shadow: 0px 0px 7px #000000;
+	//-webkit-box-shadow: 0px 0px 7px #000000;
+	//box-shadow: 0px 0px 7px #000000;
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 	
 }
@@ -27,4 +32,3 @@ body
 	margin-left: auto;
 	margin-right: auto;
 }
-
