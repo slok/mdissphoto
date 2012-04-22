@@ -8,23 +8,66 @@
     
     <ui:composition template="/templates/base.xhtml">
       
-		<ui:define name="title">
-		</ui:define>
+		<ui:define name="title">MDISSPHOTO</ui:define>
 		
 		<ui:define name="header">
 		
 		</ui:define>
 		
 		<ui:define name="body">
-			<div>
-				<h1>Soy #{dashboardBean.user}</h1>
+			
+			<div class="container-fluid">	
+			
+				<ui:define name="header">
+					<ui:include src="user_header.xhtml"/>	
+				</ui:define>
+			
+				<ui:insert name="user_header">
+        			<ui:include src="user_pofile_info.xhtml"/>	
+        		</ui:insert>
+			
+				<div class="row-fluid">								
+					<div>
+						<div class="span12">
+				
+								<ui:insert name="top_photos">
+			        				<ui:include src="top_photos.xhtml"/>	
+			        			</ui:insert>
+						
+								<ui:insert name="dynamic_space">
+			
+			        			</ui:insert>
+						
+								<!-- div>
+									<h1>Soy #{dashboardBean.user}</h1>
+								</div-->
+						</div>
+					</div>
+				</div>
+				
+				<div>
+					<h:form>
+						<h:commandLink action="pretty:logout"> Logout </h:commandLink>
+					</h:form> 
+				</div>
 			</div>
 			
-			<div>
-				<h:form>
-					<h:commandLink action="pretty:logout"> Logout </h:commandLink>
-				</h:form> 
-			</div>
+			    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="fluid_files/jquery.js"></script>
+    <script src="fluid_files/bootstrap-transition.js"></script>
+    <script src="fluid_files/bootstrap-alert.js"></script>
+    <script src="fluid_files/bootstrap-modal.js"></script>
+    <script src="fluid_files/bootstrap-dropdown.js"></script>
+    <script src="fluid_files/bootstrap-scrollspy.js"></script>
+    <script src="fluid_files/bootstrap-tab.js"></script>
+    <script src="fluid_files/bootstrap-tooltip.js"></script>
+    <script src="fluid_files/bootstrap-popover.js"></script>
+    <script src="fluid_files/bootstrap-button.js"></script>
+    <script src="fluid_files/bootstrap-collapse.js"></script>
+    <script src="fluid_files/bootstrap-carousel.js"></script>
+    <script src="fluid_files/bootstrap-typeahead.js"></script>
 		</ui:define>
 		
     </ui:composition>
