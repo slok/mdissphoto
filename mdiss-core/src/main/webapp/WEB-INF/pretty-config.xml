@@ -87,8 +87,23 @@
 	</url-mapping>
 
 	<url-mapping id="photo_detail">
-		<pattern value="/user/#{user:paramsBean.userId}/photos/#{photo:paramsBean.photoId}/" />
-		<view-id value="/faces/photos/photo.jsf" />
+		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/photos/photo_detail.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photo_size">
+		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
+		<view-id value="/faces/photos/photo_size.jsf" />
+	</url-mapping>
+
+	<url-mapping id="tag_detail">
+		<pattern value="/tag/#{tag:paramsBean.tag}/" />
+		<view-id value="/faces/tags/tag_detail.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="tag_list">
+		<pattern value="/tags/" />
+		<view-id value="/faces/tags/tag_list.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="user_cameras">

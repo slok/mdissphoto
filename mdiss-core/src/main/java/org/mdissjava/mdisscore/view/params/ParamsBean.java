@@ -20,6 +20,7 @@ public class ParamsBean {
 	private String userId;
 	private String albumId;
 	private String photoId;
+	private String size;
 	private String cameraId;
 	private String top;
 	
@@ -41,6 +42,12 @@ public class ParamsBean {
 	}
 	public void setPhotoId(String photoId) {
 		this.photoId = photoId;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
 	}
 	public String getCameraId() {
 		return cameraId;

@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces" 
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"> 
+    
+    <ui:composition template="/templates/base.xhtml">
+      
+      
+      	<ui:define name="head">
+     		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+     		
+     		<!-- for the album thumbnail slider -->
+     		<link href='http://ryrych.github.com/rcarousel/widget/css/rcarousel.css' rel='stylesheet' type='text/css'/>
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>
+     		
+     		<style type="text/css">
+				#container {
+					width: 440px;
+					position: relative;
+				}
+				
+				#carousel {
+					margin: 0 auto;
+				}
+	
+				#carousel img {
+					border: 0;
+				}
+			</style>
+     		
+     		<script type="text/javascript">
+			jQuery(function($) {
+				$( "#carousel ").rcarousel({
+					margin: 5,
+					visible: 3,
+					step: 1,
+				});
+				
+				$( "#ui-carousel-next" )
+					.add( "#ui-carousel-prev" )
+					.hover(
+						function() {
+							$( this ).css( "opacity", 0.7 );
+						},
+						function() {
+							$( this ).css( "opacity", 1.0 );
+						}
+					);					
+			});
+		</script>
+     				 
+      	</ui:define>
+      	
+      	
+		<ui:define name="title">
+			Mdissphoto / #{photoDetailsBean.photo.title} by #{photoDetailsBean.userNick}
+		</ui:define>
+		
+		<ui:define name="header">	
+		</ui:define>
+		
+		<ui:define name="body">			
+	    	<!-- Photo title -->
+	    	<div class="row-fluid">
+				<div class="span12">
+		      		<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>	
+	       		</div>
+            </div>
+	    	
+	    	<!-- Photo and menu -->
+	    	<div class="row-fluid">
+				<div class="row">
+					<div class="span8">
+						<h:graphicImage styleClass="thumbnail" value="#{photoDetailsBean.detailedPhotoURL}" />
+					</div>
+   				
+					<div class="span4">
+		   				<!-- Statistics -->
+	   					<div class="row">
+						</div>
+			   				<!-- photo information -->
+						<div class="row">
+			   				<hr/>
+							<h3>Metadata:</h3>
+							<h3>Album:</h3>
+							
+						</div>
+							<!-- tags -->
+						<div class="row">
+							<hr/>
+							<ul class="tags">
+								<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
+									<li>
+										<i class="icon-tags"/> 
+										<pretty:link mappingId="tag_detail">
+											<f:param value="#{tag}" />
+											#{tag}
+										</pretty:link>
+									</li>
+								</ui:repeat>
+							</ul>
+							
+						</div>									   				
+							<!-- different sizes -->
+						<div class="row">
+							<br/>
+							<hr/>
+							
+							<ul class="sizes">
+								<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
+									<li>
+										<i class="icon-resize-full"/> 
+										<pretty:link mappingId="photo_size" >
+											<f:param value="#{photoDetailsBean.userNick}" />
+											<f:param value="#{photoDetailsBean.photoId}" />
+											<f:param value="#{size}" />
+											#{size}px
+										</pretty:link>
+									</li>
+								</ui:repeat>
+								<li>
+									<i class="icon-resize-full"/> 
+									<pretty:link mappingId="photo_size" >
+										<f:param value="#{photoDetailsBean.userNick}" />
+										<f:param value="#{photoDetailsBean.photoId}" />
+										<f:param value="original" />
+										Original
+									</pretty:link>
+								</li>
+							</ul>
+							
+						</div>	
+							<!-- Other album images -->
+						<div class="row">
+							<br/>
+							<hr/>
+							<h3> "#{photoDetailsBean.photo.album.title}" album photos (#{fn:length(photoDetailsBean.thumbnailIds)+1}) </h3>
+							<a href="#"  id="ui-carousel-prev"><i class="icon-arrow-left"/></a>
+							<div id="carousel">
+								<ui:repeat value="#{photoDetailsBean.thumbnailIds}" var="thumbnailId">
+									<div>
+										<pretty:link mappingId="photo_detail" >
+											<f:param value="#{photoDetailsBean.userNick}" />
+											<f:param value="#{thumbnailId}" />
+											<h:graphicImage value="/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=#{photoDetailsBean.thumbnailBucket}&amp;id=#{thumbnailId}" />
+										</pretty:link>
+								  	</div>
+							  	</ui:repeat>
+							</div>
+							<a href="#"  id="ui-carousel-next"><i class="icon-arrow-right"/></a>
+						</div>	
+					</div>
+				</div> 
+			</div>
+			
+		</ui:define>
+		
+    </ui:composition>
+</html>

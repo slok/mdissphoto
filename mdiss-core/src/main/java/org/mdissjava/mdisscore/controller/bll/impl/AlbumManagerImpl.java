@@ -365,6 +365,22 @@ public class AlbumManagerImpl implements AlbumManager{
 		return this.findAlbum(album);
 	}
 	
+	@Override
+	public List<Photo> getPhotosFromAlbum(String albumTitle, String userNickname)
+			throws IllegalArgumentException, IOException {
+		if (userNickname == null || albumTitle == null)
+		{
+			this.logger.error("Some argument(s) is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
+		this.logger.debug("getting all the images from \"{}\" album", albumTitle);
+		
+		Album album = this.searchAlbumUniqueUtil(albumTitle, userNickname);
+		
+		return album.getPhotos();
+		
+	}
+	
 	/**
 	 * Searches the concrete album. This is needed because if we create a new album with the appropiate data
 	 * that identifies the album this will not work because of the nature that Mongo has to give every object
@@ -402,6 +418,7 @@ public class AlbumManagerImpl implements AlbumManager{
 		return aList.get(0);
 		
 	}
+
 
 	
 	

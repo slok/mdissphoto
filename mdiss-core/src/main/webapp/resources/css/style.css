@@ -28,3 +28,49 @@ body
 	margin-right: auto;
 }
 
+.photo-title
+{
+	font-family: 'Lobster', cursive;
+}
+
+ul.tags li
+{
+	list-style: none;
+	padding:0;
+	margin:0 8px 8px 0;
+	float:left
+}
+
+ul.sizes li
+{
+	list-style: none;
+	margin-left: 0px;
+}
+
+.slidebxwrap {
+    margin: 0 auto;
+    padding: 0;
+    height: 350px;
+    width: 980px;
+}
+
+#slidebx {
+    height: 100px;
+    width: 200px;
+}
+
+.bx-wrapper
+{
+	margin: 0 auto;
+    padding: 0;
+    height: 100px;
+    width: 200px;
+}
+
+ul.bx-wrapper li{
+	
+	margin-left: 0px;
+	list-style: none;
+	padding:0;
+	width: 100px;
+}
