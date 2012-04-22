@@ -1,32 +1,24 @@
 package org.mdissjava.mdisscore.model.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.mdissjava.mdisscore.metadata.MetadataExtractor;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
-import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
-import com.google.code.morphia.Datastore;
 
-public class MetadataDaoImplTest {
+
+public class MetadataExtractorImplTest {
 
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -51,18 +43,14 @@ public class MetadataDaoImplTest {
 			this.logger.info("[TEST] testExtractMetadataJPG MetadataDaoImpl");
 			MetadataExtractor metadataExtractor = new MetadataExtractorImpl();
 			
-			//TODO Improve file extension extraction
-			File photo = new File("src/main/resources/test/metadata/photo/testPhotoJPG.jpg");
-			String format = metadataExtractor.getExtension(photo);
-			assertEquals(format, "jpg");
-		
-			FileInputStream filePhoto = new FileInputStream(photo);
+			FileInputStream photoFile = new FileInputStream("src/main/resources/test/metadata/photo/testPhotoJPG.jpg");
+			byte[] photo = IOUtils.toByteArray(photoFile);
 			
-			Metadata metadata = metadataExtractor.obtenerMetadata(filePhoto, format);
-			
+			Metadata metadata = metadataExtractor.obtenerMetadata(photo);
+										
 			//Check if the Aperture value for the photoTestJPG's metadata is 5.65 and file format is jpg
 			assertEquals(metadata.getAperture(), "5.65");	
-			assertEquals(metadata.getFormat(), "jpg");
+			assertEquals(metadata.getFormat(), "jpeg");
 
 		}catch (Exception e) {
 			
@@ -97,19 +85,13 @@ public class MetadataDaoImplTest {
 			this.logger.info("[TEST] testExtractMetadataJPG MetadataDaoImpl");
 			MetadataExtractor metadataExtractor = new MetadataExtractorImpl();
 			
-			//TODO Improve file extension extraction
-			File photo = new File("src/main/resources/test/metadata/photo/testPhotoTIF.tif");
-			String format = metadataExtractor.getExtension(photo);
-			assertEquals(format, "tif");
-		
-			FileInputStream filePhoto = new FileInputStream(photo);
+			FileInputStream photoFile = new FileInputStream("src/main/resources/test/metadata/photo/testPhotoTIF.tif");
+			byte[] photo = IOUtils.toByteArray(photoFile);
+					
+			Metadata metadata = metadataExtractor.obtenerMetadata(photo);
 			
-			Metadata metadata = metadataExtractor.obtenerMetadata(filePhoto, format);
-			
-			assertEquals(metadata.getSize(), 6242922, 0.0);
-			assertEquals(metadata.getFormat(), "tif");
-			//Check if the Aperture value for the photoTestJPG's metadata is 5.65
-			//assertEquals(metadata.getAperture(), "5.65");	
+			assertEquals(metadata.getSize(), 5, 0.0);
+			assertEquals(metadata.getFormat(), "tiff");
 			
 		}catch (Exception e) {
 			
