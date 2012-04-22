@@ -21,20 +21,18 @@
 		<div class="container">        	
         	<header>
 	        	<ui:insert name="header">
-	        	
+	        		<ui:include src="header.xhtml"/>
 	       		</ui:insert>
 			</header>
         	
 <!-- ########################## -->
         	<ui:insert name="body">
-        	
+        		
         	</ui:insert>
 <!-- ########################## -->
 			<hr/>
 			<ui:insert name="footer">
-			
-			<p><small><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons 3.0 by-sa </a> | 2012 MdissJava group</small></p>
-			
+				<ui:include src="footer.xhtml"/>						
 			</ui:insert>
 		</div>
         </h:body>
