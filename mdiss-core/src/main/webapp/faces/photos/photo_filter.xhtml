@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces" 
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"> 
+    
+    <ui:composition template="/templates/base.xhtml">
+      
+      
+      	<ui:define name="head">
+     		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+     		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/>
+     		<h:outputScript library="js" name="filtrr/filtrr2.js" />
+			<h:outputScript library="js" name="filtrr/layers.js" />
+			<h:outputScript library="js" name="filtrr/effects.js" />
+			<h:outputScript library="js" name="filtrr/events.js" />
+			<h:outputScript library="js" name="filtrr/util.js" />
+
+      	</ui:define>
+      	
+      	
+		<ui:define name="title">
+			Mdissphoto / #{photoDetailsBean.photo.title} by #{photoDetailsBean.userNick}
+		</ui:define>
+		
+		<ui:define name="header">	
+		</ui:define>
+		
+		<ui:define name="body">			
+	    	<!-- Photo title -->
+	    	<div class="row-fluid">
+				<div class="span12">
+		      		<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>	
+	       		</div>
+            </div>
+	    	
+	    	<!-- Photo and menu -->
+	    	<div class="row-fluid">
+				<div class="row">
+					<div class="span12">
+						<!--  <h:graphicImage id="original-image" styleClass="thumbnail" value="#{photoFilterBean.detailedPhotoURL}" />-->
+						<h:graphicImage id="modified-image" styleClass="thumbnail" value="#{photoFilterBean.detailedPhotoURL}" />
+					</div>
+					
+					<h:form prependId="false" id="modifiedImageForm" enctype="multipart/form-data">
+						<h:inputHidden name="modifiedImageDataField" id="modifiedImageDataField" value="#{photoFilterBean.modifiedImageData}" />
+    					<h:commandButton id="formSubmitButton" styleClass="btn btn-primary btn-mini" value="Export" type="submit" action="#{photoFilterBean.saveModifiedImageData}" />  
+					</h:form>
+					
+					<h:commandButton id="effect1" styleClass="btn btn-warning btn-mini" value="effect1" />
+					<h:commandButton id="effect2" styleClass="btn btn-warning btn-mini" value="effect2" />
+					<h:commandButton id="effect3" styleClass="btn btn-warning btn-mini" value="effect3" />
+					<h:commandButton id="effect4" styleClass="btn btn-warning btn-mini" value="effect4" />
+					
+   				</div>
+			</div>
+			
+    		 <script type="text/javascript">
+    		 var my;
+    		 
+    		 //effect 1
+    		 var effect1 = function() {
+    				
+	                var dup = this.dup()
+	                              .expose(-20);
+	
+	                this.contrast(30)
+	                    .saturate(-50)
+	                    .layer('overlay', dup)
+	                    .render();
+	            }
+	            
+    		 //effect2
+    		 var effect2 = function() {
+	                this.sepia()
+	                	.render();
+	            }
+    		 
+    		 //effect3
+    		 var effect3 = function() {
+	                this.invert()
+	                	.render();
+	            }
+	         
+    		 //effect4
+    		 var effect4 = function() {
+	                this.blur('gaussian')
+	                	.render();
+	            }
+    		 
+    		 $("#effect1").click(function() {
+                 
+	    		my = Filtrr2("#modified-image", effect1);
+             });
+	    	
+    		 $("#effect2").click(function() {
+                 
+ 	    		my = Filtrr2("#modified-image", effect2);
+              });
+    		 
+    		 $("#effect3").click(function() {
+                 
+  	    		my = Filtrr2("#modified-image", effect3);
+               });
+    		 
+    		 $("#effect4").click(function() {
+                 
+  	    		my = Filtrr2("#modified-image", effect4);
+               });
+	    		
+            //apply before submit the form
+            $("#modifiedImageForm").submit(function() {
+            	//set the hidden form field with the image data
+            	var data = my.canvas[0].toDataURL('image/png');
+            	$('input[name=modifiedImageDataField]').val(data);
+            	
+            });
+
+            
+            
+        </script>
+		</ui:define>
+		
+    </ui:composition>
+    
+    
+</html>

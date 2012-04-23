@@ -170,7 +170,7 @@
 			<artifactId>proxytoys</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+		
 		<!-- Our dependencies -->
 		<dependency>
             <groupId>org.mdissjava.commonutils</groupId>

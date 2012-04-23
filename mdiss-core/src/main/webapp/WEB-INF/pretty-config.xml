@@ -91,10 +91,16 @@
 		<view-id value="/faces/photos/photo_detail.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="photo_filter">
+		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/filter/" />
+		<view-id value="/faces/photos/photo_filter.jsf" />
+	</url-mapping>
+	
 	<url-mapping id="photo_size">
 		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
 		<view-id value="/faces/photos/photo_size.jsf" />
 	</url-mapping>
+	
 
 	<url-mapping id="tag_detail">
 		<pattern value="/tag/#{tag:paramsBean.tag}/" />
