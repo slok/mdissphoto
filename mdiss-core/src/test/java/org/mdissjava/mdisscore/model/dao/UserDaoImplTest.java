@@ -37,11 +37,11 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("jess");
+		user.setNick("jess2");
 		user.setActive(true);
-		user.setName("Jessica");		
-		user.setSurname("Smith");
-		user.setPhone(944655877);
+		user.setName("Jessica2");		
+		user.setSurname("Smith2");
+		user.setPhone(944655874);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
 		user.setAddress(address);
@@ -49,8 +49,8 @@ public class UserDaoImplTest {
 		user.addPreference("nature");
 		user.addPreference("horses");
 		user.addPreference("sunsets");
-		user.setEmail("prueba@prueba.com");
-		user.setPass("prueba");
+		user.setEmail("prueba2@prueba2.com");
+		user.setPass("prueba2");
 
 		UserDao dao = new UserDaoImpl();
 		
@@ -73,10 +73,10 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("jess");
+		user.setNick("jess2");
 		user.setActive(true);
-		user.setName("Jessica");		
-		user.setSurname("Smith");
+		user.setName("Jessica2");		
+		user.setSurname("Smith2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -85,8 +85,8 @@ public class UserDaoImplTest {
 		user.addPreference("nature");
 		user.addPreference("horses");
 		user.addPreference("sunsets");
-		user.setEmail("prueba@prueba.com");
-		user.setPass("prueba");
+		user.setEmail("prueba2@prueba2.com");
+		user.setPass("prueba2");
 
 		UserDao dao = new UserDaoImpl();
 		
@@ -94,12 +94,12 @@ public class UserDaoImplTest {
 		
 
 		
-		if(dao.emailAllReadyExists("prueba@prueba.com"))
+		if(dao.emailAllReadyExists("prueba2@prueba2.com"))
 		{}
 		else
 			throw new Exception("email not found exception");
 		
-		if(dao.nickAllReadyExists("jess"))
+		if(dao.nickAllReadyExists("jess2"))
 		{}
 		else
 			throw new Exception(" nick not found exception");
@@ -122,9 +122,9 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("Prueba");
-		user.setName("Prueba");		
-		user.setSurname("Smith");
+		user.setNick("Prueba2");
+		user.setName("Prueba2");		
+		user.setSurname("Smith2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -133,15 +133,15 @@ public class UserDaoImplTest {
 		user.addPreference("nature");
 		user.addPreference("horses");
 		user.addPreference("sunsets");
-		user.setEmail("prueba@prueba.com");
-		user.setPass("prueba");
+		user.setEmail("prueba2@prueba2.com");
+		user.setPass("prueba2");
 		
 		UserDao dao = new UserDaoImpl();
 		
 		dao.addUser(user);		
 
 		dao.deleteUser(user);				
-		assertNull(dao.getUserByName("Prueba")); 		
+		assertNull(dao.getUserByName("Prueba2")); 		
 		
 		
 	}
@@ -160,9 +160,9 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("mdiss");
-		user.setName("Java");		
-		user.setSurname("Master");
+		user.setNick("mdiss2");
+		user.setName("Java2");		
+		user.setSurname("Master2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -171,7 +171,7 @@ public class UserDaoImplTest {
 		user.addPreference("java");
 		user.addPreference("programming");
 		user.addPreference("pojos");
-		user.setEmail("prueba@prueba.com");
+		user.setEmail("prueba2@prueba2.com");
 		user.setPass("9e2c6781e1d498c41d3b146262158a5803f9724067af0d30e7179856ad66c74f");
 		user.setRole("USER");
 		user.setActive(true);
@@ -202,10 +202,10 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 		
 		User user = new User();
-		user.setNick("jessAgain");
+		user.setNick("jessAgain2");
 		user.setActive(true);
-		user.setName("JessicaAgain");		
-		user.setSurname("SmithAgain");
+		user.setName("JessicaAgain2");		
+		user.setSurname("SmithAgain2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -214,13 +214,13 @@ public class UserDaoImplTest {
 		user.addPreference("nature");
 		user.addPreference("horses");
 		user.addPreference("sunsets");
-		user.setEmail("pruebaUpdate@prueba.com");
+		user.setEmail("pruebaUpdate2@prueba2.com");
 		user.setPass("prueba");
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);
 		
-		user.setEmail("pruebaUpdateCorrecta@prueba.com");
+		user.setEmail("pruebaUpdateCorrecta2@prueba2.com");
 		
 		dao.updateUser(user);
 		
@@ -243,10 +243,10 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("javi");
+		user.setNick("javi2");
 		user.setActive(true);
-		user.setName("Javier");		
-		user.setSurname("Gonzalez");
+		user.setName("Javier2");		
+		user.setSurname("Gonzalez2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Male);
@@ -255,8 +255,8 @@ public class UserDaoImplTest {
 		user.addPreference("Jamon");
 		user.addPreference("Cocina");
 		user.addPreference("Paisajes");
-		user.setEmail("Javier@prueba.com");
-		user.setPass("javi");
+		user.setEmail("Javier2@prueba2.com");
+		user.setPass("javi2");
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
@@ -291,10 +291,10 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("Raulete");
+		user.setNick("Raulete2");
 		user.setActive(true);
-		user.setName("Raul");		
-		user.setSurname("Macua");
+		user.setName("Raul2");		
+		user.setSurname("Macua2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Male);
@@ -303,8 +303,8 @@ public class UserDaoImplTest {
 		user.addPreference("chorizo");
 		user.addPreference("Cocina");
 		user.addPreference("salsa");
-		user.setEmail("Raul@prueba.com");
-		user.setPass("raul");
+		user.setEmail("Raul2@prueba2.com");
+		user.setPass("raul2");
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
@@ -321,10 +321,10 @@ public class UserDaoImplTest {
 		Configuration conf2 = new Configuration();
 										
 		User user2 = new User();
-		user2.setNick("Maria");
+		user2.setNick("Maria2");
 		user2.setActive(true);
-		user2.setName("Maria");		
-		user2.setSurname("Subijana");
+		user2.setName("Maria2");		
+		user2.setSurname("Subijana2");
 		user2.setPhone(944655877);
 		user2.setBirthdate(new Date());
 		user2.setGender(Gender.Female);
@@ -333,8 +333,8 @@ public class UserDaoImplTest {
 		user2.addPreference("salsa");
 		user2.addPreference("bailes");
 		user2.addPreference("Paisajes");
-		user2.setEmail("Maria@prueba.com");
-		user2.setPass("maria");
+		user2.setEmail("Maria2@prueba2.com");
+		user2.setPass("maria2");
 		
 		
 		dao.addUser(user2);				
@@ -379,9 +379,9 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 		
 		User user = new User();
-		user.setNick("mdiss");
-		user.setName("Java");		
-		user.setSurname("Master");
+		user.setNick("mdiss2");
+		user.setName("Java2");		
+		user.setSurname("Master2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -390,7 +390,7 @@ public class UserDaoImplTest {
 		user.addPreference("java");
 		user.addPreference("programming");
 		user.addPreference("pojos");
-		user.setEmail("prueba@prueba.com");
+		user.setEmail("prueba2@prueba2.com");
 		user.setPass("9e2c6781e1d498c41d3b146262158a5803f9724067af0d30e7179856ad66c74f");
 		user.setRole("USER");
 		user.setActive(true);
@@ -399,7 +399,7 @@ public class UserDaoImplTest {
 		dao.addUser(user);
 		
 				
-		assertEquals("mdiss",  dao.getUserByName("mdiss").getNick());
+		assertEquals("mdiss2",  dao.getUserByName("mdiss2").getNick());
 		
 		dao.deleteUser(user);
 		
