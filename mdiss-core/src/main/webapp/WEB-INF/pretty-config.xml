@@ -11,6 +11,11 @@
 		<view-id value="/faces/index.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="registration">
+		<pattern value="/registration" />
+		<view-id value="/faces/auth/registration.jsf" />
+	</url-mapping>	
+	
 	<url-mapping id="login">
 		<pattern value="/login/" />
 		<view-id value="/faces/auth/login.jsf" />

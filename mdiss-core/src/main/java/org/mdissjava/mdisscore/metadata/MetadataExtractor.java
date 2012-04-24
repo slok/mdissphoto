@@ -13,7 +13,8 @@ import com.drew.metadata.MetadataException;
 
 public interface MetadataExtractor {
 
-	public Metadata obtenerMetadata(FileInputStream foto, String format) throws MetadataException, ImageProcessingException, IOException;
-	public String getExtension(File f);
-
+	public Metadata obtenerMetadata(byte[] photo) throws MetadataException, ImageProcessingException, IOException;
+	public String getOnlyExtension(String type);
+	public long bytesToMb(int bytes);
+	
 }

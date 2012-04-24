@@ -35,7 +35,7 @@
 		
 		<!-- Morphia updated repo -->
         <repository>
-            <id>morphia.googlecode.com</id>
+            <id>com.google.code.morphia</id>
             <name>Morphia Repo at Google Code</name>
             <url>http://morphia.googlecode.com/svn/mavenrepo</url>
         </repository>
@@ -184,6 +184,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         
+        <!-- Metadata Dependencies -->
         <dependency>
             <groupId>com.drew</groupId>
             <artifactId>metadata-extractor</artifactId>
@@ -195,6 +196,12 @@
             <artifactId>xmpcore</artifactId>
             <version>5.1</version>
         </dependency>
+        
+        <dependency>
+    		<groupId>eu.medsea.mimeutil</groupId>
+    		<artifactId>mime-util</artifactId>
+    		<version>2.1.3</version>
+		</dependency>
         
     <!-- Hibernate 4 -->
     <dependency>
@@ -273,6 +280,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${spring-security.version}</version>
+		</dependency>
+		
+		<!-- lucene search -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>3.0.1</version>
 		</dependency>	
     </dependencies>
     
