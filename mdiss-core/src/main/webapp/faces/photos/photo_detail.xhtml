@@ -37,10 +37,18 @@
 			</style>
      		
      		<script type="text/javascript">
+     		
+     		//if we have less than 3 thumbnails then the quantity of thumnails to display
+     		//is that number and not three
+     		
+     		var total = #{fn:length(photoDetailsBean.thumbnailIds)};
+     		if (total > 3)
+     			total = 3;
+     		
 			jQuery(function($) {
 				$( "#carousel ").rcarousel({
 					margin: 5,
-					visible: 3,
+					visible: total,
 					step: 1,
 				});
 				
@@ -83,14 +91,70 @@
 					</div>
    				
 					<div class="span4">
-		   				<!-- Statistics -->
-	   					<div class="row">
-						</div>
-			   				<!-- photo information -->
-						<div class="row">
-			   				<hr/>
-							<h3>Metadata:</h3>
-							<h3>Album:</h3>
+			   				<!-- Statistics -->
+		   					<div class="row">
+							</div>
+			   				<!-- Metadata -->
+							<div class="row">
+				   				<hr/>
+								<table class="table">
+									<tr>
+							        <td>
+							          <span><i class=" icon-folder-open"></i> Album</span>
+							        </td>
+							        <td>
+							          #{photoDetailsBean.photo.album.title}
+							        </td>
+							      </tr>
+							      
+							       <tr>
+							        <td>
+							          <span><i class="icon-calendar"></i> Date</span>
+							        </td>
+							        <td>
+							          #{photoDetailsBean.photo.metadata.dateTaken}
+							        </td>
+							      </tr>
+							      
+							      <tr>
+							        <td>
+							          <span><i class="icon-picture"></i> Original format</span>
+							        </td>
+							        <td>
+							          #{photoDetailsBean.photo.metadata.format}
+							        </td>
+							      </tr>
+							      
+							       <tr>
+							        <td>
+							          <span><i class="icon-fullscreen"></i> Original Resolution</span>
+							        </td>
+							        <td>
+							          #{photoDetailsBean.photo.metadata.resolution.width}x#{photoDetailsBean.photo.metadata.resolution.height}
+							        </td>
+							      </tr>
+							      
+								  <tr>
+							        <td>
+							          <span><i class="icon-search"></i> Focal Length</span>
+							        </td>
+							        <td>
+							          #{photoDetailsBean.photo.metadata.focalLength}mm
+							        </td>
+							      </tr>
+							      
+							       <tr>
+							        <td>
+							          <span><i class="icon-road"></i> ISO speed</span>
+							        </td>
+							        <td>
+							          1/#{photoDetailsBean.photo.metadata.ISOSpeed}sec
+							        </td>
+							      </tr>
+							      
+							     
+							      
+						    	</table>
 							
 						</div>
 							<!-- tags -->
