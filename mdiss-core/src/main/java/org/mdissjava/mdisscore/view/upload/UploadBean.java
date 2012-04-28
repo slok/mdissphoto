@@ -111,11 +111,11 @@ public class UploadBean {
 				e.printStackTrace();
 				this.logger.error("Error extracting metadata");
 			}
-			System.out.println("hor8");
+
 			//set the new status to the photo
 			PhotoStatusManager photoManager = new PhotoStatusManager(ds);
 			photoManager.createPhotoStatus(this.imageId);
-			System.out.println("horl9");
+			
 			//set the paramas in the url
 			ParamsBean params = getPrettyfacesParams();
 			params.setPhotoId(this.imageId);
