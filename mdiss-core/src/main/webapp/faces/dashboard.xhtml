@@ -15,27 +15,25 @@
 		</ui:define>
 		
 		<ui:define name="body">
-			
-			<div class="container-fluid">				
-			
-				<ui:insert name="user_info">
-        			<ui:include src="users/profile.xhtml"/>	
-        		</ui:insert>
-			
-				<div class="row-fluid">								
-					<div>
-						<div class="span12">				
-							<ui:insert name="top_photos">
-		        				<ui:include src="top_photos.xhtml"/>	
-		        			</ui:insert>
-					
-							<ui:insert name="dynamic_space">
-								<ui:include src="users/wall.xhtml"/>	
-		        			</ui:insert>
-						</div>
+
+			<ui:insert name="user_info">
+       			<ui:include src="users/profile.xhtml"/>	
+       		</ui:insert>
+		
+			<div class="row-fluid">								
+				<div>
+					<div class="span12">				
+						<ui:insert name="top_photos">
+	        				<ui:include src="top_photos.xhtml"/>	
+	        			</ui:insert>
+				
+						<ui:insert name="dynamic_space">
+							<ui:include src="users/wall.xhtml"/>	
+	        			</ui:insert>
 					</div>
 				</div>
 			</div>
+
 						
 					    
 		    <!--  ================================================== -->
