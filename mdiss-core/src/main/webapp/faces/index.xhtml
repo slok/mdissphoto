@@ -4,93 +4,107 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
-    <ui:composition template="/templates/base.xhtml">
-      
-		<ui:define name="title">MDISSPHOTO</ui:define>
-				
-		<ui:define name="body">			
-    		<div class="container-fluid">
-    			<div class="row-fluid">	
-	    			 <div class="span12">
-						<p:tabView id="tabView">  
-							<p:tab id="tabExplore" title="Explore">  
-					      		<div class="hero-unit">
-					        		<p:imageSwitch effect="fade">  
-				    					<ui:repeat value="#{imageSwitchBean.images}" var="image">  
-				        					<!--  p:graphicImage value="/images/#{image}" /-->  
-				    					</ui:repeat>  
-									</p:imageSwitch>
-									La idea es que aquí vayan apareciendo imágenes aleatorias.
-									(Ver el componente ImageSwitch en la Demo de Primefaces)
-									<br />
-					        	    <p><a href="pretty:dashboard" class="btn btn-primary btn-large">Explore!! »</a></p>
-					      		</div>
-		 					</p:tab>  
-		 					<p:tab id="tabRegister" title="Register"> 
-								<h:form id="form">		 			
-						 			<h:panelGrid id="grid" columns="3">
-						 			
-						 				<h:outputLabel value="Nick: *"/>
-										<p:inputText id="nick" value="#{registrationbean.nick}" required="true" label="Nick"/>
-										<p:message id="nickoutput" for="nick" display="text" />
-						 			
-						 				<h:outputLabel value="Nombre: *"/>
-										<p:inputText id="nombre" value="#{registrationbean.name}" required="true" label="Nombre"/>
-										<p:message id="nombreoutput" for="nombre" display="text" />						
-										
-										<h:outputLabel value="Apellido: *"/>
-										<p:inputText id="apellido" value="#{registrationbean.surname}" required="true" label="Apellido"/>
-										<p:message id="apellidooutput" for="apellido" display="text" />
-										
-										<h:outputLabel value="telefono *"/>
-										<p:inputText id="telefono" value="#{registrationbean.phone}" required="true" size="30" label="telefono"/>
-										<p:message id="telefonooutput" for="telefono" display="text" />
-										
-										<h:outputLabel value="Email: *"/>
-										<p:inputText id="email" value="#{registrationbean.email}" required="true" label="email"/>
-										<p:message id="emailoutput" for="email" display="text" />	
-										
-										<h:outputLabel value="Contraseña: *"/>
-										<p:inputText id="contraseña" value="#{registrationbean.password}" required="true" label="contraseña"/>
-										<p:message id="contraseñaoutput" for="contraseña" display="text" />																				
-									</h:panelGrid>
-									
-									<h:commandButton  styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{registrationbean.register}" /> 		    			    				    			    	
-		    					</h:form> 
-		 					</p:tab>
-		 				</p:tabView>
-		 			</div>
-	 			</div>
-	      		<!-- Example row of columns -->
-	      		<br /><br />
-	      		<div class="row-fluid">
-	        		<div class="span4">
-	          			<h2>Create</h2>
-	           			<p>Donec id elit non mi porta gravida at eget metus. Fusce 
-							dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-							fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-							mollis euismod. Donec sed odio dui. </p>
-	        		</div>	        
-		        	<div class="span4">      	
-			          	<h2>Discover</h2>
-		           		<p>Donec id elit non mi porta gravida at eget metus. Fusce 
-							dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-							fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-							mollis euismod. Donec sed odio dui. </p>
-		       		</div>
-			        <div class="span4">
-			          <h2>Share</h2>
-							<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis 
-							in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. 
-							Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-							 ut fermentum massa justo sit amet risus.</p>
-			        </div>
-	     		</div>
-      		</div>
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-		</ui:define>
-		
-    </ui:composition>
+<ui:composition template="/templates/base.xhtml">
+
+	<ui:define name="title">MDISSPHOTO</ui:define>
+
+	<ui:define name="body">
+		<div>
+			<div class="span10 offset1">
+				<div class="row-fluid">
+					<p:tabView id="tabView">
+						<p:tab id="tabExplore" title="Explore">
+							<div class="hero-unit">
+								<p:imageSwitch effect="fade">
+									<ui:repeat value="#{imageSwitchBean.images}" var="image">
+										<!--  p:graphicImage value="/images/#{image}" /-->
+									</ui:repeat>
+								</p:imageSwitch>
+								La idea es que aquí vayan apareciendo imágenes aleatorias. (Ver
+								el componente ImageSwitch en la Demo de Primefaces) <br />
+								<p>
+									<a href="pretty:dashboard" class="btn btn-primary btn-large">Explore!!
+										»</a>
+								</p>
+							</div>
+						</p:tab>
+						<p:tab id="tabRegister" title="Register">
+							<h:form id="form">
+								<h:panelGrid id="grid" columns="3">
+
+									<h:outputLabel value="Nick: *" />
+									<p:inputText id="nick" value="#{registrationbean.nick}"
+										required="true" label="Nick" />
+									<p:message id="nickoutput" for="nick" display="text" />
+
+									<h:outputLabel value="Nombre: *" />
+									<p:inputText id="nombre" value="#{registrationbean.name}"
+										required="true" label="Nombre" />
+									<p:message id="nombreoutput" for="nombre" display="text" />
+
+									<h:outputLabel value="Apellido: *" />
+									<p:inputText id="apellido" value="#{registrationbean.surname}"
+										required="true" label="Apellido" />
+									<p:message id="apellidooutput" for="apellido" display="text" />
+
+									<h:outputLabel value="telefono *" />
+									<p:inputText id="telefono" value="#{registrationbean.phone}"
+										required="true" size="30" label="telefono" />
+									<p:message id="telefonooutput" for="telefono" display="text" />
+
+									<h:outputLabel value="Email: *" />
+									<p:inputText id="email" value="#{registrationbean.email}"
+										required="true" label="email" />
+									<p:message id="emailoutput" for="email" display="text" />
+
+									<h:outputLabel value="Contraseña: *" />
+									<p:inputText id="contraseña"
+										value="#{registrationbean.password}" required="true"
+										label="contraseña" />
+									<p:message id="contraseñaoutput" for="contraseña"
+										display="text" />
+								</h:panelGrid>
+
+								<h:commandButton styleClass="btn btn-primary btn-large"
+									value="submit" type="submit"
+									action="#{registrationbean.register}" />
+							</h:form>
+						</p:tab>
+					</p:tabView>
+				</div>
+			</div>
+			<!-- Example row of columns -->
+			<br />
+			<br />
+			<div class="span10 offset1">
+				<div class="row-fluid">
+					<div class="span4">
+						<h2>Create</h2>
+						<p>Donec id elit non mi porta gravida at eget metus. Fusce
+							dapibus, tellus ac cursus commodo, tortor mauris condimentum
+							nibh, ut fermentum massa justo sit amet risus. Etiam porta sem
+							malesuada magna mollis euismod. Donec sed odio dui.</p>
+					</div>
+					<div class="span4">
+						<h2>Discover</h2>
+						<p>Donec id elit non mi porta gravida at eget metus. Fusce
+							dapibus, tellus ac cursus commodo, tortor mauris condimentum
+							nibh, ut fermentum massa justo sit amet risus. Etiam porta sem
+							malesuada magna mollis euismod. Donec sed odio dui.</p>
+					</div>
+					<div class="span4">
+						<h2>Share</h2>
+						<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis
+							in, egestas eget quam. Vestibulum id ligula porta felis euismod
+							semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+							condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
 </html>
