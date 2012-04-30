@@ -29,11 +29,12 @@
 					      		</div>
 		 					</p:tab>  
 		 					<p:tab id="tabRegister" title="Register"> 
-								<h:form id="form">		 			
+								<h:form id="form">		
+								<p:growl id="growl" sticky="true" showDetail="true"/>   			
 						 			<h:panelGrid id="grid" columns="3">
 						 			
 						 				<h:outputLabel value="Nick: *"/>
-										<p:inputText id="nick" value="#{registrationbean.nick}" required="true" label="Nick"/>
+										<p:inputText id="nick" value="#{registrationbean.nick}"  required="true" label="Nick"/>
 										<p:message id="nickoutput" for="nick" display="text" />
 						 			
 						 				<h:outputLabel value="Nombre: *"/>
@@ -48,16 +49,29 @@
 										<p:inputText id="telefono" value="#{registrationbean.phone}" required="true" size="30" label="telefono"/>
 										<p:message id="telefonooutput" for="telefono" display="text" />
 										
-										<h:outputLabel value="Email: *"/>
-										<p:inputText id="email" value="#{registrationbean.email}" required="true" label="email"/>
-										<p:message id="emailoutput" for="email" display="text" />	
+										<h:outputLabel value="Sexo:"/>
+										<p:selectOneMenu id="checkSex" value="#{registrationbean.favGender}">
+											 <f:selectItem itemValue="Hombre" itemLabel="Hombre" />
+											 <f:selectItem itemValue="Mujer" itemLabel="Mujer" />
+										</p:selectOneMenu>
+										<p:message id="Sexooutput" for="checkSex" display="text" />
 										
-										<h:outputLabel value="Contraseña: *"/>
-										<p:inputText id="contraseña" value="#{registrationbean.password}" required="true" label="contraseña"/>
-										<p:message id="contraseñaoutput" for="contraseña" display="text" />																				
+										<h:outputLabel value="Email: *"/>
+										<p:inputText id="email" value="#{registrationbean.email}" required="true" label="email">
+											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
+										</p:inputText>
+										<h:message for="email" style="color:red" />	
+										
+										<h:outputLabel for="pwd1" value="Contraseña: *"/>
+											<p:password id="pwd1"  value="#{registrationbean.password}" match="pwd2" label="Password 1" required="true"/>  
+											<p:message id="contraseñaoutput" for="pwd1" display="text" />
+													
+											<h:outputLabel for="pwd2" value="Repetir contraseña: *"/>
+											<p:password id="pwd2" value="#{registrationbean.password}" label="Password 2" required="true"/> 
+											<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
+																											
 									</h:panelGrid>
-									
-									<h:commandButton  styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{registrationbean.register}" /> 		    			    				    			    	
+									<p:commandButton styleClass="btn btn-primary btn-large" update="growl" value="Submit" type="submit"  actionListener="#{registrationbean.register}"/>		    			    				    			    	
 		    					</h:form> 
 		 					</p:tab>
 		 				</p:tabView>
