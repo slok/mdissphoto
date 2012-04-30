@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.model.dao.UserDao;
+import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
@@ -14,11 +15,14 @@ public class UserManagerImpl implements UserManager {
 	//MorphiaDatastoreFactory.getDatastore("test")
 	private UserDao userdao =new UserDaoImpl();
 	
+
+	
 	@Override
 	public void saveUser(User user) {
 		//si es nuevo usuario poner fecha del registro, y guardar
 		if(user.getId()==0)
-		{//alta de nuevo usuario			
+		{//alta de nuevo usuario
+			System.out.println("UserManagerImpl//Nuevo Usuario**********");
 			user.setPass(PEncoder(user.getPass()));
 			userdao.addUser(user);				
 		}
@@ -76,6 +80,18 @@ public class UserManagerImpl implements UserManager {
 	{
 		PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
 		 return sha256Encoder.encodePassword(password,null);
+	}
+
+	@Override
+	public boolean EmailAllReadyExist(String email) {
+		return	userdao.emailAllReadyExists(email);
+		
+	}
+
+	@Override
+	public boolean NickAllReadyExist(String nick) {
+		
+		return userdao.nickAllReadyExists(nick);
 	}
 
 

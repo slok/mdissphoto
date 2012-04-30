@@ -22,7 +22,7 @@ public class UserManagerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		HibernateUtil.getSession();
+	//	HibernateUtil.getSession();
 	}
 	
 	

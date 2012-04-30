@@ -2,7 +2,9 @@ package org.mdissjava.mdisscore.view.photo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -33,6 +35,10 @@ public class PhotoDetailsBean {
 	
 	private Photo photo;
 	
+	private final String GLOBAL_PROPS_KEY = "globals";
+	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
+	
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -46,7 +52,7 @@ public class PhotoDetailsBean {
 			//get morphia database from properties and load the photo by its id
 			String database;
 			PropertiesFacade propertiesFacade = new PropertiesFacade();
-			database = propertiesFacade.getProperties("globals").getProperty("morphia.db");
+			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
 		
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
@@ -55,19 +61,34 @@ public class PhotoDetailsBean {
 			
 			
 			//search the available sizes for this photo
-			int sizes[] = {100, 240, 320, 500, 640, 800, 1024}; //our different sizes
+			//int sizes[] = {100, 240, 320, 500, 640, 800, 1024}; //our different sizes
+			Properties allResolutions = propertiesFacade.getProperties(RESOLUTIONS_PROPS_KEY);
+			List<Integer> sizes = new ArrayList<Integer>();
+			
 			this.defaultPhotoSizes = new ArrayList<String>();
 			int photoSize = 640;
 			
-			for (int i: sizes)
-			{
-				//if i is bigger than our photo size then don't add to the list of available sizes for this photo
-				if (photoSize >= i)
-				{
-					this.defaultPhotoSizes.add(String.valueOf(i));
-				}
-			}
+			// we get all the available resolutions
+			@SuppressWarnings("rawtypes")
+			Enumeration resolutions = allResolutions.keys();
 			
+			String key;
+			//for each one we check if is scalar one and not square and if is smaller than the photo
+			while(resolutions.hasMoreElements())
+			{
+				key = (String)resolutions.nextElement();
+				
+				//Only needed the scale ones, not the squares
+				if (allResolutions.getProperty(key).contains("scale"))
+				{
+					//if is bigger than our photo size then don't add to the list of available sizes for this photo
+					if (photoSize >= Integer.valueOf(key))
+					{
+						this.defaultPhotoSizes.add(key);
+					}
+				}
+					
+			}
 			
 			// we want to know wich is the best photo for the display of the detail. 
 			// Max is 640px but some photos are smaller than 640px so we set the original size
@@ -76,9 +97,9 @@ public class PhotoDetailsBean {
 			
 			String bucket;
 			String bucketPropertyKey = null;
-			if(photoSize >= 640)//640px size
+			if(photoSize >= 500)//500px size
 			{
-				bucketPropertyKey = "thumbnail.scale.640px.bucket.name";
+				bucketPropertyKey = "thumbnail.scale.500px.bucket.name";
 				bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
 			}
 			else//original size

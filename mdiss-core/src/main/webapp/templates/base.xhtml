@@ -11,6 +11,7 @@
             <title><ui:insert name="title">#{msg.indexTitle}</ui:insert></title>
             <!-- CSS -->
             <h:outputStylesheet library="css" name="bootstrap.css"  />
+             <h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
             <h:outputStylesheet library="css" name="style.css"  />
             <!-- Javascript -->
             <!-- Other -->
@@ -18,23 +19,27 @@
         </h:head>
 
         <h:body>
-		<div class="container">        	
-        	<header>
-	        	<ui:insert name="header">
+			<div class="container-fluid">        	    
+        		<ui:insert name="header">
 	        		<ui:include src="header.xhtml"/>
-	       		</ui:insert>
-			</header>
+       			</ui:insert>
+
         	
-<!-- ########################## -->
-        	<ui:insert name="body">
+				<!-- ########################## -->
+			     	<ui:insert name="body">
         		
-        	</ui:insert>
-<!-- ########################## -->
-			<hr/>
-			<ui:insert name="footer">
-				<ui:include src="footer.xhtml"/>						
-			</ui:insert>
-		</div>
+        			</ui:insert>
+				<!-- ########################## -->
+					<hr/>
+					<ui:insert name="footer">
+						<ui:include src="footer.xhtml"/>						
+					</ui:insert>
+			</div>
+		
+			<ui:insert name="menu">
+									
+			</ui:insert>	
+		
         </h:body>
 <!-- ########################## -->
 	</f:view>

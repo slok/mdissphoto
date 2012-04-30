@@ -16,8 +16,10 @@ import org.mdissjava.mdisscore.model.pojo.User;
 
 
 public class UserDaoImpl implements UserDao {
+
 	
 	public UserDaoImpl() {
+		
 	}	
 	
 	@Override
@@ -26,6 +28,7 @@ public class UserDaoImpl implements UserDao {
 		Session session = HibernateUtil.getSession();
 
 		int num = (Integer) session.createQuery("from User where email = '"+email+"'").list().size();
+	//	session.close();
 		if(num>0)
 			return true;
 		else
@@ -38,6 +41,7 @@ public class UserDaoImpl implements UserDao {
 		Session session = HibernateUtil.getSession();
 
 		int num = (Integer) session.createQuery("from User where nick = '"+nick+"'").list().size();
+	//	session.close();
 		if(num>0)
 			return true;
 		else
@@ -47,10 +51,12 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void addUser(User user) {
 		if(user != null){
+			System.out.println("DAo // addUser*************");
 			Session session = HibernateUtil.getSession();
 			Transaction tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
+			//session.close();
 		}
 	}
 
@@ -60,7 +66,8 @@ public class UserDaoImpl implements UserDao {
 			Session session = HibernateUtil.getSession();
 			Transaction tx = session.beginTransaction();
 			session.delete(user);
-			tx.commit();			
+			tx.commit();
+		//	session.close();
 		}
 	}
 		
@@ -73,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 		Query q = session.createQuery("" + "from User as user "
 				+ "where user.id =" + id);
 		user = (User) q.uniqueResult();
-
+	//	session.close();
 		
 		return user;
 	
@@ -96,6 +103,7 @@ public class UserDaoImpl implements UserDao {
 			Transaction tx = session.beginTransaction();
 			session.update(user);
 			tx.commit();
+		//	session.close();
 		}		
 	}
 
@@ -108,7 +116,7 @@ public class UserDaoImpl implements UserDao {
 		Query q = session.createQuery("" + "from friends as users "
 				+ "where friends.userId =" + user.getId());
 		users =  q.list();
-		
+	//	session.close();
 		return users;
 	}
 
@@ -125,14 +133,15 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUserByName(String username) {
+	public User getUserByNick(String nick) {
 		
 		User user = null;
 		Session session = HibernateUtil.getSession();
 		
-		Query q = session.createQuery("" + "from User as user where user.nick =" + "'" + username + "'");
+		Query q = session.createQuery("" + "from User as user where user.nick =" + "'" + nick + "'");
 		user = (User) q.uniqueResult();
-		
+	//	session.close();
+	//	System.out.println("getUserByNick: insert "+nick +" con Nick recuperado: "+user.getNick());
 		return user;
 	}
 

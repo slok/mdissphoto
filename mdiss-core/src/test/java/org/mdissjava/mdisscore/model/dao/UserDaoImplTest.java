@@ -37,7 +37,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("jess2");
+		user.setNick("Chesua");
 		user.setActive(true);
 		user.setName("Jessica2");		
 		user.setSurname("Smith2");
@@ -55,7 +55,7 @@ public class UserDaoImplTest {
 		UserDao dao = new UserDaoImpl();
 		
 		dao.addUser(user);				
-		assertEquals(user, dao.getUserByName(user.getNick()));
+		assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		dao.deleteUser(user);
 		
@@ -73,7 +73,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("jess2");
+		user.setNick("Cheseal");
 		user.setActive(true);
 		user.setName("Jessica2");		
 		user.setSurname("Smith2");
@@ -104,6 +104,9 @@ public class UserDaoImplTest {
 		else
 			throw new Exception(" nick not found exception");
 	
+		if(dao.nickAllReadyExists("Chekitua"))
+		{throw new Exception(" nick que no existe Exception");}
+
 		dao.deleteUser(user);
 	}
 	
@@ -122,8 +125,8 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("Prueba2");
-		user.setName("Prueba2");		
+		user.setNick("Prueba001");
+		user.setName("Prueba001");		
 		user.setSurname("Smith2");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
@@ -141,7 +144,7 @@ public class UserDaoImplTest {
 		dao.addUser(user);		
 
 		dao.deleteUser(user);				
-		assertNull(dao.getUserByName("Prueba2")); 		
+		assertNull(dao.getUserByNick("Prueba2")); 		
 		
 		
 	}
@@ -160,7 +163,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("mdiss2");
+		user.setNick("mdissSuanzer2");
 		user.setName("Java2");		
 		user.setSurname("Master2");
 		user.setPhone(944655877);
@@ -179,10 +182,10 @@ public class UserDaoImplTest {
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);
 				
-		assertEquals(user, dao.getUserByName(user.getNick()));
-		
-		User user2=dao.getUserByName(user.getNick());
-		if(user2.getEmail()!=user.getEmail())
+		assertEquals(user, dao.getUserByNick(user.getNick()));
+		System.out.println("EMail original:"+user.getEmail());
+		User user2=dao.getUserByNick(user.getNick());
+		if(!user2.getEmail().equals(user.getEmail()))
 			throw new IllegalArgumentException("error");
 		
 		dao.deleteUser(user);
@@ -202,10 +205,10 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 		
 		User user = new User();
-		user.setNick("jessAgain2");
+		user.setNick("jessAgain4");
 		user.setActive(true);
-		user.setName("JessicaAgain2");		
-		user.setSurname("SmithAgain2");
+		user.setName("JessicaAgain4");		
+		user.setSurname("SmithAgain4");
 		user.setPhone(944655877);
 		user.setBirthdate(new Date());
 		user.setGender(Gender.Female);
@@ -224,7 +227,7 @@ public class UserDaoImplTest {
 		
 		dao.updateUser(user);
 		
-		assertEquals(user, dao.getUserByName(user.getNick()));
+		assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		dao.deleteUser(user);
 		
@@ -243,7 +246,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("javi2");
+		user.setNick("javiGonzo");
 		user.setActive(true);
 		user.setName("Javier2");		
 		user.setSurname("Gonzalez2");
@@ -260,7 +263,7 @@ public class UserDaoImplTest {
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
-		assertEquals(user, dao.getUserByName(user.getNick()));	
+		assertEquals(user, dao.getUserByNick(user.getNick()));	
 		user.getAddress().setCity("Tudela");
 		user.getAddress().setCountry("España");
 		user.getAddress().setState("Navarra");
@@ -271,7 +274,7 @@ public class UserDaoImplTest {
 		
 		dao.updateUser(user);
 		
-		assertEquals(user, dao.getUserByName(user.getNick()));
+		assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		dao.deleteUser(user);
 		
@@ -291,7 +294,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 										
 		User user = new User();
-		user.setNick("Raulete2");
+		user.setNick("Raulete4");
 		user.setActive(true);
 		user.setName("Raul2");		
 		user.setSurname("Macua2");
@@ -308,7 +311,7 @@ public class UserDaoImplTest {
 		
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
-		assertEquals(user, dao.getUserByName(user.getNick()));
+		assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		System.out.println("El id del usuario es : ********************"+ user.getId());
 		
@@ -321,7 +324,7 @@ public class UserDaoImplTest {
 		Configuration conf2 = new Configuration();
 										
 		User user2 = new User();
-		user2.setNick("Maria2");
+		user2.setNick("Maria4");
 		user2.setActive(true);
 		user2.setName("Maria2");		
 		user2.setSurname("Subijana2");
@@ -338,12 +341,12 @@ public class UserDaoImplTest {
 		
 		
 		dao.addUser(user2);				
-		assertEquals(user2, dao.getUserByName(user2.getNick()));
+		assertEquals(user2, dao.getUserByNick(user2.getNick()));
 		System.out.println("El id del usuario2 es : ********************"+ user2.getId());
 		user.addFriend(user2);
 		
 		dao.updateUser(user);	
-		assertEquals(user, dao.getUserByName(user.getNick()));
+		assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		dao.deleteUser(user);
 		dao.deleteUser(user2);
@@ -366,7 +369,7 @@ public class UserDaoImplTest {
 	} */
 	
 	@Test
-	public void getByNameTest()throws IllegalArgumentException{
+	public void getByNickTest()throws IllegalArgumentException{
 		
 		this.logger.info("TEST(UserDao) getUserByName");
 		
@@ -379,7 +382,7 @@ public class UserDaoImplTest {
 		Configuration conf = new Configuration();
 		
 		User user = new User();
-		user.setNick("mdiss2");
+		user.setNick("mdissWorarkarfer2");
 		user.setName("Java2");		
 		user.setSurname("Master2");
 		user.setPhone(944655877);
@@ -399,7 +402,7 @@ public class UserDaoImplTest {
 		dao.addUser(user);
 		
 				
-		assertEquals("mdiss2",  dao.getUserByName("mdiss2").getNick());
+		assertEquals("mdissWorarkarfer2",  dao.getUserByNick("mdissWorarkarfer2").getNick());
 		
 		dao.deleteUser(user);
 		

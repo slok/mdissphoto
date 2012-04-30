@@ -9,6 +9,7 @@ import org.mdissjava.mdisscore.model.dao.PhotoDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,7 @@ public class PhotoManagerImpl implements PhotoManager{
 			this.logger.error("Some arguments is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some arguments are null, can't continue with the action");
 		}
+		
 		//create the photo
 		Photo p = new Photo();
 		p.setDataId(imageId);
@@ -104,9 +106,54 @@ public class PhotoManagerImpl implements PhotoManager{
 		else
 			p.setTags(this.splitTags(tags, "\\,"));
 		
-		new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
+		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
+		//delete the photo an insert the new photo with all the data, the reason of deleting
+		//and not updating the photo is because there is many login in the insertion and update, 
+		//and for this the used database is mongo, so itś amazingly fast :)
+		Metadata metadata = null;
+		try
+		{
+			Photo pAux = this.searchPhotoUniqueUtil(imageId);
+			metadata = pAux.getMetadata();
+			
+			//if the saved photo is metadata only (and not title) means that is a metadata saved and not a previous photo
+			//so we delete it
+			if (metadata != null && pAux.getTitle() == null)
+			{
+				this.photoDao.deletePhoto(pAux);
+				//asign the metadata to the new photo
+				p.setMetadata(metadata);
+			}
+			
+		}catch(IOException e)
+		{
+			this.logger.debug("No metadata for this photo in the database available");
+		}finally{
+			//call to the save with or without metadata
+			new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
+			
+		}
+		
+		
 		
 	}
+	
+	public void insertMetadata(String photoId, Metadata metadata) {
+		
+		//the other are not necessary, only title, user, imageId and the album
+		if (photoId.isEmpty() || metadata == null)
+		{
+			this.logger.error("Some arguments is/are null, can't continue with the action");
+			throw new IllegalArgumentException("Some arguments are null, can't continue with the action");
+		}
+		Photo p = new Photo();
+		p.setPhotoId(photoId);
+		p.setMetadata(metadata);
+		
+		this.photoDao.insertPhoto(p);
+		
+	}
+
 
 	/**
 	 * Finds photo(s) from a given pojo with some arguments 
@@ -228,5 +275,6 @@ public class PhotoManagerImpl implements PhotoManager{
 		
 	}
 
+	
 	
 }
