@@ -17,5 +17,7 @@ public interface UserManager {
 	List<User> getFriends(int id);
 	Photo  getPhoto(int IdPhoto);
 	void ChangePassword(User user, String newPassword);
+	boolean EmailAllReadyExist(String email);
+	boolean NickAllReadyExist(String nick);
 	
 }

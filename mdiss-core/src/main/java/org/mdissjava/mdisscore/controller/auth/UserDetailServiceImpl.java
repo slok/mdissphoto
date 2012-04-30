@@ -36,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		//String password = sha256Encoder.encodePassword(plainPassword, salt);
 		
 		//Get the user from the DAO
-		org.mdissjava.mdisscore.model.pojo.User user = dao.getUserByName(username);
+		org.mdissjava.mdisscore.model.pojo.User user = dao.getUserByNick(username);
 		
 	    String password = user.getPass();
 	    String role = user.getRole();
