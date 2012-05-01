@@ -40,12 +40,12 @@ public class EmailValidator implements Validator{
 
 		}else{
 			
-		/*	if(userBll.EmailAllReadyExist(value.toString()))
+			if(userBll.EmailAllReadyExist(value.toString()))
 			{
 				throw new ValidatorException(new FacesMessage(
 	                FacesMessage.SEVERITY_ERROR, "Not valid",
 	                "Email ya existe"));
-			}*/
+			}
 			
 		}
 		

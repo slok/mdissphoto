@@ -315,8 +315,7 @@ public class RegistrationBean {
 	{ 	
 		System.out.println("Register clicked*****************");
 		
-			//	Configuration conf = new Configuration();
-			//	Address dir= new Address();
+
 				User user=new User();
 				user.setActive(false);
 				user.setNick(getNick());
@@ -326,38 +325,13 @@ public class RegistrationBean {
 				user.setEmail(getEmail());
 				user.setPhone(getPhone());
 				user.setGender(getGender());
-			//	user.setBirthdate(getBirthdate());
-			//	user.setConfiguration(conf);
-			//	user.setAddress(dir);
-		
-		
+	
 				userBll.saveUser(user);
 				
 
 	}
 	
-	/*	public void submitValidation(FacesContext context, UIComponent component,
-	        Object value)throws ValidatorException 
-	{
-		if(userBll.EmailAllReadyExist(this.getEmail()))
-		{
-			throw new ValidatorException(new FacesMessage(
-                FacesMessage.SEVERITY_ERROR, "Not valid",
-                "Email ya existe"));
-		}
-		else
-		{
-			if(userBll.NickAllReadyExist(this.getNick()))
-			{
-				throw new ValidatorException(new FacesMessage(
-	                FacesMessage.SEVERITY_ERROR, "Not valid",
-	                "Nick ya existe"));
-			}
-		}
-	}*/
-		
 
-	
 /*	public void handleDateSelect(DateSelectEvent event)
 	{
 		FacesContext facesContext= FacesContext.getCurrentInstance();

@@ -36,7 +36,9 @@
 						 			<h:panelGrid id="grid" columns="3">
 						 			
 						 				<h:outputLabel value="Nick: *"/>
-										<p:inputText id="nick" value="#{registrationbean.nick}"  required="true" label="Nick"/>
+										<p:inputText id="nick" value="#{registrationbean.nick}"  required="true" label="Nick">
+											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
+										</p:inputText>
 										<p:message id="nickoutput" for="nick" display="text" />
 						 			
 						 				<h:outputLabel value="Nombre: *"/>
@@ -47,9 +49,12 @@
 										<p:inputText id="apellido" value="#{registrationbean.surname}" required="true" label="Apellido"/>
 										<p:message id="apellidooutput" for="apellido" display="text" />
 										
-										<h:outputLabel value="telefono *"/>
-										<p:inputText id="telefono" value="#{registrationbean.phone}" required="true" size="30" label="telefono"/>
-										<p:message id="telefonooutput" for="telefono" display="text" />
+										<h:outputLabel for="bdate" value="F.Nacimiento:" />  
+							            <p:inputMask id="bdate" value="#{registrationbean.birthdate}" mask="99/99/9999">  
+							                <f:convertDateTime pattern="dd/MM/yyyy" />
+							                <f:validator validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" />  
+							            </p:inputMask>  
+            							<h:message for="bdate" display="text"/>            						
 										
 										<h:outputLabel value="Sexo:"/>
 										<p:selectOneMenu id="checkSex" value="#{registrationbean.favGender}">
