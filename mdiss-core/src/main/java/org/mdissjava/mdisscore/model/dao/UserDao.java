@@ -22,7 +22,7 @@ public interface UserDao {
 	boolean emailAllReadyExists(String email);
 	
 	boolean nickAllReadyExists(String nick);
-	User getUserByName(String username);
+	User getUserByNick(String username);
 	
 //	void modifyAddress(ObjectId id, Address address);
 	

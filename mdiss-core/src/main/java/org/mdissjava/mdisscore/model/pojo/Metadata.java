@@ -35,10 +35,14 @@ public class Metadata {
 	/** The sensor size. */
 	private Integer sensorSize;
 
-	/** The resolution. */
+	/** The resolution provided by EXIF metadata */
 	@Embedded
-	private Resolution resolution;
-
+	private Resolution resolutionPPI;
+	
+	/** The resolution provided by BufferedImage */
+	@Embedded
+	private Resolution resolutionREAL;
+	
 	/** The size in KiloBytes. */
 	private Float size;
 
@@ -167,20 +171,25 @@ public class Metadata {
 	 * 
 	 * @return the resolution
 	 */
-	public Resolution getResolution() {
-		return this.resolution;
+	public Resolution getResolutionPPI() {
+		return this.resolutionPPI;
 	}
 
+	public Resolution getResolutionREAL() {
+		return this.resolutionREAL;
+	}
 	/**
 	 * Sets the resolution.
 	 * 
 	 * @param resolution
 	 *            the new resolution
 	 */
-	public void setResolution(Resolution resolution) {
-		this.resolution = resolution;
+	public void setResolutionPPI(Resolution resolution) {
+		this.resolutionPPI = resolution;
 	}
-
+	public void setResolutionREAL(Resolution resolution) {
+		this.resolutionREAL = resolution;
+	}
 	/**
 	 * Gets the size.
 	 * 

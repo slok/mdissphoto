@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
 
-<div class="navbar navbar-fixed-top">
+	<div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -14,13 +14,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>	  
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="#">MDISSPHOTO</a>
           <div class="nav-collapse">
 
 			<form class="navbar-search pull-left">
-				<input type="text" class="search-query" placeholder="Search">
+				<input type="text" class="search-query" placeholder="Search"/>
 			</form>	
-            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+            <p class="navbar-text pull-right">Logged in as #{dashboardBean.user}</p>
+
+			<h:form>
+				<h:commandLink  action="pretty:logout"> Logout </h:commandLink>
+			</h:form>   
+
           </div><!--/.nav-collapse -->
         </div>
       </div>

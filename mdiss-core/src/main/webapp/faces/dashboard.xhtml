@@ -11,64 +11,50 @@
 		<ui:define name="title">MDISSPHOTO</ui:define>
 		
 		<ui:define name="header">
-		
+			<ui:include src="user_header.xhtml"/>	
 		</ui:define>
 		
 		<ui:define name="body">
-			
-			<div class="container-fluid">	
-			
-				<ui:define name="header">
-					<ui:include src="user_header.xhtml"/>	
-				</ui:define>
-			
-				<ui:insert name="user_header">
-        			<ui:include src="user_profile_info.xhtml"/>	
-        		</ui:insert>
-			
-				<div class="row-fluid">								
-					<div>
-						<div class="span12">
+
+			<ui:insert name="user_info">
+       			<ui:include src="users/profile.xhtml"/>	
+       		</ui:insert>
+		
+			<div class="row-fluid">								
+				<div>
+					<div class="span12">				
+						<ui:insert name="top_photos">
+	        				<ui:include src="top_photos.xhtml"/>	
+	        			</ui:insert>
 				
-								<ui:insert name="top_photos">
-			        				<ui:include src="top_photos.xhtml"/>	
-			        			</ui:insert>
-						
-								<ui:insert name="dynamic_space">
-			
-			        			</ui:insert>
-						
-								<!-- div>
-									<h1>Soy #{dashboardBean.user}</h1>
-								</div-->
-						</div>
+						<ui:insert name="dynamic_space">
+							<ui:include src="users/wall.xhtml"/>	
+	        			</ui:insert>
 					</div>
 				</div>
-				
-				<div>
-					<h:form>
-						<h:commandLink action="pretty:logout"> Logout </h:commandLink>
-					</h:form> 
-				</div>
 			</div>
-			
-			    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="fluid_files/jquery.js"></script>
-    <script src="fluid_files/bootstrap-transition.js"></script>
-    <script src="fluid_files/bootstrap-alert.js"></script>
-    <script src="fluid_files/bootstrap-modal.js"></script>
-    <script src="fluid_files/bootstrap-dropdown.js"></script>
-    <script src="fluid_files/bootstrap-scrollspy.js"></script>
-    <script src="fluid_files/bootstrap-tab.js"></script>
-    <script src="fluid_files/bootstrap-tooltip.js"></script>
-    <script src="fluid_files/bootstrap-popover.js"></script>
-    <script src="fluid_files/bootstrap-button.js"></script>
-    <script src="fluid_files/bootstrap-collapse.js"></script>
-    <script src="fluid_files/bootstrap-carousel.js"></script>
-    <script src="fluid_files/bootstrap-typeahead.js"></script>
+
+						
+					    
+		    <!--  ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="fluid_files/jquery.js"></script>
+		    <script src="fluid_files/bootstrap-transition.js"></script>
+		    <script src="fluid_files/bootstrap-alert.js"></script>
+		    <script src="fluid_files/bootstrap-modal.js"></script>
+		    <script src="fluid_files/bootstrap-dropdown.js"></script>
+		    <script src="fluid_files/bootstrap-scrollspy.js"></script>
+		    <script src="fluid_files/bootstrap-tab.js"></script>
+		    <script src="fluid_files/bootstrap-tooltip.js"></script>
+		    <script src="fluid_files/bootstrap-popover.js"></script>
+		    <script src="fluid_files/bootstrap-button.js"></script>
+		    <script src="fluid_files/bootstrap-collapse.js"></script>
+		    <script src="fluid_files/bootstrap-carousel.js"></script>
+		    <script src="fluid_files/bootstrap-typeahead.js"></script>
 		</ui:define>
-		
+				
+		<ui:define name="menu">		
+			<ui:include src="menu.xhtml"/>
+		</ui:define>	
     </ui:composition>
 </html>

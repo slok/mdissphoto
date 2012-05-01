@@ -14,6 +14,8 @@ import com.drew.metadata.MetadataException;
 public interface MetadataExtractor {
 
 	public Metadata obtenerMetadata(byte[] photo) throws MetadataException, ImageProcessingException, IOException;
+	public Metadata getEXIFMetadata(String format) throws MetadataException, ImageProcessingException, IOException;
+	public Metadata getBasicMetadata(String format) throws MetadataException, ImageProcessingException, IOException;
 	public String getOnlyExtension(String type);
 	public long bytesToMb(int bytes);
 	
