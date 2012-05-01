@@ -14,13 +14,12 @@
 		
 		<ui:define name="body">
 	    	 <h:panelGroup layout="block">
-	    		<h2><h:outputLabel value="Registro de usuario"/></h2>
+	    		<h2><h:outputLabel value="Configuración de usuario"/></h2>
 	    		<br/>
 	    		 <h:form>
 					 <p:growl id="growl" sticky="true" showDetail="true"/>  
   
-    					<p:wizard widgetVar="wiz" flowListener="#{registrationbean.onFlowProcess}">  
-								
+    					<p:tabView orientation="left">			
 							 	<p:tab id="personalTab" title="Detalles Personales"> 
 							 		<p:panel header="Detalles Personales">
 							 								 		
@@ -54,7 +53,7 @@
 											<p:inputText id="email" value="#{registrationbean.email}" required="true" label="email"/>
 											<p:message id="emailoutput" for="email" display="text" />	
 													  
-											<h:outputLabel for="pwd1" value="Contraseña: *"/>
+											<h:outputLabel for="pwd1" value="Nueva Contraseña: *"/>
 											<p:password id="pwd1"  value="#{registrationbean.password}" match="pwd2" label="Password 1" required="true"/>  
 											<p:message id="contraseñaoutput" for="pwd1" display="text" />
 													
@@ -62,26 +61,7 @@
 											<p:password id="pwd2" value="#{registrationbean.password}" label="Password 2" required="true"/> 
 											<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
 						
-											</h:panelGrid>
-												
-												
-												<h:panelGrid id="grid2" columns="7">
-														<h:outputLabel value="Fecha de Nacimiento:"/>
-														
-																<p:selectOneMenu id="checkDay" value="#{registrationbean.favBirthdayDay}" >
-																	<f:selectItem itemLabel="Dia:" itemValue="0"/>
-																   	<f:selectItems value="#{registrationbean.favBirthdayDayValue}" />
-																</p:selectOneMenu>				
-																<p:selectOneMenu id="checkMonth" value="#{registrationbean.favBirthdayMonth}">
-																	<f:selectItem itemLabel="Mes:" itemValue="0"/>
-																   	<f:selectItems value="#{registrationbean.favBirthdayMonthValue}" />
-																</p:selectOneMenu>	
-																<p:selectOneMenu id="checkYear" value="#{registrationbean.favBirthdayYear}">
-																	<f:selectItem itemLabel="Año:" itemValue="0"/>
-																   	<f:selectItems value="#{registrationbean.favBirthdayYearValue}" />
-																</p:selectOneMenu>	
-													</h:panelGrid>
-														
+											</h:panelGrid>														
 							 		</p:panel>
 							 </p:tab>
 					
@@ -120,7 +100,7 @@
 							 	</p:panel>			 
 							 </p:tab> 
 							 
-					</p:wizard>
+					</p:tabView>
 				</h:form>			 			
 		 	</h:panelGroup>	
 		</ui:define>	
