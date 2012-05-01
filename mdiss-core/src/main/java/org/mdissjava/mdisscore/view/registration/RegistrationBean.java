@@ -116,7 +116,7 @@ public class RegistrationBean {
 	
 	public void setFavGender(String gender)
 	{
-		if(gender.equals("Hombre"))
+		if(gender.equals("Male"))
 			setGender(Gender.Male);
 		else
 			setGender(Gender.Female);
@@ -124,9 +124,9 @@ public class RegistrationBean {
 	public String getFavGender()
 	{
 		if(getGender().equals(Gender.Male))
-			return "Hombre";
+			return "Male";
 		else
-			return "Mujer";
+			return "Female";
 	}
 	
 	public void register(ActionEvent actionEvent) throws ValidatorException  
