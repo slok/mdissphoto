@@ -44,7 +44,7 @@ public class RegistrationBean {
 	//wizard
 	private boolean skip;
 	private static Logger logger = Logger.getLogger(RegistrationBean.class.getName());
-	private int BirthdayDay=0;
+/*	private int BirthdayDay=0;
 	private int BirthdayMonth=0;
 	private int BirthdayYear=0;
 	static int ActYear=new Date().getYear()+1900;
@@ -69,7 +69,7 @@ public class RegistrationBean {
 	/*public Date getToday()
 	{
 		return this.today;
-	}*/
+	}
 	
 	 public String onFlowProcess(FlowEvent event) {  
 	        logger.info("Current wizard step:" + event.getOldStep());  
@@ -171,7 +171,7 @@ public class RegistrationBean {
 		}
 	 
 	 
-	 
+	 */
 	/**
 	 * Manager for user variables 
 	 * 
@@ -323,7 +323,7 @@ public class RegistrationBean {
 				user.setSurname(getSurname());
 				user.setPass(getPassword());
 				user.setEmail(getEmail());
-				user.setPhone(getPhone());
+				user.setBirthdate(getBirthdate());
 				user.setGender(getGender());
 	
 				userBll.saveUser(user);
