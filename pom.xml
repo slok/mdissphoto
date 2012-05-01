@@ -18,6 +18,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     <modules>
         <module>mdiss-core</module>
         <module>thumbnailer</module>
+        <module>notifier</module>
         <module>common-utils</module> <!-- Always the last one -->
         <!--<module>mdiss-notifier</module>-->
     </modules>
