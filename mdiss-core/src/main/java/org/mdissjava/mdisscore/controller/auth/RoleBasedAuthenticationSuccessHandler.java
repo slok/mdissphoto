@@ -6,10 +6,16 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AbstractProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSuccessHandler 
 {
@@ -18,10 +24,28 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
 
     public void onAuthenticationSuccess(HttpServletRequest request,HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	
+    	/* Check what type of role has the authenticated user in order to redirect him/her by default to either:
+    	*  				/admin/ --> if the user is ROLE_ADMIN
+    	*				/login/ --> if the user is ROLE_USER
+    	*/
+    	
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String role = userDetails.getAuthorities().isEmpty() ? null : userDetails.getAuthorities().toArray()[0].toString();
-            response.sendRedirect(request.getContextPath() + roleUrlMap.get(role));
+            
+            String redirectURL = request.getContextPath() + roleUrlMap.get(role);
+            
+            // This chunk of code checks if the user asked for a certain URL before losing the session.
+            // If this happens, after authenticating again the user is redirected to the initial target url instead of the default URL mentioned above. 
+            HttpSession session = request.getSession(false);
+            if(session != null) {
+                SavedRequest savedRequest = (SavedRequest) session.getAttribute(WebAttributes.SAVED_REQUEST);
+                if(savedRequest != null) {             
+                    redirectURL = savedRequest.getRedirectUrl();
+                }
+            }
+            System.out.println("Redirecting to: " + redirectURL);
+            response.sendRedirect(redirectURL);
         }
     }
 
