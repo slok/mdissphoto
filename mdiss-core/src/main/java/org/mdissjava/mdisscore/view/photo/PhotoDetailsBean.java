@@ -63,10 +63,14 @@ public class PhotoDetailsBean {
 			//search the available sizes for this photo
 			//int sizes[] = {100, 240, 320, 500, 640, 800, 1024}; //our different sizes
 			Properties allResolutions = propertiesFacade.getProperties(RESOLUTIONS_PROPS_KEY);
-			List<Integer> sizes = new ArrayList<Integer>();
 			
 			this.defaultPhotoSizes = new ArrayList<String>();
-			int photoSize = 640;
+			//set the size
+			int height = this.photo.getMetadata().getResolutionREAL().getHeight();
+			int width = this.photo.getMetadata().getResolutionREAL().getWidth();
+			int photoSize = height > width ? height: width;
+			
+			System.out.println(photoSize);
 			
 			// we get all the available resolutions
 			@SuppressWarnings("rawtypes")
