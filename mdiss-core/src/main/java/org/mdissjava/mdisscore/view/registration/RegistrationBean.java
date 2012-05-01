@@ -1,24 +1,20 @@
 package org.mdissjava.mdisscore.view.registration;
 
+import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
-import org.mdissjava.mdisscore.model.pojo.Address;
-import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
-import org.primefaces.event.FlowEvent;
+import org.mdissjava.mdisscore.view.params.ParamsBean;
 
 @ManagedBean(name = "registrationbean")
 @ViewScoped
@@ -146,8 +142,17 @@ public class RegistrationBean {
 	
 				userBll.saveUser(user);
 				
-
+				String outcome = "pretty:confirmation";
+				FacesContext facesContext=FacesContext.getCurrentInstance();
+				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 	}
+	/*
+	private ParamsBean getPrettyfacesParams()
+	 {
+	  FacesContext context = FacesContext.getCurrentInstance();
+	  ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
+	  return pb;
+	 }*/
 	
 
 /*	public void handleDateSelect(DateSelectEvent event)
