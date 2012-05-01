@@ -44,7 +44,7 @@ public class EmailValidator implements Validator{
 			{
 				throw new ValidatorException(new FacesMessage(
 	                FacesMessage.SEVERITY_ERROR, "Not valid",
-	                "Email ya existe"));
+	                "Email already exist"));
 			}
 			
 		}

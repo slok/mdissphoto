@@ -24,16 +24,16 @@ public class BirthdateValidator implements Validator{
 		if(fecha.compareTo(aux)>0)
 		{
 			FacesMessage msg = 
-					new FacesMessage("Solo pueden acceder mayores de edad a la aplicación", 
-							"Fecha nacimiento incorrecta");
+					new FacesMessage("you must be 18 years old", 
+							"you must be 18 years old");
 				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(msg);
 		}
 		if(fecha.after(new Date()))
 		{
 			FacesMessage msg = 
-					new FacesMessage("Fecha incorrecta(Acaso crees que existe una maquina del futuro?)", 
-							"Fecha nacimiento incorrecta");
+					new FacesMessage("Error", 
+							"Future date");
 				msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(msg);
 		}
