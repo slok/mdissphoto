@@ -51,7 +51,7 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	public Metadata getEXIFMetadata(String format) {
 
 		Metadata metadata = new Metadata();
-		Resolution resolution = new Resolution();
+		Resolution resolutionPPI = new Resolution();
 					
 		ByteArrayInputStream photoInputStream = new ByteArrayInputStream(photo);
 		BufferedInputStream bufferedPhoto = new BufferedInputStream(photoInputStream);
@@ -74,10 +74,10 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 			metadata.setAperture(exifSubIFDirectory.getString(ExifSubIFDDirectory.TAG_APERTURE));
 			metadata.setFocalLength(exifSubIFDirectory.getInt(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
 			metadata.setISOSpeed(exifSubIFDirectory.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-			resolution.setHeight(exifIFD0Directory.getInt(ExifIFD0Directory.TAG_Y_RESOLUTION));
-			resolution.setWidth(exifIFD0Directory.getInt(ExifIFD0Directory.TAG_X_RESOLUTION));
-			metadata.setResolutionPPI(resolution);
-			metadata.setResolutionREAL(resolution);
+			resolutionPPI.setHeight(exifIFD0Directory.getInt(ExifIFD0Directory.TAG_Y_RESOLUTION));
+			resolutionPPI.setWidth(exifIFD0Directory.getInt(ExifIFD0Directory.TAG_X_RESOLUTION));
+			metadata.setResolutionPPI(resolutionPPI);
+			metadata.setResolutionREAL(resolutionREAL);
 			metadata.setDateTaken(exifIFD0Directory.getDate(exifIFD0Directory.TAG_DATETIME));
 			metadata.setFormat(format);
 			metadata.setSize((float)bytesToMb(photo.length));
