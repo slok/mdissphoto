@@ -34,18 +34,18 @@ public class EmailValidator implements Validator{
 			
 			FacesMessage msg = 
 				new FacesMessage("E-mail validation failed.", 
-						"Invalid E-mail format.");
+						"Please enter a valid email address.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
 
 		}else{
 			
-		/*	if(userBll.EmailAllReadyExist(value.toString()))
+			if(userBll.EmailAllReadyExist(value.toString()))
 			{
 				throw new ValidatorException(new FacesMessage(
 	                FacesMessage.SEVERITY_ERROR, "Not valid",
-	                "Email ya existe"));
-			}*/
+	                "Email already exist"));
+			}
 			
 		}
 		
