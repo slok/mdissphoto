@@ -1,6 +1,13 @@
 package org.mdissjava.notifier.event;
 
-public abstract class MdissEvent {
+import java.io.Serializable;
+
+public abstract class MdissEvent implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6701547885565504945L;
 	
 	protected String eventType;
 
