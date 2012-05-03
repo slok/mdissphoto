@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
@@ -103,6 +104,9 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setPlus18(plus18);
 		//set date to now!
 		p.setUploadDate(new Date());
+		//create a public token
+		String publicToken = UUID.randomUUID().toString();
+		p.setPublicToken(publicToken);
 		
 		if (tags.isEmpty())
 			p.setTags(null);

@@ -4,8 +4,6 @@ package org.mdissjava.mdisscore.model.dao;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.mdissjava.mdisscore.model.pojo.Address;
-import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.User;
 
 

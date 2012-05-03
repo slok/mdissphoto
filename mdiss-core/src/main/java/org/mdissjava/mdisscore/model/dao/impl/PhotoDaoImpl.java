@@ -72,6 +72,9 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getPlus18() != null) {
 			query.field("plus18").equal(photo.getPlus18());
 		}
+		if (photo.getPublicToken() != null) {
+			query.field("publicToken").equal(photo.getPublicToken());
+		}
 		List<Photo> photos = query.asList();
 
 		return photos;
@@ -115,6 +118,9 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		}
 		if (photo.getPlus18() != null) {
 			ops.set("plus18", photo.getPlus18());
+		}
+		if (photo.getPublicToken() != null) {
+			ops.set("publicToken", photo.getPublicToken());
 		}
 
 		ds.update(this.queryToFindMe(photo.getId()), ops);

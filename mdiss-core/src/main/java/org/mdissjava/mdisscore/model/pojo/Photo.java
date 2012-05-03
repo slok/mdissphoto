@@ -64,6 +64,8 @@ public class Photo {
 	/** Represents if the photo is only for adults or not. */
 	private Boolean plus18;
 
+	private String publicToken;
+	
 	public Photo() {
 		tags = new ArrayList<String>();
 		votes = new ArrayList<Vote>();
@@ -314,6 +316,16 @@ public class Photo {
 		this.plus18 = plus18;
 	}
 	
+	
+	
+	public String getPublicToken() {
+		return publicToken;
+	}
+
+	public void setPublicToken(String publicToken) {
+		this.publicToken = publicToken;
+	}
+
 	/**
 	 *the lazy loading obtains different object and needs to check by argument 
 	 *and no by reference like the Object class equals, because dey are loaded 
@@ -339,7 +351,6 @@ public class Photo {
 			return true;
 		else
 		{
-			System.out.println("4");
 			return false;
 		}
 	}

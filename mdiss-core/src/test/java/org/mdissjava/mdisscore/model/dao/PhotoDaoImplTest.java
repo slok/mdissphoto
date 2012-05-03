@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.After;
 import org.junit.Before;
@@ -50,6 +51,7 @@ public class PhotoDaoImplTest {
 		photo.setTitle("MiFoto");
 		photo.setPhotoId("this is a mighty ID");
 		photo.setDataId(photo.getPhotoId());
+		photo.setPublicToken(UUID.randomUUID().toString());
 		
 		//insert album BEFORE adding to the photo
 		Album a = new Album();
