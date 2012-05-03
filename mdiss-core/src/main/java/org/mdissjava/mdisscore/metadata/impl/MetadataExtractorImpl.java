@@ -87,40 +87,42 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 		catch(NullPointerException npe)
 		{
 			//npe.printStackTrace();
-			return null;
+			return getBasicMetadata(format);
 		}
 		catch(ImageProcessingException ipe){
 			//ipe.printStackTrace();
-			return null;
+			return getBasicMetadata(format);
 		}	
 		catch(IOException io){
 			//io.getStackTrace();
-			return null;
+			return getBasicMetadata(format);
 		}
 	    catch(MetadataException me)
 	    {
 	    	System.out.println("No metadata available");
 	    	me.getStackTrace();
-	    	return null;
+	    	return getBasicMetadata(format);
 	    }
 		
 	}
 
 
+	//TODO How to store if photo size is in kb or mb. New String field or convert size to string.
+	
 	@Override
-	public Metadata getBasicMetadata(String format) throws MetadataException,
-			ImageProcessingException, IOException {
+	public Metadata getBasicMetadata(String format) {
 		
 		Metadata metadata = new Metadata();
 		Resolution resolution = new Resolution();
 		
 		resolution.setWidth(this.simpleImage.getWidth());
 		resolution.setHeight(this.simpleImage.getHeight());
-		
+				
 		metadata.setResolutionREAL(resolution);
 		metadata.setFormat(format);
 		metadata.setSize((float)bytesToMb(photo.length));
 		
+		System.out.println(metadata.getSize());
 		return metadata;
 	}
 
@@ -141,11 +143,16 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	}
 	
 	 private static final long  MEGABYTE = 1024L * 1024L;
+	 private static final long KBYTE = 1024L;
 	 
 	 @Override
 	 public long bytesToMb(int bytes) {
 	  return bytes / MEGABYTE ;
 	 }
-
+	 
+	 @Override
+	 public long bytesToKb(int bytes) {
+	  return bytes / KBYTE ;
+	 }
 }
 
