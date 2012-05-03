@@ -99,7 +99,7 @@ public class UserDaoImplTest {
 		else
 			throw new Exception("email not found exception");
 		
-		if(dao.nickAllReadyExists("jess2"))
+		if(dao.nickAllReadyExists("Cheseal"))
 		{}
 		else
 			throw new Exception(" nick not found exception");

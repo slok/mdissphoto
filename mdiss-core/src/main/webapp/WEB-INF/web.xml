@@ -122,4 +122,16 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
+	
+	<!-- ReCaptcha -->
+	
+	<context-param>
+		<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+		<param-value>6Le37dASAAAAAJqRrYSCruu0mmog69epUSK1TBtX</param-value>
+	</context-param>
+		
+	<context-param>
+		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+		<param-value>6Le37dASAAAAANSTT8PDlC5dSTLNSlvq3wa7abWS</param-value>
+	</context-param>
 </web-app>

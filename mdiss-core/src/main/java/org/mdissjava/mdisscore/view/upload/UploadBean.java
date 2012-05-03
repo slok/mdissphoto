@@ -103,7 +103,6 @@ public class UploadBean {
 			//get metadata and save in database
 			try
 			{
-				System.out.println(data.toByteArray());
 				Metadata metadata = new MetadataExtractorImpl().obtenerMetadata(data.toByteArray());	
 				new PhotoManagerImpl(ds).insertMetadata(imageId, metadata);
 				
