@@ -19,16 +19,12 @@
 	<url-mapping id="login">
 		<pattern value="/login/" />
 		<view-id value="/faces/auth/login.jsf" />
+		<action>#{loginBean.setLoginError}</action>
 	</url-mapping>
 	
 	<url-mapping id="logout">
 		<pattern value="/logout" />
 		<view-id value="/j_spring_security_logout" />
-	</url-mapping>
-	
-	<url-mapping id="login_error">
-		<pattern value="/login/error/" />
-		<view-id value="/faces/auth/error.jsf" />
 	</url-mapping>
 
 	<url-mapping id="signup">

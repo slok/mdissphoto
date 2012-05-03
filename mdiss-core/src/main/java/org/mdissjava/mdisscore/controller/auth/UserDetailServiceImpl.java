@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
 	private UserDao dao = new UserDaoImpl();
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public UserDetails loadUserByUsername(String username)
@@ -38,26 +41,34 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		//Get the user from the DAO
 		org.mdissjava.mdisscore.model.pojo.User user = dao.getUserByNick(username);
 		
-	    String password = user.getPass();
-	    String role = user.getRole();
-	    boolean enabled = user.isActive();
-	    boolean accountNonExpired = user.isActive();
-	    boolean credentialsNonExpired = user.isActive();
-	    boolean accountNonLocked = user.isActive();
-	    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-	    
-	    //Check the user's role in order to assign the authorities.
-	    if (role.equals("ADMIN"))
-	    {
-	    	authorities.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
-	    }
-	    else if (role.equals("USER"))
-	    {
-	    	authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
-	    }
-	    
-	    User spUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		return spUser;
+		if (user!=null)
+		{
+		
+		    String password = user.getPass();
+		    String role = user.getRole();
+		    boolean enabled = user.isActive();
+		    boolean accountNonExpired = user.isActive();
+		    boolean credentialsNonExpired = user.isActive();
+		    boolean accountNonLocked = user.isActive();
+		    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		    
+		    //Check the user's role in order to assign the authorities.
+		    if (role.equals("ADMIN"))
+		    {
+		    	authorities.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
+		    }
+		    else if (role.equals("USER"))
+		    {
+		    	authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
+		    }
+		    
+		    User spUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+			return spUser;
+		}
+		else
+		{
+			throw new UsernameNotFoundException(username);
+		}
 		
 		/*
 		PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
@@ -70,7 +81,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	    boolean credentialsNonExpired = true;
 	    boolean accountNonLocked = true;
 
-	   // if (arg0 != username)
+	   	// if (arg0 != username)
 	    //	throw new UsernameNotFoundException("user not found");
 	    
 	    

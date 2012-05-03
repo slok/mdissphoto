@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -18,6 +20,8 @@ import com.ocpsoft.pretty.PrettyContext;
 
 public class RestrictPageAccessFilter implements Filter{
 
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Override
 	public void destroy() {
 		
@@ -37,7 +41,7 @@ public class RestrictPageAccessFilter implements Filter{
 	    PrettyContext pc = PrettyContext.getCurrentInstance(httpRequest);
 	    String requestedURL = pc.getRequestURL().toString();
 	    
-	    System.out.println(requestedURL);
+	    this.logger.info("USER {} REQUESTED URL: {}", loggedUser, requestedURL);
 	    
 	    //Get the requested user in the URL (second variable between /)
 	    String[] splittedURL = requestedURL.split("/");
@@ -49,10 +53,8 @@ public class RestrictPageAccessFilter implements Filter{
 	    if (!loggedUser.equals(requestedUser))
 	    {
 	    	//If they don't match send the naughty user to error page.
-	    	System.out.println("FORBIDDEN ACCESS EVENT: User " + loggedUser + " tried to access restricted area.");
-	    	
-	    	HttpServletResponse httpResponse=(HttpServletResponse)response;
-	    	
+	    	this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", loggedUser);   	
+	    	HttpServletResponse httpResponse=(HttpServletResponse)response; 	
 	    	httpResponse.sendRedirect("/mdissphoto/user/error/");  	
 	    }
 	    
@@ -62,7 +64,7 @@ public class RestrictPageAccessFilter implements Filter{
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		System.out.println("Applying RestrictPageAccess Filter");
+		this.logger.info("APPLYING RestrictPageAccessFilter");
 		
 	}
 

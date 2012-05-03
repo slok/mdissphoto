@@ -19,14 +19,14 @@
 		<intercept-url pattern="/login/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
 		<intercept-url pattern="/users/*/public/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/dashboard/" access="ROLE_USER"/>
+		<intercept-url pattern="/dashboard/" access="ROLE_USER, ROLE_ADMIN"/>
 		<intercept-url pattern="/user/**" access="ROLE_USER"/>
 		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
 		<!--<intercept-url pattern="/**" access="ROLE_USER"/>  -->
 		<form-login
             login-page="/login/"
             authentication-success-handler-ref="redirectRoleStrategy"
-            authentication-failure-url="/login/error/"/> 
+            authentication-failure-url="/login/"/> 
 			<logout logout-success-url="/" />
 	</http>
 
