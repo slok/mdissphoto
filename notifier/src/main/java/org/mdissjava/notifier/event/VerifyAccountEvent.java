@@ -3,6 +3,11 @@ package org.mdissjava.notifier.event;
 
 public class VerifyAccountEvent extends MdissEvent{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6278989467332175225L;
+	
 	private String userNick;
 
 	public VerifyAccountEvent(String userNick) {
