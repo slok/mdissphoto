@@ -2,6 +2,7 @@ package org.mdissjava.mdisscore.controller.bll.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.mdissjava.mdisscore.controller.bll.PhotoManager;
@@ -100,6 +101,8 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setTitle(title);
 		p.setPublicPhoto(publicPhoto);
 		p.setPlus18(plus18);
+		//set date to now!
+		p.setUploadDate(new Date());
 		
 		if (tags.isEmpty())
 			p.setTags(null);
