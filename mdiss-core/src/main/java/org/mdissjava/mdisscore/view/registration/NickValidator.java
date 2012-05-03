@@ -24,7 +24,7 @@ public class NickValidator implements Validator{
 		{
 			throw new ValidatorException(new FacesMessage(
                 FacesMessage.SEVERITY_ERROR, "Not valid",
-                "Nick ya existe"));
+                "Nick already exists"));
 		}
 		
 	}
