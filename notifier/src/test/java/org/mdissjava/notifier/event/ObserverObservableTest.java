@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.junit.Test;
+import org.mdissjava.notifier.event.manager.NotificationManager;
 import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
 import org.mdissjava.notifier.event.observable.VerifyAccountObservable;
 import org.mdissjava.notifier.event.observer.EmailObserver;
@@ -54,9 +55,24 @@ public class ObserverObservableTest {
 		puo.photoUploaded(username, photoId);
 		
 		//check the observers
-		//No checking for now, the logger now is the slf4j simple logger (only std out)
+		//No checking for now, the logger now is the slf4j simple logger (only std out)	
 		
+	}
+	
+	@Test
+	public void PhotoUploadedWithNotifierManagerEventTest() {
 		
+		//create all the observers
+		NotificationManager notifier = NotificationManager.getInstance();
+		PhotoUploadedObservable puo = notifier.getPhotoUploadedObservable();
+		
+		//register, this will call all the observers
+		String username = "slok";
+		String photoId = "123456785345678";
+		puo.photoUploaded(username, photoId);
+		
+		//check the observers
+		//No checking for now, the logger now is the slf4j simple logger (only std out)	
 		
 	}
 
