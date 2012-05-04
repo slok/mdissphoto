@@ -18,5 +18,6 @@ public interface MetadataExtractor {
 	public Metadata getBasicMetadata(String format) throws MetadataException, ImageProcessingException, IOException;
 	public String getOnlyExtension(String type);
 	public long bytesToMb(int bytes);
-	
+	public long bytesToKb(int bytes);
+
 }

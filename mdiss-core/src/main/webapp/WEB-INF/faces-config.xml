@@ -4,12 +4,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
     http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-    version="2.0">
+    version="2.0">   
+ 
+    <lifecycle>
+		<phase-listener>org.mdissjava.mdisscore.controller.auth.LoginErrorPhaseListener</phase-listener>
+	</lifecycle>
+
 	<application>
-		<resource-bundle>
-			<base-name>org.mdissjava.mdisscore.messages</base-name>
-			<var>msg</var>
-	   	</resource-bundle>
+		<message-bundle>org.mdissjava.mdisscore.messages</message-bundle>
     </application>
     
     <!--navigation rules-->

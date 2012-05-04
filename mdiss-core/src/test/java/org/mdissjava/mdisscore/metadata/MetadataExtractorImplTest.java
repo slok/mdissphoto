@@ -79,9 +79,11 @@ public class MetadataExtractorImplTest {
 			
 			Metadata metadata = metadataExtractor.obtenerMetadata(photo);
 			
-			//Check if returned metadata is null, if it is, there is no metadata available for this picture
-			assertEquals(metadata, null);
-					
+			//Although there is no EXIF metadata, BASIC metadata is returned (no focal length, iso etc. values)
+			
+			assertEquals(metadata.getFormat(), "jpeg");
+			assertEquals(metadata.getSize(), 0.0, 0);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			
