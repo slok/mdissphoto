@@ -19,6 +19,9 @@ import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.mdissjava.notifier.event.PhotoUploadedEvent;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -113,10 +116,7 @@ public class UploadDetailsBean {
 
 	private void prepareForm()
 	{
-		try {
-			System.out.println("New photo :)");
-			//TODO: load metadata (Maite)
-			
+		try {			
 			
 			//TODO:Load the best fitting image (320 -> 240 -> 150 -> 100 -> 75 -> 30)
 			
@@ -161,6 +161,12 @@ public class UploadDetailsBean {
 			this.photoManager.insertPhoto(this.imageID, this.userNick, this.title, 
 											this.album, this.publicPhotoScope, this.plus18, 
 											this.license, this.tags);
+			
+			//throw photo upload event
+			NotificationManager notifier = NotificationManager.getInstance();
+			PhotoUploadedObservable puo = notifier.getPhotoUploadedObservable();
+			puo.photoUploaded(this.userNick, this.imageID);
+
 			
 			//Set status to detailed
 			this.photoStatusManager.markAsDetailed(this.imageID);
