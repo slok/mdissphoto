@@ -52,6 +52,7 @@ public class PhotoDaoImplTest {
 		photo.setPhotoId("this is a mighty ID");
 		photo.setDataId(photo.getPhotoId());
 		photo.setPublicToken(UUID.randomUUID().toString());
+		photo.setLicense("GPLv3");
 		
 		//insert album BEFORE adding to the photo
 		Album a = new Album();

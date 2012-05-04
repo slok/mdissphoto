@@ -98,7 +98,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		Photo p = new Photo();
 		p.setDataId(imageId);
 		p.setPhotoId(imageId);
-		//p.setLicense(license);
+		p.setLicense(license);
 		p.setTitle(title);
 		p.setPublicPhoto(publicPhoto);
 		p.setPlus18(plus18);

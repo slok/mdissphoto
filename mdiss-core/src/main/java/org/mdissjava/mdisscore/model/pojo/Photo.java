@@ -66,6 +66,8 @@ public class Photo {
 
 	private String publicToken;
 	
+	private String license;
+	
 	public Photo() {
 		tags = new ArrayList<String>();
 		votes = new ArrayList<Vote>();
@@ -324,6 +326,16 @@ public class Photo {
 
 	public void setPublicToken(String publicToken) {
 		this.publicToken = publicToken;
+	}
+	
+	
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 	/**
