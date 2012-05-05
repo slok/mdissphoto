@@ -9,40 +9,36 @@
 
         <h:head>
             <title><ui:insert name="title">#{msg.indexTitle}</ui:insert></title>
-            <!-- CSS -->
+
             <h:outputStylesheet library="css" name="bootstrap.css"  />
-             <h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
+            <h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
             <h:outputStylesheet library="css" name="style.css"  />
-            <!-- Javascript -->
-            <!-- Other -->
-            <ui:insert name="head"></ui:insert>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+            
+            <ui:insert name="head">
+            </ui:insert>
+
         </h:head>
 
-        <h:body>
-			<div class="container-fluid">        	    
-        		<ui:insert name="header">
-	        		<ui:include src="header.xhtml"/>
+        <h:body>    	    
+        		<ui:insert name="nav-menu">
+        		
        			</ui:insert>
 
         	
-				<!-- ########################## -->
-				<div class="container-fluid">
-			     	<ui:insert name="body">
+				<!-- 960px grid 12 column-->
+				<div class="container">
+			     	<ui:insert name="base-body">
         		
         			</ui:insert>
-        		</div>
-				<!-- ########################## -->
+					<!-- Footer -->
 					<hr/>
 					<ui:insert name="footer">
-						<ui:include src="footer.xhtml"/>						
+						<ui:include src="/templates/include/footer.xhtml"/>						
 					</ui:insert>
-			</div>
-		
-			<ui:insert name="menu">
-									
-			</ui:insert>	
-		
+				
+				</div>
         </h:body>
-<!-- ########################## -->
+
 	</f:view>
 </html>

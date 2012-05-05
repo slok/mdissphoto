@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse"
+				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span>
+			</a> <a class="brand" href="#">MDISSPHOTO</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="dropdown active"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">My <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Dashboard</a></li>
+							<li><a href="#">Albums</a></li>
+							<li><a href="#">Connections</a></li>
+							<li><a href="#">Profile</a></li>
+						</ul>
+					</li>
+					
+					<li><a href="#">Upload</a></li>
+					<li><a href="#">Search</a></li>
+					<li><a href="#">Link</a></li>
+					
+				</ul>
+				<ul class="nav pull-right">
+					<li><a href="#">Hi [NAME]</a></li>
+					<li class="divider-vertical"></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><h:graphicImage library="img" name="cog-menu.png" /> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Settings</a></li>
+							<li class="divider"></li>
+							<li><h:link outcome="pretty:logout" value="Logout"/></li>
+						</ul
+					></li>
+				</ul>
+			</div>
+			<!-- /.nav-collapse -->
+		</div>
+	</div>
+	<!-- /navbar-inner -->
+</div>
+<!-- /navbar -->
+
+
+</html>
