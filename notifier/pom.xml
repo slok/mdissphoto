@@ -19,15 +19,15 @@
 	<!-- Dependency repositories-->
 	<repositories>
 		<repository>
-			<id>mvn.mdiss.info</id>
-			<name>MDISS custom repo</name>
-			<url>http://mvn.mdiss.info</url>
-		</repository>
-		<repository>
 	      <id>Fusesource Snapshots</id>
 	      <url>http://repo.fusesource.com/nexus/content/repositories/snapshots</url>
 	    </repository>
 		
+		<repository>
+			<id>mvn.mdiss.info</id>
+			<name>MDISS custom repo</name>
+			<url>http://mvn.mdiss.info</url>
+		</repository>
 	</repositories>
       
     <dependencies>
@@ -40,7 +40,7 @@
 	    <dependency>
 	      <groupId>org.fusesource.stompjms</groupId>
 	      <artifactId>stompjms-client</artifactId>
-	      <version>1.10</version>
+	      <version>1.11</version>
 	    </dependency>
     </dependencies>
     
