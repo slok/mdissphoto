@@ -35,8 +35,8 @@ public class PhotoStatusDaoImpl extends BasicDAO<PhotoStatus, ObjectId> implemen
 		}
 		if (photoStatus.getName() != null) {
 			query.field("name").equal(photoStatus.getName());
-		}if (photoStatus.isProcessed() != null) {
-			query.field("processed").equal(photoStatus.isProcessed());
+		}if (photoStatus.getProcessed() != null) {
+			query.field("processed").equal(photoStatus.getProcessed());
 		}if (photoStatus.isDetailed() != null) {
 			query.field("detailed").equal(photoStatus.isDetailed());
 		}if (photoStatus.getUpdateDate() != null) {
@@ -53,8 +53,8 @@ public class PhotoStatusDaoImpl extends BasicDAO<PhotoStatus, ObjectId> implemen
 		UpdateOperations<PhotoStatus> ops = ds.createUpdateOperations(PhotoStatus.class);
 		if (photoStatus.getName() != null) {
 			ops.set("name", photoStatus.getName());
-		}if (photoStatus.isProcessed() != null) {
-			ops.set("processed", photoStatus.isProcessed());
+		}if (photoStatus.getProcessed() != null) {
+			ops.set("processed", photoStatus.getProcessed());
 		}if (photoStatus.isDetailed() != null) {
 			ops.set("detailed", photoStatus.isDetailed());
 		}if (photoStatus.getUpdateDate() != null) {

@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
+import org.mdissjava.commonutils.photo.status.PhotoStatus.ProcessedStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class PhotoStatusDaoTests {
 
 		PhotoStatus photoStatus = new PhotoStatus();
 		photoStatus.setName("horl");
-		photoStatus.setProcessed(false);
+		photoStatus.setProcessed(ProcessedStatus.STARTED);
 		photoStatus.setDetailed(true);
 		photoStatus.setUpdateDate(new Date());
 		
@@ -62,7 +63,7 @@ public class PhotoStatusDaoTests {
 
 		PhotoStatus photoStatus = new PhotoStatus();
 		photoStatus.setName("horl2");
-		photoStatus.setProcessed(false);
+		photoStatus.setProcessed(ProcessedStatus.FINISHED);
 		photoStatus.setDetailed(true);
 		photoStatus.setUpdateDate(new Date());
 		
@@ -86,7 +87,7 @@ public class PhotoStatusDaoTests {
 
 		PhotoStatus photoStatus = new PhotoStatus();
 		photoStatus.setName("horl3");
-		photoStatus.setProcessed(false);
+		photoStatus.setProcessed(ProcessedStatus.NONE);
 		photoStatus.setDetailed(true);
 		photoStatus.setUpdateDate(new Date());
 		

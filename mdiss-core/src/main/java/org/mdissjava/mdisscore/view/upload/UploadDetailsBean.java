@@ -19,7 +19,6 @@ import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
-import org.mdissjava.notifier.event.PhotoUploadedEvent;
 import org.mdissjava.notifier.event.manager.NotificationManager;
 import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
 import org.slf4j.Logger;
@@ -76,14 +75,20 @@ public class UploadDetailsBean {
 		this.photoManager = new PhotoManagerImpl(datastore);
 		this.photoStatusManager= new PhotoStatusManager(datastore);
 		String outcome = null;
-				
-		//TODO: Is detailed the photo already? if yes then redirect to the final photo 
-		//web page, if no the prepare the form
+					
 		try {
 			if(photoStatusManager.needsToBeDetailed(this.imageID))
 			{
 				//show the form
 				this.prepareForm();
+			}else if(!photoStatusManager.hasStartedProcessing(this.imageID))
+			{
+				//The photo hasn't sent to gearman, error photo
+				ParamsBean params = getPrettyfacesParams();
+				params.setUserId(this.userNick);
+				
+				outcome = "pretty:user_upload_error";
+				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			}else
 			{
 				//redirect to the final photo

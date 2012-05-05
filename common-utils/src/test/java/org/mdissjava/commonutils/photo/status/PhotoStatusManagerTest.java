@@ -58,19 +58,19 @@ public class PhotoStatusManagerTest {
 	{
 		this.logger.info("[TEST] processedStatusTest");
 		
-		//creation first state to null ->  need to process
+		//creation first state -> NONE
 		photoStatusManager.createPhotoStatus(NAME);
 		assertTrue(photoStatusManager.needsToBeProcessed(NAME));
 		assertFalse(photoStatusManager.hasStartedProcessing(NAME));
 		assertFalse(photoStatusManager.hasFinishedProcessing(NAME));
 		
-		//second state,  the process has been started (in the job queue) -> no need to process
+		//second state,  the process has been started (in the job queue) -> STARTED
 		photoStatusManager.markAsProcessedStarted(NAME);
 		assertFalse(photoStatusManager.needsToBeProcessed(NAME));
 		assertTrue(photoStatusManager.hasStartedProcessing(NAME));
 		assertFalse(photoStatusManager.hasFinishedProcessing(NAME));
 		
-		//third state, the process has finished -> no need to process
+		//third state, the process has finished -> FINISHED
 		photoStatusManager.markAsProcessedFinished(NAME);
 		assertFalse(photoStatusManager.needsToBeProcessed(NAME));
 		assertTrue(photoStatusManager.hasStartedProcessing(NAME));

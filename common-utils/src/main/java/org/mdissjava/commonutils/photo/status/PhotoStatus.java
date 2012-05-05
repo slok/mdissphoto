@@ -28,9 +28,9 @@ import com.google.code.morphia.annotations.Id;
  * 
  * - ID: a String with the id of the new stored photo
  * - Processed: ¿The image has been processed (thumbnailization made)?
- * 		+ null: No processed
- *		+ false: The action has been delegate to gearman
- *		+ true: Gearman has finished the job
+ * 		+ -1: No processed
+ *		+ 0: The action has been delegate to gearman
+ *		+ 1: Gearman has finished the job
  * - Detailed: ¿Some details have been saved?
  * 		+ false: no one has detailed the photo (title...)
  * 		+ true: Some details have been saved 
@@ -39,10 +39,13 @@ import com.google.code.morphia.annotations.Id;
 @Entity
 public class PhotoStatus {
 
+	public enum ProcessedStatus {NONE, STARTED, FINISHED};
+	
+	
 	@Id 
 	private ObjectId id;
 	private String name;
-	private Boolean processed;
+	private ProcessedStatus processed;
 	private Boolean detailed;
 	private Date updateDate;
 	
@@ -58,10 +61,10 @@ public class PhotoStatus {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Boolean isProcessed() {
+	public ProcessedStatus getProcessed() {
 		return processed;
 	}
-	public void setProcessed(Boolean processed) {
+	public void setProcessed(ProcessedStatus processed) {
 		this.processed = processed;
 	}
 	public Boolean isDetailed() {

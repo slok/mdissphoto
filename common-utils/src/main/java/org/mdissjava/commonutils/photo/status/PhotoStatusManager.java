@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.mdissjava.commonutils.photo.status.PhotoStatus.ProcessedStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class PhotoStatusManager {
 		
 		//add the rest to the object to insert
 		//nulll because we have 3 states (no processed = null, start processing = false, processed = true )
-		photoStatus.setProcessed(null); 
+		photoStatus.setProcessed(ProcessedStatus.NONE); 
 		photoStatus.setDetailed(false);
 		photoStatus.setUpdateDate(new Date());
 		
@@ -51,48 +52,31 @@ public class PhotoStatusManager {
 	
 	public boolean needsToBeProcessed(String name) throws IOException
 	{
-		boolean result = false;
-		
 		PhotoStatus ps = searchUniqueUtil(name);
 		
-		//only process if is null
 		//false means that we have called gearman to process but gearman doesn't finished jet
 		//this means that the work is in the job stack already
-		if (ps.isProcessed() == null)
-			result = true;
-		
-		return result;
+		return (ps.getProcessed() == ProcessedStatus.NONE);
 		
 	}
 	
 	public boolean hasStartedProcessing(String name) throws IOException
-	{
-		boolean result = false;
-		
+	{		
 		PhotoStatus ps = searchUniqueUtil(name);
-		if (ps.isProcessed() != null)
-			result = true;
-		
-		return result;
+		return (ps.getProcessed() != ProcessedStatus.NONE);
 	}
 	
 	public boolean hasFinishedProcessing(String name) throws IOException
-	{
-		boolean result;
-		
+	{	
 		PhotoStatus ps = searchUniqueUtil(name);
-		if (ps.isProcessed() == null || ps.isProcessed() == false) //if is null and we do only the true check then the program fails with null pointer exception
-			result = false;
-		else
-			result = true;
+		return (ps.getProcessed() == ProcessedStatus.FINISHED);
 		
-		return result;
 	}
 	
 	public void markAsProcessedStarted(String name) throws IOException
 	{
 		PhotoStatus ps = this.searchUniqueUtil(name);
-		ps.setProcessed(false);
+		ps.setProcessed(ProcessedStatus.STARTED);
 		ps.setUpdateDate(new Date());
 		this.photoStatusDao.updatePhotoStatus(ps);
 		this.logger.info("Updated the photo status marking as process started");
@@ -101,7 +85,7 @@ public class PhotoStatusManager {
 	public void markAsProcessedFinished(String name) throws IOException
 	{
 		PhotoStatus ps = this.searchUniqueUtil(name);
-		ps.setProcessed(true);
+		ps.setProcessed(ProcessedStatus.FINISHED);
 		ps.setUpdateDate(new Date());
 		this.photoStatusDao.updatePhotoStatus(ps);
 		this.logger.info("Updated the photo status marking as process finished");
@@ -110,7 +94,7 @@ public class PhotoStatusManager {
 	public void markAsNeedsToBeProcessed(String name) throws IOException
 	{
 		PhotoStatus ps = this.searchUniqueUtil(name);
-		ps.setProcessed(null);
+		ps.setProcessed(ProcessedStatus.NONE);
 		ps.setUpdateDate(new Date());
 		this.photoStatusDao.updatePhotoStatus(ps);
 		this.logger.info("Updated the photo status marking as process needded");

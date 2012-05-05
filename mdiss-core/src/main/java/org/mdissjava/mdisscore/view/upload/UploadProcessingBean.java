@@ -56,13 +56,14 @@ public class UploadProcessingBean {
 		try {
 			//check if the job is already in gearman or it has finished
 			if (photoManager.needsToBeProcessed(this.imageId))
-			{
-				//set process to second state (false) -> start
-				photoManager.markAsProcessedStarted(this.imageId);
-				
+			{	
 				//create the connection with gearman
 				logger.info("calling gearman");
 				this.thumbClient = (ThumbnailerGearmanClient) ThumbnailerGearmanClientPool.getInstance().getClient();
+				
+				//set process to second state (false) -> start
+				photoManager.markAsProcessedStarted(this.imageId);
+				
 				//wait to process...
 				thumbClient.ThumbnailizeImageSynchronous(this.imageId);
 				
