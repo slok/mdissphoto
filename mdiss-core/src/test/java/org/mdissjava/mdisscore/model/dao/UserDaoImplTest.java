@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
+import org.mdissjava.mdisscore.model.pojo.Country;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class UserDaoImplTest {
 	@Before
 	public void setUp() throws Exception {
 	}
+	
+	
 	
 	@Test
 	public void addUserTest(){		

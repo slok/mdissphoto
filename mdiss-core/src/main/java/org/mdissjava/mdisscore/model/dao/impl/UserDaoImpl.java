@@ -12,6 +12,7 @@ import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
+import org.mdissjava.mdisscore.model.pojo.Country;
 import org.mdissjava.mdisscore.model.pojo.User;
 
 
@@ -116,7 +117,6 @@ public class UserDaoImpl implements UserDao {
 		Query q = session.createQuery("" + "from friends as users "
 				+ "where friends.userId =" + user.getId());
 		users =  q.list();
-	//	session.close();
 		return users;
 	}
 
@@ -144,6 +144,8 @@ public class UserDaoImpl implements UserDao {
 	//	System.out.println("getUserByNick: insert "+nick +" con Nick recuperado: "+user.getNick());
 		return user;
 	}
+
+
 
 
 

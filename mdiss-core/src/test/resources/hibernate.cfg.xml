@@ -14,8 +14,9 @@
         <!-- Get current session (automated)-->
 		<!-- <property name="hibernate.current_session_context_class">thread</property>-->
         <mapping class="org.mdissjava.mdisscore.model.pojo.User"/>
-        
-        
+        <mapping class="org.mdissjava.mdisscore.model.pojo.Country"/>
+        <mapping class="org.mdissjava.mdisscore.model.pojo.State"/>
+        <mapping class="org.mdissjava.mdisscore.model.pojo.City"/>
 		<!-- C3p0 pool connection manager
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
