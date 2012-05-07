@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
+import org.mdissjava.mdisscore.model.pojo.Country;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class UserDaoImplTest {
 	@Before
 	public void setUp() throws Exception {
 	}
+	
+	
 	
 	@Test
 	public void addUserTest(){		
@@ -94,17 +97,17 @@ public class UserDaoImplTest {
 		
 
 		
-		if(dao.emailAllReadyExists("prueba2@prueba2.com"))
+		if(dao.emailAlreadyExists("prueba2@prueba2.com"))
 		{}
 		else
 			throw new Exception("email not found exception");
 		
-		if(dao.nickAllReadyExists("Cheseal"))
+		if(dao.nickAlreadyExists("Cheseal"))
 		{}
 		else
 			throw new Exception(" nick not found exception");
 	
-		if(dao.nickAllReadyExists("Chekitua"))
+		if(dao.nickAlreadyExists("Chekitua"))
 		{throw new Exception(" nick que no existe Exception");}
 
 		dao.deleteUser(user);
@@ -310,8 +313,8 @@ public class UserDaoImplTest {
 		user.setPass("raul2");
 		
 		UserDao dao = new UserDaoImpl();
-		dao.addUser(user);				
-		assertEquals(user, dao.getUserByNick(user.getNick()));
+		//dao.addUser(user);				
+		//assertEquals(user, dao.getUserByNick(user.getNick()));
 		
 		System.out.println("El id del usuario es : ********************"+ user.getId());
 		
@@ -340,16 +343,19 @@ public class UserDaoImplTest {
 		user2.setPass("maria2");
 		
 		
-		dao.addUser(user2);				
-		assertEquals(user2, dao.getUserByNick(user2.getNick()));
-		System.out.println("El id del usuario2 es : ********************"+ user2.getId());
-		user.addFriend(user2);
-		
-		dao.updateUser(user);	
-		assertEquals(user, dao.getUserByNick(user.getNick()));
-		
-		dao.deleteUser(user);
-		dao.deleteUser(user2);
+		//	dao.addUser(user2);				
+		//	assertEquals(user2, dao.getUserByNick(user2.getNick()));
+			System.out.println("El id del usuario2 es : ********************"+ user2.getId());
+			
+		//	user.addFollow(user2);		
+		//	dao.updateUser(user);	
+			
+			
+			User user3 = dao.getUserByNick("Raulete4");
+			System.out.println("SIZE:" + dao.findFollows(user3));
+			dao.findFollows(user3);
+		//	System.out.println("SIZE:" + user3.getFollows());
+			
 	}
 		
 	/*
