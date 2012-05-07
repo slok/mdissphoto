@@ -36,9 +36,9 @@
 						 			<h:panelGrid id="grid" columns="3">
 						 			
 						 				<h:outputLabel value="Nick: *"/>
-										<p:inputText id="nick" value="#{registrationbean.nick}"  required="true" label="Nick">
+										<p:inputMask id="nick" value="#{registrationbean.nick}"  required="true" label="Nick" mask="[_A-Za-z0-9Ññ¿\\\.\!\?\/\:]">
 											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
-										</p:inputText>
+										</p:inputMask>
 										<p:message id="nickoutput" for="nick" display="text" />
 						 			
 						 				<h:outputLabel value="Name: *"/>

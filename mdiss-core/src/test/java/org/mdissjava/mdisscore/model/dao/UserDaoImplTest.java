@@ -27,6 +27,8 @@ public class UserDaoImplTest {
 	
 	
 	
+	
+	
 	@Test
 	public void addUserTest(){		
 		this.logger.info("TEST(UserDao) addUser");
