@@ -7,18 +7,25 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-<div class="navbar">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse"
-				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-				class="icon-bar"></span> <span class="icon-bar"></span>
-			</a> <a class="brand" href="#">MDISSPHOTO</a>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="#">MDISSPHOTO</a>
+				<div class="nav pull-right">
+					<h:form>
+						<h:commandLink styleClass="btn btn-primary btn-large"  action="pretty:register"> Sign Up </h:commandLink>
+						<h:commandLink styleClass="btn btn-primary btn-large" action="pretty:login"> Login </h:commandLink>
+					</h:form>
+				</div>
+				<!-- /navbar-pull-right -->
+			</div>
+			<!-- /container -->
 		</div>
+		<!-- /navbar-inner -->
 	</div>
-	<!-- /navbar-inner -->
-</div>
-<!-- /navbar -->
-
+	<!-- /navbar -->
 
 </html>
