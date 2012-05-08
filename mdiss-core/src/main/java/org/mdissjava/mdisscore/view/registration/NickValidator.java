@@ -38,7 +38,7 @@ public class NickValidator implements Validator{
 			throw new ValidatorException(msg);
 		}*/
 		
-		if(userBll.NickAllReadyExist(value.toString()))
+		if(userBll.nickAlreadyExists(value.toString()))
 		{
 			throw new ValidatorException(new FacesMessage(
                 FacesMessage.SEVERITY_ERROR, "Not valid",

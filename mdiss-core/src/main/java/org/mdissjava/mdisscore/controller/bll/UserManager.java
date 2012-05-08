@@ -16,8 +16,8 @@ public interface UserManager {
 	//void modifyConfiguration(ObjectId id, Configuration conf);
 	List<User> getFriends(int id);
 	Photo  getPhoto(int IdPhoto);
-	void ChangePassword(User user, String newPassword);
-	boolean EmailAllReadyExist(String email);
-	boolean NickAllReadyExist(String nick);
+	void changePassword(User user, String newPassword);
+	boolean emailAlreadyExists(String email);
+	boolean nickAlreadyExists(String nick);
 	
 }
