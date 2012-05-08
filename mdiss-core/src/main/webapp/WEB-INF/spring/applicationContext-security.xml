@@ -52,8 +52,8 @@
 	<beans:bean id="redirectRoleStrategy" class="org.mdissjava.mdisscore.controller.auth.RoleBasedAuthenticationSuccessHandler">
 	    <beans:property name="roleUrlMap">
 	        <beans:map>
-	            <beans:entry key="ROLE_ADMIN" value="/admin/"/>
-	            <beans:entry key="ROLE_USER" value="/dashboard/"/>
+	            <beans:entry key="ROLE_ADMIN" value="/a/"/>
+	            <beans:entry key="ROLE_USER" value="/s/dashboard/"/>
 	        </beans:map>
 	    </beans:property>
 	</beans:bean>
