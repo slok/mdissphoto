@@ -35,9 +35,7 @@ public class UserDaoImplTest {
 	
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+	
 		
 		Configuration conf = new Configuration();
 										
@@ -71,9 +69,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -123,9 +119,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -161,9 +155,7 @@ public class UserDaoImplTest {
 
 		Address address = new Address();		
 		address.setStreet("Avda Universidades");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -203,9 +195,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 64");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 		
@@ -244,9 +234,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -269,9 +257,7 @@ public class UserDaoImplTest {
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
 		assertEquals(user, dao.getUserByNick(user.getNick()));	
-		user.getAddress().setCity("Tudela");
-		user.getAddress().setCountry("España");
-		user.getAddress().setState("Navarra");
+
 		
 		user.getConfiguration().setShowName(false);
 		user.getConfiguration().setShowPhone(true);
@@ -292,9 +278,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("alcobendas 16");		
-		address.setCity("Madrir");
-		address.setState("Madrid");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -322,9 +306,7 @@ public class UserDaoImplTest {
 		
 		Address address2 = new Address();		
 		address2.setStreet("vestigios 32");		
-		address2.setCity("Vitoria");
-		address2.setState("Alava");
-		address2.setCountry("Spain");
+
 		
 		Configuration conf2 = new Configuration();
 										
@@ -383,9 +365,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Avda Universidades");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 		
