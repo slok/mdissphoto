@@ -11,24 +11,39 @@
 		<ui:define name="title">LOGIN</ui:define>
 		
 		<ui:define name="body">
-			
-			<h2>Type you username and password</h2>
+			<div class="row-fluid">
+				<h2>Type you username and password</h2>
+			</div>
 			<br/>
-			<div class="span4 offset1">			
-				<h:form>				
-					<p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
-					
-					<h:panelGrid columns="2">
-						<h:outputLabel value="User Name" for="j_username" />
-						<h:inputText label="Username" id="j_username"
-							value="#{loginBean.username}" required="true" />
-						<h:outputLabel value="Password" for="j_password" />
-						<h:inputSecret label="Password" id="j_password"
-							value="#{loginBean.password}" required="true" />
-					</h:panelGrid>
-					<h:commandButton styleClass="btn btn-primary btn-large"
-						actionListener="#{loginBean.doLogin}" value="Login" update="growl" />
-				</h:form>
+			<div class="row-fluid">			
+					<h:form>				
+						<p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
+						
+						<div class="row-fluid">
+							<div class="span2">
+								<h:outputLabel value="User Name" for="j_username" />
+							</div>
+							<div class="span2">
+								<h:inputText label="Username" id="j_username"
+									value="#{loginBean.username}" required="true" />
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span2">	
+								<h:outputLabel value="Password" for="j_password" />
+							</div>
+							<div class="span2">
+								<h:inputSecret label="Password" id="j_password"
+									value="#{loginBean.password}" required="true" />
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span4">
+								<h:commandButton styleClass="btn btn-primary btn-medium"
+									actionListener="#{loginBean.doLogin}" value="Login" update="growl" />
+							</div>
+						</div>
+					</h:form>
 			</div>
 
 		</ui:define>
