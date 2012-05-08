@@ -11,21 +11,25 @@
 		<ui:define name="title">LOGIN</ui:define>
 		
 		<ui:define name="body">
-			<h:form>
-				
-				<p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
-				
-				<h:panelGrid columns="2">
-					<h:outputLabel value="User Name" for="j_username" />
-					<h:inputText label="Username" id="j_username"
-						value="#{loginBean.username}" required="true" />
-					<h:outputLabel value="Password" for="j_password" />
-					<h:inputSecret label="Password" id="j_password"
-						value="#{loginBean.password}" required="true" />
-				</h:panelGrid>
-				<h:commandButton styleClass="btn btn-primary btn-large"
-					actionListener="#{loginBean.doLogin}" value="Login" update="growl" />
-			</h:form>
+			
+			<h2>Type you username and password</h2>
+			<br/>
+			<div class="span4 offset1">			
+				<h:form>				
+					<p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
+					
+					<h:panelGrid columns="2">
+						<h:outputLabel value="User Name" for="j_username" />
+						<h:inputText label="Username" id="j_username"
+							value="#{loginBean.username}" required="true" />
+						<h:outputLabel value="Password" for="j_password" />
+						<h:inputSecret label="Password" id="j_password"
+							value="#{loginBean.password}" required="true" />
+					</h:panelGrid>
+					<h:commandButton styleClass="btn btn-primary btn-large"
+						actionListener="#{loginBean.doLogin}" value="Login" update="growl" />
+				</h:form>
+			</div>
 
 		</ui:define>
 		
