@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/faces/app/self/upload-space.xhtml">
+      
+		<ui:define name="title">MDISSPHOTO</ui:define>
+		
+		<ui:define name="head-inner">
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+			<h:outputScript library="js" name="tag-it.js" />
+			<h:outputStylesheet library="css" name="jquery.tagit.css"  />
+			
+			<script type="text/javascript">
+			    $(document).ready(function() {
+			        $("#myTags").tagit();
+			    });
+			</script>
+		</ui:define>
+		
+		<ui:define name="body">
+			<div class="modal hide fade" id="myModal">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">×</button>
+					<h3>Insert new album</h3>
+				</div>
+				<h:form prependId="false">
+					<div class="modal-body">
+						<p:inputText id="newAlbum"
+							value="#{uploadDetailsBean.newAlbumTitle}" required="true"
+							requiredMessage="Required attr" />
+					</div>
+					<div class="modal-footer">
+						<h:commandButton styleClass="btn btn-primary" value="Add"
+							type="submit" action="#{uploadDetailsBean.newAlbum}" />
+					</div>
+				</h:form>
+			</div>
+
+
+			<div class="row">
+				<div class="span2 offset3 ">
+					<div class="numberCircle">1 Upload</div>
+				</div>
+				<div class="span2">
+					<div class="numberCircle">2 Process</div>
+				</div>
+				<div class="span2">
+					<div class="numberCircle-active">3 Detail</div>
+				</div>
+			</div>
+			<br/><br/>
+			<div class="row-fluid">
+				<!-- Thumbnail -->
+				<div class="span4">
+					<h:graphicImage styleClass="thumbnail" value="#{uploadDetailsBean.imageURL}" />
+				</div>
+				
+				<!-- form -->
+				<div class="span8">
+					<div class="row-fluid">
+					
+						<h:form prependId="false" styleClass="well">
+			        		<!-- The growl message alert -->
+							<p:growl id="growl" showDetail="true"/>
+													
+					<!-- Title -->
+							<div class="row-fluid">
+				   				<div class="span2">		
+						            <h:outputLabel for="title" value="Title *:" />
+						        </div>
+						        <div class="span2">	  
+						            <div class="primefaces-border-wrapper">
+							            <p:inputText styleClass="input-medium" id="title" value="#{uploadDetailsBean.title}" required="true" requiredMessage="Required attr">
+							            	 <p:ajax event="blur" update="growl,formSubmitButton" process="@this"  listener="#{uploadDetailsBean.titleValidator}"/>  
+							            </p:inputText>
+						            </div>
+						        </div>
+						        <div class="span4">	  
+									<p:message id="titleMessage" for="title"/>
+								</div>
+							</div>
+							
+					<!-- Album -->
+							<div class="row-fluid">
+				   				<div class="span2">
+						            <h:outputLabel for="album" value="Album *:" />  
+								</div>
+						        <div class="span4">	
+						            <h:selectOneMenu value="#{uploadDetailsBean.album}">
+							   			<f:selectItems value="#{uploadDetailsBean.albums}" />
+							   		</h:selectOneMenu>
+								</div>
+								<div class="span1">
+									<a class="btn" data-toggle="modal" href="#myModal"> <i class="icon-plus"></i></a>
+								</div>
+							</div>
+					
+					<!-- License -->
+							<div class="row-fluid">
+								<div class="span2">
+									<h:outputLabel for="license" value="License:" />
+								</div>
+								<div class="span4"> 
+						            <h:selectOneMenu value="#{uploadDetailsBean.license}">
+							   			<f:selectItems value="#{uploadDetailsBean.licenses}" />
+							   		</h:selectOneMenu>
+							   	</div>
+							</div>
+					<!-- Tags -->
+							<div class="row-fluid">
+								<div class="span2">
+					            	<h:outputLabel for="myTags" value="Tags:" /> 
+								</div>
+								<div class="span4">
+									<h:inputText id="myTags" value="#{uploadDetailsBean.tags}" />
+								</div>
+							</div>
+					<!-- Submit button -->
+							<div class="row-fluid">
+								<div class="span2">
+							 		<p:commandButton id="formSubmitButton" disabled="#{uploadDetailsBean.formButtonDisabled}" styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{uploadDetailsBean.saveDetails}" />
+								</div>
+							</div>
+						</h:form>
+					</div> <!-- row-fluid end -->
+					</div> <!-- span8 end -->
+				</div> <!-- row-fluid end -->	
+		</ui:define>
+				
+    </ui:composition>
+</html>

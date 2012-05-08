@@ -6,9 +6,16 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
-    <ui:composition template="/templates/app-space.xhtml">
+    <ui:composition template="/templates/app/self-space.xhtml">
       
-		<ui:define name="title">Tag list</ui:define>
+		<ui:define name="title">UPLOAD</ui:define>
+		
+		<ui:define name="head">
+			<link href='http://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css' />
+			<ui:insert name="head-inner">
+			</ui:insert>
+			
+		</ui:define>
 		
 		<ui:define name="body">
 								

@@ -10,10 +10,20 @@
         <h:head>
             <title><ui:insert name="title">#{msg.indexTitle}</ui:insert></title>
 
-            <h:outputStylesheet library="css" name="bootstrap.css"  />
-            <h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
-            <h:outputStylesheet library="css" name="style.css"  />
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+           
+			<ui:insert name="app-css">
+	            <h:outputStylesheet library="css" name="style.css"  />
+				<h:outputStylesheet library="css" name="bootstrap.css"  />
+	            <h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
+			</ui:insert>
+			
+			<ui:insert name="bootstrap-jquery">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+			</ui:insert>
+			
+			<ui:insert name="bootstrap-js">
+				<h:outputScript library="js" name="bootstrap.min.js" />
+			</ui:insert>
             
             <ui:insert name="head">
             </ui:insert>

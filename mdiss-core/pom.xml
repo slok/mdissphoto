@@ -133,8 +133,8 @@
     	
     	<dependency>  
 		    <groupId>org.primefaces.themes</groupId>  
-		    <artifactId>flick</artifactId>  
-		    <version>1.0.4</version>  
+		    <artifactId>bootstrap</artifactId>  
+		    <version>1.0.1</version>  
 		</dependency>  
     	
     	
