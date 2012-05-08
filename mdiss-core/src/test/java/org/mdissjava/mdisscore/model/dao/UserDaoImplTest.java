@@ -13,6 +13,7 @@ import org.mdissjava.mdisscore.model.pojo.Address;
 import org.mdissjava.mdisscore.model.pojo.City;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.Country;
+import org.mdissjava.mdisscore.model.pojo.State;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 import org.slf4j.Logger;
@@ -404,6 +405,7 @@ public class UserDaoImplTest {
 		AddressDao dao = new AddressDaoImpl();
 		Country c=dao.getCountry((short)100);
 		City city=dao.getCity(986);
+		State state=dao.getState((short)100);
 		Address address = new Address();
 			address.setStreet("Avda Universidades");		
 			address.setCountry(c);
@@ -433,6 +435,8 @@ public class UserDaoImplTest {
 			
 					
 			assertEquals("Botswana",  dao2.getUserByNick("mdissWorarkarfer2").getAddress().getCountry().getNombre());
+			assertEquals("Alitus",  dao2.getUserByNick("mdissWorarkarfer2").getAddress().getCity().getNombre());
+			assertEquals("North",  dao2.getUserByNick("mdissWorarkarfer2").getAddress().getState().getNombre());
 			
 			dao2.deleteUser(user);
 	}
