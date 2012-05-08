@@ -410,6 +410,7 @@ public class UserDaoImplTest {
 			address.setStreet("Avda Universidades");		
 			address.setCountry(c);
 			address.setCity(city);
+			address.setState(state);
 			
 			Configuration conf = new Configuration();
 			
