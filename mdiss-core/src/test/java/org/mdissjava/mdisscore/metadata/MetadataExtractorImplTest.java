@@ -80,9 +80,8 @@ public class MetadataExtractorImplTest {
 			Metadata metadata = metadataExtractor.obtenerMetadata(photo);
 			
 			//Although there is no EXIF metadata, BASIC metadata is returned (no focal length, iso etc. values)
-			
 			assertEquals(metadata.getFormat(), "jpeg");
-			assertEquals(metadata.getSize(), 0.0, 0);
+			assertEquals(metadata.getSize(), 101.0, 0);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -185,7 +184,7 @@ public class MetadataExtractorImplTest {
 			//Check if the Aperture value for the photoTestJPG's metadata is 5.65 and file format is jpg
 			if(metadata != null)
 			{
-				assertEquals(metadata.getSize(), 5.0, 0.0);	
+				assertEquals(metadata.getSize(), 6096.0, 0.0);	
 				assertEquals(metadata.getFormat(), "tiff");
 			}
 			else

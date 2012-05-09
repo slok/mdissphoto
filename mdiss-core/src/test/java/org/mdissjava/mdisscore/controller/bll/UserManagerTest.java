@@ -35,9 +35,7 @@ public class UserManagerTest {
 	
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										

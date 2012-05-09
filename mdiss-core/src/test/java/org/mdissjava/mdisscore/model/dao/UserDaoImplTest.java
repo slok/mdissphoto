@@ -7,8 +7,10 @@ import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mdissjava.mdisscore.model.dao.impl.AddressDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Address;
+import org.mdissjava.mdisscore.model.pojo.City;
 import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.Country;
 import org.mdissjava.mdisscore.model.pojo.User;
@@ -35,9 +37,7 @@ public class UserDaoImplTest {
 	
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+	
 		
 		Configuration conf = new Configuration();
 										
@@ -71,9 +71,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -123,9 +121,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -161,9 +157,7 @@ public class UserDaoImplTest {
 
 		Address address = new Address();		
 		address.setStreet("Avda Universidades");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -203,9 +197,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 64");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 		
@@ -244,9 +236,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Madariaga 6");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -269,9 +259,7 @@ public class UserDaoImplTest {
 		UserDao dao = new UserDaoImpl();
 		dao.addUser(user);				
 		assertEquals(user, dao.getUserByNick(user.getNick()));	
-		user.getAddress().setCity("Tudela");
-		user.getAddress().setCountry("España");
-		user.getAddress().setState("Navarra");
+
 		
 		user.getConfiguration().setShowName(false);
 		user.getConfiguration().setShowPhone(true);
@@ -292,9 +280,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("alcobendas 16");		
-		address.setCity("Madrir");
-		address.setState("Madrid");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 										
@@ -322,9 +308,7 @@ public class UserDaoImplTest {
 		
 		Address address2 = new Address();		
 		address2.setStreet("vestigios 32");		
-		address2.setCity("Vitoria");
-		address2.setState("Alava");
-		address2.setCountry("Spain");
+
 		
 		Configuration conf2 = new Configuration();
 										
@@ -383,9 +367,7 @@ public class UserDaoImplTest {
 		
 		Address address = new Address();		
 		address.setStreet("Avda Universidades");		
-		address.setCity("Bilbao");
-		address.setState("Vizcaya");
-		address.setCountry("Spain");
+
 		
 		Configuration conf = new Configuration();
 		
@@ -414,6 +396,45 @@ public class UserDaoImplTest {
 		
 		dao.deleteUser(user);
 		
+	}
+	
+	@Test
+	public void setAddress()throws IllegalArgumentException{
+		this.logger.info("TEST(UserDao) setAddress");
+		AddressDao dao = new AddressDaoImpl();
+		Country c=dao.getCountry((short)100);
+		City city=dao.getCity(986);
+		Address address = new Address();
+			address.setStreet("Avda Universidades");		
+			address.setCountry(c);
+			address.setCity(city);
+			
+			Configuration conf = new Configuration();
+			
+			User user = new User();
+			user.setNick("mdissWorarkarfer2");
+			user.setName("Java2");		
+			user.setSurname("Master2");
+			user.setPhone(944655877);
+			user.setBirthdate(new Date());
+			user.setGender(Gender.Female);
+			user.setAddress(address);
+			user.setConfiguration(conf);		
+			user.addPreference("java");
+			user.addPreference("programming");
+			user.addPreference("pojos");
+			user.setEmail("prueba2@prueba2.com");
+			user.setPass("9e2c6781e1d498c41d3b146262158a5803f9724067af0d30e7179856ad66c74f");
+			user.setRole("USER");
+			user.setActive(true);
+			
+			UserDao dao2 = new UserDaoImpl();
+			dao2.addUser(user);
+			
+					
+			assertEquals("Botswana",  dao2.getUserByNick("mdissWorarkarfer2").getAddress().getCountry().getNombre());
+			
+			dao2.deleteUser(user);
 	}
 
 }
