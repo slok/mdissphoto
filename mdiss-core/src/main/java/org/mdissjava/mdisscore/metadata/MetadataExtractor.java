@@ -1,10 +1,7 @@
 package org.mdissjava.mdisscore.metadata;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 
@@ -19,5 +16,6 @@ public interface MetadataExtractor {
 	public String getOnlyExtension(String type);
 	public long bytesToMb(int bytes);
 	public long bytesToKb(int bytes);
+	public Map<String, String> getMetadataFormatted(Metadata metadata);
 
 }
