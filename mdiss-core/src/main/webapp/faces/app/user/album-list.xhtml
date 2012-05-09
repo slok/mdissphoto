@@ -11,6 +11,23 @@
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
 		
 		<ui:define name="body">
+		
+			<script>
+				$('#albumCarousel').carousel();
+			</script>
+		
+			<div class="row-fluid">
+			  <div class="span12">
+			    <div class="row-fluid">
+			    	<ul>
+			    		<ui:repeat value="#{albumBean.detailedPhotoURL}" var="photo">
+			    			<li class="span4"><img src="#{photo}" alt=""/></li>
+			    		</ui:repeat>
+			    	</ul>		    	
+				 
+			    </div>
+			  </div>
+			</div>
 								
 		</ui:define>
 				
