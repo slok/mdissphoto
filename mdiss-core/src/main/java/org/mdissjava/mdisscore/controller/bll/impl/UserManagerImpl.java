@@ -63,7 +63,7 @@ public class UserManagerImpl implements UserManager {
 	}
 	
 	@Override
-	public void ChangePassword(User user, String newPassword) {		
+	public void changePassword(User user, String newPassword) {		
 		user.setPass(PEncoder(newPassword));
 		userdao.updateUser(user);		
 	}
@@ -83,15 +83,15 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public boolean EmailAllReadyExist(String email) {
-		return	userdao.emailAllReadyExists(email);
+	public boolean emailAlreadyExists(String email) {
+		return	userdao.emailAlreadyExists(email);
 		
 	}
 
 	@Override
-	public boolean NickAllReadyExist(String nick) {
+	public boolean nickAlreadyExists(String nick) {
 		
-		return userdao.nickAllReadyExists(nick);
+		return userdao.nickAlreadyExists(nick);
 	}
 
 
