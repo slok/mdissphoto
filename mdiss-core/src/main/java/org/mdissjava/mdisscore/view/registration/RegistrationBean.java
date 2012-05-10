@@ -1,10 +1,10 @@
 package org.mdissjava.mdisscore.view.registration;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -12,12 +12,16 @@ import javax.faces.validator.ValidatorException;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
+import org.mdissjava.mdisscore.model.pojo.Address;
+import org.mdissjava.mdisscore.model.pojo.City;
+import org.mdissjava.mdisscore.model.pojo.Configuration;
+import org.mdissjava.mdisscore.model.pojo.Country;
+import org.mdissjava.mdisscore.model.pojo.State;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
-import org.mdissjava.mdisscore.view.params.ParamsBean;
 
-@ManagedBean(name = "registrationbean")
-@ViewScoped
+@ManagedBean
+@RequestScoped
 public class RegistrationBean {
 
 	//Variables
@@ -30,7 +34,6 @@ public class RegistrationBean {
 	private String email;
 	private String password;
 	
-	//wizard
 	private static Logger logger = Logger.getLogger(RegistrationBean.class.getName());
 
 
@@ -128,8 +131,16 @@ public class RegistrationBean {
 	public void register(ActionEvent actionEvent) throws ValidatorException  
 	{ 	
 		System.out.println("Register clicked*****************");
-		
-
+				City city=new City();
+				city.setId(1);
+				Country country=new Country();
+				country.setId((short)1);
+				State state=new State();
+				state.setId((short)1);
+				Address address=new Address();
+				address.setCity(city);
+				address.setCountry(country);
+				address.setState(state);
 				User user=new User();
 				user.setActive(false);
 				user.setNick(getNick());
@@ -139,7 +150,8 @@ public class RegistrationBean {
 				user.setEmail(getEmail());
 				user.setBirthdate(getBirthdate());
 				user.setGender(getGender());
-	
+				user.setAddress(address);
+				user.setConfiguration(new Configuration());
 				userBll.saveUser(user);
 				
 				String outcome = "pretty:confirmation";
