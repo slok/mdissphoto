@@ -4,34 +4,36 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<div class="span8">						
-		<div class="row-fluid">	
-			<div class="well">
-				<div class="span2">
-					<a href="#" class="thumbnail">
-						<img src="http://placehold.it/330x220" alt=""/>
-					</a>
-				</div>
-				<div class="offset2">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu lectus lacus. Mauris tellus ante, cursus non tristique at, scelerisque a quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus sapien tellus, luctus at pretium in, varius at nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras blandit velit sit amet arcu tristique eget pretium ipsum ultrices. In laoreet diam in dolor dignissim tempor. Nunc blandit vehicula dolor, id aliquam augue consectetur sed.
-				</div>
-			</div>						
-		</div>
-		
-		<div class="row-fluid">	
-			<div class="well">
-				<div class="span2">
-					<a href="#" class="thumbnail">
-						<img src="http://placehold.it/330x220" alt=""/>
-					</a>
-				</div>
-				<div class="offset2">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu lectus lacus. Mauris tellus ante, cursus non tristique at, scelerisque a quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus sapien tellus, luctus at pretium in, varius at nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras blandit velit sit amet arcu tristique eget pretium ipsum ultrices. In laoreet diam in dolor dignissim tempor. Nunc blandit vehicula dolor, id aliquam augue consectetur sed.					
-				</div>
-			</div>						
-		</div>
-	</div>	
+
+
+	<h:panelGroup layout="block">
+		<h2>
+			<h:outputLabel value="Mantenimiento de jugadores" />
+		</h2>
+		<br />
+
+		<h:form id="form">
+			<p:dataList value="#{userBean.user.follows}" var="follow" itemType="none">
+				<p:column>		 
+						<a href="#" class="thumbnail"> <img
+							src="http://placehold.it/60x60" alt="" />
+						</a>				
+				</p:column> 
+				<p:column> 		
+	  						#{follow.nick}, #{follow.email}  
+	  							</p:column>
+	  			<p:column> 		   					    					       			    				
+	  					<h:commandButton styleClass="btn"
+					actionListener="#{userBean.addFollow(follow.nick)}" value="Follow"
+					update="growl" />
+				</p:column> 			
+			</p:dataList>
+		</h:form>
+
+			</h:panelGroup>
 	
+
+
 </html>	

@@ -29,9 +29,9 @@ public interface UserDao {
 	
 //	void modifyConfiguration(ObjectId id, Configuration conf);
 	
-	List<User> findFollows(User user);
+	List<User> findFollows(String userId);
 	
-	List<User> findFollowers(User user);
+	List<User> findFollowers(String user);
 	
 	void addFollow(int userid, int friendid);
 	
