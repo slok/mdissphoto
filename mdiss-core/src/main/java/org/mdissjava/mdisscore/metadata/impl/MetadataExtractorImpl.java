@@ -159,49 +159,75 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	 public long bytesToKb(int bytes) {
 	  return bytes / KBYTE ;
 	 }
-
+	 
+	 
 	@Override
 	public Map<String, String> getMetadataFormatted(Metadata metadata) {
-
+		
 		Map<String, String> metadataMap = new HashMap<String, String>();
 		
-		String aperture = metadata.getAperture();
-		Camera cam = metadata.getCamera();
-		Date date = metadata.getDateTaken();
-		int focal = metadata.getFocalLength();
-		String format = metadata.getFormat();
-		int isoSpeed = metadata.getISOSpeed();
-		Resolution resolutionPPI = metadata.getResolutionPPI();
-		Resolution resolutionReal = metadata.getResolutionREAL();
-		//int sensorSize = metadata.getSensorSize();
-		String shutterSpeed = metadata.getShutterSpeed();
-		Float size = metadata.getSize();
+		// We need to call all, and all can threw a exception. This is a fucking shit of code but we need to treat 
+		// all variables differently
 		
-		if(aperture != null)
-			metadataMap.put("Aperture", aperture);
-		if(cam != null)
-			metadataMap.put("map", cam.getBrand() +"-"+ cam.getId());
-		if(date != null)
-			metadataMap.put("Date taken", date.toString());
-		if(focal != 0)
-			metadataMap.put("Focal length", String.valueOf(focal));
-		if(format != null)
-			metadataMap.put("Original format", format);
-		if(isoSpeed != 0)
-			metadataMap.put("ISO speed", String.valueOf(isoSpeed));
-		if(resolutionPPI != null)
-			metadataMap.put("Resolution PPI", resolutionPPI.getWidth()+"x"+resolutionPPI.getWidth());
-		if(resolutionReal != null)
-			metadataMap.put("Resolution", resolutionReal.getWidth()+"x"+resolutionReal.getWidth());
-		//if(sensorSize != 0)
-		//	metadataMap.put("Sensor size", String.valueOf(size));
-		if(shutterSpeed != null)
-			metadataMap.put("Shutter speed", shutterSpeed);
-		if(size != 0)
-			metadataMap.put("Original size", String.valueOf(size)+" MB");
+		try{
+			String aperture = metadata.getAperture();
+			if(aperture != null)
+				metadataMap.put("Aperture", aperture);
+		}catch(Exception e){
+		}try{	
+			Camera cam = metadata.getCamera();
+			if(cam != null)
+				metadataMap.put("map", cam.getBrand() +"-"+ cam.getId());
+		}catch(Exception e){
+		}try{
+			Date date = metadata.getDateTaken();
+			if(date != null)
+				metadataMap.put("Date taken", date.toString());
+		}catch(Exception e){
+		}try{
+			int focal = metadata.getFocalLength();
+			if(focal != 0)
+				metadataMap.put("Focal length", String.valueOf(focal));
+		}catch(Exception e){
+		}try{
+			String format = metadata.getFormat();
+			if(format != null)
+				metadataMap.put("Original format", format);
+		}catch(Exception e){
+		}try{
+			int isoSpeed = metadata.getISOSpeed();
+			if(isoSpeed != 0)
+				metadataMap.put("ISO speed", String.valueOf(isoSpeed));
+		}catch(Exception e){
+		}try{
+			Resolution resolutionPPI = metadata.getResolutionPPI();
+			if(resolutionPPI != null)
+				metadataMap.put("Resolution PPI", resolutionPPI.getWidth()+"x"+resolutionPPI.getHeight());
+		}catch(Exception e){
+		}try{
+			Resolution resolutionReal = metadata.getResolutionREAL();
+			if(resolutionReal != null)
+				metadataMap.put("Resolution", resolutionReal.getWidth()+"x"+resolutionReal.getHeight());
+		}catch(Exception e){
+		}try{
+			//int sensorSize = metadata.getSensorSize();
+			//if(sensorSize != 0)
+			//	metadataMap.put("Sensor size", String.valueOf(size));
+		}catch(Exception e){
+		}try{
+			String shutterSpeed = metadata.getShutterSpeed();
+			if(shutterSpeed != null)
+				metadataMap.put("Shutter speed", shutterSpeed);
+		}catch(Exception e){
+		}try{
+			Float size = metadata.getSize();
+
+			if(size != 0)
+				metadataMap.put("Original size", String.valueOf(size)+" MB");
+		}catch(Exception e){
+		}
 		
 		return metadataMap;
-
 	}
 }
 
