@@ -147,8 +147,13 @@ public class AlbumManagerImpl implements AlbumManager{
 		
 		//insert photo in database (before inserting a reference in a model , 
 		//the reference needs to be inserted in its model)
+		try{
 		new PhotoDaoImpl(this.datastore).insertPhoto(photo);
-		
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		//add photo to album
 		album.getPhotos().add(photo);
 		
@@ -261,11 +266,19 @@ public class AlbumManagerImpl implements AlbumManager{
 		
 		//unload the reference to this album to all its photos
 		//PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
-		List<Photo> photoList = album.getPhotos();
-		for(Photo i: photoList)
-		{
-			this.movePhotoToAlbum(album.getUserNick(), DEFAULT_ALBUM_TITLE, i);
+		try{
+			List<Photo> photoList = album.getPhotos();
+			System.out.println("sdasd"+photoList.size());
+			for(Photo i: photoList)
+			{
+				this.movePhotoToAlbum(album.getUserNick(), DEFAULT_ALBUM_TITLE, i);
+			}
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		
 		this.albumDao.deleteAlbum(album);
 		
