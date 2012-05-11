@@ -35,7 +35,7 @@
 	</url-mapping>
 	
 	<url-mapping id="public-photo">
-		<pattern value="/p/photo/#{user:paramsBean.photoId}" />
+		<pattern value="/p/photo/#{photo:paramsBean.photoId}/#{token:paramsBean.token}" />
 		<view-id value="/faces/public/public-photo.jsf" />
 	</url-mapping>
 	
