@@ -81,8 +81,10 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 			metadata.setResolutionPPI(resolutionPPI);
 			metadata.setResolutionREAL(resolutionREAL);
 			metadata.setDateTaken(exifIFD0Directory.getDate(ExifIFD0Directory.TAG_DATETIME));
+			//Save photo extension: jpeg, png, giff etc.
 			metadata.setFormat(format);
-			metadata.setSize((float)bytesToMb(photo.length));
+			//Save photo size in kb
+			metadata.setSize((float)bytesToKb(photo.length));
 			
 			return metadata;
 		}
@@ -121,10 +123,11 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 		resolution.setHeight(this.simpleImage.getHeight());
 				
 		metadata.setResolutionREAL(resolution);
+		//Save photo extension: jpeg, png, giff etc.
 		metadata.setFormat(format);
-		metadata.setSize((float)bytesToMb(photo.length));
+		//save photo size in kb
+		metadata.setSize((float)bytesToKb(photo.length));
 		
-		System.out.println(metadata.getSize());
 		return metadata;
 	}
 

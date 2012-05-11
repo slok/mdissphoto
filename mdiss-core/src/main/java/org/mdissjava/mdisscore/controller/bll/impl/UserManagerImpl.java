@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.model.dao.UserDao;
-import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
@@ -13,7 +12,7 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class UserManagerImpl implements UserManager {
 	//MorphiaDatastoreFactory.getDatastore("test")
-	private UserDao userdao =new UserDaoImpl();
+	private UserDao userDao = new UserDaoImpl();
 	
 
 	
@@ -24,12 +23,12 @@ public class UserManagerImpl implements UserManager {
 		{//alta de nuevo usuario
 			System.out.println("UserManagerImpl//Nuevo Usuario**********");
 			user.setPass(PEncoder(user.getPass()));
-			userdao.addUser(user);				
+			userDao.addUser(user);				
 		}
 		else
 		{//salvar una modificación
 			
-			userdao.updateUser(user);
+			userDao.updateUser(user);
 			
 		}
 		
@@ -37,35 +36,33 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void deleteUser(User user) {		
-		userdao.deleteUser(user);
-
+		userDao.deleteUser(user);
 	}
 
 	@Override
-	public User getUserById(int id) {
+	public User getUserById(int id) {		
+		return userDao.getUserById(id);
+	}
+
+	@Override
+	public List<User> findFollows(String user) {
+		return userDao.findFollows(user);	
+	}
+	
+	@Override
+	public List<User> findFollowers(String user) {
+		return userDao.findFollowers(user);	
+	}
 		
-		return userdao.getUserById(id);
-	}
-
 	@Override
-	public List<User> getFriends(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-	@Override
-	public Photo getPhoto(int PhotoId)
-	{
-		
+	public Photo getPhoto(int PhotoId) {		
 		return null;//new PhotoBo();
 	}
 	
 	@Override
-	public void ChangePassword(User user, String newPassword) {		
+	public void changePassword(User user, String newPassword) {		
 		user.setPass(PEncoder(newPassword));
-		userdao.updateUser(user);		
+		userDao.updateUser(user);		
 	}
 	
 	/**
@@ -76,24 +73,32 @@ public class UserManagerImpl implements UserManager {
 	 * 			the hash code
 	 */
 	 
-	private String PEncoder(String password)
-	{
+	private String PEncoder(String password) {
 		PasswordEncoder sha256Encoder = new ShaPasswordEncoder(256);
 		 return sha256Encoder.encodePassword(password,null);
 	}
 
 	@Override
-	public boolean EmailAllReadyExist(String email) {
-		return	userdao.emailAllReadyExists(email);
-		
+	public boolean emailAlreadyExists(String email) {
+		return	userDao.emailAlreadyExists(email);		
 	}
 
 	@Override
-	public boolean NickAllReadyExist(String nick) {
+	public boolean nickAlreadyExists(String nick) {
 		
-		return userdao.nickAllReadyExists(nick);
+		return userDao.nickAlreadyExists(nick);
 	}
 
+	public User getUserByNick(String nick){
+		return userDao.getUserByNick(nick);
+	}
+
+	@Override
+	public void addFollow(String nick) {
+		// TODO Auto-generated method stub
+		
+	}
+		
 
 
 }

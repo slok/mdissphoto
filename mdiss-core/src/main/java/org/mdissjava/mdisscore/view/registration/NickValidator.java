@@ -11,16 +11,31 @@ import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 
 
+
+
 @FacesValidator("org.mdissjava.mdisscore.view.registration.NickValidator")
 public class NickValidator implements Validator{
 
+/*	private static final String NICK_PATTERN = "^[_A-Za-z0-9-]+(\\." +"[_A-Za-z0-9-]+)";
+	private Pattern pattern;
+	private Matcher matcher;*/
+	
 	private UserManager userBll= new UserManagerImpl();
 	
 	@Override
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
+	/*	matcher = pattern.matcher(value.toString());
+		if(!matcher.matches()){
+			
+			FacesMessage msg = 
+				new FacesMessage("Nick validation failed.", 
+						"Only letters and numbers are admited");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(msg);
+		}*/
 		
-		if(userBll.NickAllReadyExist(value.toString()))
+		if(userBll.nickAlreadyExists(value.toString()))
 		{
 			throw new ValidatorException(new FacesMessage(
                 FacesMessage.SEVERITY_ERROR, "Not valid",

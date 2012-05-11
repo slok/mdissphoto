@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +28,11 @@ import org.hibernate.annotations.Type;
 @DynamicUpdate(true)
 public class User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static enum Gender {Male,Female};
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id;	
@@ -49,19 +55,25 @@ public class User implements Serializable {
 	private String pass;
 
 
-	@ManyToMany
-	@JoinTable(name="friends",
+	@ManyToMany( 
+		fetch = FetchType.LAZY,
+		targetEntity = org.mdissjava.mdisscore.model.pojo.User.class
+	)		   
+	@JoinTable(name="follows",
 	 joinColumns=@JoinColumn(name="userId"),
-	 inverseJoinColumns=@JoinColumn(name="friendId")
+	 inverseJoinColumns=@JoinColumn(name="followsUserId")
 	)
-	private List<User> friends;
+	private List<User> follows = new ArrayList<User>();
 	
-	@ManyToMany
-	@JoinTable(name="friends",
-	 joinColumns=@JoinColumn(name="friendId"),
-	 inverseJoinColumns=@JoinColumn(name="userId")
+	@ManyToMany( 
+			fetch = FetchType.LAZY,
+			targetEntity = org.mdissjava.mdisscore.model.pojo.User.class			
 	)
-	private List<User> friendOf;
+	@JoinTable(name="followedBy",
+	 joinColumns=@JoinColumn(name="userId"),
+	 inverseJoinColumns=@JoinColumn(name="followedById")
+	)
+	private List<User> followers;
 	
 
 	@Embedded
@@ -79,6 +91,8 @@ public class User implements Serializable {
 		configuration = new Configuration();		
 		registeredDate = new Date();
 		lastSession = new Date();		
+		followers = new ArrayList<User>();
+		follows = new ArrayList<User>();
 	}	
 	
 	public int getId() {
@@ -185,36 +199,46 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 	
-	public List<User> getFriends() {
-		return friends;
+	public List<User> getFollows() {
+		return this.follows;
 	}
 	
-	public void addFriend(User friend)
-	{
-		if(this.friends==null)
-			friends=new ArrayList<User>();
-		this.friends.add(friend);
+	public void setFollows(List<User> follows) {
+		this.follows = follows;
 	}
 	
-	public void setFriends(List<User> friends) {
-		this.friends = friends;
+	public void addFollow(User friend) {
+		if (this.follows == null)
+			follows = new ArrayList<User>();
+		this.follows.add(friend);
 	}
 	
-	public void addFriendOf(User friend)
-	{
-		if(this.friendOf==null)
-			friendOf=new ArrayList<User>();
-		this.friendOf.add(friend);
+	public void removeFollow(User friend) {
+		if (this.follows == null)
+			follows = new ArrayList<User>();
+		this.follows.remove(friend);
 	}
 	
-	public List<User> getFriendOf() {
-		return friendOf;
+	public List<User> getFollowers() {
+		return followers;
 	}
 
-	public void setFriendOf(List<User> friendsOf) {
-		this.friendOf = friendsOf;
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
 	}
-
+	
+	public void addFollower(User follower) {
+		if (this.followers == null)
+			followers = new ArrayList<User>();
+		this.followers.add(follower);
+	}
+	
+	public void removeFollower(User follower) {
+		if (this.followers == null)
+			followers = new ArrayList<User>();
+		this.followers.remove(follower);
+	}
+	
 	public Address getAddress() {
 		return address;
 	}
@@ -289,33 +313,27 @@ public class User implements Serializable {
 		return rest;
 	}
 	
-	
-	private String getConvertPreferences(List<String> lista)
-	{
-		String cadena="";
-		for(int i=0;i<lista.size();i++)
-		{
-			if(i<lista.size())
-				cadena+=lista.get(i)+",";
+	private String getConvertPreferences(List<String> lista) {
+		String cadena = "";
+		for (int i = 0; i < lista.size(); i++) {
+			if (i < lista.size())
+				cadena += lista.get(i) + ",";
 			else
-				cadena+=lista.get(i);
+				cadena += lista.get(i);
 		}
 		return cadena;
 	}
-	
-	private List<String> getPreferencesList(String UserPreferences)
-	{
-		List<String> Preferences=new ArrayList<String>();
-		String Cadena="";
-		for(int i=0;i<UserPreferences.length();i++)
-		{
-			if(UserPreferences.charAt(i)==',')
-			{
+
+	private List<String> getPreferencesList(String UserPreferences) {
+		List<String> Preferences = new ArrayList<String>();
+		String Cadena = "";
+		for (int i = 0; i < UserPreferences.length(); i++) {
+			if (UserPreferences.charAt(i) == ',') {
 				Preferences.add(Cadena);
-				Cadena="";
+				Cadena = "";
+			} else {
+				Cadena += UserPreferences.charAt(i);
 			}
-			else
-			{Cadena+=UserPreferences.charAt(i);}
 		}
 		Preferences.add(Cadena);
 		return Preferences;
