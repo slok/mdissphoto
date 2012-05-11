@@ -20,7 +20,8 @@ import com.google.code.morphia.annotations.Reference;
 public class Photo {
 
 	/** The unique id. */
-	@Id private ObjectId id;
+	@Id 
+	private ObjectId id;
 
 	/** The photo id (normally the same as data ID) */
 	private String photoId;
@@ -56,8 +57,9 @@ public class Photo {
 	@Embedded private Metadata metadata;
 
 	/** The list of tags associated to the photo . */
+	//@Reference private List<Tag> tags;
 	private List<String> tags;
-
+	
 	/** The id of the photo's data in the database. */
 	private String dataId;
 
@@ -69,7 +71,7 @@ public class Photo {
 	private String license;
 	
 	public Photo() {
-		tags = new ArrayList<String>();
+		//tags = new ArrayList<String>();
 		votes = new ArrayList<Vote>();
 	}
 

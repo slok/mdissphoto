@@ -1768,7 +1768,7 @@ table .span24 {
 }
 
 .icon-white {
-  background-image: url("../img/glyphicons-halflings-white.png");
+  background-image: url("#{resource['img:glyphicons-halflings-white.png']}");
 }
 
 .icon-glass {

@@ -87,7 +87,7 @@ public class UploadDetailsBean {
 				ParamsBean params = getPrettyfacesParams();
 				params.setUserId(this.userNick);
 				
-				outcome = "pretty:user_upload_error";
+				outcome = "pretty:upload-error";
 				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			}else
 			{
@@ -96,7 +96,7 @@ public class UploadDetailsBean {
 				params.setPhotoId(this.imageID);
 				params.setUserId(this.userNick);
 				
-				outcome = "pretty:photo_detail";
+				outcome = "pretty:photo-detail";
 				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 				
 			}
@@ -106,7 +106,7 @@ public class UploadDetailsBean {
 			params.setPhotoId(this.imageID);
 			params.setUserId(this.userNick);
 			
-			outcome = "pretty:user_upload_error";
+			outcome = "pretty:upload-error";
 			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			
 		}
@@ -181,7 +181,7 @@ public class UploadDetailsBean {
 			params.setPhotoId(this.imageID);
 			params.setUserId(this.userNick);
 			
-			String outcome = "pretty:photo_detail";
+			String outcome = "pretty:photo-detail";
 			FacesContext facesContext =  FacesContext.getCurrentInstance();
 			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			

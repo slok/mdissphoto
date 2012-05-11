@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces">
+
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse"
+				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span>
+			</a> <a class="brand" href="#">MDISSPHOTO</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="dropdown active"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">My <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<pretty:link mappingId="dashboard" >
+									Dashboard
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="album-list" >
+									<f:param value="#{dashboardBean.user}" />
+									Albums
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="photowers" >
+									<f:param value="#{dashboardBean.user}" />
+									Connections
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="user-profile" >
+									<f:param value="#{dashboardBean.user}" />
+									Profile
+								</pretty:link>
+							</li>
+						</ul>
+					</li>
+					
+					<li>
+						<pretty:link mappingId="upload" >
+							Upload
+						</pretty:link>
+					</li>
+					<li>
+						<pretty:link mappingId="search" >
+							Search
+						</pretty:link>
+					</li>
+					
+				</ul>
+				<ul class="nav pull-right">
+					<li>
+					 <h:outputText styleClass="navbar-text" value="Logged in as #{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}"/>
+					 <h:outputText styleClass="navbar-text" value="Login" rendered="#{dashboardBean.user == 'anonymousUser'}" /> 
+					
+					</li>
+					<li class="divider-vertical"></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <h:graphicImage library="img" name="cog-menu.png" /> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<pretty:link mappingId="settings" >
+									Settings
+								</pretty:link>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<pretty:link mappingId="logout" >
+									Logout
+								</pretty:link>
+							</li>
+						</ul
+					></li>
+				</ul>
+			</div>
+			<!-- /.nav-collapse -->
+		</div>
+	</div>
+	<!-- /navbar-inner -->
+</div>
+<!-- /navbar -->
+
+
+</html>

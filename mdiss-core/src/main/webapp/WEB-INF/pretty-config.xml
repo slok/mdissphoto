@@ -6,140 +6,145 @@
 
    <!-- Begin UrlMappings -->
 
+	<!-- Public -->
+	
 	<url-mapping id="index">
 		<pattern value="/" />
-		<view-id value="/faces/index.jsf" />
+		<view-id value="/faces/public/index.jsf" />
 	</url-mapping>
-	
-	 <url-mapping id="registration">
-		<pattern value="/registration" />
-		<view-id value="/faces/auth/registration.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="confirmation">
-		<pattern value="/confirmation" />
-		<view-id value="/faces/auth/registrationConfirm.jsf" />
-	</url-mapping>	
 	
 	<url-mapping id="login">
-		<pattern value="/login/" />
-		<view-id value="/faces/auth/login.jsf" />
+		<pattern value="/p/login/" />
+		<view-id value="/faces/public/login.jsf" />
 		<action>#{loginBean.setLoginError}</action>
 	</url-mapping>
 	
 	<url-mapping id="logout">
-		<pattern value="/logout" />
+		<pattern value="/p/logout/" />
 		<view-id value="/j_spring_security_logout" />
 	</url-mapping>
 
 	<url-mapping id="signup">
-		<pattern value="/signup/" />
-		<view-id value="/faces/auth/registration.jsf" />
+		<pattern value="/p/signup/" />
+		<view-id value="/faces/public/register.jsf" />
+	</url-mapping>
+
+	<url-mapping id="know-more">
+		<pattern value="/p/know-more/" />
+		<view-id value="/faces/public/know-more.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="admin">
-		<pattern value="/admin/" />
-		<view-id value="/faces/admin.jsf" />
+	<url-mapping id="public-photo">
+		<pattern value="/p/photo/#{user:paramsBean.photoId}" />
+		<view-id value="/faces/public/public-photo.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="confirmation">
+		<pattern value="/confirmation" />
+		<view-id value="/faces/public/confirmation.jsf" />
+	</url-mapping>	
+	
+	<!-- Errors -->
+	<url-mapping id="upload-error">
+		<pattern value="/e/upload/" />
+		<view-id value="/faces/error/upload-error.jsf" />
+	</url-mapping>	
+	
+	<url-mapping id="restricted-error">
+		<pattern value="/e/user/" />
+		<view-id value="/faces/error/user-error.jsf" />
+	</url-mapping>
+	
+	<!-- Self -->
 
 	<url-mapping id="dashboard">
-		<pattern value="/dashboard/" />
-		<view-id value="/faces/dashboard.jsf" />
+		<pattern value="/s/dashboard/" />
+		<view-id value="/faces/app/self/dashboard.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="restricted_error">
-		<pattern value="/user/error/" />
-		<view-id value="/faces/auth/restrictedError.jsf" />
+	<url-mapping id="settings">
+		<pattern value="/s/settings/" />
+		<view-id value="/faces/app/self/settings.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="user_profile">
-		<pattern value="/user/#{user:paramsBean.userId}/" />
-		<view-id value="/faces/users/profile.jsf" />
+	<url-mapping id="upload">
+		<pattern value="/s/upload/" />
+		<view-id value="/faces/app/self/upload/upload-file.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="user_albums">
-		<pattern value="/user/#{user:paramsBean.userId}/albums/" />
-		<view-id value="/faces/users/albums_list.jsf" />
+	<url-mapping id="upload-processing">
+		<pattern value="/s/processing/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/app/self/upload/process-upload.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="upload-details">
+		<pattern value="/s/details/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/app/self/upload/detail-upload.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="search">
+		<pattern value="/s/search/" />
+		<view-id value="/faces/app/self/search.jsf" />
+	</url-mapping>
+	
+	<!-- user -->
+	
+	<url-mapping id="user-profile">
+		<pattern value="/u/#{user:paramsBean.userId}/" />
+		<view-id value="/faces/app/user/user-profile.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="album-list">
+		<pattern value="/u/#{user:paramsBean.userId}/albums/" />
+		<view-id value="/faces/app/user/album-list.jsf" />
 	</url-mapping>
 
-	<url-mapping id="user_album">
-		<pattern value="/user/#{user:paramsBean.userId}/albums/#{album:paramsBean.albumId}/" />
-		<view-id value="/faces/users/album.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="user_public">
-		<pattern value="/user/#{user:paramsBean.userId}/public/" />
-		<view-id value="/faces/users/public.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="user_upload">
-		<pattern value="/user/#{user:paramsBean.userId}/upload/" />
-		<view-id value="/faces/upload/upload.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="user_upload_processing">
-		<pattern value="/user/#{user:paramsBean.userId}/upload/processing/#{photo:paramsBean.photoId}/" />
-		<view-id value="/faces/upload/upload_processing.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="user_upload_details">
-		<pattern value="/user/#{user:paramsBean.userId}/upload/details/#{photo:paramsBean.photoId}/" />
-		<view-id value="/faces/upload/upload_details.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="user_upload_error">
-		<pattern value="/user/#{user:paramsBean.userId}/upload/error/" />
-		<view-id value="/faces/upload/upload_error.jsf" />
+	<url-mapping id="album-detail">
+		<pattern value="/user/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
+		<view-id value="/faces/app/user/album-detail.jsf" />
 	</url-mapping>
 
-	<url-mapping id="photo_detail">
-		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/" />
-		<view-id value="/faces/photos/photo_detail.jsf" />
+	<url-mapping id="photo-detail">
+		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/" />
+		<view-id value="/faces/app/user/photo-detail.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="photo_size">
-		<pattern value="/user/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
-		<view-id value="/faces/photos/photo_size.jsf" />
-	</url-mapping>
-
-	<url-mapping id="tag_detail">
-		<pattern value="/tag/#{tag:paramsBean.tag}/" />
-		<view-id value="/faces/tags/tag_detail.jsf" />
+	<url-mapping id="photo-size">
+		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
+		<view-id value="/faces/app/user/photo-size.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="tag_list">
-		<pattern value="/tags/" />
-		<view-id value="/faces/tags/tag_list.jsf" />
+	<url-mapping id="photowers">
+		<pattern value="/u/#{user:paramsBean.userId}/photowers/" />
+		<view-id value="/faces/app/user/photowers.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="user_cameras">
-		<pattern value="/user/#{user:paramsBean.userId}/cameras/" />
-		<view-id value="/faces/users/cameras.jsf" />
+	<url-mapping id="photowing">
+		<pattern value="/u/#{user:paramsBean.userId}/photowing/" />
+		<view-id value="/faces/app/user/photowing.jsf" />
 	</url-mapping>
 
-	<url-mapping id="user_friends">
-		<pattern value="/user/#{user:paramsBean.userId}/friends/" />
-		<view-id value="/faces/users/friends.jsf" />
+	<!-- Logged -->
+	
+	<url-mapping id="tag-detail">
+		<pattern value="/l/tag/#{tag:paramsBean.tag}/" />
+		<view-id value="/faces/app/logged/tag-detail.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="cameras">
-		<pattern value="/cameras/" />
-		<view-id value="/faces/cameras/cameras_list.jsf" />
-	</url-mapping>
-
-	<url-mapping id="camera_detail">
-		<pattern value="/cameras/#{camera:paramsBean.cameraId}/" />
-		<view-id value="/faces/cameras/camera.jsf" />
-	</url-mapping>
-
-	<url-mapping id="camera_detail">
-		<pattern value="/cameras/#{camera:paramsBean.cameraId}/" />
-		<view-id value="/faces/cameras/camera.jsf" />
+	<url-mapping id="tag-list">
+		<pattern value="/l/tags/" />
+		<view-id value="/faces/app/logged/tag-list.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="top">
-		<pattern value="/top/#{time:paramsBean.time}/" />
-		<view-id value="/faces/top.jsf" />
+		<pattern value="/l/top/#{user:paramsBean.time}" />
+		<view-id value="/faces/app/logged/top.xhtml" />
 	</url-mapping>
 
+	<!-- Admin -->
+	<url-mapping id="admin">
+		<pattern value="/admin/" />
+		<view-id value="/faces/admin/admin-index.jsf" />
+	</url-mapping>
+	
 </pretty-config>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/faces/app/self/upload-space.xhtml">
+      
+		<ui:define name="title">MDISSPHOTO</ui:define>
+		
+		<ui:define name="body">
+			
+			<script>
+		        window.onload = function() {
+		            document.getElementById('hidden:link').onclick();
+		        }
+	    	</script>
+	    	
+	    	<!-- Trigger -->
+	    	<h:form id="hidden" style="display:none">
+		        <h:commandLink id="link">
+		            <f:ajax event="click" listener="#{uploadProcessingBean.init}" />
+		        </h:commandLink>
+		    </h:form>
+				
+			<div class="row">
+				<div class="span2 offset3 ">
+					<div class="numberCircle">1 Upload</div>
+				</div>
+				<div class="span2">
+					<div class="numberCircle-active">2 Process</div>
+				</div>
+				<div class="span2">
+					<div class="numberCircle">3 Detail</div>
+				</div>
+			</div>
+			
+			<br/><br/>
+			
+			
+			<div class="row">
+				<div class="span2 offset5">
+					<h:form>
+					 	<h:graphicImage value="/resources/img/processing_spin.gif"/>
+					</h:form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span8 offset2 centered-text">
+					<h2>We are processing your image, this will take few seconds</h2>
+				</div>
+			</div>
+								
+		</ui:define>
+				
+    </ui:composition>
+</html>

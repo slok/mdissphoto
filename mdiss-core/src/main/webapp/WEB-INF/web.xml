@@ -90,12 +90,6 @@
 		<dispatcher>ERROR</dispatcher>
     </filter-mapping>
   	
-    <!--theme-->
-	<!--<context-param>  
-		<param-name>primefaces.THEME</param-name>  
-		<param-value>flick</param-value>  
-	</context-param>-->
-  	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
@@ -134,4 +128,11 @@
 		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
 		<param-value>6Le37dASAAAAANSTT8PDlC5dSTLNSlvq3wa7abWS</param-value>
 	</context-param>
+	
+	<!-- Themes -->
+	<!--<context-param>  
+		<param-name>primefaces.THEME</param-name>  
+		<param-value>bootstrap</param-value>  
+	</context-param>-->
+	
 </web-app>

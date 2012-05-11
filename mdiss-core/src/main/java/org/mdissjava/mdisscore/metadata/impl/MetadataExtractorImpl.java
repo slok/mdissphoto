@@ -4,9 +4,13 @@ package org.mdissjava.mdisscore.metadata.impl;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mdissjava.mdisscore.metadata.MetadataExtractor;
 import org.mdissjava.mdisscore.metadata.SimpleImageInfo;
+import org.mdissjava.mdisscore.model.pojo.Camera;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Resolution;
 
@@ -64,7 +68,7 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 			Resolution resolutionREAL = new Resolution();
 			resolutionREAL.setHeight(this.simpleImage.getHeight());
 			resolutionREAL.setWidth(this.simpleImage.getWidth());	
-			
+
 			ExifIFD0Directory exifIFD0Directory = metadataFoto.getDirectory(ExifIFD0Directory.class);
 			ExifSubIFDDirectory exifSubIFDirectory = metadataFoto.getDirectory(ExifSubIFDDirectory.class);
 					
@@ -76,7 +80,7 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 			resolutionPPI.setWidth(exifIFD0Directory.getInt(ExifIFD0Directory.TAG_X_RESOLUTION));
 			metadata.setResolutionPPI(resolutionPPI);
 			metadata.setResolutionREAL(resolutionREAL);
-			metadata.setDateTaken(exifIFD0Directory.getDate(exifIFD0Directory.TAG_DATETIME));
+			metadata.setDateTaken(exifIFD0Directory.getDate(ExifIFD0Directory.TAG_DATETIME));
 			//Save photo extension: jpeg, png, giff etc.
 			metadata.setFormat(format);
 			//Save photo size in kb
@@ -155,5 +159,49 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	 public long bytesToKb(int bytes) {
 	  return bytes / KBYTE ;
 	 }
+
+	@Override
+	public Map<String, String> getMetadataFormatted(Metadata metadata) {
+
+		Map<String, String> metadataMap = new HashMap<String, String>();
+		
+		String aperture = metadata.getAperture();
+		Camera cam = metadata.getCamera();
+		Date date = metadata.getDateTaken();
+		int focal = metadata.getFocalLength();
+		String format = metadata.getFormat();
+		int isoSpeed = metadata.getISOSpeed();
+		Resolution resolutionPPI = metadata.getResolutionPPI();
+		Resolution resolutionReal = metadata.getResolutionREAL();
+		//int sensorSize = metadata.getSensorSize();
+		String shutterSpeed = metadata.getShutterSpeed();
+		Float size = metadata.getSize();
+		
+		if(aperture != null)
+			metadataMap.put("Aperture", aperture);
+		if(cam != null)
+			metadataMap.put("map", cam.getBrand() +"-"+ cam.getId());
+		if(date != null)
+			metadataMap.put("Date taken", date.toString());
+		if(focal != 0)
+			metadataMap.put("Focal length", String.valueOf(focal));
+		if(format != null)
+			metadataMap.put("Original format", format);
+		if(isoSpeed != 0)
+			metadataMap.put("ISO speed", String.valueOf(isoSpeed));
+		if(resolutionPPI != null)
+			metadataMap.put("Resolution PPI", resolutionPPI.getWidth()+"x"+resolutionPPI.getWidth());
+		if(resolutionReal != null)
+			metadataMap.put("Resolution", resolutionReal.getWidth()+"x"+resolutionReal.getWidth());
+		//if(sensorSize != 0)
+		//	metadataMap.put("Sensor size", String.valueOf(size));
+		if(shutterSpeed != null)
+			metadataMap.put("Shutter speed", shutterSpeed);
+		if(size != 0)
+			metadataMap.put("Original size", String.valueOf(size)+" MB");
+		
+		return metadataMap;
+
+	}
 }
 
