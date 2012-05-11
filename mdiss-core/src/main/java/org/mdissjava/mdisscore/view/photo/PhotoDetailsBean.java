@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
+import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 
@@ -34,11 +36,15 @@ public class PhotoDetailsBean {
 	
 	private String detailedPhotoURL;
 	
+	private List<String> metadataKeys;
+	
 	private Photo photo;
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
+	private final int PHOTO_SHOW_SIZE = 640;
+	private Map<String, String> metadataMap;
 	
 	
 	public PhotoDetailsBean() {
@@ -59,6 +65,13 @@ public class PhotoDetailsBean {
 			
 			this.photo = photoManager.searchPhotoUniqueUtil(photoId);
 			
+			this.metadataMap = new MetadataExtractorImpl().getMetadataFormatted(this.photo.getMetadata());
+			System.out.println(metadataMap);
+			metadataKeys = new ArrayList<String>();
+			for(String key: metadataMap.keySet()){
+				metadataKeys.add(key);
+			}
+
 			
 			//search the available sizes for this photo
 			//int sizes[] = {100, 240, 320, 500, 640, 800, 1024}; //our different sizes
@@ -69,8 +82,6 @@ public class PhotoDetailsBean {
 			int height = this.photo.getMetadata().getResolutionREAL().getHeight();
 			int width = this.photo.getMetadata().getResolutionREAL().getWidth();
 			int photoSize = height > width ? height: width;
-			
-			System.out.println(photoSize);
 			
 			// we get all the available resolutions
 			@SuppressWarnings("rawtypes")
@@ -101,9 +112,9 @@ public class PhotoDetailsBean {
 			
 			String bucket;
 			String bucketPropertyKey = null;
-			if(photoSize >= 500)//500px size
+			if(photoSize >= PHOTO_SHOW_SIZE)//500px size
 			{
-				bucketPropertyKey = "thumbnail.scale.500px.bucket.name";
+				bucketPropertyKey = "thumbnail.scale." + PHOTO_SHOW_SIZE + "px.bucket.name";
 				bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
 			}
 			else//original size
@@ -138,6 +149,7 @@ public class PhotoDetailsBean {
 		}
 	}
 
+	
 	public String getPhotoId() {
 		return photoId;
 	}
@@ -202,6 +214,25 @@ public class PhotoDetailsBean {
 		this.photo = photo;
 	}
 	
+	public List<String> getMetadataKeys() {
+		return metadataKeys;
+	}
+
+
+	public void setMetadataKeys(List<String> metadataKeys) {
+		this.metadataKeys = metadataKeys;
+	}
+
+	public Map<String, String> getMetadataMap() {
+		return metadataMap;
+	}
+
+
+	public void setMetadataMap(Map<String, String> metadataMap) {
+		this.metadataMap = metadataMap;
+	}
+
+
 	private ParamsBean getPrettyfacesParams()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();

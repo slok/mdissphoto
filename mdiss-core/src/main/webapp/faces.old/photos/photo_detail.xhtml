@@ -15,7 +15,6 @@
      		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
      		
      		<!-- for the album thumbnail slider -->
-     		<link href='http://ryrych.github.com/rcarousel/widget/css/rcarousel.css' rel='stylesheet' type='text/css'/>
      		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
 			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
 			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
@@ -34,6 +33,31 @@
 				#carousel img {
 					border: 0;
 				}
+				
+				.ui-carousel {
+					height: 80px;
+					margin: 0;
+					overflow: auto;
+					padding: 0;
+					position: relative; /*for ie7 to work e.g in html carousels*/
+					width: 300px
+				}
+				
+				.ui-carousel > .wrapper {
+				    margin: 0;
+				    padding: 0;
+				    width: 9999px;
+				}
+				
+				.ui-carousel > .wrapper > * {
+					border: 0;
+					display: block;
+					float: left;
+					height: 80px;
+					overflow: hidden;
+					width: 80px;	
+				}
+				
 			</style>
      		
      		<script type="text/javascript">
@@ -49,6 +73,8 @@
 				$( "#carousel ").rcarousel({
 					margin: 5,
 					visible: total,
+					width: 75,	
+					height: 75,
 					step: 1,
 				});
 				
@@ -166,7 +192,7 @@
 										<i class="icon-tags"/> 
 										<pretty:link mappingId="tag_detail">
 											<f:param value="#{tag}" />
-											#{tag}
+											#{tag} 
 										</pretty:link>
 									</li>
 								</ui:repeat>

@@ -94,7 +94,7 @@
 		<view-id value="/faces/app/user/user-profile.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="user-albums">
+	<url-mapping id="album-list">
 		<pattern value="/u/#{user:paramsBean.userId}/albums/" />
 		<view-id value="/faces/app/user/album-list.jsf" />
 	</url-mapping>

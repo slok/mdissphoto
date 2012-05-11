@@ -120,11 +120,11 @@ public class UploadBean {
 			params.setPhotoId(this.imageId);
 			params.setUserId(this.userId);
 		
-			outcome = "pretty:user_upload_processing";
+			outcome = "pretty:upload-processing";
 			
 		}catch(Exception e){
 			System.out.println(e);
-			outcome = "pretty:user_upload_error";
+			outcome = "pretty:upload-error";
 		
 		}finally{
 			//call

@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces">
 
 
 <div class="navbar navbar-fixed-top">
@@ -19,27 +20,65 @@
 					<li class="dropdown active"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">My <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Dashboard</a></li>
-							<li><a href="#">Albums</a></li>
-							<li><a href="#">Connections</a></li>
-							<li><a href="#">Profile</a></li>
+							<li>
+								<pretty:link mappingId="dashboard" >
+									Dashboard
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="album-list" >
+									<f:param value="#{dashboardBean.user}" />
+									Albums
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="photowers" >
+									<f:param value="#{dashboardBean.user}" />
+									Connections
+								</pretty:link>
+							</li>
+							<li>
+								<pretty:link mappingId="user-profile" >
+									<f:param value="#{dashboardBean.user}" />
+									Profile
+								</pretty:link>
+							</li>
 						</ul>
 					</li>
 					
-					<li><a href="#">Upload</a></li>
-					<li><a href="#">Search</a></li>
-					<li><a href="#">Link</a></li>
+					<li>
+						<pretty:link mappingId="upload" >
+							Upload
+						</pretty:link>
+					</li>
+					<li>
+						<pretty:link mappingId="search" >
+							Search
+						</pretty:link>
+					</li>
 					
 				</ul>
 				<ul class="nav pull-right">
-					<li><a href="#">Hi [NAME]</a></li>
+					<li>
+					 <h:outputText styleClass="navbar-text" value="Logged in as #{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}"/>
+					 <h:outputText styleClass="navbar-text" value="Login" rendered="#{dashboardBean.user == 'anonymousUser'}" /> 
+					
+					</li>
 					<li class="divider-vertical"></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><h:graphicImage library="img" name="cog-menu.png" /> <b class="caret"></b></a>
+						data-toggle="dropdown"> <h:graphicImage library="img" name="cog-menu.png" /> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Settings</a></li>
+							<li>
+								<pretty:link mappingId="settings" >
+									Settings
+								</pretty:link>
+							</li>
 							<li class="divider"></li>
-							<li><!--  <h:link outcome="pretty:logout" value="Logout"/>--></li>
+							<li>
+								<pretty:link mappingId="logout" >
+									Logout
+								</pretty:link>
+							</li>
 						</ul
 					></li>
 				</ul>

@@ -72,7 +72,7 @@ public class UploadProcessingBean {
 			
 			//select where to go from here
 			logger.info("Thumbnailed: {}", this.imageId);
-			outcome = "pretty:user_upload_details";
+			outcome = "pretty:upload-details";
 			
 			//free the connection (No need, the pool will do  it for us)
 			
@@ -87,7 +87,7 @@ public class UploadProcessingBean {
 				//rollback the state too
 				//set process to first state (null)
 				photoManager.markAsNeedsToBeProcessed(this.imageId);
-				outcome = "pretty:user_upload_error"; // Do your thing?
+				outcome = "pretty:upload-error"; // Do your thing?
 			} catch (IOException e1) {
 				logger.error("Error in the rollback of {}", this.imageId);
 			}
@@ -102,7 +102,6 @@ public class UploadProcessingBean {
 	
 	public String toDetails() {
 		
-		System.out.println("horlhorlhorlhorl");
 		ParamsBean params = getPrettyfacesParams();
 		params.setPhotoId(this.imageId);
 		params.setUserId(this.userId);
@@ -112,7 +111,7 @@ public class UploadProcessingBean {
 		//this.thumbClient.shutdown();
 		
 		
-		String outcome = "pretty:user_upload_details";
+		String outcome = "pretty:upload-details";
 		//FacesContext facesContext = FacesContext.getCurrentInstance();
 		//facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 		return outcome;
