@@ -90,7 +90,7 @@ public class MetadataExtractorImplTest {
 					
 			Metadata metadata = metadataExtractor.obtenerMetadata(photo);
 			
-			assertEquals(metadata.getSize(), 5, 0.0);
+			assertEquals(metadata.getSize(), 6096, 0.0);
 			assertEquals(metadata.getFormat(), "tiff");
 			
 		}catch (Exception e) {

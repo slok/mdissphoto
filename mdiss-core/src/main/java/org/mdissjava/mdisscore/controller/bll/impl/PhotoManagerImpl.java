@@ -3,16 +3,20 @@ package org.mdissjava.mdisscore.controller.bll.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
+import org.mdissjava.mdisscore.model.dao.TagDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.TagDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.pojo.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,7 @@ public class PhotoManagerImpl implements PhotoManager{
 	//TODO: Load from properties
 	private final String DATABASE = "mdissphoto"; 
 	private PhotoDao photoDao;
+	private TagDao tagDao;
 	private Datastore datastore;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -37,11 +42,13 @@ public class PhotoManagerImpl implements PhotoManager{
 	public PhotoManagerImpl(Datastore datastore) {
 		this.datastore = datastore;
 		this.photoDao = new PhotoDaoImpl(this.datastore);
+		this.tagDao = new TagDaoImpl(this.datastore);
 	}
 	
 	public PhotoManagerImpl() {
 		this.datastore = MorphiaDatastoreFactory.getDatastore(DATABASE);
 		this.photoDao = new PhotoDaoImpl(this.datastore);
+		this.tagDao = new TagDaoImpl(this.datastore);
 	}
 	
 	/**
@@ -52,22 +59,25 @@ public class PhotoManagerImpl implements PhotoManager{
 	 */
 	private ArrayList<String> splitTags(String tags, String regex)
 	{
+
 		this.logger.debug("Splitting tags");
 		if (regex == null)
-			regex = "\\,";
+			regex = "\\, ";
 		
 		String[] splittedTags = tags.split(regex);
+
+		
 		
 		ArrayList<String> tagList = new ArrayList<String>();
 		for (String i:splittedTags)
 			tagList.add(i);
-		
+
 		return tagList;
 	}
 	
 	/**
 	 * Inserts a photo with the data given the necessary arguments, some are necessary other no
-	 * 
+	 *     	
 	 * @param imageId
 	 * @param userNickname
 	 * @param title
@@ -114,9 +124,13 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setPublicToken(publicToken);
 		
 		if (tags.isEmpty())
+		{
 			p.setTags(null);
+		}
 		else
-			p.setTags(this.splitTags(tags, "\\,"));
+		{
+			p.setTags(this.splitTags(tags, "\\, "));
+		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
 		//delete the photo an insert the new photo with all the data, the reason of deleting
@@ -142,8 +156,42 @@ public class PhotoManagerImpl implements PhotoManager{
 			this.logger.debug("No metadata for this photo in the database available");
 		}finally{
 			//call to the save with or without metadata
-			new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
-			
+			try
+			{
+				new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
+				
+				List<String> tags4Search = p.getTags();
+								
+				Iterator<String> iterator = tags4Search.listIterator();
+				while(iterator.hasNext())
+				{
+					Tag newTag = new Tag();
+					newTag.setDescription(iterator.next());
+					System.out.println(newTag.getDescription());
+					List<Tag> tagList = this.tagDao.findTag(newTag);
+					if(tagList.isEmpty())
+					{
+						System.out.println("Time to store new tag");
+						List<Photo> photoList = new ArrayList<Photo>();
+						photoList.add(p);
+						newTag.setPhotos(photoList);
+						tagDao.insertTag(newTag);
+					}
+					else if(!tagList.isEmpty())
+					{
+						System.out.println("Time to update old tag");
+						List<Photo> photoList = this.tagDao.findTag(newTag).get(0).getPhotos();
+						photoList.add(p);
+						System.out.println(photoList.size());
+						newTag.setPhotos(photoList);
+						this.tagDao.updateTag(newTag);
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		

@@ -63,7 +63,7 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getMetadata() != null) {
 			query.field("metadata").equal(photo.getMetadata());
 		}
-		if (!photo.getTags().isEmpty()) {
+		if ((photo.getTags()!=null)&&(!photo.getTags().isEmpty())) {
 			query.field("tags").equal(photo.getTags());
 		}
 		if (photo.getDataId() != null) {
