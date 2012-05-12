@@ -16,7 +16,7 @@ public class UserOauthTokens {
 	@Id 
 	private ObjectId id;
 	private String username;
-	private Map<Service, String> tokens;
+	private Map<Service, OauthAccessToken> tokens;
 	
 	
 	
@@ -32,10 +32,10 @@ public class UserOauthTokens {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Map<Service, String> getTokens() {
+	public Map<Service, OauthAccessToken> getTokens() {
 		return tokens;
 	}
-	public void setTokens(Map<Service, String> tokens) {
+	public void setTokens(Map<Service, OauthAccessToken> tokens) {
 		this.tokens = tokens;
 	}
 	
