@@ -8,25 +8,32 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import twitter4j.TwitterException;
 
 import com.google.code.morphia.Datastore;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class PhotoDetailsBean {
 	
 	private String photoId;
 	private String userNick;
+	private String loggedUserNick;
 	
 	private List<String> defaultPhotoSizes;
 	private List<String> thumbnailIds;
@@ -50,6 +57,7 @@ public class PhotoDetailsBean {
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
 		this.photoId = pb.getPhotoId();
+		this.loggedUserNick = this.retrieveSessionUserNick();
 		
 		//TODO: check if isn't detailed to redirect to /user/xxx/upload/details/yyy-yyyyyy-yyyy-yyy
 		
@@ -148,6 +156,12 @@ public class PhotoDetailsBean {
 		}
 	}
 
+	public void startTweeterBirdOauthAuthProcess() throws TwitterException, IOException{
+		TwitterApiManager twitterApi = new TwitterApiManager();
+		String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		externalContext.redirect(url);
+	}
 	
 	public String getPhotoId() {
 		return photoId;
@@ -231,6 +245,13 @@ public class PhotoDetailsBean {
 		this.metadataMap = metadataMap;
 	}
 
+	public String getLoggedUserNick() {
+		return loggedUserNick;
+	}
+
+	public void setLoggedUserNick(String loggedUserNick) {
+		this.loggedUserNick = loggedUserNick;
+	}
 
 	private ParamsBean getPrettyfacesParams()
 	{
@@ -239,6 +260,11 @@ public class PhotoDetailsBean {
 		return pb;
 	}
 	
-	
+	private String retrieveSessionUserNick() {
+		//Get the current logged user's username
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth.getName();
+		
+	}
 
 }

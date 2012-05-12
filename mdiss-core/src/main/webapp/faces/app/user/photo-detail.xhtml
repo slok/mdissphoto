@@ -146,8 +146,9 @@
 								</ul>
 								
 								<!-- Tweet button -->
-								<a class="btn btn-primary" href="#">Tweet</a>
-								
+								<h:form>
+									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
+								</h:form>
 								<!-- Public link button -->
 								<a class="btn btn-primary" href="#">Public link</a>
 							</div>

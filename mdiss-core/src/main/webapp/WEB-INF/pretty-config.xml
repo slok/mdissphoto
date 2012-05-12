@@ -39,11 +39,6 @@
 		<view-id value="/faces/public/public-photo.jsf" />
 	</url-mapping>
 	
-	<url-mapping id="confirmation">
-		<pattern value="/confirmation" />
-		<view-id value="/faces/public/confirmation.jsf" />
-	</url-mapping>	
-	
 	<!-- Errors -->
 	<url-mapping id="upload-error">
 		<pattern value="/e/upload/" />
@@ -90,6 +85,11 @@
 	<url-mapping id="search">
 		<pattern value="/s/search/" />
 		<view-id value="/faces/app/self/search.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="twitter-oauth">
+		<pattern value="/s/twitter/oauth" />
+		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
 	<!-- user -->
