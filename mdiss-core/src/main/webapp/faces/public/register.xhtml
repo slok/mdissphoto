@@ -18,7 +18,8 @@
 			<div class="row-fluid">
 				<h2>Sign up to get all the fun!!</h2>
 			</div>
-			<div> <!--  class="span4 offset1">-->
+			<br/>
+			<div  class="span4 offset1" style="width:100%">
 				<h:form id="form">		
 								<p:growl id="growl" sticky="true" showDetail="true"/>   			
 						 			<h:panelGrid id="grid" columns="3">
@@ -26,7 +27,7 @@
 						 				<h:outputLabel value="Nick: *"/>
 										<p:inputText id="nick" value="#{registrationBean.nick}"  required="true" label="Nick">
 											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
-											<p:ajax update="growl" event="keyup" /> 
+											<p:ajax update="growl"  /> 
 										</p:inputText>
 										<p:message id="nickoutput" for="nick" display="text" />
 						 			
@@ -69,9 +70,9 @@
 											<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
 																											
 									</h:panelGrid>
-									<div class="captcha">
+									<!-- <div class="captcha">
 										<p:captcha label="Captcha" language="en" theme="white"/>
-									</div>
+									</div>-->
 									<div class="captcha">
 										<p:commandButton styleClass="btn btn-primary btn-large" update="growl" value="Sing Up" type="submit" actionListener="#{registrationBean.register}"/>	
 									</div>	    			    				    			    	
