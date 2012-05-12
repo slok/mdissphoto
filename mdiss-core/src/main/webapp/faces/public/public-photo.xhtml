@@ -8,10 +8,58 @@
     
     <ui:composition template="/templates/public-space.xhtml">
       
-		<ui:define name="title">PUBLIC PHOTO</ui:define>
-		
+		<ui:define name="title">
+			Mdissphoto / #{publicPhotoDetailsBean.photoTitle} by #{publicPhotoDetailsBean.ownerUsername}
+		</ui:define>
+		<ui:define name="head">
+			<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+			<link href='http://fonts.googleapis.com/css?family=Marck+Script' rel='stylesheet' type='text/css'/>
+
+			
+			<style type="text/css">
+				.polaroid {
+					padding: 20px 15px 60px 15px;
+					background: #fefefe;
+					border: 1px solid #fff;
+					-moz-box-shadow: 0px 2px 15px #333;
+					-webkit-box-shadow: 0px 2px 15px #333;
+					box-shadow: 0px 2px 15px #333;
+					position: relative;
+					z-index: 1;
+					-webkit-transform: rotate(-5deg);
+					-moz-transform: rotate(-5deg);
+				}
+				.center-thing {
+					display: block;
+				    margin-left: auto;
+				    margin-right: auto 
+				}
+				.author{
+					font-family: 'Marck Script', cursive;
+					margin-left: 2px
+				}
+				
+			</style>
+		</ui:define>
 		<ui:define name="body">
-			THIS IS A PUBLIC PHOTO
+			
+			<!-- Title -->
+			<div class="row-fluid">
+				<div class="span12">
+			      		<h1 class="photo-title">#{publicPhotoDetailsBean.photoTitle}</h1>
+			      		<h2 class="author">#{publicPhotoDetailsBean.ownerUsername}</h2>	
+		       	</div>
+			</div>
+			<br/>
+			
+			<!-- Content -->
+			<div class="row">
+				
+				<!-- Photo -->
+				<div class="span12">
+					<h:graphicImage styleClass="polaroid center-thing" value="#{publicPhotoDetailsBean.photoUrl}" />
+				</div>
+			</div>
 		</ui:define>
 		
     </ui:composition>

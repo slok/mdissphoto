@@ -55,6 +55,11 @@
 		<view-id value="/faces/error/user-error.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="photo-error">
+		<pattern value="/e/photo/" />
+		<view-id value="/faces/error/photo-error.jsf" />
+	</url-mapping>
+	
 	<!-- Self -->
 
 	<url-mapping id="dashboard">

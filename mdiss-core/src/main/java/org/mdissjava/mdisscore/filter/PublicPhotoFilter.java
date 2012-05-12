@@ -1,6 +1,7 @@
 package org.mdissjava.mdisscore.filter;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
@@ -15,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
-import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.pretty.faces.url.QueryString;
+import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
+import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
 public class PublicPhotoFilter implements Filter{
 
@@ -53,8 +54,16 @@ public class PublicPhotoFilter implements Filter{
 	    {
 	    	//If they don't match send the naughty user to error page.
 	    	this.logger.error("FORBIDDEN ACCESS EVENT");   	
-	    	HttpServletResponse httpResponse=(HttpServletResponse)response; 	
-	    	httpResponse.sendRedirect("/mdissphoto/user/error/");  	
+	    	
+			PrettyContext context = PrettyContext.getCurrentInstance((HttpServletRequest)request);
+			PrettyURLBuilder builder = new PrettyURLBuilder();
+			
+			UrlMapping mapping = context.getConfig().getMappingById("photo-error");
+			String targetURL = builder.build(mapping, true, new HashMap<String, String[]>());
+	    	
+	    	HttpServletResponse httpResponse=(HttpServletResponse)response;
+	    	//TODO: delete "/mdissphoto" when moving to custom subdomain
+	    	httpResponse.sendRedirect("/mdissphoto" + targetURL);
 	    }
 	    
 	    chain.doFilter(request,response);
