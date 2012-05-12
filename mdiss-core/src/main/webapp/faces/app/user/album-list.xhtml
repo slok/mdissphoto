@@ -4,27 +4,41 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
     
     <ui:composition template="/faces/app/user-space.xhtml">
       
-		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+		<ui:define name="head">
+		
+			<!-- for the album slider -->
+     		<link href='http://ryrych.github.com/rcarousel/widget/css/rcarousel.css' rel='stylesheet' type='text/css'/>
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>
+     		
+     		<h:outputScript library="js" name="albumCarousel.js" />
+     		
+     		<script>$(document).ready(function() { initCarousel(#{fn:length(albumBean.albumPhotosURLs)}, false); });</script>
+     		
+		</ui:define>
 		
 		<ui:define name="body">
-		
-			<script>
-				$('#albumCarousel').carousel();
-			</script>
-		
 			<div class="row-fluid">
 			  <div class="span12">
 			    <div class="row-fluid">
 			    	<ul>
-			    		<ui:repeat value="#{albumBean.detailedPhotoURL}" var="photo">
-			    			<li class="span4"><img src="#{photo}" alt=""/></li>
-			    		</ui:repeat>
+			    		<li class="span4">
+				    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="album" varStatus="status">
+				    			<div id="alCar#{status.index}" class="alCar">
+					    			<ui:repeat value="#{album}" varStatus="loop">				
+										<img src="#{album[loop.index]}" alt=""/>																				 
+									</ui:repeat>	
+								</div>
+				    		</ui:repeat>
+			    		</li>
 			    	</ul>		    	
-				 
 			    </div>
 			  </div>
 			</div>
