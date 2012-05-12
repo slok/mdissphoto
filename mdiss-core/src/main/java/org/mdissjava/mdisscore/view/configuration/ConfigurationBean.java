@@ -8,6 +8,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
+import org.mdissjava.mdisscore.model.pojo.City;
+import org.mdissjava.mdisscore.model.pojo.Country;
+import org.mdissjava.mdisscore.model.pojo.State;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
@@ -26,10 +29,10 @@ public class ConfigurationBean {
 	private String email;
 	private String password;
 	private String street;
-	private String city;	
+	private City city;	
 	private String zip;	
-	private String state;
-	private String country;
+	private State state;
+	private Country country;
 	
 	
 	/**
@@ -125,11 +128,11 @@ public class ConfigurationBean {
 	}
 	
 
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 	
@@ -142,11 +145,11 @@ public class ConfigurationBean {
 		this.street = street;
 	}
 
-	public String getCity() {
+	public City getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
 
@@ -158,11 +161,11 @@ public class ConfigurationBean {
 		this.zip = zip;
 	}
 
-	public String getState() {
+	public State getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 	
