@@ -20,26 +20,31 @@ public class TwitterBean {
 	
 	private String token;
 	private String tokenSecret;
+	private boolean allOk;
 	
-	public TwitterBean() throws TwitterException {
+	public TwitterBean(){
 		
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
-		String oauthToken = parameterMap.get("oauth_token");
-		String oauthVerifier = parameterMap.get("oauth_verifier");
-		
-		//Create a requestToken
-		TwitterApiManager twitterApi = new TwitterApiManager();
-		
-		//TODO: Don't hardcode things!!
-		//get the access token
-		AccessToken at = twitterApi.getTwitterAccessToken(this.retrieveSessionUserNick(), oauthVerifier);
-		this.token = at.getToken();
-		this.tokenSecret = at.getTokenSecret();
-		
-		//Now our 
-		
-		//were done, save in database :)
+		try{
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
+			String oauthToken = parameterMap.get("oauth_token");
+			String oauthVerifier = parameterMap.get("oauth_verifier");
+			
+			//Create a requestToken
+			TwitterApiManager twitterApi = new TwitterApiManager();
+			
+			//TODO: Don't hardcode things!!
+			//get the access token
+			AccessToken at = twitterApi.getTwitterAccessToken(this.retrieveSessionUserNick(), oauthVerifier);
+			this.token = at.getToken();
+			this.tokenSecret = at.getTokenSecret();
+			
+			//were done, save in database :)
+			allOk = true;
+		}catch(Exception e){
+			allOk = false;
+			
+		}
 	}
 
 	public String getToken() {
@@ -58,6 +63,14 @@ public class TwitterBean {
 		this.tokenSecret = tokenSecret;
 	}
 	
+	public boolean isAllOk() {
+		return allOk;
+	}
+
+	public void setAllOk(boolean allOk) {
+		this.allOk = allOk;
+	}
+
 	private String retrieveSessionUserNick() {
 		//Get the current logged user's username
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
