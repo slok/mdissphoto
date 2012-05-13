@@ -288,12 +288,13 @@
 			<version>${spring-security.version}</version>
 		</dependency>
 		
-		<!-- lucene search -->
+		<!-- Twitter -->
 		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-			<version>3.0.1</version>
-		</dependency>	
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>[2.2,)</version>
+		</dependency>
+		
     </dependencies>
     
     

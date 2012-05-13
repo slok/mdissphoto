@@ -35,7 +35,7 @@
 	</url-mapping>
 	
 	<url-mapping id="public-photo">
-		<pattern value="/p/photo/#{user:paramsBean.photoId}" />
+		<pattern value="/p/photo/#{photo:paramsBean.photoId}/#{token:paramsBean.token}" />
 		<view-id value="/faces/public/public-photo.jsf" />
 	</url-mapping>
 	
@@ -53,6 +53,11 @@
 	<url-mapping id="restricted-error">
 		<pattern value="/e/user/" />
 		<view-id value="/faces/error/user-error.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photo-error">
+		<pattern value="/e/photo/" />
+		<view-id value="/faces/error/photo-error.jsf" />
 	</url-mapping>
 	
 	<!-- Self -->
@@ -85,6 +90,11 @@
 	<url-mapping id="search">
 		<pattern value="/s/search/" />
 		<view-id value="/faces/app/self/search.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="twitter-oauth">
+		<pattern value="/s/twitter/oauth" />
+		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
 	<!-- user -->

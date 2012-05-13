@@ -114,8 +114,13 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setPlus18(plus18);
 		//set date to now!
 		p.setUploadDate(new Date());
-		//create a public token
+		//create a public token (with some blocks of the uuid)
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
 		String publicToken = UUID.randomUUID().toString();
+		String[] splittedToken = publicToken.split("-");
+		publicToken = splittedToken[0] + splittedToken[2] + splittedToken[1];
+		
 		p.setPublicToken(publicToken);
 		
 		if (tags.isEmpty())

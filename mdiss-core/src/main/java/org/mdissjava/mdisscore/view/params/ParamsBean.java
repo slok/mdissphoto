@@ -23,6 +23,7 @@ public class ParamsBean {
 	private String size;
 	private String cameraId;
 	private String top;
+	private String token;
 	
 	
 	public String getUserId() {
@@ -61,6 +62,13 @@ public class ParamsBean {
 	public void setTop(String top) {
 		this.top = top;
 	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	
 	
 

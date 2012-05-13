@@ -74,7 +74,9 @@
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 	
-	<!-- Custom filter -->
+	<!-- Custom filters -->
+	
+	<!-- Permission for private users -->
 	
 	<filter>
         <filter-name>Restrict Page Access Filter</filter-name>
@@ -86,6 +88,20 @@
           <url-pattern>/faces/users/*</url-pattern>
           <url-pattern>/faces/upload/*</url-pattern>
           <dispatcher>FORWARD</dispatcher> 
+		<dispatcher>REQUEST</dispatcher> 
+		<dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+  	
+  	<!-- Public photo -->
+  		<filter>
+        <filter-name>PublicPhotoFilter</filter-name>
+        <filter-class>org.mdissjava.mdisscore.filter.PublicPhotoFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+		<filter-name>PublicPhotoFilter</filter-name>
+		<url-pattern>/faces/public/public-photo.jsf</url-pattern>
+		<dispatcher>FORWARD</dispatcher> 
 		<dispatcher>REQUEST</dispatcher> 
 		<dispatcher>ERROR</dispatcher>
     </filter-mapping>
