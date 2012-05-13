@@ -158,3 +158,29 @@ div.captcha
 .primefaces-border-wrapper{
     margin-bottom: 10px;
 }
+
+.thumb {
+    position: relative;
+    width: 370px;
+    height: 250px;
+    margin-top:20px;
+}
+
+.text {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 20%;
+    width: 100%;
+    background: #999;
+    background: rgba(0,0,0,0.7);
+    text-align: center;
+    
+    color:#FFF;
+}
+.thumb:hover .text {
+    display: block;
+}
+
+.centered { margin: 0 auto; }​
