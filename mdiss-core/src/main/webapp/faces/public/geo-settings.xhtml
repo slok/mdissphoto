@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
+
     <ui:composition template="/templates/public-space.xhtml">
     
     <ui:define name="title">Geographical user settings</ui:define>
@@ -16,25 +16,42 @@
 		
 	<ui:define name="body">
     	
-    	<h:form>  
-  
-    		<h:panelGrid columns="2" cellpadding="5">
-	    		<h:outputText value="Country: " />
-	    		  
-	            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
-	                <f:selectItem itemLabel="Select Country" itemValue="" />  
-	                <f:selectItems value="#{geoConfiguration.countries}" />  
-	                <p:ajax update="states"  
-	                        listener="#{geoConfiguration.handleCountryChange}" />  
-	            </p:selectOneMenu>  
-	            
-	  			<h:outputText value="State: " />
-	            <p:selectOneMenu id="states" value="#{geoConfiguration.state}">  
-	                <f:selectItem itemLabel="Select State" itemValue="" />  
-	                <f:selectItems value="#{geoConfiguration.states}" />  
-	            </p:selectOneMenu>  
-    		</h:panelGrid>
-    		
+    	<h:form>
+   	 	<div>
+    		<div>  
+	    		<h:panelGrid columns="2" cellpadding="5">
+		    		<h:outputText value="Country: " />
+		    		  
+		            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
+		                <f:selectItem itemLabel="Select Country" itemValue="" />  
+		                <f:selectItems value="#{geoConfiguration.countries}" />  
+		                <p:ajax id="ACountry" update="SOMstates,SOMcities,situationMap"  
+		                        listener="#{geoConfiguration.AjaxCountryChange}" />  
+		            </p:selectOneMenu>  
+		            
+		  			<h:outputText value="State: " />
+		            <p:selectOneMenu id="SOMstates" value="#{geoConfiguration.state}">  
+		                <f:selectItem itemLabel="Select State" itemValue="" />  
+		                <f:selectItems value="#{geoConfiguration.states}" />
+		                  <p:ajax id="AState" update="SOMcities,situationMap"  
+		                        listener="#{geoConfiguration.AjaxStateChange}" />  
+		            </p:selectOneMenu>  
+		              
+		            <h:outputText value="City: " />
+		            <p:selectOneMenu id="SOMcities" value="#{geoConfiguration.city}">  
+		                <f:selectItem itemLabel="Select City" itemValue="" />  
+		                <f:selectItems value="#{geoConfiguration.cities}" />
+		                <p:ajax id="ACity"  
+		                        listener="#{geoConfiguration.AjaxCityChange}" />  
+		            </p:selectOneMenu>
+	    		</h:panelGrid>
+    		</div>
+    		<div>
+    			<p:gmap id="situationMap" center="#{geoConfiguration.coordenadasXY}" zoom="18" type="HYBRID"   
+		        style="width:300px;height:200px"  
+		        model="#{geoConfiguration.simpleModel}" />
+    		</div>
+    </div>
     		<p:separator />
     		  
     	</h:form>	

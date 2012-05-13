@@ -22,6 +22,7 @@ public class AddressManagerImpl implements AddressManager {
 	@Override
 	public List<State> getStateList(Country country) {
 		// TODO Get all States logical layer function
+		System.out.println("Address Business logial layer was call sucess...");
 		return addao.getStates(country.getId());
 	}
 
