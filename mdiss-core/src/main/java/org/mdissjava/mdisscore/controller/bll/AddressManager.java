@@ -8,8 +8,8 @@ import org.mdissjava.mdisscore.model.pojo.State;
 
 public interface AddressManager {
 	List<Country> getAllCountries();
-	List<State> getStateList(short idCountry);
-	List<City> getCityList(short idCountry,short idState);
+	List<State> getStateList(Country Country);
+	List<City> getCityList(Country Country,State State);
 	
 	
 }

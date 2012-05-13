@@ -20,15 +20,15 @@ public class AddressManagerImpl implements AddressManager {
 	}
 
 	@Override
-	public List<State> getStateList(short idCountry) {
+	public List<State> getStateList(Country country) {
 		// TODO Get all States logical layer function
-		return addao.getStates(idCountry);
+		return addao.getStates(country.getId());
 	}
 
 	@Override
-	public List<City> getCityList(short idCountry, short idState) {
+	public List<City> getCityList(Country country, State state) {
 		// TODO get all cities from a country and state business logical layer function
-		return addao.getCities(idCountry, idState);
+		return addao.getCities(country.getId(), state.getId());
 	}
 
 }

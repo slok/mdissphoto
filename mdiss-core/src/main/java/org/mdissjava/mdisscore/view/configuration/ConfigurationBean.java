@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.mdissjava.mdisscore.controller.bll.AddressManager;
@@ -17,7 +18,7 @@ import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ConfigurationBean {
 
 	AddressManager addBll = new AddressManagerImpl();
@@ -130,6 +131,10 @@ public class ConfigurationBean {
 			return "Mujer";
 	}
 	
+	public List<Country> getCountryList()
+	{
+		return addBll.getAllCountries();
+	}
 
 	public Country getCountry() {
 		return country;
@@ -172,10 +177,7 @@ public class ConfigurationBean {
 		this.state = state;
 	}
 	
-	public List<Country> getCountryList()
-	{
-		return addBll.getAllCountries();
-	}
+
 	
 	
 	
