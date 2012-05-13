@@ -37,7 +37,7 @@ public class GeoConfiguration implements Serializable{
     
     private float coordy=(float) -99.067385;
     
-    private int zoom=23;
+    private int zoom=5;
       
     private Map<String,String> countries = new HashMap<String, String>();    
       
@@ -134,7 +134,7 @@ public class GeoConfiguration implements Serializable{
         	State s=this.getStateObject();
         	if(s!=null)
         		this.setCoordenadasXY(s.getX(), s.getY());
-        	zoom=15;
+        	zoom=10;
         	cities = new HashMap<String, String>();
         	List<City>Lciudades= adBll.getCities(Short.parseShort(country), Short.parseShort(state));
         	for(int i=0;i<Lciudades.size();i++)
@@ -158,7 +158,7 @@ public class GeoConfiguration implements Serializable{
         	Country c=this.getCountryObject();
         	if(c!=null)
         		this.setCoordenadasXY(c.getX(), c.getY());
-        	zoom=18;
+        	zoom=6;
         	cities = new HashMap<String, String>();
         	states = new HashMap<String, String>();
         	List<State>Lestados= adBll.getStates(Short.parseShort(country));
@@ -221,8 +221,8 @@ public class GeoConfiguration implements Serializable{
 		this.coordy = coordy;
 	}
 
-	public String getZoom() {
-		return String.valueOf(zoom);
+	public int getZoom() {
+		return zoom;
 	}
 
 	public void setZoom(int zoom) {

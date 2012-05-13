@@ -52,8 +52,8 @@
 	    		</h:panelGrid>
     		</div>
     		<div>
-    			<p:gmap id="situationMap" center="#{geoConfiguration.coordenadasXY}" zoom="6" type="HYBRID"   
-		        style="width:340px;height:220px" mapTypeControl="false" navigationControl="false" 
+    			<p:gmap id="situationMap" center="#{geoConfiguration.coordenadasXY}" zoom="#{geoConfiguration.zoom}" type="HYBRID"   
+		        style="width:340px;height:220px" mapTypeControl="false" navigationControl="false" disableDefaultUI="true"
 		        model="#{geoConfiguration.simpleModel}" />
     		</div>
     </div>
