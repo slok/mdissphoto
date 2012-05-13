@@ -40,8 +40,8 @@
 	</url-mapping>
 	
 	<url-mapping id="confirmation">
-		<pattern value="/confirmation" />
-		<view-id value="/faces/public/confirmation.jsf" />
+		<pattern value="/p/signup/ok" />
+		<view-id value="/faces/public/register-confirmation.jsf" />
 	</url-mapping>	
 	
 	<!-- Errors -->
