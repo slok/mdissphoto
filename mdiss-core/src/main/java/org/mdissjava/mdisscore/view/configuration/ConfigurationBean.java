@@ -1,5 +1,7 @@
 package org.mdissjava.mdisscore.view.configuration;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 @ManagedBean
 @RequestScoped
-public class ConfigurationBean {
+public class ConfigurationBean implements Serializable{
 
 	AddressManager addBll = new AddressManagerImpl();
 	UserManager userBll= new UserManagerImpl();
@@ -33,10 +35,13 @@ public class ConfigurationBean {
 	private String email;
 	private String password;
 	private String street;
-	private City city;	
 	private String zip;	
+	
 	private State state;
-	private Country country;
+	private Country country=new Country();
+	private City city;	
+	//Listas
+	private List<State> StatesList=new ArrayList<State>();
 	
 	
 	/**
@@ -44,7 +49,9 @@ public class ConfigurationBean {
 	 * 
 	 * @author inigorst21
 	 */
-	
+	public ConfigurationBean() 
+	{
+	}
 	
 	public void setUserBll(UserManager userBll) {
 		this.userBll = userBll;
@@ -136,13 +143,8 @@ public class ConfigurationBean {
 		return addBll.getAllCountries();
 	}
 
-	public Country getCountry() {
-		return country;
-	}
 
-	public void setCountry(Country country) {
-		this.country = country;
-	}
+	
 	
 	
 	public String getStreet() {
@@ -169,13 +171,7 @@ public class ConfigurationBean {
 		this.zip = zip;
 	}
 
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
+	
 	
 
 	

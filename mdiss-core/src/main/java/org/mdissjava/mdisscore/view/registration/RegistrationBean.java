@@ -132,11 +132,11 @@ public class RegistrationBean {
 	{ 	
 		System.out.println("Register clicked*****************");
 				City city=new City();
-				city.setId(1);
+				city.setId(0);
 				Country country=new Country();
 				country.setId((short)0);
 				State state=new State();
-				state.setId((short)1);
+				state.setId((short)0);
 				Address address=new Address();
 				address.setCity(city);
 				address.setCountry(country);

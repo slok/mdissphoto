@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/public-space.xhtml">
+    
+    <ui:define name="title">Geographical user settings</ui:define>
+		
+		<ui:define name="bootstrap-jquery">
+		 <!-- Primefaces sets the javascript 1.7.1 automatically ¬¬ -->
+		</ui:define>
+		
+	<ui:define name="body">
+    	
+    	<h:form>  
+  
+    		<h:panelGrid columns="2" cellpadding="5">
+	    		<h:outputText value="Country: " />
+	    		  
+	            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
+	                <f:selectItem itemLabel="Select Country" itemValue="" />  
+	                <f:selectItems value="#{geoConfiguration.countries}" />  
+	                <p:ajax update="states"  
+	                        listener="#{geoConfiguration.handleCountryChange}" />  
+	            </p:selectOneMenu>  
+	            
+	  			<h:outputText value="State: " />
+	            <p:selectOneMenu id="states" value="#{geoConfiguration.state}">  
+	                <f:selectItem itemLabel="Select State" itemValue="" />  
+	                <f:selectItems value="#{geoConfiguration.states}" />  
+	            </p:selectOneMenu>  
+    		</h:panelGrid>
+    		
+    		<p:separator />
+    		  
+    	</h:form>	
+    </ui:define>
+    </ui:composition>
+</html>

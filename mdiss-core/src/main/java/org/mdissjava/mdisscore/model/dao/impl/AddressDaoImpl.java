@@ -37,10 +37,13 @@ public class AddressDaoImpl implements AddressDao {
 	@Override
 	public List<State> getStates(short idCountry) {
 		// TODO get all states of a country
+		System.out.println("Get States Dao");
 		List<State> states = new ArrayList<State>();
 		Session session = HibernateUtil.getSession();
 		Query q = session.createQuery("from State where id_pais =" + idCountry+ "");
 		states= q.list();
+		for(int i=0 ; i<states.size();i++)
+		{System.out.println("Estados recibidos:"+states.get(i).getNombre() );}
 		return states;
 	}
 
