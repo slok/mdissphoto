@@ -8,10 +8,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
+import org.mdissjava.mdisscore.controller.bll.impl.UserOauthTokensManagerImpl;
+import org.mdissjava.mdisscore.model.pojo.UserOauthTokens.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 
 @RequestScoped
@@ -27,19 +28,19 @@ public class TwitterBean {
 		try{
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
-			String oauthToken = parameterMap.get("oauth_token");
 			String oauthVerifier = parameterMap.get("oauth_verifier");
 			
 			//Create a requestToken
 			TwitterApiManager twitterApi = new TwitterApiManager();
-			
-			//TODO: Don't hardcode things!!
+
 			//get the access token
-			AccessToken at = twitterApi.getTwitterAccessToken(this.retrieveSessionUserNick(), oauthVerifier);
+			AccessToken at = twitterApi.verifyAndGetTwitterAccessToken(this.retrieveSessionUserNick(), oauthVerifier);
 			this.token = at.getToken();
 			this.tokenSecret = at.getTokenSecret();
 			
-			//were done, save in database :)
+			new UserOauthTokensManagerImpl().insertOrUpdateUserOauthAccessToken(retrieveSessionUserNick(), 
+																				Service.TWITTER, 
+																				token, tokenSecret);
 			allOk = true;
 		}catch(Exception e){
 			allOk = false;

@@ -18,6 +18,7 @@ import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.springframework.security.core.Authentication;
@@ -45,6 +46,9 @@ public class PhotoDetailsBean {
 	private List<String> metadataKeys;
 	
 	private Photo photo;
+	
+	private String tweetMessage = "Hello world @slok69 from mdiss";
+	private String executeModal;
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
@@ -157,11 +161,41 @@ public class PhotoDetailsBean {
 	}
 
 	public void startTweeterBirdOauthAuthProcess() throws TwitterException, IOException{
-		TwitterApiManager twitterApi = new TwitterApiManager();
-		String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		externalContext.redirect(url);
+		//check if we have the credentials id not redirect
+		OauthAccessToken accessToken = null;
+		try
+		{
+			accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
+		}catch(IllegalAccessError iae)
+		{
+			//if there was an illegal access then we need to create the user, so we redirect to the twitter oauth page
+			//so we don't do anything because will enter in the null block
+		}
+		
+		if (accessToken == null)
+		{	
+			TwitterApiManager twitterApi = new TwitterApiManager();
+			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			externalContext.redirect(url);
+		}else
+		{
+			this.executeModal = "$('#myModal').modal('show')";
+			//this.executeModal = "alert('hello');";
+		}
 	}
+	
+	public void tweetStatus() throws TwitterException{
+		try{
+			OauthAccessToken accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
+			new TwitterApiManager().updatestatus(accessToken, this.tweetMessage);
+			//hide the modal
+			this.executeModal = "";
+		}catch (Exception e){
+			System.out.println(e.toString());
+			this.executeModal = "$('#myModalError').modal('show')";
+		}
+	} 
 	
 	public String getPhotoId() {
 		return photoId;
@@ -251,6 +285,24 @@ public class PhotoDetailsBean {
 
 	public void setLoggedUserNick(String loggedUserNick) {
 		this.loggedUserNick = loggedUserNick;
+	}
+
+	public String getTweetMessage() {
+		return tweetMessage;
+	}
+
+	public void setTweetMessage(String tweetMessage) {
+		this.tweetMessage = tweetMessage;
+	}
+
+	
+	
+	public String getExecuteModal() {
+		return executeModal;
+	}
+
+	public void setExecuteModal(String executeModal) {
+		this.executeModal = executeModal;
 	}
 
 	private ParamsBean getPrettyfacesParams()

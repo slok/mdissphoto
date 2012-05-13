@@ -53,6 +53,8 @@ public class UserOauthTokensManagerImpl implements UserOauthTokensManager{
 		
 		 if(userTokens.size() > 1) //There should be only one
 			throw new IllegalStateException("There are more than one elements for the same id");
+		 else if(userTokens.isEmpty()) //The user hasn't tokens yet
+				throw new IllegalAccessError("There user hasn't been registered yet for any tokens");
 		 else{
 			 Map<Service, OauthAccessToken> tokens = userTokens.get(0).getTokens();
 			 //if there isn't nothing for that service exception

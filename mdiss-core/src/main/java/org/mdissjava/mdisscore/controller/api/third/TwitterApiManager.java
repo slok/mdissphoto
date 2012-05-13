@@ -3,6 +3,16 @@ package org.mdissjava.mdisscore.controller.api.third;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mdissjava.mdisscore.controller.bll.UserOauthTokensManager;
+import org.mdissjava.mdisscore.controller.bll.impl.UserOauthTokensManagerImpl;
+import org.mdissjava.mdisscore.model.dao.UserOauthTokensDao;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.dao.impl.UserOauthTokensDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
+import org.mdissjava.mdisscore.model.pojo.UserOauthTokens.Service;
+
+import com.google.code.morphia.Datastore;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -16,9 +26,12 @@ public class TwitterApiManager {
 	private Twitter twitter = null;
 	static private Map<String, RequestToken> requestTokens = null;
 	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth";
+	final private Datastore datastore;
+	
 	public TwitterApiManager() throws TwitterException {
 		
 		//TODO: load from properties
+		this.datastore = MorphiaDatastoreFactory.getDatastore("mdissphoto");
 		this.cb.setOAuthConsumerKey("uJOTDXfM7THTu4IIlAu6Xw");
 		this.cb.setOAuthConsumerSecret("SZONdaQ2lAipEhnPh8hScHy4MQxr7omL9bjuin8I5I");
 		this.twitter = new TwitterFactory(cb.build()).getInstance();
@@ -40,7 +53,7 @@ public class TwitterApiManager {
 		
 	}
 	
-	public AccessToken getTwitterAccessToken(String username, String oauthVerifier) throws TwitterException{
+	public AccessToken verifyAndGetTwitterAccessToken(String username, String oauthVerifier) throws TwitterException{
 		
 		//retrieve the access token and delete the requestToken from the map. We don't need any more
 		AccessToken accessToken = twitter.getOAuthAccessToken(requestTokens.remove(username), oauthVerifier);
@@ -53,5 +66,16 @@ public class TwitterApiManager {
 	}
 	
 	
-
+	public void updatestatus(OauthAccessToken oauthAccessToken, String message) throws TwitterException{
+		
+		AccessToken accessToken = new AccessToken(oauthAccessToken.getToken(), oauthAccessToken.getTokenSecret());
+		twitter.setOAuthAccessToken(accessToken);
+		twitter.updateStatus(message);
+	}
+	
+	public OauthAccessToken getUserOauthCredentials(String username) throws IllegalAccessError
+	{
+		UserOauthTokensManager manager = new UserOauthTokensManagerImpl(datastore);
+		return manager.getUserOauthAccessToken(username, Service.TWITTER);
+	}
 }
