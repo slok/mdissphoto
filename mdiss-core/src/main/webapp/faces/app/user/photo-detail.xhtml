@@ -138,7 +138,7 @@
 					<!-- Photo image -->
 					<div class="row-fluid">
 						<div class="span12">
-							<h:graphicImage styleClass="thumbnail" value="#{photoDetailsBean.detailedPhotoURL}" />
+							<h:graphicImage styleClass="thumbnail center-thing" value="#{photoDetailsBean.detailedPhotoURL}" />
 						</div>
 					</div>
 					<!-- Photo buttons -->
@@ -173,10 +173,19 @@
 								<!-- Tweet button -->
 								<h:form>
 									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
-								</h:form>
-								<!-- Public link button -->
-								<a class="btn btn-primary" href="#">Public link</a>
+								</h:form>							
 							</div>
+							
+						</div> <!-- span 12 end -->
+					</div> <!-- row end -->
+					
+					<!-- Public link -->
+					<div class="row-fluid">
+						<div class="span2">
+							<div class="h3">Public Link: </div>
+						</div>
+						<div class="span10">
+							<pre>#{photoDetailsBean.publicLink}</pre>
 						</div>
 					</div>
 				</div>

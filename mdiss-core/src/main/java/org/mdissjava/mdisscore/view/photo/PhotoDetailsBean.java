@@ -3,6 +3,7 @@ package org.mdissjava.mdisscore.view.photo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -11,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
@@ -27,6 +29,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import twitter4j.TwitterException;
 
 import com.google.code.morphia.Datastore;
+import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
+import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
 @ViewScoped
 @ManagedBean
@@ -47,8 +52,9 @@ public class PhotoDetailsBean {
 	
 	private Photo photo;
 	
-	private String tweetMessage = "Hello world @slok69 from mdiss";
+	private String tweetMessage;
 	private String executeModal;
+	private String publicLink;
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
@@ -77,6 +83,16 @@ public class PhotoDetailsBean {
 			
 			this.photo = photoManager.searchPhotoUniqueUtil(photoId);
 			
+			//set the public link and the default message
+			HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			String host = request.getServerName();
+			int port = request.getServerPort();
+			String app = request.getContextPath();
+			//System.out.println(host + String.valueOf(port) + app);
+			this.publicLink = "http://"+ host + ":" + port + app + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
+			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
+			
+			//get metadata in a visible format
 			this.metadataMap = new MetadataExtractorImpl().getMetadataFormatted(this.photo.getMetadata());
 			System.out.println(metadataMap);
 			metadataKeys = new ArrayList<String>();
@@ -317,6 +333,15 @@ public class PhotoDetailsBean {
 		this.executeModal = executeModal;
 	}
 
+	
+	public String getPublicLink() {
+		return publicLink;
+	}
+
+	public void setPublicLink(String publicLink) {
+		this.publicLink = publicLink;
+	}
+
 	private ParamsBean getPrettyfacesParams()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -328,6 +353,20 @@ public class PhotoDetailsBean {
 		//Get the current logged user's username
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
+		
+	}
+	
+	private String getPublicPrettyURL(String photoParam, String tokenParam)
+	{
+		String mappingUrl = "public-photo";
+		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		PrettyContext context = PrettyContext.getCurrentInstance(request);
+		PrettyURLBuilder builder = new PrettyURLBuilder();
+		
+		UrlMapping mapping = context.getConfig().getMappingById(mappingUrl);
+		Object[] objs = {photoParam, tokenParam};
+		return builder.build(mapping, true, objs);
+		
 		
 	}
 
