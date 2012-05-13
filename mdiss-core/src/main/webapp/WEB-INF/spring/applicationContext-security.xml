@@ -13,21 +13,23 @@
            http://www.springframework.org/schema/context 
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<http auto-config="true" access-denied-page="/login/error/">
-		<intercept-url pattern="/javax.faces.resource/*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<!--  <intercept-url pattern="/login/error/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/login/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
-		<intercept-url pattern="/users/*/public/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/dashboard/" access="ROLE_USER, ROLE_ADMIN"/>
-		<intercept-url pattern="/user/**" access="ROLE_USER"/>
-		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-		<!--<intercept-url pattern="/**" access="ROLE_USER"/>  -->
+	<http auto-config="true" use-expressions="true" access-denied-page="/p/login/">
+		<!-- In order first the public, then the admins and then the rest(user authentication) -->
+		<intercept-url pattern="/javax.faces.resource/*" access="permitAll"/>
+		<!-- <intercept-url pattern="/p/**" access="permitAll"/>
+		<intercept-url pattern="/e/**" access="permitAll"/>
+		<intercept-url pattern="/" access="permitAll"/> 
+		<intercept-url pattern="/dynamic/**" access="permitAll"/> -->
+		<intercept-url pattern="/a/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/s/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/l/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/u/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/**" access="permitAll"/> 
 		<form-login
-            login-page="/login/"
+            login-page="/p/login/"
             authentication-success-handler-ref="redirectRoleStrategy"
-            authentication-failure-url="/login/"/> 
-			<logout logout-success-url="/" />
+            authentication-failure-url="/p/login/"/> 
+		<logout logout-success-url="/" />
 	</http>
 
 	<!-- Scan the packages for services -->
