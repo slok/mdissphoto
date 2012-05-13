@@ -115,21 +115,14 @@
 				</h:form>
 			</div>
 			
-			<!-- THE TWEET MODAL ERROR -->
-			<div class="modal hide fade" id="myModalError">
-				<div class="modal-header">
-					<button class="close" data-dismiss="modal">×</button>
-					<h3>Tweet Error</h3>
-				</div>
-				<div class="modal-body">
-					<div class="alert alert-error">There was an error with your tweet :( try again</div>
-				</div>
+		
+			<!-- message-->
+			<div class="row-fluid">
+				<div class="span12">
+			      		<h:outputText value="#{photoDetailsBean.informationMessage}" escape="false" />
+		       	</div>
 			</div>
-			
-		
-		
-		
-			<!-- Title -->
+			<br/>
 			<div class="row-fluid">
 				<div class="span12">
 			      		<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>	

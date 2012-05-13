@@ -55,6 +55,7 @@ public class PhotoDetailsBean {
 	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
 	private final int PHOTO_SHOW_SIZE = 640;
 	private Map<String, String> metadataMap;
+	private String informationMessage = "";
 	
 	
 	public PhotoDetailsBean() {
@@ -181,7 +182,6 @@ public class PhotoDetailsBean {
 		}else
 		{
 			this.executeModal = "$('#myModal').modal('show')";
-			//this.executeModal = "alert('hello');";
 		}
 	}
 	
@@ -191,9 +191,14 @@ public class PhotoDetailsBean {
 			new TwitterApiManager().updatestatus(accessToken, this.tweetMessage);
 			//hide the modal
 			this.executeModal = "";
+			this.informationMessage  = "<div class=\"alert alert-success\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" Tweeted succesfully :)</div>";
 		}catch (Exception e){
 			System.out.println(e.toString());
-			this.executeModal = "$('#myModalError').modal('show')";
+			this.informationMessage  = "<div class=\"alert alert-error\">" +
+						"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" There was an error eith the tweet. Try again please </div>";
 		}
 	} 
 	
@@ -296,7 +301,14 @@ public class PhotoDetailsBean {
 	}
 
 	
-	
+	public String getInformationMessage() {
+		return informationMessage;
+	}
+
+	public void setInformationMessage(String informationMessage) {
+		this.informationMessage = informationMessage;
+	}
+
 	public String getExecuteModal() {
 		return executeModal;
 	}
