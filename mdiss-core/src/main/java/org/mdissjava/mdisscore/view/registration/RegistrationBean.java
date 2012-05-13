@@ -134,7 +134,7 @@ public class RegistrationBean {
 				City city=new City();
 				city.setId(1);
 				Country country=new Country();
-				country.setId((short)1);
+				country.setId((short)0);
 				State state=new State();
 				state.setId((short)1);
 				Address address=new Address();
@@ -157,6 +157,7 @@ public class RegistrationBean {
 				String outcome = "pretty:confirmation";
 				FacesContext facesContext=FacesContext.getCurrentInstance();
 				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+				
 	}
 	/*
 	private ParamsBean getPrettyfacesParams()

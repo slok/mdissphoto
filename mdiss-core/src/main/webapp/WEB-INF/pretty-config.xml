@@ -39,6 +39,11 @@
 		<view-id value="/faces/public/public-photo.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="confirmation">
+		<pattern value="/p/signup/ok" />
+		<view-id value="/faces/public/register-confirmation.jsf" />
+	</url-mapping>	
+	
 	<!-- Errors -->
 	<url-mapping id="upload-error">
 		<pattern value="/e/upload/" />
