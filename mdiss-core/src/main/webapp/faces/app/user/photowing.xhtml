@@ -11,6 +11,30 @@
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
 		
 		<ui:define name="body">
+		
+			<h:panelGroup layout="block">
+
+				<br />
+		
+				<h:form id="form">
+					<p:dataList value="#{userBean.user.follows}" var="follow" itemType="none">
+						<p:column>		 
+								<a href="#" class="thumbnail"> <img
+									src="http://placehold.it/60x60" alt="" />
+								</a>				
+						</p:column> 
+						<p:column> 		
+			  						#{follow.nick}, #{follow.email}  
+			  							</p:column>
+			  			<p:column> 		   					    					       			    				
+			  					<h:commandButton styleClass="btn"
+							actionListener="#{userBean.addFollow(follow.nick)}" value="Follow"
+							update="growl" />
+						</p:column> 			
+					</p:dataList>
+				</h:form>
+		
+			</h:panelGroup>
 								
 		</ui:define>
 				

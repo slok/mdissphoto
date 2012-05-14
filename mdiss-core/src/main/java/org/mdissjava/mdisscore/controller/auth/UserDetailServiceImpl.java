@@ -53,11 +53,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		    
 		    //Check the user's role in order to assign the authorities.
-		    if (role.equals("ADMIN"))
+		    if (role.toUpperCase().equals("ADMIN"))
 		    {
 		    	authorities.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
 		    }
-		    else if (role.equals("USER"))
+		    else if (role.toUpperCase().equals("USER"))
 		    {
 		    	authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
 		    }

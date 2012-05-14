@@ -16,12 +16,11 @@
 		
 		<ui:define name="head">
 			<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
-     		<!-- for the album thumbnail slider -->
-     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+     		<!-- for the album thumbnail slider-->
 			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
 			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
 			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>
-     		
+     		 
      		<style type="text/css">
 				#container {
 					width: 440px;
@@ -97,7 +96,33 @@
 		</ui:define>
 		
 		<ui:define name="body">
-			<!-- Title -->
+			
+			<!-- THE TWEET MODAL -->
+			<div class="modal hide fade" id="myModal">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">×</button>
+					<h3>Tweet it!</h3>
+				</div>
+				<h:form prependId="false">
+					<div class="modal-body">
+						<h:inputTextarea id="tweetStatus"
+							value="#{photoDetailsBean.tweetMessage}"/>
+					</div>
+					<div class="modal-footer">
+						<h:commandButton styleClass="btn btn-primary" value="Tweet!"
+							type="submit" action="#{photoDetailsBean.tweetStatus}" />
+					</div>
+				</h:form>
+			</div>
+			
+		
+			<!-- message-->
+			<div class="row-fluid">
+				<div class="span12">
+			      		<h:outputText value="#{photoDetailsBean.informationMessage}" escape="false" />
+		       	</div>
+			</div>
+			<br/>
 			<div class="row-fluid">
 				<div class="span12">
 			      		<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>	
@@ -113,7 +138,7 @@
 					<!-- Photo image -->
 					<div class="row-fluid">
 						<div class="span12">
-							<h:graphicImage styleClass="thumbnail" value="#{photoDetailsBean.detailedPhotoURL}" />
+							<h:graphicImage styleClass="thumbnail center-thing" value="#{photoDetailsBean.detailedPhotoURL}" />
 						</div>
 					</div>
 					<!-- Photo buttons -->
@@ -146,11 +171,21 @@
 								</ul>
 								
 								<!-- Tweet button -->
-								<a class="btn btn-primary" href="#">Tweet</a>
-								
-								<!-- Public link button -->
-								<a class="btn btn-primary" href="#">Public link</a>
+								<h:form>
+									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
+								</h:form>							
 							</div>
+							
+						</div> <!-- span 12 end -->
+					</div> <!-- row end -->
+					
+					<!-- Public link -->
+					<div class="row-fluid">
+						<div class="span2">
+							<div class="h3">Public Link: </div>
+						</div>
+						<div class="span10">
+							<pre>#{photoDetailsBean.publicLink}</pre>
 						</div>
 					</div>
 				</div>
@@ -233,6 +268,10 @@
 				</div>
 			</div>
 			
+			<!-- Execute or not execute the modal :D -->
+			<script>
+				#{photoDetailsBean.executeModal}
+			</script>
 					
 		</ui:define>
 				

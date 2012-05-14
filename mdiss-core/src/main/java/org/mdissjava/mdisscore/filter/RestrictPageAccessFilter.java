@@ -34,29 +34,20 @@ public class RestrictPageAccessFilter implements Filter{
 		//Get the current logged user's username
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedUser = auth.getName();
-				
-		//Get the requested URL (the URL pattern assigned in PrettyFaces to the URL)		
-		HttpServletRequest httpRequest=(HttpServletRequest)request;
-	  
-	    PrettyContext pc = PrettyContext.getCurrentInstance(httpRequest);
-	    String requestedURL = pc.getRequestURL().toString();
-	    
-	    this.logger.info("USER {} REQUESTED URL: {}", loggedUser, requestedURL);
-	    
-	    //Get the requested user in the URL (second variable between /)
-	    String[] splittedURL = requestedURL.split("/");
-	    String requestedUser = splittedURL[2];
-	    
+		
+		//get the user access page
+		String username = request.getParameter("user");
 	    //TODO: Check if the requested user exists in DB. ¿If it doesn't exist send to 404 Error page?
 	    
-	    //Check if the two users are the same
-	    if (!loggedUser.equals(requestedUser))
+		//TODO:
+	    //Check if the loggeduser is following the user (this means that the user has accepted the loggedIUser request)
+	    /*if (!loggedUser.equals(requestedUser))
 	    {
 	    	//If they don't match send the naughty user to error page.
 	    	this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", loggedUser);   	
 	    	HttpServletResponse httpResponse=(HttpServletResponse)response; 	
-	    	httpResponse.sendRedirect("/mdissphoto/user/error/");  	
-	    }
+	    	httpResponse.sendRedirect("/e/user");  	
+	    }*/
 	    
 	    chain.doFilter(request,response);
 	    

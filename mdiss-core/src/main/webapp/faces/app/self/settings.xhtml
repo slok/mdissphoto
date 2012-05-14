@@ -4,15 +4,223 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
-    <ui:composition template="/faces/app/self-space.xhtml">
-      
-		<ui:define name="title">USER SETTINGS</ui:define>
-		
-		<ui:define name="body">
-								
-		</ui:define>
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/faces/app/self-space.xhtml">
+
+	<ui:define name="title">USER SETTINGS</ui:define>
+
+	<ui:define name="body">
+
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab1" data-toggle="tab">Personal info</a></li>
+				<li><a href="#tab2" data-toggle="tab">Privacy settings</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab1">
+					<h2>Update your profile info</h2>
+
+					<h:form id="form">
+						<p:growl id="growl" sticky="true" showDetail="true" />
+
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+
+							<h:outputLabel value="Nick: *" />
+							<p:inplace>
+								<p:inputText id="nick" value="#{userBean.user.nick}"
+									required="true" label="Nick">
+									<f:validator
+										validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
+									<p:ajax update="growl" />
+								</p:inputText>
+								<p:message id="nickoutput" for="nick" display="text" />
+							</p:inplace>
+
+
+							<h:outputLabel value="Name: *" />
+							<p:inplace>
+								<p:inputText id="nombre" value="#{userBean.user.name}"
+									required="true" label="Name">
+									<p:ajax update="growl" />
+								</p:inputText>
+								<p:message id="nombreoutput" for="nombre" display="text" />
+							</p:inplace>
+
+							<h:outputLabel value="Surname: *" />
+							<p:inplace>
+								<p:inputText id="apellido" value="#{userBean.user.surname}"
+									required="true" label="Surname">
+									<p:ajax update="growl" />
+								</p:inputText>
+								<p:message id="apellidooutput" for="apellido" display="text" />
+							</p:inplace>
+
+							<h:outputLabel for="bdate" value="Birthday: *" />
+							<p:inplace>
+								<p:inputMask id="bdate" value="#{userBean.user.birthdate}"
+									mask="99/99/9999" label="Birthday">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<f:validator
+										validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" />
+									<p:ajax update="growl" />
+								</p:inputMask>
+								<h:message for="bdate" display="text" />
+							</p:inplace>
+
+							<h:outputLabel value="I am: *" />
+							<p:inplace>
+								<p:selectOneMenu id="checkSex" value="#{userBean.user.gender}"
+									label="I am">
+									<f:selectItem itemValue="Male" itemLabel="Male" />
+									<f:selectItem itemValue="Female" itemLabel="Female" />
+								</p:selectOneMenu>
+								<p:message id="Sexooutput" for="checkSex" display="text" />
+							</p:inplace>
+
+							<h:outputLabel value="Email: *" />
+							<p:inplace>
+								<p:inputText id="email" value="#{userBean.user.email}"
+									required="true" label="email">
+									<f:validator
+										validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
+									<p:ajax update="growl" />
+								</p:inputText>
+								<h:message for="email" style="color:red" />
+							</p:inplace>
+
+							<h:outputLabel for="pwd1" value="Password: *" />
+							<p:inplace>
+								<p:password id="pwd1" match="pwd2"
+									label="Password 1" feedback="true" required="true" />
+								<p:message id="contraseñaoutput" for="pwd1" display="text" />
+
+								<h:outputLabel for="pwd2" value="Re-enter password: *" />
+								<p:password id="pwd2" value="#{userBean.user.pass}"
+									label="Password 2" required="true" />
+								<p:message id="repetircontraseñaoutput" for="pwd2"
+									display="text" />
+							</p:inplace>
+						</h:panelGrid>
+
+					</h:form>		
 				
-    </ui:composition>
+				<hr/>
+				 <h2>Tell us more about yourself</h2>
+					
+					<h:form id="formDetails">						
+						<p:growl id="growl" sticky="true" showDetail="true" />
+
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+
+							<h:outputLabel value="Street: " />
+							<p:inplace>
+								<p:inputText id="street" value="#{userBean.user.address.street}" label="Street"/>																	
+							</p:inplace>
+														
+							<h:outputLabel value="City:" />
+							<p:inplace>
+								<p:selectOneMenu id="selectCity" value="Bilbao"
+									label="City">
+									<f:selectItem itemValue="Bilbao" itemLabel="Bilbao" />
+									<f:selectItem itemValue="Gipuzkoa" itemLabel="Gipuzkoa" />
+								</p:selectOneMenu>								
+							</p:inplace>
+							
+							<h:outputLabel value="State:" />
+							<p:inplace>
+								<p:selectOneMenu id="selectState" value="Vizcaya"
+									label="State">
+									<f:selectItem itemValue="Vizcaya" itemLabel="Vizcaya" />
+									<f:selectItem itemValue="Donosti" itemLabel="Donosti" />
+								</p:selectOneMenu>								
+							</p:inplace>							
+
+							<h:outputLabel value="Country:" />
+							<p:inplace>
+								<p:selectOneMenu id="selectCountry" value="Spain"
+									label="Country">
+									<f:selectItem itemValue="Spain" itemLabel="Spain" />
+									<f:selectItem itemValue="London" itemLabel="London" />
+								</p:selectOneMenu>								
+							</p:inplace>
+
+							<h:outputLabel value="Zip:" />
+							<p:inplace>
+								<p:inputText id="zip" value="#{userBean.user.address.zip}"
+									label="Surname"/>
+						
+							</p:inplace>
+
+							<h:outputLabel value="Phone number:" />
+							<p:inplace>
+								<p:inputText id="phone" value="#{userBean.user.phone}"
+									label="Phone"/>
+					
+							</p:inplace>
+							
+							<h:outputLabel value="Preferences:" />
+							<p:inplace>
+								<p:inputText id="preferences" value="#{userBean.user.surname}"
+									label="Preferences"/>
+						
+							</p:inplace>
+						
+						</h:panelGrid>
+
+					</h:form>				
+				
+				</div>
+				<div class="tab-pane" id="tab2">
+				
+					 <h2>Configure your privacy settings</h2>
+				
+					 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">  
+					  
+					        <h:outputText value="Show nick: " />  
+					        <p:selectBooleanCheckbox value="#{userBean.user.configuration.showNick}" />  
+					  
+					        <h:outputText value="Show name: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showName}" />   
+
+					        <h:outputText value="Show surname: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showSurname}" /> 
+				        	
+				     		<h:outputText value="Show email: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showEmail}" /> 
+				        	
+				    		<h:outputText value="Show birthdate: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showBirthdate}" /> 
+				        	
+				     		<h:outputText value="Show phone: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showPhone}" /> 
+
+				     		<h:outputText value="Show gender: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showGender}" /> 
+				        	
+				     		<h:outputText value="Show address: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showAddress}" /> 
+				        	
+				        	<h:outputText value="Show city: " />  
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCity}" /> 
+				        	
+				        	<h:outputText value="Show country: " />  				        				        					        	 				        	     				         
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCountry}" /> 
+				        	
+				        	<h:outputText value="Show zip code: " />  				        				        					        	 				        	     				
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showZip}" /> 
+				        	
+				        	<h:outputText value="Show cameras: " />  				        				        					        	 				        	     				      
+				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCameras}" /> 					        	
+					  
+					    </h:panelGrid>  
+				  
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>
 </html>

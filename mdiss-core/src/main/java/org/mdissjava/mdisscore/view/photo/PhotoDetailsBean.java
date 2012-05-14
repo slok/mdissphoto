@@ -3,31 +3,43 @@ package org.mdissjava.mdisscore.view.photo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
-import org.mdissjava.mdisscore.model.pojo.Metadata;
+import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import twitter4j.TwitterException;
 
 import com.google.code.morphia.Datastore;
+import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
+import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class PhotoDetailsBean {
 	
 	private String photoId;
 	private String userNick;
+	private String loggedUserNick;
 	
 	private List<String> defaultPhotoSizes;
 	private List<String> thumbnailIds;
@@ -40,17 +52,23 @@ public class PhotoDetailsBean {
 	
 	private Photo photo;
 	
+	private String tweetMessage;
+	private String executeModal;
+	private String publicLink;
+	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
 	private final int PHOTO_SHOW_SIZE = 640;
 	private Map<String, String> metadataMap;
+	private String informationMessage = "";
 	
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
 		this.photoId = pb.getPhotoId();
+		this.loggedUserNick = this.retrieveSessionUserNick();
 		
 		//TODO: check if isn't detailed to redirect to /user/xxx/upload/details/yyy-yyyyyy-yyyy-yyy
 		
@@ -65,6 +83,16 @@ public class PhotoDetailsBean {
 			
 			this.photo = photoManager.searchPhotoUniqueUtil(photoId);
 			
+			//set the public link and the default message
+			HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			String host = request.getServerName();
+			int port = request.getServerPort();
+			String app = request.getContextPath();
+			//System.out.println(host + String.valueOf(port) + app);
+			this.publicLink = "http://"+ host + ":" + port + app + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
+			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
+			
+			//get metadata in a visible format
 			this.metadataMap = new MetadataExtractorImpl().getMetadataFormatted(this.photo.getMetadata());
 			System.out.println(metadataMap);
 			metadataKeys = new ArrayList<String>();
@@ -149,6 +177,46 @@ public class PhotoDetailsBean {
 		}
 	}
 
+	public void startTweeterBirdOauthAuthProcess() throws TwitterException, IOException{
+		//check if we have the credentials id not redirect
+		OauthAccessToken accessToken = null;
+		try
+		{
+			accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
+		}catch(IllegalAccessError iae)
+		{
+			//if there was an illegal access then we need to create the user, so we redirect to the twitter oauth page
+			//so we don't do anything because will enter in the null block
+		}
+		
+		if (accessToken == null)
+		{	
+			TwitterApiManager twitterApi = new TwitterApiManager();
+			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			externalContext.redirect(url);
+		}else
+		{
+			this.executeModal = "$('#myModal').modal('show')";
+		}
+	}
+	
+	public void tweetStatus() throws TwitterException{
+		try{
+			OauthAccessToken accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
+			new TwitterApiManager().updatestatus(accessToken, this.tweetMessage);
+			//hide the modal
+			this.executeModal = "";
+			this.informationMessage  = "<div class=\"alert alert-success\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" Tweeted succesfully :)</div>";
+		}catch (Exception e){
+			System.out.println(e.toString());
+			this.informationMessage  = "<div class=\"alert alert-error\">" +
+						"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" There was an error eith the tweet. Try again please </div>";
+		}
+	} 
 	
 	public String getPhotoId() {
 		return photoId;
@@ -232,6 +300,47 @@ public class PhotoDetailsBean {
 		this.metadataMap = metadataMap;
 	}
 
+	public String getLoggedUserNick() {
+		return loggedUserNick;
+	}
+
+	public void setLoggedUserNick(String loggedUserNick) {
+		this.loggedUserNick = loggedUserNick;
+	}
+
+	public String getTweetMessage() {
+		return tweetMessage;
+	}
+
+	public void setTweetMessage(String tweetMessage) {
+		this.tweetMessage = tweetMessage;
+	}
+
+	
+	public String getInformationMessage() {
+		return informationMessage;
+	}
+
+	public void setInformationMessage(String informationMessage) {
+		this.informationMessage = informationMessage;
+	}
+
+	public String getExecuteModal() {
+		return executeModal;
+	}
+
+	public void setExecuteModal(String executeModal) {
+		this.executeModal = executeModal;
+	}
+
+	
+	public String getPublicLink() {
+		return publicLink;
+	}
+
+	public void setPublicLink(String publicLink) {
+		this.publicLink = publicLink;
+	}
 
 	private ParamsBean getPrettyfacesParams()
 	{
@@ -240,6 +349,25 @@ public class PhotoDetailsBean {
 		return pb;
 	}
 	
+	private String retrieveSessionUserNick() {
+		//Get the current logged user's username
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth.getName();
+		
+	}
 	
+	private String getPublicPrettyURL(String photoParam, String tokenParam)
+	{
+		String mappingUrl = "public-photo";
+		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		PrettyContext context = PrettyContext.getCurrentInstance(request);
+		PrettyURLBuilder builder = new PrettyURLBuilder();
+		
+		UrlMapping mapping = context.getConfig().getMappingById(mappingUrl);
+		Object[] objs = {photoParam, tokenParam};
+		return builder.build(mapping, true, objs);
+		
+		
+	}
 
 }
