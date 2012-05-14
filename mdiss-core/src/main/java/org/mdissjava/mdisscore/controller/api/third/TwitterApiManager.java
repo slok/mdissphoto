@@ -26,7 +26,7 @@ public class TwitterApiManager {
 	private ConfigurationBuilder cb = new ConfigurationBuilder();
 	private Twitter twitter = null;
 	static private Map<String, RequestToken> requestTokens = null;
-	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth";
+	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth/";
 	final private String OAUTH_PROPERTIES = "oauth";
 	final private String TWITTER_CONSUMER_KEY = "twitter.consumer.key";
 	final private String TWITTER_COnSUMER_SECRET = "twitter.consumer.secret";

@@ -93,7 +93,7 @@
 	</url-mapping>
 	
 	<url-mapping id="twitter-oauth">
-		<pattern value="/s/twitter/oauth" />
+		<pattern value="/s/twitter/oauth/" />
 		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
