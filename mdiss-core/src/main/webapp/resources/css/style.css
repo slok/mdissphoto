@@ -159,27 +159,39 @@ div.captcha
     margin-bottom: 10px;
 }
 
+/* Make the albums beautiful! */
+
 .thumb {
     position: relative;
-    width: 370px;
-    height: 250px;
+    width: 260px;
+    height: 260px;
     margin-top:20px;
+    background-color: #000000;
+	border: 2px solid #999999;
+	-moz-box-shadow: 0px 0px 18px #000000;
+	-webkit-box-shadow: 0px 0px 18px #000000;
+	box-shadow: 0px 0px 18px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 }
 
-.text {
+.textBox {
     display: none;
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 20%;
     width: 100%;
     background: #999;
     background: rgba(0,0,0,0.7);
-    text-align: center;
-    
-    color:#FFF;
 }
-.thumb:hover .text {
+
+.text{
+	text-align: center;   
+    color:#FFF;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.thumb:hover .textBox {
     display: block;
 }
 

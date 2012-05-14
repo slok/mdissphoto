@@ -29,14 +29,16 @@
 			<div class="row-fluid">
 			  <div class="span12">	
 			  	<div class="box centered">
-		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="album" varStatus="status">
+		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="albums" varStatus="status">
 		    			<div class="thumb">
 		    				<div id="alCar#{status.index}" class="alCar">
-			    				<ui:repeat value="#{album}" varStatus="loop">				
-									<img src="#{album[loop.index]}" alt=""/>																													 
+			    				<ui:repeat value="#{albums}" var="album" varStatus="loop">				
+									 <img src="#{album}" alt=""/>																								 
 								</ui:repeat>																		
 							</div>
-							<div class="text">text text text text text text text</div>							
+							<div class="textBox">
+								<div class="text">#{albumBean.albumTitles[status.index]}</div>	
+							</div> 		
 						</div>								
 		    		</ui:repeat>
 		    	</div>	    		
