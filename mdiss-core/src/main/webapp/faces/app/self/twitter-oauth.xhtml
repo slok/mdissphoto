@@ -8,13 +8,29 @@
     
     <ui:composition template="/faces/app/self-space.xhtml">
       
-		<ui:define name="title">Twiiter oauth finish</ui:define>
+		<ui:define name="title">Twitter oauth Succesful</ui:define>
+		<ui:define name="head">
+			<STYLE type="text/css"> 
+				h1, h3{
+					text-align: center
+				} 
+			</STYLE>
+		</ui:define>
 		
 		<ui:define name="body">
-			You have succesfully authenticated with twitter service! :)
-			More information:
-			<li>#{twitterBean.token}</li>
-			<li>#{twitterBean.tokenSecret}</li>
+			<div class="row-fluid">
+				<div class="span12">
+					<h1><h:outputText rendered="#{twitterBean.allOk}" value="You have succesfully authenticated with twitter service!" /></h1>
+					<h3><h:outputText rendered="#{twitterBean.allOk}" value="For now on, you don't need to do this authentication process"/></h3>
+					
+					<h1><h:outputText rendered="#{!twitterBean.allOk}" value="There has been a problem with the twitter authentication" /></h1>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<h:graphicImage library="img" styleClass="center-thing" name="twitter_logo_blue.png" />
+				</div>
+			</div>
 		</ui:define>
 				
     </ui:composition>

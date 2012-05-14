@@ -14,7 +14,10 @@ public class Country {
 	private float x;
 	private float y;
 	
-	public Country(){}
+	public Country(){
+		id=0;
+		nombre="Unknow";
+	}
 	
 	public short getId() {
 		return id;

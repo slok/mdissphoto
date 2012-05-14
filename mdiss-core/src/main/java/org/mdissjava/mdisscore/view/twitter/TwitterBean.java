@@ -37,6 +37,7 @@ public class TwitterBean {
 			AccessToken at = twitterApi.verifyAndGetTwitterAccessToken(this.retrieveSessionUserNick(), oauthVerifier);
 			this.token = at.getToken();
 			this.tokenSecret = at.getTokenSecret();
+			System.out.println(this.token + " : " + this.tokenSecret);
 			
 			new UserOauthTokensManagerImpl().insertOrUpdateUserOauthAccessToken(retrieveSessionUserNick(), 
 																				Service.TWITTER, 

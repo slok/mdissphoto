@@ -1,24 +1,15 @@
 package org.mdissjava.mdisscore.controller.bll;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
-import org.mdissjava.commonutils.photo.status.PhotoStatus;
-import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
-import org.mdissjava.mdisscore.model.dao.TagDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.dao.impl.TagDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.slf4j.Logger;
@@ -40,20 +31,21 @@ public class PhotoManagerTest {
 	public void init()
 	{
 		Datastore ds = MorphiaDatastoreFactory.getDatastore("test");
-		this.photoManager = new PhotoManagerImpl(ds);
 		this.albumManager = new AlbumManagerImpl(ds);
+		this.photoManager = new PhotoManagerImpl(ds);
 	}
 	
 	@After
 	public void destroy() throws IOException {
-		albumManager.deleteAlbum(album);
+		//Don't run the tests, expected IOexception master album doesn't exist
+		albumManager.deleteAlbum(album.getTitle(), album.getUserNick());
 		photoManager.deletePhoto(NAME);
 
 		this.photoManager = null;
 	}
 	//TODO Problems with album deletion
 	
-	/*@Test
+	//@Test
 	public void creationTest() throws IllegalStateException, IOException {
 		
 		this.logger.info("[TEST] testUpdate TagDaoImpl");
@@ -82,6 +74,6 @@ public class PhotoManagerTest {
 			assertTrue(!(photo.getTags().isEmpty()));
 		}
 		
-	}*/
+	}
 
 }

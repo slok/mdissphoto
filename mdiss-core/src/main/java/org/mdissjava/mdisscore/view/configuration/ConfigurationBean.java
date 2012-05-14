@@ -1,12 +1,17 @@
 package org.mdissjava.mdisscore.view.configuration;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
+import org.mdissjava.mdisscore.controller.bll.AddressManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.AddressManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.pojo.City;
 import org.mdissjava.mdisscore.model.pojo.Country;
@@ -14,10 +19,11 @@ import org.mdissjava.mdisscore.model.pojo.State;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
 
 
-@ManagedBean(name = "configurationbean")
-@ViewScoped
-public class ConfigurationBean {
+@ManagedBean
+@RequestScoped
+public class ConfigurationBean implements Serializable{
 
+	AddressManager addBll = new AddressManagerImpl();
 	UserManager userBll= new UserManagerImpl();
 	private String nick;
 	private String name;
@@ -29,10 +35,13 @@ public class ConfigurationBean {
 	private String email;
 	private String password;
 	private String street;
-	private City city;	
 	private String zip;	
+	
 	private State state;
-	private Country country;
+	private Country country=new Country();
+	private City city;	
+	//Listas
+	private List<State> StatesList=new ArrayList<State>();
 	
 	
 	/**
@@ -40,7 +49,9 @@ public class ConfigurationBean {
 	 * 
 	 * @author inigorst21
 	 */
-	
+	public ConfigurationBean() 
+	{
+	}
 	
 	public void setUserBll(UserManager userBll) {
 		this.userBll = userBll;
@@ -127,14 +138,13 @@ public class ConfigurationBean {
 			return "Mujer";
 	}
 	
-
-	public Country getCountry() {
-		return country;
+	public List<Country> getCountryList()
+	{
+		return addBll.getAllCountries();
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
-	}
+
+	
 	
 	
 	public String getStreet() {
@@ -161,14 +171,9 @@ public class ConfigurationBean {
 		this.zip = zip;
 	}
 
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
 	
+	
+
 	
 	
 	

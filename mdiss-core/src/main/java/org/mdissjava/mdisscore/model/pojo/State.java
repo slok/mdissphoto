@@ -15,7 +15,10 @@ public class State {
 	private float x;
 	private float y;
 	
-	public State(){}
+	public State(){
+		id=0;
+		nombre="Unknow";
+	}
 	
 	public short getId() {
 		return id;

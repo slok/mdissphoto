@@ -268,10 +268,13 @@ public class AlbumManagerImpl implements AlbumManager{
 		//PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
 		try{
 			List<Photo> photoList = album.getPhotos();
-			System.out.println("sdasd"+photoList.size());
-			for(Photo i: photoList)
+			//if there aren't any photos, then we don't need to move
+			if (photoList != null)
 			{
-				this.movePhotoToAlbum(album.getUserNick(), DEFAULT_ALBUM_TITLE, i);
+				for(Photo i: photoList)
+				{
+					this.movePhotoToAlbum(album.getUserNick(), DEFAULT_ALBUM_TITLE, i);
+				}
 			}
 		}
 		catch(Exception e)

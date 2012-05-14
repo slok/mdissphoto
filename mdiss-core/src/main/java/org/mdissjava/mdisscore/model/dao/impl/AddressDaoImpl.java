@@ -29,7 +29,7 @@ public class AddressDaoImpl implements AddressDao {
 		// TODO get all countries
 		List<Country> countries = new ArrayList<Country>();
 		Session session = HibernateUtil.getSession();
-		Query q = session.createQuery("from Country");
+		Query q = session.createQuery("from Country order by nombre");
 		countries= q.list();
 		return countries;
 	}
@@ -37,10 +37,13 @@ public class AddressDaoImpl implements AddressDao {
 	@Override
 	public List<State> getStates(short idCountry) {
 		// TODO get all states of a country
+		System.out.println("Get States Dao");
 		List<State> states = new ArrayList<State>();
 		Session session = HibernateUtil.getSession();
 		Query q = session.createQuery("from State where id_pais =" + idCountry+ "");
 		states= q.list();
+		for(int i=0 ; i<states.size();i++)
+		{System.out.println("Estados recibidos:"+states.get(i).getNombre() );}
 		return states;
 	}
 
@@ -49,7 +52,7 @@ public class AddressDaoImpl implements AddressDao {
 		// TODO get all locations of a country and state
 		List<City> cities = new ArrayList<City>();
 		Session session = HibernateUtil.getSession();
-		Query q = session.createQuery("from City where id_pais =" + idCountry+ " and id_state ="+idState);
+		Query q = session.createQuery("from City where id_pais =" + idCountry+ " and id_region ="+idState);
 		cities= q.list();
 		return cities;
 	}

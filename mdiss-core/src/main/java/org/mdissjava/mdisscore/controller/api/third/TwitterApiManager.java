@@ -1,17 +1,16 @@
 package org.mdissjava.mdisscore.controller.api.third;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
+import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.UserOauthTokensManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserOauthTokensManagerImpl;
-import org.mdissjava.mdisscore.model.dao.UserOauthTokensDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.dao.impl.UserOauthTokensDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.UserOauthTokens.Service;
-
-import com.google.code.morphia.Datastore;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -20,25 +19,36 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
+import com.google.code.morphia.Datastore;
+
 public class TwitterApiManager {
 	
 	private ConfigurationBuilder cb = new ConfigurationBuilder();
 	private Twitter twitter = null;
 	static private Map<String, RequestToken> requestTokens = null;
-	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth";
+	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth/";
+	final private String OAUTH_PROPERTIES = "oauth";
+	final private String TWITTER_CONSUMER_KEY = "twitter.consumer.key";
+	final private String TWITTER_COnSUMER_SECRET = "twitter.consumer.secret";
 	final private Datastore datastore;
 	
-	public TwitterApiManager() throws TwitterException {
+	public TwitterApiManager() throws TwitterException, IllegalArgumentException, IOException {
 		
-		//TODO: load from properties
-		this.datastore = MorphiaDatastoreFactory.getDatastore("mdissphoto");
-		this.cb.setOAuthConsumerKey("uJOTDXfM7THTu4IIlAu6Xw");
-		this.cb.setOAuthConsumerSecret("SZONdaQ2lAipEhnPh8hScHy4MQxr7omL9bjuin8I5I");
+		//load twitter oauth props.
+		Properties oauthProperties = new PropertiesFacade().getProperties(OAUTH_PROPERTIES);
+		String consumerKey = oauthProperties.getProperty(TWITTER_CONSUMER_KEY);
+		String consumerSecret = oauthProperties.getProperty(TWITTER_COnSUMER_SECRET);
+		
+		//create twitter4j entry
+		this.cb.setOAuthConsumerKey(consumerKey);
+		this.cb.setOAuthConsumerSecret(consumerSecret);
 		this.twitter = new TwitterFactory(cb.build()).getInstance();
+		
+		this.datastore = MorphiaDatastoreFactory.getDatastore("mdissphoto");
 		
 		//we need one requestToken for each OAUTH process.
 		//we need to use the same request token (it's because of the time stamp)
-		//So we store the items in a Map
+		//So we store the items in a static Map
 		if (requestTokens == null)
 			requestTokens = new HashMap<String, RequestToken>();
 	}
