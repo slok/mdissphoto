@@ -1,5 +1,6 @@
 package org.mdissjava.mdisscore.model.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +65,12 @@ public class Album {
 		this.userNick = userNick;
 	}
 	
-	
+	public void addPhotoToAlbum(Photo p) {
+		if(this.photos == null){
+			this.photos = new ArrayList<Photo>(); 
+		}
+		this.photos.add(p);
+	}
 	
 }
 	
