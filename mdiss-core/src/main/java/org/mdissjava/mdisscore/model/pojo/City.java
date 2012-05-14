@@ -16,7 +16,10 @@ public class City {
 	private float x;
 	private float y;
 	
-	public City(){}
+	public City(){
+		id=0;
+		nombre="Unknow";
+	}
 	
 	public int getId() {
 		return id;
