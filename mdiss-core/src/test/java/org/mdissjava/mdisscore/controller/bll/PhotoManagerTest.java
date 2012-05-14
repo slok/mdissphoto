@@ -31,14 +31,15 @@ public class PhotoManagerTest {
 	public void init()
 	{
 		Datastore ds = MorphiaDatastoreFactory.getDatastore("test");
-		this.photoManager = new PhotoManagerImpl(ds);
 		this.albumManager = new AlbumManagerImpl(ds);
+		this.photoManager = new PhotoManagerImpl(ds);
 	}
 	
 	@After
 	public void destroy() throws IOException {
+		//Don't run the tests, expected IOexception master album doesn't exist
+		albumManager.deleteAlbum(album.getTitle(), album.getUserNick());
 		photoManager.deletePhoto(NAME);
-		albumManager.deleteAlbum(album);
 
 		this.photoManager = null;
 	}
