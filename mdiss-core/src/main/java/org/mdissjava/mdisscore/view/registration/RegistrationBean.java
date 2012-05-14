@@ -152,6 +152,7 @@ public class RegistrationBean {
 				user.setGender(getGender());
 				user.setAddress(address);
 				user.setConfiguration(new Configuration());
+				user.setRole("user");
 				userBll.saveUser(user);
 				
 				String outcome = "pretty:confirmation";
