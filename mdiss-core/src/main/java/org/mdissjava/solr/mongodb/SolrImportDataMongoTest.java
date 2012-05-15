@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class SolrImportDataMongoTest {
 
-	@Test
+//	@Test
 	public void loadData(){
 		try {
 			SolrImportDataMongo solr = new SolrImportDataMongo();

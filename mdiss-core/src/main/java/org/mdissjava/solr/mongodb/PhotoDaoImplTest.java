@@ -32,20 +32,20 @@ public class PhotoDaoImplTest {
 	PhotoDao photodao;
 	AlbumDao albumdao;
 
-	@Before
+//	@Before
 	public void init() {
 		db = MorphiaDatastoreFactory.getDatastore("mongoDBTest");
 		photodao = new PhotoDaoImpl(db);
 		albumdao = new AlbumDaoImpl(db);
 	}
 
-	@After
+//	@After
 	public void destroy() {
 		db = null;
 		photodao = null;
 	}
 
-	@Test
+//	@Test
 	public void testInsertFind() {
 
 		this.logger.info("[TEST] testInsertField");
