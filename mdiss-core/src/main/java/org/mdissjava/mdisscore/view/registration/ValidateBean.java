@@ -1,8 +1,14 @@
 package org.mdissjava.mdisscore.view.registration;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import org.mdissjava.mdisscore.model.dao.KeyLinkDao;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.dao.impl.KeyLinkDaoImpl;
+
+import com.google.code.morphia.Datastore;
+import com.ocpsoft.pretty.faces.annotation.URLAction;
 
 @ManagedBean(name = "validateBean")
 @ViewScoped
@@ -12,9 +18,13 @@ public class ValidateBean {
 
 	private boolean valid;
 
-	@PostConstruct
+	@URLAction
 	public void init() {
-		valid = false;
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+		System.out.println(key);
+		KeyLinkDao keyLinkDao = new KeyLinkDaoImpl(db);
+		valid = keyLinkDao.retrieveUserFromValidationLink(key) != -1 ? true
+				: false;
 	}
 
 	public String getKey() {
