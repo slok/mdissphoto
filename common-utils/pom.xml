@@ -50,6 +50,18 @@
             <artifactId>morphia</artifactId>
             <version>0.99.1-SNAPSHOT</version> 
 		</dependency>
+		
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>stringtemplate</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+            
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.2</version>
+		</dependency>
        
     </dependencies>
     
