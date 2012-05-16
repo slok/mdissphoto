@@ -84,7 +84,7 @@ public class KeyLinkDaoImpl extends BasicDAO<Photo, ObjectId> implements
 			throw new IllegalArgumentException();
 		} else {
 			Date now = new Date();
-			if (keyLink.getExpireDate().before(now)) {
+			if (now.before(keyLink.getExpireDate())) {
 				return keyLink.getUserId();
 			} else {
 				return -1;
