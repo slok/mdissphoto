@@ -41,4 +41,13 @@ public class KeyLinkDaoImplTest {
 		assertEquals(kl.getUserId(), 123456789);
 	}
 
+	@Test
+	public void retrieveTest() {
+		logger.info("KeyLinkDaoImplTest - retrieve UserID");
+		KeyLink keyLink = new KeyLink(666, KeyLink.EMAIL_VALIDATION);
+		keylinkdao.insertKeyLink(keyLink);
+		int userid = keylinkdao.retrieveUserFromValidationLink(keyLink.getId());
+		assertEquals(userid, 666);
+	}
+
 }

@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-import org.mdissjava.mdisscore.model.dao.impl.KeyLinkDaoImpl;
-
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -99,30 +97,6 @@ public class KeyLink {
 	 */
 	public int getUniqueType() {
 		return uniqueType;
-	}
-
-	/**
-	 * Return the userId of the link if the link doesn't expired yet. if the
-	 * link expired or the link doesn't exist will return -1.
-	 * 
-	 * @param link
-	 *            the link
-	 * @return the users id
-	 */
-	public static int retrieveUserFromValidationLink(String link) {
-		// TODO: KeyLinkDaoImpl how to create it?
-		KeyLinkDaoImpl keyLinkDaoImpl = new KeyLinkDaoImpl(null);
-		KeyLink keyLink = keyLinkDaoImpl.findKeyLink(link);
-		if (keyLink == null) {
-			throw new IllegalArgumentException();
-		} else {
-			Date now = new Date();
-			if (keyLink.getExpireDate().before(now)) {
-				return keyLink.getUserId();
-			} else {
-				return -1;
-			}
-		}
 	}
 
 }

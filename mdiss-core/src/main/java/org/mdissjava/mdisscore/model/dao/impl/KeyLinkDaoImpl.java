@@ -1,9 +1,11 @@
 package org.mdissjava.mdisscore.model.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.KeyLinkDao;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.KeyLink;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 
@@ -64,4 +66,29 @@ public class KeyLinkDaoImpl extends BasicDAO<Photo, ObjectId> implements
 
 	}
 
+	/**
+	 * Return the userId of the link if the link doesn't expired yet. if the
+	 * link expired or the link doesn't exist will return -1.
+	 * 
+	 * @param link
+	 *            the link
+	 * @return the users id
+	 */
+	@Override
+	public int retrieveUserFromValidationLink(String link) {
+		// TODO: KeyLinkDaoImpl how to create it?
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+		KeyLinkDao keyLinkDao = new KeyLinkDaoImpl(db);
+		KeyLink keyLink = keyLinkDao.findKeyLink(link);
+		if (keyLink == null) {
+			throw new IllegalArgumentException();
+		} else {
+			Date now = new Date();
+			if (keyLink.getExpireDate().before(now)) {
+				return keyLink.getUserId();
+			} else {
+				return -1;
+			}
+		}
+	}
 }
