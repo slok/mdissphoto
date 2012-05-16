@@ -150,11 +150,18 @@
 		<pattern value="/l/top/#{user:paramsBean.time}" />
 		<view-id value="/faces/app/logged/top.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="validate_email">
+		<pattern value="/p/validate/#{key:validateBean.key}" />
+		<view-id value="/faces/public/validate.jsf" />
+	</url-mapping>
 
 	<!-- Admin -->
 	<url-mapping id="admin">
 		<pattern value="/admin/" />
 		<view-id value="/faces/admin/admin-index.jsf" />
 	</url-mapping>
+	
+	
 	
 </pretty-config>
