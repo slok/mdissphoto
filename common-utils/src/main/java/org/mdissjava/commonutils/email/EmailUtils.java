@@ -176,6 +176,7 @@ public class EmailUtils {
 		email.setAuthenticator(new DefaultAuthenticator(properties
 				.getProperty("email.user"), properties
 				.getProperty("email.password")));
+		email.setSSL(true);
 //		email.setAuthenticator(new DefaultAuthenticator("mdissjava", "javamdiss2011"));
 		email.setTLS(true);
 		email.setFrom(properties.getProperty("email.from"));
@@ -212,6 +213,18 @@ public class EmailUtils {
 
 		//st.add("title", "Welcome To MDISS PHOTO Java ");
 		st.add("name", name);
+		EmailUtils.sendEmail(to, "Welcome to MDISS", st.render(),
+				EmailUtils.HTML);
+	}
+	
+	public static void sendValidationEmail(String to, String name, String link)
+			throws EmailException, IOException {
+		// TODO: Add all the text to properties files - i18n
+		STGroup group = new STGroupDir("src/main/resources/templates", '$', '$');
+		ST st = group.getInstanceOf("welcome");
+
+		st.add("name", name);
+		st.add("link", link);
 		EmailUtils.sendEmail(to, "Welcome to MDISS", st.render(),
 				EmailUtils.HTML);
 	}

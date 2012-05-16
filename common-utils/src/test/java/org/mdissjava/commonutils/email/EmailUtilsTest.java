@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.apache.commons.mail.EmailException;
 import org.junit.Test;
@@ -31,7 +32,8 @@ public class EmailUtilsTest {
 	@Test
 	public void TemplateEmailTest() {
 		try {
-			EmailUtils.sendWelcomeEmail("jose.maesog@gmail.com", "Jose Maeso");
+			EmailUtils.sendValidationEmail("slok69@gmail.com", "Xabier Larrakoetxea", "http://localhost:8080/mdissphoto/p/validate/" + UUID.randomUUID().toString());
+			//EmailUtils.sendEmail("jose.maesog@gmail.com", "Prueba Email", "A ver si llega esto", EmailUtils.TEXT);
 		} catch (EmailException e) {
 			fail("Exception ocurred sending email");
 		} catch (IOException e) {
