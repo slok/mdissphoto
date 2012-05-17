@@ -1,22 +1,47 @@
 package org.mdissjava.mdisscore.model.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Configuration {
 	
+	@Column(name="shownick")
 	private boolean showNick;
+	
+	@Column(name="showname")
 	private boolean	showName;
+	
+	@Column(name="showsurname")
 	private boolean showSurname;
+	
+	@Column(name="showemail")
 	private boolean showEmail;
+	
+	@Column(name="showbirthdate")
 	private boolean showBirthdate;
+	
+	@Column(name="showphone")
 	private boolean showPhone;
+	
+	@Column(name="showgender")
 	private boolean showGender;
+	
+	@Column(name="showcity")	
 	private boolean showCity;
+	
+	@Column(name="showcountry")
 	private boolean showCountry;
+	
+	@Column(name="showaddress")	
 	private boolean showAddress;	
+	
+	@Column(name="showzip")
 	private boolean showZip;	
+	
+	@Column(name="showcameras")
 	private boolean showCameras;
+	
 	
 	public Configuration(){
 		showNick = true;
