@@ -6,8 +6,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.mdissjava.mdisscore.model.dao.KeyLinkDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.KeyLinkDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 
 import com.google.code.morphia.Datastore;
@@ -17,7 +19,7 @@ import com.google.code.morphia.Datastore;
 public class ValidateBean {
 
 	private String key;
-
+	private UserDao userDao=new UserDaoImpl();
 	private boolean valid;
 
 	@PostConstruct
@@ -37,6 +39,7 @@ public class ValidateBean {
 
 		if (valid) {
 			// TODO: Activate User using the userId
+			userDao.activateUser(userId);
 		}
 	}
 

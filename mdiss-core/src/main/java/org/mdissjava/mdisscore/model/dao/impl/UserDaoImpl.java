@@ -167,6 +167,19 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
+	@Override
+	public void activateUser(int userid) {
+		// TODO activate User by id
+		User usuario=this.getUserById(userid);
+		if(usuario!=null)
+		{
+			usuario.setActive(true);
+			this.updateUser(usuario);
+		}
+	}
+	
+	
+
 
 
 }
