@@ -80,6 +80,7 @@ public class KeyLinkDaoImpl extends BasicDAO<Photo, ObjectId> implements
 		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
 		KeyLinkDao keyLinkDao = new KeyLinkDaoImpl(db);
 		KeyLink keyLink = keyLinkDao.findKeyLink(link);
+
 		if (keyLink == null) {
 			throw new IllegalArgumentException();
 		} else {

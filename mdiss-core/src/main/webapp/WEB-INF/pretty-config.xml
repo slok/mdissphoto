@@ -44,6 +44,11 @@
 		<view-id value="/faces/public/register-confirmation.jsf" />
 	</url-mapping>	
 	
+	<url-mapping id="validate_email">
+		<pattern value="/p/validate/#{token:paramsBean.token}" />
+		<view-id value="/faces/public/validate.jsf" />
+	</url-mapping>
+	
 	<!-- Errors -->
 	<url-mapping id="upload-error">
 		<pattern value="/e/upload/" />
@@ -149,11 +154,6 @@
 	<url-mapping id="top">
 		<pattern value="/l/top/#{user:paramsBean.time}" />
 		<view-id value="/faces/app/logged/top.xhtml" />
-	</url-mapping>
-	
-	<url-mapping id="validate_email">
-		<pattern value="/p/validate/#{key:validateBean.key}" />
-		<view-id value="/faces/public/validate.jsf" />
 	</url-mapping>
 
 	<!-- Admin -->
