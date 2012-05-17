@@ -169,18 +169,14 @@ public class EmailUtils {
 		Properties properties = propertiesFacade.getProperties("globals");
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName(properties.getProperty("email.hostname"));
-//		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(Integer.parseInt(properties
 				.getProperty("email.smtpport")));
-//		email.setSmtpPort(465);
 		email.setAuthenticator(new DefaultAuthenticator(properties
 				.getProperty("email.user"), properties
 				.getProperty("email.password")));
 		email.setSSL(true);
-//		email.setAuthenticator(new DefaultAuthenticator("mdissjava", "javamdiss2011"));
 		email.setTLS(true);
 		email.setFrom(properties.getProperty("email.from"));
-//		email.setFrom("mdissjava@gmail.com");
 		email.addTo(to);
 		email.setSubject(subject);
 
