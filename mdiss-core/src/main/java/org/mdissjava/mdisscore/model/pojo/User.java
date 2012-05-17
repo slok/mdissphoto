@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,11 +44,16 @@ public class User implements Serializable {
 	private Date birthdate;	
 	private int phone;
 	private int avatar;
-	private Date registereddate;	
-	private Date lastsession;
-	//@Column(columnDefinition = "TINYINT")
+	
+	@Column(name="registereddate")
+	private Date registeredDate;	
+	
+	@Column(name="lastsession")
+	private Date lastSession;
+		
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;	
+	
 	private String preferences;
 	private String role;
 	
@@ -89,8 +95,8 @@ public class User implements Serializable {
 	
 	public User(){
 		configuration = new Configuration();		
-		registereddate = new Date();
-		lastsession = new Date();		
+		registeredDate = new Date();
+		lastSession = new Date();		
 		followers = new ArrayList<User>();
 		follows = new ArrayList<User>();
 	}	
@@ -152,11 +158,11 @@ public class User implements Serializable {
 	}
 	
 	public Date getRegisteredDate() {
-		return registereddate;
+		return registeredDate;
 	}
 	
 	public void setRegisteredDate(Date registeredDate) {
-		this.registereddate = registeredDate;
+		this.registeredDate = registeredDate;
 	}
 	
 	public boolean isActive() {
@@ -168,11 +174,11 @@ public class User implements Serializable {
 	}
 	
 	public Date getLastSession() {
-		return lastsession;
+		return lastSession;
 	}
 	
 	public void setLastSession(Date lastSession) {
-		this.lastsession = lastSession;
+		this.lastSession = lastSession;
 	}
 	
 	public String getRole() {
@@ -296,8 +302,8 @@ public class User implements Serializable {
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (birthdate != null ? !birthdate.equals(user.birthdate) : user.birthdate != null) return false;
         if (phone != (user.phone)) return false;
-        if (registereddate != null ? !registereddate.equals(user.registereddate) : user.registereddate != null) return false;
-        if (lastsession != null ? !lastsession.equals(user.lastsession) : user.lastsession != null) return false;
+        if (registeredDate != null ? !registeredDate.equals(user.registeredDate) : user.registeredDate != null) return false;
+        if (lastSession != null ? !lastSession.equals(user.lastSession) : user.lastSession != null) return false;
         if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return true;
     }
@@ -308,7 +314,7 @@ public class User implements Serializable {
 		String rest;
 		rest = "Name:" + name +   " Surname:" + surname + "\n" +
 			   "Birthdate:" + birthdate + " Phone:" + phone + "\n" +
-			   "Avatar:" + avatar +  " RegisteredDate:" + registereddate + "\n";
+			   "Avatar:" + avatar +  " RegisteredDate:" + registeredDate + "\n";
 
 		return rest;
 	}
