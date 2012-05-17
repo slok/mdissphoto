@@ -43,8 +43,8 @@ public class User implements Serializable {
 	private Date birthdate;	
 	private int phone;
 	private int avatar;
-	private Date registeredDate;	
-	private Date lastSession;
+	private Date registereddate;	
+	private Date lastsession;
 	//@Column(columnDefinition = "TINYINT")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;	
@@ -60,8 +60,8 @@ public class User implements Serializable {
 		targetEntity = org.mdissjava.mdisscore.model.pojo.User.class
 	)		   
 	@JoinTable(name="follows",
-	 joinColumns=@JoinColumn(name="userId"),
-	 inverseJoinColumns=@JoinColumn(name="followsUserId")
+	 joinColumns=@JoinColumn(name="userid"),
+	 inverseJoinColumns=@JoinColumn(name="followsuserid")
 	)
 	private List<User> follows = new ArrayList<User>();
 	
@@ -69,9 +69,9 @@ public class User implements Serializable {
 			fetch = FetchType.LAZY,
 			targetEntity = org.mdissjava.mdisscore.model.pojo.User.class			
 	)
-	@JoinTable(name="followedBy",
-	 joinColumns=@JoinColumn(name="userId"),
-	 inverseJoinColumns=@JoinColumn(name="followedById")
+	@JoinTable(name="followedby",
+	 joinColumns=@JoinColumn(name="userid"),
+	 inverseJoinColumns=@JoinColumn(name="followedbyid")
 	)
 	private List<User> followers;
 	
@@ -89,8 +89,8 @@ public class User implements Serializable {
 	
 	public User(){
 		configuration = new Configuration();		
-		registeredDate = new Date();
-		lastSession = new Date();		
+		registereddate = new Date();
+		lastsession = new Date();		
 		followers = new ArrayList<User>();
 		follows = new ArrayList<User>();
 	}	
@@ -152,11 +152,11 @@ public class User implements Serializable {
 	}
 	
 	public Date getRegisteredDate() {
-		return registeredDate;
+		return registereddate;
 	}
 	
 	public void setRegisteredDate(Date registeredDate) {
-		this.registeredDate = registeredDate;
+		this.registereddate = registeredDate;
 	}
 	
 	public boolean isActive() {
@@ -168,11 +168,11 @@ public class User implements Serializable {
 	}
 	
 	public Date getLastSession() {
-		return lastSession;
+		return lastsession;
 	}
 	
 	public void setLastSession(Date lastSession) {
-		this.lastSession = lastSession;
+		this.lastsession = lastSession;
 	}
 	
 	public String getRole() {
@@ -296,8 +296,8 @@ public class User implements Serializable {
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (birthdate != null ? !birthdate.equals(user.birthdate) : user.birthdate != null) return false;
         if (phone != (user.phone)) return false;
-        if (registeredDate != null ? !registeredDate.equals(user.registeredDate) : user.registeredDate != null) return false;
-        if (lastSession != null ? !lastSession.equals(user.lastSession) : user.lastSession != null) return false;
+        if (registereddate != null ? !registereddate.equals(user.registereddate) : user.registereddate != null) return false;
+        if (lastsession != null ? !lastsession.equals(user.lastsession) : user.lastsession != null) return false;
         if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return true;
     }
@@ -308,7 +308,7 @@ public class User implements Serializable {
 		String rest;
 		rest = "Name:" + name +   " Surname:" + surname + "\n" +
 			   "Birthdate:" + birthdate + " Phone:" + phone + "\n" +
-			   "Avatar:" + avatar +  " RegisteredDate:" + registeredDate + "\n";
+			   "Avatar:" + avatar +  " RegisteredDate:" + registereddate + "\n";
 
 		return rest;
 	}
