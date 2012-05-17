@@ -98,6 +98,13 @@ public class UserManagerImpl implements UserManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void activateUser(int idUser) {
+		// TODO activate user business layer function
+		userDao.activateUser(idUser);
+		
+	}
 		
 
 

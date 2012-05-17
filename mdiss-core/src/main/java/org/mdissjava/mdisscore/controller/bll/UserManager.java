@@ -22,6 +22,7 @@ public interface UserManager {
 	boolean emailAlreadyExists(String email);
 	boolean nickAlreadyExists(String nick);
 	public void addFollow(String nick);
+	public void activateUser(int idUser);
 	
 }
 	
