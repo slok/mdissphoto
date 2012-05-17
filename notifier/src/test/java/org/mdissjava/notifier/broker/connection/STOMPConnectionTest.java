@@ -54,7 +54,7 @@ public class STOMPConnectionTest {
 		Session session = connection.getSession();
 		
 		//produce X messages message (from 1 to 50)
-		VerifyAccountEvent event  = new VerifyAccountEvent("slok");
+		VerifyAccountEvent event  = new VerifyAccountEvent("slok", "slok69@gmail.com", "www.google.es");
 		ObjectMessage msg = session.createObjectMessage(event);
 		for (int i=0; i < MESSAGES; i++)
 		{
