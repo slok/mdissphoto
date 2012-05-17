@@ -215,7 +215,7 @@ public class EmailUtils {
 	
 	public static void sendValidationEmail(String to, String name, String link)
 			throws EmailException, IOException {
-		// TODO: Add all the text to properties files - i18n
+		System.out.println("================================================================");
 		STGroup group = new STGroupDir("src/main/resources/templates", '$', '$');
 		ST st = group.getInstanceOf("welcome");
 
