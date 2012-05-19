@@ -133,7 +133,7 @@ public class PhotoDetailsBean {
 					
 			}
 			
-			// we want to know wich is the best photo for the display of the detail. 
+			// we want to know which is the best photo for the display of the detail. 
 			// Max is 640px but some photos are smaller than 640px so we set the original size
 			//and if the photo is bigger than 640 then set the size to 640
 			//get the database of the photos and create the url with the appropiate image

@@ -115,7 +115,7 @@
 	</url-mapping>
 
 	<url-mapping id="album-detail">
-		<pattern value="/user/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
+		<pattern value="/u/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
 		<view-id value="/faces/app/user/album-detail.jsf" />
 	</url-mapping>
 
