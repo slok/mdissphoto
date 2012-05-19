@@ -62,12 +62,10 @@ public class PhotoManagerImpl implements PhotoManager{
 
 		this.logger.debug("Splitting tags");
 		if (regex == null)
-			regex = "\\, ";
+			regex = "\\,";
 		
 		String[] splittedTags = tags.split(regex);
 
-		
-		
 		ArrayList<String> tagList = new ArrayList<String>();
 		for (String i:splittedTags)
 			tagList.add(i);
@@ -129,7 +127,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(this.splitTags(tags, "\\, "));
+			p.setTags(this.splitTags(tags, "\\,"));
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
