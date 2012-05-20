@@ -140,7 +140,7 @@ public class PhotoDetailsBean {
 			
 			String bucket;
 			String bucketPropertyKey = null;
-			if(photoSize >= PHOTO_SHOW_SIZE)//500px size
+			if(photoSize > PHOTO_SHOW_SIZE)//640px size
 			{
 				bucketPropertyKey = "thumbnail.scale." + PHOTO_SHOW_SIZE + "px.bucket.name";
 				bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
