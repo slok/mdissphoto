@@ -3,13 +3,13 @@ $(document).ready(function() {
 	var t;
 	var id;
 	
-		  $('.box').masonry({
-		    // options
-		    itemSelector : '.thumb',
-		    gutterWidth : 20,
-		    isResizable : true,
-		    isFitWidth : true
-		  });
+	$('.box').masonry({
+	    // options
+	    itemSelector : '.thumb',
+	    gutterWidth : 20,
+	    isResizable : true,
+	    isFitWidth : true
+	});
 	
 	$('.alCar').hover(
 		function () {

@@ -4,33 +4,41 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
     <ui:composition template="/faces/app/user-space.xhtml">
+    
+	    <ui:define name="head">
+	    
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+			
+	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
+	     	<h:outputScript library="js" name="albumContent.js" />	 
+	     	    		
+		</ui:define>
       
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
 		
 		<ui:define name="body">
 			<div class="row-fluid">
 			  <div class="span12">	
-			  	<div class="box centered">
-		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="albums" varStatus="status">
-		    			<div class="thumb">
-		    				<div id="alCar#{status.index}" class="alCar">
-			    				<ui:repeat value="#{albums}" var="album" varStatus="loop">				
-									 <img src="#{album}" alt=""/>																								 
-								</ui:repeat>																		
-							</div>
+			  <!-- TODO: Add erase album and modify title options  -->
+			  	<div class="well centered">	  		
+			  		<div class="centeredText">#{albumDetailsBean.albumTitle}</div>
+			  	</div>
+			  	<div class="box centered">	
+		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
+		   				<div class="thumb">			
+							<img src="#{photoURL}" alt=""/>																								 																								
 							<div class="textBox">
-								<div class="text">#{albumBean.albumTitles[status.index]}</div>	
-							</div> 		
+								<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
+							</div> 
 						</div>								
 		    		</ui:repeat>
 		    	</div>	    		
-			  </div> 
-			</div>
-			
-							
+			  </div> 		
+			</div>					
 		</ui:define>
 				
     </ui:composition>

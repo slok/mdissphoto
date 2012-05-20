@@ -255,14 +255,17 @@ div.captcha
     margin-bottom: 10px;
 }
 
-/* Make the albums beautiful! */
+/* Make the albums & photos beautiful! */
 
 .thumb {
-    position: relative;
+	position: relative;
     width: 260px;
     height: 260px;
     margin-top:20px;
     background-color: #000000;
+}
+
+#thumbAlbum {
 	border: 2px solid #999999;
 	-moz-box-shadow: 0px 0px 18px #000000;
 	-webkit-box-shadow: 0px 0px 18px #000000;
@@ -287,8 +290,15 @@ div.captcha
     margin: 10px;
 }
 
+.centeredText{
+	text-align: center;   
+    font-size: 18px;
+}
+
 .thumb:hover .textBox {
     display: block;
 }
 
-.centered { margin: 0 auto; }​
+.centered { margin: 0 auto; }
+
+​
