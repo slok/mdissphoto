@@ -28,26 +28,26 @@
 	   	 	<tr>
 	   	 		<td>
 		    		<h:panelGrid columns="2" cellpadding="5">
-			    		<h:outputText value="Country: " />
+			    		<h:outputText value="Country:* " />
 			    		  
 			            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
-			                <f:selectItem itemLabel="Select Country" itemValue="" />  
+			                <f:selectItem itemLabel="Select Country" itemValue="0" />  
 			                <f:selectItems value="#{geoConfiguration.countries}" />  
 			                <p:ajax id="ACountry" update="SOMstates,SOMcities,situationMap"  
 			                        listener="#{geoConfiguration.AjaxCountryChange}" />  
 			            </p:selectOneMenu>  
 			            
-			  			<h:outputText value="State: " />
+			  			<h:outputText value="State:* " />
 			            <p:selectOneMenu id="SOMstates" value="#{geoConfiguration.state}">  
-			                <f:selectItem itemLabel="Select State" itemValue="" />  
+			                <f:selectItem itemLabel="Select State" itemValue="0" />  
 			                <f:selectItems value="#{geoConfiguration.states}" />
 			                  <p:ajax id="AState" update="SOMcities,situationMap"  
 			                        listener="#{geoConfiguration.AjaxStateChange}" />  
 			            </p:selectOneMenu>  
 			              
-			            <h:outputText value="City: " />
+			            <h:outputText value="City:* " />
 			            <p:selectOneMenu id="SOMcities" value="#{geoConfiguration.city}">  
-			                <f:selectItem itemLabel="Select City" itemValue="" />  
+			                <f:selectItem itemLabel="Select City" itemValue="0" />  
 			                <f:selectItems value="#{geoConfiguration.cities}" />
 			                <p:ajax id="ACity" update="situationMap"  
 			                        listener="#{geoConfiguration.AjaxCityChange}" />  

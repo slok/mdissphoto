@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletException;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
@@ -40,11 +41,11 @@ public class GeoConfiguration implements Serializable{
 	
 	private User user;
 	
-    private String country;  
+    private String country="0";  
   
-    private String state;
+    private String state="0";
     
-    private String city;
+    private String city="0";
     
     private String zip;
     
@@ -87,6 +88,8 @@ public class GeoConfiguration implements Serializable{
     		this.setCity(String.valueOf(user.getAddress().getCity().getId()));
     		this.setStreet(user.getAddress().getStreet());
     		this.setZip(user.getAddress().getZip());
+    		this.setCoordenadasXY(user.getAddress().getCity().getX(), user.getAddress().getCity().getY());
+    		this.zoom=13;
     	}
     	
     }  
@@ -185,6 +188,7 @@ public class GeoConfiguration implements Serializable{
         else  
         {    
         	cities = new HashMap<String, String>();
+        	this.setCity("0");
         }
     }
 	
@@ -211,6 +215,8 @@ public class GeoConfiguration implements Serializable{
         {    
         	states = new HashMap<String, String>();
         	cities = new HashMap<String, String>();
+        	this.setState("0");
+        	this.setCity("0");
         }
     } 
     
@@ -293,6 +299,9 @@ public class GeoConfiguration implements Serializable{
 	
 	public String doSave() throws ServletException, IOException
 	{
+		//System.out.println("Valores de cidauda, stado y pais: "+this.getCity()+" , "+ this.getState() +" , "+this.getCountry());
+		if(!this.getCountry().equals("0")&& !this.getState().equals("0") && !this.getCity().equals("0"))
+		{
 		this.user.getAddress().setCountry(this.getCountryObject());
 		this.user.getAddress().setState(this.getStateObject());
 		this.user.getAddress().setCity(this.getCityObject());
@@ -301,8 +310,17 @@ public class GeoConfiguration implements Serializable{
 		
 		this.userManager.saveUser(this.user);
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Saved"));
-			
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Geographical data update"));
+		}
+		else
+		{
+			FacesMessage msg	=new FacesMessage("Location Save Failed.", 
+					"Please enter a valid City, State and Country.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null , msg);
+					
+		
+		}
 		return null;
 	
 	}
