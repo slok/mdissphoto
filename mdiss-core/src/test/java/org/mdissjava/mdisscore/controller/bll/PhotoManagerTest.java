@@ -44,7 +44,7 @@ public class PhotoManagerTest {
 		this.photoManager = null;
 	}
 	
-	@Test
+	//@Test
 	public void creationTest() throws IllegalStateException, IOException {
 		
 		this.logger.info("[TEST] testUpdate TagDaoImpl");
