@@ -148,47 +148,10 @@
 				<div class="tab-pane" id="tab2">
 				
 					 <h2>Configure your privacy settings</h2>
-				
-					 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">  
-					  
-					        <h:outputText value="Show nick: " />  
-					        <p:selectBooleanCheckbox value="#{userBean.user.configuration.showNick}" />  
-					  
-					        <h:outputText value="Show name: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showName}" />   
+					 <ui:insert name="SecSettingContent" >
+						<ui:include src="/faces/app/self/settings/sec-settings.xhtml"/>
+					</ui:insert>
 
-					        <h:outputText value="Show surname: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showSurname}" /> 
-				        	
-				     		<h:outputText value="Show email: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showEmail}" /> 
-				        	
-				    		<h:outputText value="Show birthdate: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showBirthdate}" /> 
-				        	
-				     		<h:outputText value="Show phone: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showPhone}" /> 
-
-				     		<h:outputText value="Show gender: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showGender}" /> 
-				        	
-				     		<h:outputText value="Show address: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showAddress}" /> 
-				        	
-				        	<h:outputText value="Show city: " />  
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCity}" /> 
-				        	
-				        	<h:outputText value="Show country: " />  				        				        					        	 				        	     				         
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCountry}" /> 
-				        	
-				        	<h:outputText value="Show zip code: " />  				        				        					        	 				        	     				
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showZip}" /> 
-				        	
-				        	<h:outputText value="Show cameras: " />  				        				        					        	 				        	     				      
-				        	<p:selectBooleanCheckbox value="#{userBean.user.configuration.showCameras}" /> 					        	
-					  
-					    </h:panelGrid>  
-				  
 				</div>
 				<div class="tab-pane" id="tab3">
 				

@@ -310,7 +310,7 @@ public class GeoConfiguration implements Serializable{
 		
 		this.userManager.saveUser(this.user);
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Geographical data update"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Geographical settings updated"));
 		}
 		else
 		{
