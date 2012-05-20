@@ -26,6 +26,7 @@ public class PhotoManagerTest {
 	private final String NAME = "715_15_4_7357";
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final Album album = new Album();
+	private final Album albumMaster = new Album();
 	
 	@Before
 	public void init()
@@ -37,20 +38,18 @@ public class PhotoManagerTest {
 	
 	@After
 	public void destroy() throws IOException {
-		//Don't run the tests, expected IOexception master album doesn't exist
 		albumManager.deleteAlbum(album.getTitle(), album.getUserNick());
 		photoManager.deletePhoto(NAME);
-
+		albumManager.forceDeleteAlbum(albumMaster);
 		this.photoManager = null;
 	}
-	//TODO Problems with album deletion
 	
 	//@Test
 	public void creationTest() throws IllegalStateException, IOException {
 		
 		this.logger.info("[TEST] testUpdate TagDaoImpl");
 		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
-		
+			
 		PhotoManagerImpl pManager = new PhotoManagerImpl(db);
 				
 		String tags = "animals, cats, dogs, police, dogs" ;
@@ -58,6 +57,11 @@ public class PhotoManagerTest {
 		String albumTitle = "Jaiak 2012";
 		String userNickname = "slok";
 		
+		albumMaster.setTitle("Master");
+		albumMaster.setUserNick(userNickname);
+		
+		albumManager.insertAlbum(albumMaster);		
+
 		album.setTitle(albumTitle);
 		album.setUserNick(userNickname);
 		albumManager.insertAlbum(album);
@@ -76,4 +80,5 @@ public class PhotoManagerTest {
 		
 	}
 
+	
 }
