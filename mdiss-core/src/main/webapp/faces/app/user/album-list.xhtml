@@ -4,14 +4,51 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
     
     <ui:composition template="/faces/app/user-space.xhtml">
       
-		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+		<ui:define name="head">
+		
+			<!-- for the album slider -->
+     		<link href='http://ryrych.github.com/rcarousel/widget/css/rcarousel.css' rel='stylesheet' type='text/css'/>
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>	
+     		
+     		<h:outputScript library="js" name="jquery.masonry.min.js" />
+     		<h:outputScript library="js" name="albumsPresentation.js" />
+     		
+     		<script>$(document).ready(function() { initCarousel(#{fn:length(albumBean.albumPhotosURLs)}); });</script>
+     		
+		</ui:define>
 		
 		<ui:define name="body">
-								
+			<div class="row-fluid">
+			  <div class="span12">	
+			  	<div class="box centered">
+		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="albums" varStatus="status">
+		    			<div id="thumbAlbum" class="thumb">
+		    				<pretty:link mappingId="album-detail" >
+		    					<f:param value="#{albumBean.userNick}" />
+								<f:param value="#{albumBean.albumTitles[status.index]}" />
+			    				<div id="alCar#{status.index}" class="alCar">
+				    				<ui:repeat value="#{albums}" var="album">				
+										 <img src="#{album}" alt=""/>																								 
+									</ui:repeat>																		
+								</div>
+								<div class="textBox">
+									<div class="text">#{albumBean.albumTitles[status.index]}</div>	
+								</div> 	
+							</pretty:link>		
+						</div>								
+		    		</ui:repeat>
+		    	</div>	    		
+			  </div> 
+			</div>						
 		</ui:define>
 				
     </ui:composition>
