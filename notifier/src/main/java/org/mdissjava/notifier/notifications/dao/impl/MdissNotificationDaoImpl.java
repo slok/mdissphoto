@@ -1,10 +1,12 @@
 package org.mdissjava.notifier.notifications.dao.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.notifier.notifications.dao.MdissNotificationDao;
 import org.mdissjava.notifier.notifications.pojo.MdissNotification;
+import org.mdissjava.notifier.notifications.pojo.PhotoUploadedNotification;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.dao.BasicDAO;
@@ -72,19 +74,40 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 	}
 
 	
-	public List<MdissNotification> findUsersMdissNotifications(String userName, int limit) throws IllegalStateException{
+	public List<MdissNotification> findUsersMdissNotifications(String userName, int limit) throws IllegalArgumentException{
 		
 		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).limit(limit);
 		
 		if (userName != null) {
 			query.field("selfUserName").equal(userName);
 		}else
-			throw new IllegalStateException("Need username to search users notifications");
+			throw new IllegalArgumentException("Need username to search users notifications");
 		
 		List<MdissNotification> mdissNotifications = query.asList();
 
 		return mdissNotifications;
 	}
+	
+	public PhotoUploadedNotification findPhotoUploadedNotifications(String userName, String photoId) throws IllegalStateException, IllegalArgumentException{
+		
+		Query<PhotoUploadedNotification> query = ds.createQuery(PhotoUploadedNotification.class);
+		
+		if (userName != null && photoId != null) {
+			query.field("selfUserName").equal(userName);
+			query.field("photoId").equal(photoId);
+		}else
+			throw new IllegalArgumentException("Need username to search users notifications");
+		
+		List<PhotoUploadedNotification> mdissNotifications = query.asList();
+		
+		if (mdissNotifications.size() > 1)
+			throw new IllegalStateException("Too many results");
+		else if (mdissNotifications.size() == 0 )
+			throw new IllegalStateException("No notification match");
+
+		return (PhotoUploadedNotification)mdissNotifications.get(0);
+	}
+	
 	
 	@Override
 	public void deleteMdissNotification(MdissNotification mdissNotification) {
