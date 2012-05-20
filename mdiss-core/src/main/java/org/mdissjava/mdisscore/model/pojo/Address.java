@@ -34,6 +34,9 @@ public class Address {
 		Country c=dao.getCountry(this.country);
 		return c;
 	}
+	
+	public short getCountryId()
+	{return this.country;}
 
 	public void setCountry(Country country) {
 		this.country = country.getId();

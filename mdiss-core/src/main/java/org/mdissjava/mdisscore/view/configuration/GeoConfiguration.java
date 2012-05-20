@@ -1,5 +1,6 @@
 package org.mdissjava.mdisscore.view.configuration;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -10,16 +11,22 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
 
+import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.dao.AddressDao;
 import org.mdissjava.mdisscore.model.dao.impl.AddressDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.City;
 import org.mdissjava.mdisscore.model.pojo.Country;
 import org.mdissjava.mdisscore.model.pojo.State;
+import org.mdissjava.mdisscore.model.pojo.User;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @ManagedBean
 @ViewScoped
@@ -27,11 +34,21 @@ public class GeoConfiguration implements Serializable{
 	
 	private AddressDao adBll=new AddressDaoImpl(); 
 	
+	private UserManager userManager;
+	
+	private String userNick;
+	
+	private User user;
+	
     private String country;  
   
     private String state;
     
     private String city;
+    
+    private String zip;
+    
+    private String street;
     
     private float coordx=(float) 39.095963;
     
@@ -47,9 +64,31 @@ public class GeoConfiguration implements Serializable{
   
     public GeoConfiguration() { 
     	
+    	this.userNick = retrieveSessionUserNick();
+		
+		userManager = new UserManagerImpl();		
+		this.user = userManager.getUserByNick(this.userNick);	
+    	
+    	
     	List<Country>Lpaises= adBll.getCountries();	
     	for(int i=0;i<Lpaises.size();i++)
     		countries.put(Lpaises.get(i).getNombre(),Short.toString(Lpaises.get(i).getId()));
+    	
+    	if(user.getAddress().getCountryId()!=0)
+    	{
+    		this.setCountry(String.valueOf(user.getAddress().getCountryId()));
+    		List<State>Lstate = adBll.getStates(user.getAddress().getCountryId());
+    		for(int i=0;i<Lstate.size();i++)
+        		states.put(Lstate.get(i).getNombre(),Short.toString(Lstate.get(i).getId()));
+    		List<City>Lcities = adBll.getCities(user.getAddress().getCountryId(),user.getAddress().getState().getId());
+    		for(int i=0;i<Lcities.size();i++)
+        		cities.put(Lcities.get(i).getNombre(),Integer.toString(Lcities.get(i).getId()));
+    		this.setState(String.valueOf(user.getAddress().getState().getId()));
+    		this.setCity(String.valueOf(user.getAddress().getCity().getId()));
+    		this.setStreet(user.getAddress().getStreet());
+    		this.setZip(user.getAddress().getZip());
+    	}
+    	
     }  
       
     public String getCountry() {  
@@ -235,9 +274,45 @@ public class GeoConfiguration implements Serializable{
 		simpleModel.addOverlay(new Marker(coord1, "Your location"));  
 		return simpleModel;
 	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
 	
+	public String doSave() throws ServletException, IOException
+	{
+		this.user.getAddress().setCountry(this.getCountryObject());
+		this.user.getAddress().setState(this.getStateObject());
+		this.user.getAddress().setCity(this.getCityObject());
+		this.user.getAddress().setStreet(this.getStreet());
+		this.user.getAddress().setZip(this.getZip());
+		
+		this.userManager.saveUser(this.user);
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Saved"));
+			
+		return null;
+	
+	}
 
-
+	private String retrieveSessionUserNick() {
+		  //Get the current logged user's username
+		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		  return auth.getName();
+		   
+		 }
  
 }  
 

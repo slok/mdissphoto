@@ -10,12 +10,25 @@
 
 	<ui:define name="title">USER SETTINGS</ui:define>
 
+        <ui:define name="head">
+    	<script src="http://maps.google.com/maps/api/js?sensor=false"
+		type="text/javascript"></script>
+    	</ui:define>
+    
+
+		
+		<ui:define name="bootstrap-jquery">
+		 <!-- Primefaces sets the javascript 1.7.1 automatically ¬¬ -->
+		</ui:define>
+
+
 	<ui:define name="body">
 
 		<div class="tabbable tabs-left">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#tab1" data-toggle="tab">Personal info</a></li>
 				<li><a href="#tab2" data-toggle="tab">Privacy settings</a></li>
+				<li><a href="#tab3" data-toggle="tab">Geographical settings</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
@@ -108,50 +121,10 @@
 				<hr/>
 				 <h2>Tell us more about yourself</h2>
 					
-				<!--	<ui:include src="/faces/app/self/settings/geo-settings.xhtml"/>	-->	
 					<h:form id="formDetails">						
 						<p:growl id="growl" sticky="true" showDetail="true" />
 
-					 	<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-
-							<h:outputLabel value="Street: " />
-							<p:inplace>
-								<p:inputText id="street" value="#{userBean.user.address.street}" label="Street"/>																	
-							</p:inplace>
-														
-							<h:outputLabel value="City:" />
-							<p:inplace>
-								<p:selectOneMenu id="selectCity" value="Bilbao"
-									label="City">
-									<f:selectItem itemValue="Bilbao" itemLabel="Bilbao" />
-									<f:selectItem itemValue="Gipuzkoa" itemLabel="Gipuzkoa" />
-								</p:selectOneMenu>								
-							</p:inplace>
-							
-							<h:outputLabel value="State:" />
-							<p:inplace>
-								<p:selectOneMenu id="selectState" value="Vizcaya"
-									label="State">
-									<f:selectItem itemValue="Vizcaya" itemLabel="Vizcaya" />
-									<f:selectItem itemValue="Donosti" itemLabel="Donosti" />
-								</p:selectOneMenu>								
-							</p:inplace>							
-
-							<h:outputLabel value="Country:" />
-							<p:inplace>
-								<p:selectOneMenu id="selectCountry" value="Spain"
-									label="Country">
-									<f:selectItem itemValue="Spain" itemLabel="Spain" />
-									<f:selectItem itemValue="London" itemLabel="London" />
-								</p:selectOneMenu>								
-							</p:inplace>
-
-							<h:outputLabel value="Zip:" />
-							<p:inplace>
-								<p:inputText id="zip" value="#{userBean.user.address.zip}"
-									label="Surname"/>
-						
-							</p:inplace>
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
 
 							<h:outputLabel value="Phone number:" />
 							<p:inplace>
@@ -169,7 +142,7 @@
 						
 						</h:panelGrid>
 
-					</h:form>			
+					</h:form>				
 				
 				</div>
 				<div class="tab-pane" id="tab2">
@@ -217,9 +190,15 @@
 					    </h:panelGrid>  
 				  
 				</div>
-			</div>
+				<div class="tab-pane" id="tab3">
+				
+					 <h2>Configure your geographical settings</h2>
+					<ui:insert name="GeoSettingContent" >
+						<ui:include src="/faces/app/self/settings/geo-settings.xhtml"/>
+					</ui:insert>
+				</div>
 		</div>
-
+	</div>
 
 	</ui:define>
 
