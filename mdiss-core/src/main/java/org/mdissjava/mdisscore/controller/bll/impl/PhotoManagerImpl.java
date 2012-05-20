@@ -274,6 +274,37 @@ public class PhotoManagerImpl implements PhotoManager{
 			throw new IllegalArgumentException("Photo argument is null, can't continue with the action");
 		}
 		
+		List<String> stringTags = photo.getTags();
+		if(stringTags != null)
+		{
+			Iterator<String> iterator = stringTags.listIterator();
+			while(iterator.hasNext())
+			{
+				Tag newTag = new Tag();
+				newTag.setDescription(iterator.next());
+				List<Tag> tagList = this.tagDao.findTag(newTag);
+				if(!(tagList.isEmpty()))
+				{
+					List<Photo> photos = tagList.get(0).getPhotos();
+					if(!(photos.isEmpty()))
+					{
+						if(photos.contains(photo))
+						{
+							photos.remove(photo);
+							newTag.setPhotos(photos);
+							tagDao.updateTag(newTag);
+							List<Photo> updatedPhotoList = newTag.getPhotos();
+							if(updatedPhotoList.isEmpty())
+							{
+								this.tagDao.deleteTag(newTag);
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		
 		//Delete photo from the album too
 		Album a = photo.getAlbum();
 		if (a != null)
