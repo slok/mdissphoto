@@ -62,12 +62,10 @@ public class PhotoManagerImpl implements PhotoManager{
 
 		this.logger.debug("Splitting tags");
 		if (regex == null)
-			regex = "\\, ";
+			regex = "\\,";
 		
 		String[] splittedTags = tags.split(regex);
 
-		
-		
 		ArrayList<String> tagList = new ArrayList<String>();
 		for (String i:splittedTags)
 			tagList.add(i);
@@ -129,7 +127,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(this.splitTags(tags, "\\, "));
+			p.setTags(this.splitTags(tags, "\\,"));
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
@@ -272,6 +270,37 @@ public class PhotoManagerImpl implements PhotoManager{
 		{
 			this.logger.error("Photo argument is null, can't continue with the action");
 			throw new IllegalArgumentException("Photo argument is null, can't continue with the action");
+		}
+		
+		List<String> stringTags = photo.getTags();
+		if(stringTags != null)
+		{
+			Iterator<String> iterator = stringTags.listIterator();
+			while(iterator.hasNext())
+			{
+				Tag newTag = new Tag();
+				newTag.setDescription(iterator.next());
+				List<Tag> tagList = this.tagDao.findTag(newTag);
+				if(!(tagList.isEmpty()))
+				{
+					List<Photo> photos = tagList.get(0).getPhotos();
+					if(!(photos.isEmpty()))
+					{
+						if(photos.contains(photo))
+						{
+							photos.remove(photo);
+							newTag.setPhotos(photos);
+							tagDao.updateTag(newTag);
+							List<Photo> updatedPhotoList = newTag.getPhotos();
+							if(updatedPhotoList.isEmpty())
+							{
+								this.tagDao.deleteTag(newTag);
+							}
+						}
+					}
+				}
+				
+			}
 		}
 		
 		//Delete photo from the album too

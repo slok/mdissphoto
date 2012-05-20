@@ -20,46 +20,61 @@
 		</ui:define>
 		
 	<ui:define name="body">
-    	
-    	<h:form>
-   	 	<div>
-    		<div>  
-	    		<h:panelGrid columns="2" cellpadding="5">
-		    		<h:outputText value="Country: " />
-		    		  
-		            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
-		                <f:selectItem itemLabel="Select Country" itemValue="" />  
-		                <f:selectItems value="#{geoConfiguration.countries}" />  
-		                <p:ajax id="ACountry" update="SOMstates,SOMcities,situationMap"  
-		                        listener="#{geoConfiguration.AjaxCountryChange}" />  
-		            </p:selectOneMenu>  
-		            
-		  			<h:outputText value="State: " />
-		            <p:selectOneMenu id="SOMstates" value="#{geoConfiguration.state}">  
-		                <f:selectItem itemLabel="Select State" itemValue="" />  
-		                <f:selectItems value="#{geoConfiguration.states}" />
-		                  <p:ajax id="AState" update="SOMcities,situationMap"  
-		                        listener="#{geoConfiguration.AjaxStateChange}" />  
-		            </p:selectOneMenu>  
-		              
-		            <h:outputText value="City: " />
-		            <p:selectOneMenu id="SOMcities" value="#{geoConfiguration.city}">  
-		                <f:selectItem itemLabel="Select City" itemValue="" />  
-		                <f:selectItems value="#{geoConfiguration.cities}" />
-		                <p:ajax id="ACity" update="situationMap"  
-		                        listener="#{geoConfiguration.AjaxCityChange}" />  
-		            </p:selectOneMenu>
-	    		</h:panelGrid>
-    		</div>
-    		<div>
-    			<p:gmap id="situationMap" center="#{geoConfiguration.coordenadasXY}" zoom="#{geoConfiguration.zoom}" type="HYBRID"   
-		        style="width:340px;height:220px" mapTypeControl="false" navigationControl="false" disableDefaultUI="true"
-		        model="#{geoConfiguration.simpleModel}" />
-    		</div>
-    </div>
-    		<p:separator />
-    		  
-    	</h:form>	
+    	<ui:composition>
+	    	<h:form>
+	    	<p:growl id="Geo_growl" showDetail="true" sticky="true" redisplay="false" />
+	   	 	<div>
+	   	 	<table>
+	   	 	<tr>
+	   	 		<td>
+		    		<h:panelGrid columns="2" cellpadding="5">
+			    		<h:outputText value="Country:* " />
+			    		  
+			            <p:selectOneMenu id="country" value="#{geoConfiguration.country}">  
+			                <f:selectItem itemLabel="Select Country" itemValue="0" />  
+			                <f:selectItems value="#{geoConfiguration.countries}" />  
+			                <p:ajax id="ACountry" update="SOMstates,SOMcities,situationMap"  
+			                        listener="#{geoConfiguration.AjaxCountryChange}" />  
+			            </p:selectOneMenu>  
+			            
+			  			<h:outputText value="State:* " />
+			            <p:selectOneMenu id="SOMstates" value="#{geoConfiguration.state}">  
+			                <f:selectItem itemLabel="Select State" itemValue="0" />  
+			                <f:selectItems value="#{geoConfiguration.states}" />
+			                  <p:ajax id="AState" update="SOMcities,situationMap"  
+			                        listener="#{geoConfiguration.AjaxStateChange}" />  
+			            </p:selectOneMenu>  
+			              
+			            <h:outputText value="City:* " />
+			            <p:selectOneMenu id="SOMcities" value="#{geoConfiguration.city}">  
+			                <f:selectItem itemLabel="Select City" itemValue="0" />  
+			                <f:selectItems value="#{geoConfiguration.cities}" />
+			                <p:ajax id="ACity" update="situationMap"  
+			                        listener="#{geoConfiguration.AjaxCityChange}" />  
+			            </p:selectOneMenu>
+			            
+			            <h:outputLabel value="Street: " />
+			            <p:inputText id="street" value="#{geoConfiguration.street}" label="Street"/>
+			            
+			            <h:outputLabel value="Zip:" />
+			            <p:inputText id="zip" value="#{geoConfiguration.zip}" label="Zip"/>
+	
+		    		</h:panelGrid>
+		    	</td>
+		    	<td>
+	    			<p:gmap id="situationMap" center="#{geoConfiguration.coordenadasXY}" zoom="#{geoConfiguration.zoom}" type="HYBRID"   
+			        style="width:340px;height:220px" mapTypeControl="false" navigationControl="false" disableDefaultUI="true"
+			        model="#{geoConfiguration.simpleModel}" />
+			    </td>	
+			</tr>
+	    	</table>	
+	    	</div>
+	    		<p:separator />
+	    	<h:commandButton styleClass="btn btn-primary btn-medium"
+									actionListener="#{geoConfiguration.doSave}" value="Save" update="Geo_growl" />
+	    			  
+	    	</h:form>
+    	</ui:composition>	
     </ui:define>
 
 </html>

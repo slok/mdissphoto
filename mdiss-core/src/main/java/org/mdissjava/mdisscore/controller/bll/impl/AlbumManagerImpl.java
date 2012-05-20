@@ -197,6 +197,7 @@ public class AlbumManagerImpl implements AlbumManager{
 			this.logger.error("Some argument(s) is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some argument(s) is/are null, can't continue with the action");
 		}
+		
 		this.logger.debug("moving photo {} to {}", photo.getTitle(), albumTitle);
 		
 		//the album exists? (the search util throws IOException)
@@ -239,6 +240,53 @@ public class AlbumManagerImpl implements AlbumManager{
 		}
 		this.logger.debug("updating album");
 		this.albumDao.updateAlbum(album);
+	}
+	
+	/**
+	 * Deletes default album. WARNING! DO NOT USE! Only for jUnitTests!
+	 * 
+	 * @param album
+	 * @throws IOException If the target is default album or the album doesn't exist
+	 */
+	@Override
+	public void forceDeleteAlbum(Album album) throws IOException{
+		
+		if (album == null)
+		{
+			this.logger.error("Album argument is null, can't continue with the action");
+			throw new IllegalArgumentException("Album argument is null, can't continue with the action");
+		}
+		if (album.getTitle().equals(DEFAULT_ALBUM_TITLE))
+		{
+			this.logger.debug("Deleting album {}", album.getTitle());
+			//final Album DEFAULT_ALBUM = this.searchAlbumUniqueUtil(DEFAULT_ALBUM_TITLE, album.getUserNick());
+			
+			//unload the reference to this album to all its photos
+			//PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
+			try{
+				List<Photo> photoList = album.getPhotos();
+				//if there aren't any photos, then we don't need to move
+				if (photoList != null)
+				{
+					for(Photo i: photoList)
+					{
+						this.movePhotoToAlbum(album.getUserNick(), DEFAULT_ALBUM_TITLE, i);
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			
+			this.albumDao.deleteAlbum(album);
+		}
+		else
+		{
+			this.logger.error("This is NOT default album. Use method delete for deleting this album");
+			throw new IllegalArgumentException("This is NOT default album. Use method delete for deleting this album");
+		}
 	}
 	
 	/**

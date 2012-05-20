@@ -301,4 +301,17 @@ div.captcha
 
 .centered { margin: 0 auto; }
 
-​
+.divModalActionsLeft
+{
+	margin-top:5px;
+	margin-bottom:5px;
+	padding-left:5px;
+}
+
+.divModalActionsRight
+{
+	margin-top:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	text-align:right;
+}
