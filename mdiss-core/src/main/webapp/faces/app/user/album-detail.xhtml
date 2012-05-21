@@ -29,11 +29,15 @@
 			  	</div>
 			  	<div class="box centered">	
 		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
-		   				<div class="thumb">			
-							<img src="#{photoURL}" alt=""/>																								 																								
-							<div class="textBox">
-								<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
-							</div> 
+		   				<div class="thumb">	
+		   					<pretty:link mappingId="photo-detail" >
+		    					<f:param value="#{albumDetailsBean.userNick}" />
+								<f:param value="#{albumDetailsBean.photoIDs[status.index]}" />	
+		   						<h:graphicImage  value="#{photoURL}" />																							 																								
+								<div class="textBox">
+									<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
+								</div> 
+							</pretty:link>
 						</div>								
 		    		</ui:repeat>
 		    	</div>	    		

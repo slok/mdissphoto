@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 
@@ -29,6 +30,7 @@ public class AlbumDetailsBean {
 	
 	private List<String> photoURLs;
 	private List<String> photoTitles;
+	private List<String> photoIDs;
 	private List<Photo> photoList;
 	
 	public AlbumDetailsBean()
@@ -58,11 +60,12 @@ public class AlbumDetailsBean {
 			String database;
 			this.photoURLs = new ArrayList<String>();
 			this.photoTitles = new ArrayList<String>();
+			this.photoIDs = new ArrayList<String>();
 			this.photoList = new ArrayList<Photo>();
 			
 			ParamsBean pb = getPrettyfacesParams();
 			this.userNick = pb.getUserId();
-			this.albumTitle = ;
+			this.albumId = pb.getAlbumId();
 			
 			PropertiesFacade propertiesFacade = new PropertiesFacade();
 			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
@@ -70,6 +73,9 @@ public class AlbumDetailsBean {
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
 			
+			Album a = albumManager.searchAlbumUniqueUtil(this.albumId, this.userNick);
+			
+			this.albumTitle = a.getTitle();	
 			this.photoList = albumManager.getPhotosFromAlbum(this.albumId, this.userNick);
 			
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
@@ -79,6 +85,7 @@ public class AlbumDetailsBean {
 			this.photoURLs = new ArrayList<String>();
 			for (Photo p : this.photoList)
 			{
+				this.photoIDs.add(p.getPhotoId());
 				this.photoTitles.add(p.getTitle());
 				String detailedPhotoURL = "/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+p.getDataId();
 				this.photoURLs.add(detailedPhotoURL);	
@@ -95,6 +102,14 @@ public class AlbumDetailsBean {
 		
 	}
 	
+	public List<String> getPhotoIDs() {
+		return photoIDs;
+	}
+
+	public void setPhotoIDs(List<String> photoIDs) {
+		this.photoIDs = photoIDs;
+	}
+
 	public String getAlbumTitle() {
 		return albumTitle;
 	}
