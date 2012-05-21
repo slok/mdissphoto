@@ -1,5 +1,6 @@
 package org.mdissjava.mdisscore.view.album;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,22 +8,38 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
+import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
+import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+
+import com.google.code.morphia.Datastore;
 
 @RequestScoped
 @ManagedBean
 public class AlbumBean {
 	
 	private String userNick;
-	private String photoId;
+	
+	private final String GLOBAL_PROPS_KEY = "globals";
+	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
 	
 	private List<List<String>> albumPhotosURLs;
 	private List<String> photoURLs;
+	
 	private List<String> albumTitles;
+	private List<String> albumIDs;
+	
+	private List<Album> albumList;
 	
 	public AlbumBean()
 	{	
 		//TODO: Replace this with DB logic!
+		/*
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
 		this.photoId = pb.getPhotoId();
@@ -46,15 +63,73 @@ public class AlbumBean {
 		this.albumTitles.add("Album 4");
 		this.albumPhotosURLs.add(photoURLs);
 		this.albumTitles.add("Album 5");
-		this.albumPhotosURLs.add(photoURLs);
-	}
-	
-	public String getPhotoId() {
-		return photoId;
+		this.albumPhotosURLs.add(photoURLs); 
+		*/
+		
+		ParamsBean pb = getPrettyfacesParams();
+		this.userNick = pb.getUserId();
+		
+		//get morphia database from properties and load the albums by its ids
+		try {
+			String database;
+			this.albumTitles = new ArrayList<String>();
+			this.albumIDs = new ArrayList<String>();
+			this.albumPhotosURLs = new ArrayList<List<String>>();
+			
+			PropertiesFacade propertiesFacade = new PropertiesFacade();
+			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+		
+			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+			
+			this.albumList = albumManager.findUserAlbums(this.userNick);
+			
+			database = propertiesFacade.getProperties("globals").getProperty("images.db");
+			String bucketPropertyKey = "thumbnail.square.260px.bucket.name";
+			String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
+			
+			for (Album al : albumList)
+			{
+				System.out.println("---------------Album-----------------");
+				albumIDs.add(al.getAlbumId());
+				System.out.println(albumIDs);
+				albumTitles.add(al.getTitle());
+				
+				List<Photo> albumPhotos = al.getPhotos();	
+				
+				this.photoURLs = new ArrayList<String>();
+				
+				for (Photo p : albumPhotos)
+				{
+					String detailedPhotoURL = "/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+p.getDataId();
+					this.photoURLs.add(detailedPhotoURL);	
+				}
+				
+				this.albumPhotosURLs.add(photoURLs);
+			}
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+
+	public List<String> getAlbumIDs() {
+		return albumIDs;
 	}
 
-	public void setPhotoId(String photoId) {
-		this.photoId = photoId;
+	public void setAlbumIDs(List<String> albumIDs) {
+		this.albumIDs = albumIDs;
+	}
+
+	public List<Album> getAlbumList() {
+		return albumList;
+	}
+
+	public void setAlbumList(List<Album> albumList) {
+		this.albumList = albumList;
 	}
 
 	public List<String> getPhotoURLs() {
