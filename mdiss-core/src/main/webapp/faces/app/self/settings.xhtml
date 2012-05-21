@@ -33,90 +33,10 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
 					<h2>Update your profile info</h2>
-
-					<h:form id="form">
-						<p:growl id="growl" sticky="true" showDetail="true" />
-
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-
-							<h:outputLabel value="Nick: *" />
-							<p:inplace>
-								<p:inputText id="nick" value="#{userBean.user.nick}"
-									required="true" label="Nick">
-									<f:validator
-										validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
-									<p:ajax update="growl" />
-								</p:inputText>
-								<p:message id="nickoutput" for="nick" display="text" />
-							</p:inplace>
-
-
-							<h:outputLabel value="Name: *" />
-							<p:inplace>
-								<p:inputText id="nombre" value="#{userBean.user.name}"
-									required="true" label="Name">
-									<p:ajax update="growl" />
-								</p:inputText>
-								<p:message id="nombreoutput" for="nombre" display="text" />
-							</p:inplace>
-
-							<h:outputLabel value="Surname: *" />
-							<p:inplace>
-								<p:inputText id="apellido" value="#{userBean.user.surname}"
-									required="true" label="Surname">
-									<p:ajax update="growl" />
-								</p:inputText>
-								<p:message id="apellidooutput" for="apellido" display="text" />
-							</p:inplace>
-
-							<h:outputLabel for="bdate" value="Birthday: *" />
-							<p:inplace>
-								<p:inputMask id="bdate" value="#{userBean.user.birthdate}"
-									mask="99/99/9999" label="Birthday">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-									<f:validator
-										validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" />
-									<p:ajax update="growl" />
-								</p:inputMask>
-								<h:message for="bdate" display="text" />
-							</p:inplace>
-
-							<h:outputLabel value="I am: *" />
-							<p:inplace>
-								<p:selectOneMenu id="checkSex" value="#{userBean.user.gender}"
-									label="I am">
-									<f:selectItem itemValue="Male" itemLabel="Male" />
-									<f:selectItem itemValue="Female" itemLabel="Female" />
-								</p:selectOneMenu>
-								<p:message id="Sexooutput" for="checkSex" display="text" />
-							</p:inplace>
-
-							<h:outputLabel value="Email: *" />
-							<p:inplace>
-								<p:inputText id="email" value="#{userBean.user.email}"
-									required="true" label="email">
-									<f:validator
-										validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
-									<p:ajax update="growl" />
-								</p:inputText>
-								<h:message for="email" style="color:red" />
-							</p:inplace>
-
-							<h:outputLabel for="pwd1" value="Password: *" />
-							<p:inplace>
-								<p:password id="pwd1" match="pwd2"
-									label="Password 1" feedback="true" required="true" />
-								<p:message id="contraseñaoutput" for="pwd1" display="text" />
-
-								<h:outputLabel for="pwd2" value="Re-enter password: *" />
-								<p:password id="pwd2" value="#{userBean.user.pass}"
-									label="Password 2" required="true" />
-								<p:message id="repetircontraseñaoutput" for="pwd2"
-									display="text" />
-							</p:inplace>
-						</h:panelGrid>
-
-					</h:form>		
+					<ui:insert name="PerSettingContent" >
+						<ui:include src="/faces/app/self/settings/per-settings.xhtml"/>
+					</ui:insert>
+	
 				
 				<hr/>
 				 <h2>Tell us more about yourself</h2>
@@ -126,12 +46,9 @@
 
 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
 
-							<h:outputLabel value="Phone number:" />
-							<p:inplace>
-								<p:inputText id="phone" value="#{userBean.user.phone}"
-									label="Phone"/>
+							
 					
-							</p:inplace>
+							
 							
 							<h:outputLabel value="Preferences:" />
 							<p:inplace>
