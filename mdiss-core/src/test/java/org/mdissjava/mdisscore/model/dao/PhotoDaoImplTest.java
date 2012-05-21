@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,6 +72,8 @@ public class PhotoDaoImplTest {
 		// Check the photo title and the album title (check if the references are fine)
 		assertEquals(p.getTitle(), "MiFoto");
 		assertEquals(p.getAlbum().getTitle(), "the mighty album");
+		
+		this.photodao.deletePhoto(p);
 	}
 
 	@Test
@@ -90,6 +93,7 @@ public class PhotoDaoImplTest {
 			// find
 			// the photo because it was deleted
 			assertTrue(photoList.isEmpty());
+			this.photodao.deletePhoto(photo);
 		} catch (Exception e) {
 			this.logger.error(e.getMessage());
 			fail("Exception not expected");
@@ -117,10 +121,38 @@ public class PhotoDaoImplTest {
 			// If the returned photo have the second title it went correct the
 			// update in the Mongo db
 			assertEquals(photoList.get(0).getTitle(), "Me in the Beach");
+			this.photodao.deletePhoto(photo);
 		} catch (Exception e) {
 			this.logger.error(e.getMessage());
 			fail("Exception not expected");
 		}
+	}
+	
+	//Tested manually, not tested automatically with a random deduction algorithm
+	@Test
+	public void testRandom(){
+		
+		final String PREFIX = "photo_";
+		final int MAX = 100;
+		
+		List<Photo> photos = new ArrayList<Photo>();
+		
+		for (int i=0; i < MAX; i++){
+			Photo photo = new Photo();
+			photo.setTitle(PREFIX+String.valueOf(i));
+			photo.setRandom(Math.random());
+			
+			this.photodao.insertPhoto(photo);
+			photos.add(photo);
+			
+		}
+		for (Photo photo:this.photodao.getRandomPhotos(10)){
+			System.out.println(photo.getTitle() + ": " + photo.getRandom());
+		}
+		
+		for (Photo photo: photos)
+			this.photodao.deletePhoto(photo);
+		
 	}
 
 }

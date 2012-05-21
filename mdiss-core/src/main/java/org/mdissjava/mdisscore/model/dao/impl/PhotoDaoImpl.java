@@ -1,5 +1,6 @@
 package org.mdissjava.mdisscore.model.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -78,6 +79,10 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getLicense() != null) {
 			query.field("license").equal(photo.getLicense());
 		}
+		//not search with random in thsi method, we use to search random photos with a custom query
+		/*if (photo.getRandom() != 0) {
+			query.field("random").equal(photo.getRandom());
+		}*/
 		
 		List<Photo> photos = query.asList();
 
@@ -129,11 +134,45 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 		if (photo.getLicense() != null) {
 			ops.set("license", photo.getLicense());
 		}
-
+		//don't update random 
 		ds.update(this.queryToFindMe(photo.getId()), ops);
 
 	}
-
+	
+	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException{
+		
+		List<Photo> photos = new ArrayList<Photo>();
+		
+		//get randomly elements
+		for (int i=0; i<quantity; i++){
+			//create random token
+			double randomNumber = Math.random();
+			@SuppressWarnings("rawtypes")
+			Query query = null;
+			Photo photo = null;
+			
+			//get greater than the random number
+			query = ds.createQuery(Photo.class).field("random").greaterThanOrEq(randomNumber);
+			photo = (Photo) query.get();
+			
+			//if there aren't greater than then search for lesser than
+			if (photo == null){
+				 query = ds.createQuery(Photo.class).field("random").lessThanOrEq(randomNumber);
+				 photo = (Photo) query.get();
+			}
+			
+			//check again (no photos)
+			if (photo == null){
+				throw new IllegalStateException("No photos in database!");
+			}
+			
+			//add the photo to the list
+			photos.add(photo);
+		}
+		
+		return photos;
+	}
+	
 	@Override
 	public void deletePhoto(Photo photo) {
 
