@@ -34,10 +34,10 @@
 		    			<div id="thumbAlbum" class="thumb">
 		    				<pretty:link mappingId="album-detail" >
 		    					<f:param value="#{albumBean.userNick}" />
-								<f:param value="#{albumBean.albumTitles[status.index]}" />
+								<f:param value="#{albumBean.albumIDs[status.index]}" />
 			    				<div id="alCar#{status.index}" class="alCar">
 				    				<ui:repeat value="#{albums}" var="album">				
-										 <img src="#{album}" alt=""/>																								 
+										 <h:graphicImage  value="#{album}" />																								 
 									</ui:repeat>																		
 								</div>
 								<div class="textBox">

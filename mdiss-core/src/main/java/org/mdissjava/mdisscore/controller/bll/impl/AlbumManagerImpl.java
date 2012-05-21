@@ -480,8 +480,7 @@ public class AlbumManagerImpl implements AlbumManager{
 	 * @return
 	 * @throws IOException
 	 */
-	//package scope (other managers could use to search)
-	Album searchAlbumUniqueUtil(String albumId, String userNickname) throws IOException
+	public Album searchAlbumUniqueUtil(String albumId, String userNickname) throws IOException
 	{
 		this.logger.debug("Searching for the album {} from {} user", albumId, userNickname);
 		List<Album> aList = new ArrayList<Album>();

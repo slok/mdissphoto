@@ -22,5 +22,6 @@ public interface AlbumManager {
 	List<Album> findAlbum(Album album) throws IllegalArgumentException;
 	List<Album> findUserAlbums(String userNick);
 	void forceDeleteAlbum(Album albumMaster) throws IOException;
+	Album searchAlbumUniqueUtil(String albumId, String userNickname) throws IOException;
 
 }
