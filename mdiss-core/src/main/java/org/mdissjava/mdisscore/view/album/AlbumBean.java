@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
-import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
@@ -26,7 +25,6 @@ public class AlbumBean {
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
-	private final String RESOLUTIONS_PROPS_KEY = "resolutions";
 	
 	private List<List<String>> albumPhotosURLs;
 	private List<String> photoURLs;
@@ -90,9 +88,7 @@ public class AlbumBean {
 			
 			for (Album al : albumList)
 			{
-				System.out.println("---------------Album-----------------");
 				albumIDs.add(al.getAlbumId());
-				System.out.println(albumIDs);
 				albumTitles.add(al.getTitle());
 				
 				List<Photo> albumPhotos = al.getPhotos();	
