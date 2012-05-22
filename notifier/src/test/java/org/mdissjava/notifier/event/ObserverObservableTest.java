@@ -17,7 +17,7 @@ public class ObserverObservableTest {
 	
 	
 	
-	@Test
+	//@Test
 	public void VerifyAccountEventTest() {
 		
 		//create all the observers
