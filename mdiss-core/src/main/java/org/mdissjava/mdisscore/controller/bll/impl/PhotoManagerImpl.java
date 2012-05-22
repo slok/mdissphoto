@@ -167,11 +167,11 @@ public class PhotoManagerImpl implements PhotoManager{
 				{
 					Tag newTag = new Tag();
 					newTag.setDescription(iterator.next());
-					System.out.println(newTag.getDescription());
+					try
+					{
 					List<Tag> tagList = this.tagDao.findTag(newTag);
 					if(tagList.isEmpty())
 					{
-						System.out.println("Time to store new tag");
 						List<Photo> photoList = new ArrayList<Photo>();
 						photoList.add(p);
 						newTag.setPhotos(photoList);
@@ -179,13 +179,18 @@ public class PhotoManagerImpl implements PhotoManager{
 					}
 					else if(!tagList.isEmpty())
 					{
-						System.out.println("Time to update old tag");
 						List<Photo> photoList = this.tagDao.findTag(newTag).get(0).getPhotos();
 						photoList.add(p);
-						System.out.println(photoList.size());
 						newTag.setPhotos(photoList);
 						this.tagDao.updateTag(newTag);
 					}
+					
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					
 				}
 			}
 			catch(Exception e)
@@ -285,11 +290,11 @@ public class PhotoManagerImpl implements PhotoManager{
 				List<Tag> tagList = this.tagDao.findTag(newTag);
 				if(!(tagList.isEmpty()))
 				{
-					List<Photo> photos = tagList.get(0).getPhotos();
-					if(!(photos.isEmpty()))
+					newTag = tagList.get(0);
+					List<Photo> photos = newTag.getPhotos();
+					
+					if((!(photos.isEmpty()))&&(photos.contains(photo)))
 					{
-						if(photos.contains(photo))
-						{
 							photos.remove(photo);
 							newTag.setPhotos(photos);
 							tagDao.updateTag(newTag);
@@ -299,7 +304,6 @@ public class PhotoManagerImpl implements PhotoManager{
 								this.tagDao.deleteTag(newTag);
 							}
 						}
-					}
 				}
 				
 			}

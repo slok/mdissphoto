@@ -30,7 +30,7 @@ public class Photo {
 	private String title;
 
 	/** the reference to the album */
-	@Reference(lazy = true) private Album album;
+	@Reference (lazy = true) private Album album;
 	
 	/** Represents if the photo is public, can be seen by anyone, or private. */
 	private Boolean publicPhoto;
