@@ -24,5 +24,6 @@ public interface UserManager {
 	public void addFollow(String nick);
 	public void activateUser(int idUser);
 	
+	
 }
 	

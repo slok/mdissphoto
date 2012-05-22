@@ -105,6 +105,7 @@ public class UserManagerImpl implements UserManager {
 		userDao.activateUser(idUser);
 		
 	}
+
 		
 
 

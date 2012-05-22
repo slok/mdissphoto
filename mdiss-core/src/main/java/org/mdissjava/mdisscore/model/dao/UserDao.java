@@ -41,6 +41,6 @@ public interface UserDao {
 	
 	void deleteFollower(int userid, int friendid);
 	
-	void activateUser(int userid);
+	void activateUser(int userid);	
 
 }

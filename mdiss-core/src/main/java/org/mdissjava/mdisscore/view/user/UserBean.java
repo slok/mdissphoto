@@ -2,8 +2,10 @@ package org.mdissjava.mdisscore.view.user;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
@@ -18,6 +20,7 @@ public class UserBean {
 	private String userNick;
 	private List<User> follows;
 	private List<User> followers;
+
 	
 	private UserManager userManager;
 	
@@ -81,6 +84,9 @@ public class UserBean {
 		  return auth.getName();
 		   
 		 }
+	
+
+
 	
 	
 }
