@@ -7,11 +7,31 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
     <ui:composition template="/templates/public-space.xhtml">
+    
+    	<ui:define name="head">
+	    
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+			
+	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
+	     	<h:outputScript library="js" name="explore.js" />	 
+	     	    		
+		</ui:define>
       
 		<ui:define name="title">KNOW MORE</ui:define>
 		
 		<ui:define name="body">
-
+			<div class="row-fluid">
+					  	<div class="photoBox centered">	
+			  				<ui:repeat value="#{exploreBean.photoURLs}" var="photoURL" varStatus="status">	
+				   				<div class="imageContainer">			
+									<img src="#{photoURL}" alt=""/>																							 																								
+									<div>#{exploreBean.photoTitles[status.index]}</div>	
+									<div>#{exploreBean.photoUsers[status.index]}</div>
+								</div>								
+			    			</ui:repeat>
+				    	</div>	    		
+			
+			</div>
 		</ui:define>
 		
     </ui:composition>

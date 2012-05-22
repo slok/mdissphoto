@@ -51,15 +51,16 @@ public class TagDaoImpl  extends BasicDAO<Tag, ObjectId> implements TagDao {
 	public void updateTag(Tag tag) {
 		
 		UpdateOperations<Tag> ops = ds.createUpdateOperations(Tag.class);
+		
 		if (tag.getDescription() != null) {
 			ops.set("description", tag.getDescription());
 		}
 		if (tag.getPhotos() !=null){
 			ops.set("photos", tag.getPhotos());
 		}
+		Query<Tag> query = this.queryToFindMe(tag.getId());
+		ds.update(query, ops);
 		
-		ds.update(this.queryToFindMe(tag.getId()), ops);
-
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 
 /**
@@ -24,13 +25,14 @@ public class Photo {
 	private ObjectId id;
 
 	/** The photo id (normally the same as data ID) */
+	@Indexed 
 	private String photoId;
 	
 	/** The title of the photo. */
 	private String title;
 
 	/** the reference to the album */
-	@Reference(lazy = true) private Album album;
+	@Reference (lazy = true) private Album album;
 	
 	/** Represents if the photo is public, can be seen by anyone, or private. */
 	private Boolean publicPhoto;
@@ -66,9 +68,21 @@ public class Photo {
 	/** Represents if the photo is only for adults or not. */
 	private Boolean plus18;
 
+	/**
+	 * Represetns the token to access this photo with a public(no logging) link
+	 */
 	private String publicToken;
 	
+	/**
+	 * The license of the photo
+	 */
 	private String license;
+	
+	/**
+	 * This field is needed to get a random photo
+	 */
+	@Indexed 
+	private double random;
 	
 	public Photo() {
 		//tags = new ArrayList<String>();
@@ -320,8 +334,6 @@ public class Photo {
 		this.plus18 = plus18;
 	}
 	
-	
-	
 	public String getPublicToken() {
 		return publicToken;
 	}
@@ -329,8 +341,6 @@ public class Photo {
 	public void setPublicToken(String publicToken) {
 		this.publicToken = publicToken;
 	}
-	
-	
 
 	public String getLicense() {
 		return license;
@@ -338,6 +348,14 @@ public class Photo {
 
 	public void setLicense(String license) {
 		this.license = license;
+	}
+	
+	public double getRandom() {
+		return random;
+	}
+
+	public void setRandom(double random) {
+		this.random = random;
 	}
 
 	/**

@@ -17,10 +17,10 @@ public class Album {
 	
 	@Id
 	private ObjectId id;
-	
+
+	private String albumId;
 	private String title;
 	private Date creationDate;
-	
 	private String userNick;
 	
 	@Reference
@@ -33,6 +33,14 @@ public class Album {
 	
 	public void setId(ObjectId id) {
 		this.id = id;
+	}
+	
+	public String getAlbumId() {
+		return albumId;
+	}
+
+	public void setAlbumId(String albumId) {
+		this.albumId = albumId;
 	}
 	
 	public String getTitle() {

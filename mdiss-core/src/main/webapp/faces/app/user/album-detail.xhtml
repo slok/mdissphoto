@@ -4,14 +4,45 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
     <ui:composition template="/faces/app/user-space.xhtml">
+    
+	    <ui:define name="head">
+	    
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+			
+	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
+	     	<h:outputScript library="js" name="albumContent.js" />	 
+	     	    		
+		</ui:define>
       
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
 		
 		<ui:define name="body">
-								
+			<div class="row-fluid">
+			  <div class="span12">	
+			  <!-- TODO: Add erase album and modify title options  -->
+			  	<div class="well centered">	  		
+			  		<div class="centeredText">#{albumDetailsBean.albumTitle}</div>
+			  	</div>
+			  	<div class="box centered">	
+		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
+		   				<div class="thumb">	
+		   					<pretty:link mappingId="photo-detail" >
+		    					<f:param value="#{albumDetailsBean.userNick}" />
+								<f:param value="#{albumDetailsBean.photoIDs[status.index]}" />	
+		   						<h:graphicImage  value="#{photoURL}" />																							 																								
+								<div class="textBox">
+									<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
+								</div> 
+							</pretty:link>
+						</div>								
+		    		</ui:repeat>
+		    	</div>	    		
+			  </div> 		
+			</div>					
 		</ui:define>
 				
     </ui:composition>
