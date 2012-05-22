@@ -10,5 +10,6 @@ public interface PhotoDao {
 	List<Photo> findPhoto(Photo photo);
 	void updatePhoto(Photo photo);
 	void deletePhoto(Photo photo);
+	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException;
 
 }

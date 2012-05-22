@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
@@ -31,6 +32,8 @@ public class AlbumDaoImplTest {
 		AlbumDao albumdao = new AlbumDaoImpl(db);
 		Album album = new Album();
 		album.setTitle("Fiestas de Bilbao 2012");
+		String albumId = UUID.randomUUID().toString();
+		album.setAlbumId(albumId);
 
 		//insert some photos
 		Photo p = new Photo();
@@ -71,6 +74,8 @@ public class AlbumDaoImplTest {
 		AlbumDao albumdao = new AlbumDaoImpl(db);
 		Album album = new Album();
 		album.setTitle("Fiestas de Bilbao 2012");
+		String albumId = UUID.randomUUID().toString();
+		album.setAlbumId(albumId);
 		
 		// Insertion of the photo in the Mongo db
 		albumdao.insertAlbum(album);
@@ -93,21 +98,26 @@ public class AlbumDaoImplTest {
 		AlbumDao albumdao = new AlbumDaoImpl(db);
 		Album album = new Album();
 		album.setTitle("Fiestas de Bilbao 2012");
+		String albumId = UUID.randomUUID().toString();
+		album.setAlbumId(albumId);
 		
 		// Insertion of the photo in the Mongo db
 		albumdao.insertAlbum(album);
 		
-		// The camera's model is changed
-		album.setTitle("Fiestas de Bilbao 2012");
+		
+		album.setTitle("Fiestas de Bilbao 2013");
 		
 		// The photo is updated in the Mongo db
 		albumdao.updateAlbum(album);
-		List<Album> albumList = albumdao.findAlbum(album);
+		
+		Album album2 = new Album();
+		album2.setAlbumId(albumId);
+		List<Album> albumList = albumdao.findAlbum(album2);
 		assertFalse(albumList.isEmpty());
 		
 		// If the returned photo have the second title it went correct the
 		// update in the Mongo db
-		assertEquals(albumList.get(0).getTitle(), "Fiestas de Bilbao 2012");
+		assertEquals(albumList.get(0).getTitle(), "Fiestas de Bilbao 2013");
 	}
 }
 

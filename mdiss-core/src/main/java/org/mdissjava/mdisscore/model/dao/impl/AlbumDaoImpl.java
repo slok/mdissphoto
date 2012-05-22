@@ -35,6 +35,8 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 		Query<Album> query = ds.createQuery(Album.class);
 		if (album.getId() != null) {
 			query.field("id").equal(album.getId());
+		}if (album.getAlbumId() != null) {
+			query.field("albumId").equal(album.getAlbumId());
 		}
 		if (album.getTitle() != null) {
 			query.field("title").equal(album.getTitle());
@@ -58,18 +60,21 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 	@Override
 	public void updateAlbum(Album album) {
 		UpdateOperations<Album> ops = ds.createUpdateOperations(Album.class);
-			if (album.getTitle() != null) {
-				ops.set("title", album.getTitle());
-			}
-			if (album.getCreationDate() !=null){
-				ops.set("creationDay", album.getCreationDate());
-			}
-			if (album.getUserNick() != null){
-				ops.set("userNick", album.getUserNick());
-			}
-			if (album.getPhotos() !=null){
-				ops.set("photos", album.getPhotos());
-			}
+		if (album.getAlbumId() != null) {
+			ops.set("albumId", album.getAlbumId());
+		}
+		if (album.getTitle() != null) {
+			ops.set("title", album.getTitle());
+		}
+		if (album.getCreationDate() !=null){
+			ops.set("creationDay", album.getCreationDate());
+		}
+		if (album.getUserNick() != null){
+			ops.set("userNick", album.getUserNick());
+		}
+		if (album.getPhotos() !=null){
+			ops.set("photos", album.getPhotos());
+		}
 			
 		ds.update(this.queryToFindMe(album.getId()), ops);
 	}

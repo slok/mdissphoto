@@ -38,6 +38,22 @@ public class MorphiaDatastoreFactory {
 	}
 	
 	/**
+	 * Gets the dataStore from a given database
+	 * 
+	 * @param database is the database where the database will be set
+	 * @param classes is a list of the classes that morphia will map
+	 * @return the datastore from Morphia
+	 */
+	@SuppressWarnings("rawtypes")
+	public static Datastore getDatastore(String database, List<Class> classes) {
+		
+		MorphiaDatastoreConnection mdc = MorphiaDatastoreConnection.getInstance();
+		mdc.connect("127.0.0.1", 27017, database, classes);
+		return mdc.getDatastore();
+		
+	}
+	
+	/**
 	 * Sets the classes to map in the Morphia instance (loading from morphia-classes.properties)
 	 * 
 	 * @return the list of classes to map in Morphia

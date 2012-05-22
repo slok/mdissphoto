@@ -28,9 +28,23 @@
 			<name>MDISS custom repo</name>
 			<url>http://mvn.mdiss.info</url>
 		</repository>
+		
+		<!-- Morphia updated repo -->
+        <repository>
+            <id>com.google.code.morphia</id>
+            <name>Morphia Repo at Google Code</name>
+            <url>http://morphia.googlecode.com/svn/mavenrepo</url>
+        </repository>
+		
 	</repositories>
       
     <dependencies>
+      
+      	<dependency>
+            <groupId>org.mdissjava.commonutils</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
       
         <dependency>
 	      <groupId>org.apache.geronimo.specs</groupId>
@@ -47,6 +61,19 @@
             <artifactId>common-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+	    
+	    <!-- MongoDB API  & Morphia-->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.google.code.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.99.1-SNAPSHOT</version> 
+		</dependency>
     </dependencies>
     
     <build>

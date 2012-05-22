@@ -10,6 +10,8 @@ import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RequestScoped
 @ManagedBean
@@ -24,9 +26,9 @@ public class UserBean {
 	private User user;
 
 	public UserBean() {
-		ParamsBean pb = getPrettyfacesParams();
-		this.userNick = pb.getUserId();
-		this.userNick = "user1";
+		//ParamsBean pb = getPrettyfacesParams();
+		//this.userNick = pb.getUserId();
+		this.userNick = retrieveSessionUserNick();
 		
 		userManager = new UserManagerImpl();		
 		this.user = userManager.getUserByNick(this.userNick);	
@@ -74,6 +76,13 @@ public class UserBean {
 	public void addFollow(String nick){
 		
 	}
+	
+	private String retrieveSessionUserNick() {
+		  //Get the current logged user's username
+		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		  return auth.getName();
+		   
+		 }
 	
 	
 }

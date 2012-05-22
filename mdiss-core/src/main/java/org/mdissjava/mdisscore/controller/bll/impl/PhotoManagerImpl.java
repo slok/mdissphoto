@@ -62,12 +62,10 @@ public class PhotoManagerImpl implements PhotoManager{
 
 		this.logger.debug("Splitting tags");
 		if (regex == null)
-			regex = "\\, ";
+			regex = "\\,";
 		
 		String[] splittedTags = tags.split(regex);
 
-		
-		
 		ArrayList<String> tagList = new ArrayList<String>();
 		for (String i:splittedTags)
 			tagList.add(i);
@@ -81,7 +79,7 @@ public class PhotoManagerImpl implements PhotoManager{
 	 * @param imageId
 	 * @param userNickname
 	 * @param title
-	 * @param albumTitle
+	 * @param albumId
 	 * @param publicPhoto
 	 * @param plus18
 	 * @param license
@@ -91,14 +89,14 @@ public class PhotoManagerImpl implements PhotoManager{
 	 */
 	@Override
 	public void insertPhoto(String imageId, String userNickname, String title, 
-							String albumTitle, boolean publicPhoto, boolean plus18, 
+							String albumId, boolean publicPhoto, boolean plus18, 
 							String license, String tags) throws IllegalArgumentException, IOException{
 		
-		this.logger.debug("Inserting new photo {} in {}", title, albumTitle);
+		this.logger.debug("Inserting new photo {} in {}", title, albumId);
 		
 		//the other are not necessary, only title, user, imageId and the album
 		if (imageId.isEmpty() || userNickname.isEmpty() || 
-			title.isEmpty() || albumTitle.isEmpty())
+			title.isEmpty() || albumId.isEmpty())
 		{
 			this.logger.error("Some arguments is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some arguments are null, can't continue with the action");
@@ -114,9 +112,8 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setPlus18(plus18);
 		//set date to now!
 		p.setUploadDate(new Date());
+		p.setRandom(Math.random());
 		//create a public token (with some blocks of the uuid)
-		System.out.println(UUID.randomUUID().toString());
-		System.out.println(UUID.randomUUID().toString());
 		String publicToken = UUID.randomUUID().toString();
 		String[] splittedToken = publicToken.split("-");
 		publicToken = splittedToken[0] + splittedToken[2] + splittedToken[1];
@@ -129,7 +126,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(this.splitTags(tags, "\\, "));
+			p.setTags(this.splitTags(tags, "\\,"));
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
@@ -158,7 +155,7 @@ public class PhotoManagerImpl implements PhotoManager{
 			//call to the save with or without metadata
 			try
 			{
-				new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
+				new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumId, p);
 				
 				List<String> tags4Search = p.getTags();
 								
