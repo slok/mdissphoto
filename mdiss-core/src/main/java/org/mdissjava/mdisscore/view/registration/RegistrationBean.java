@@ -176,10 +176,8 @@ public class RegistrationBean {
 		NotificationManager notifier = NotificationManager.getInstance();
 		VerifyAccountObservable vao = notifier.getVerifyAccountObservable();
 
-		vao.userRegister(
-				user.getName() + user.getSurname(),
-				user.getEmail(),
-				"http://localhost:8080/mdissphoto/p/validate/"
+		vao.userRegister(user.getName() + " " + user.getSurname(),
+				user.getEmail(), "http://localhost:8080/mdissphoto/p/validate/"
 						+ keylink.getId());
 		RegistrationBean.logger.info("Registration notification sent");
 		String outcome = "pretty:confirmation";
