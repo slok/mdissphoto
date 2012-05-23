@@ -18,7 +18,7 @@ public interface UserManager {
 	List<User> findFollows(String userId);
 	List<User> findFollowers(String user);
 	Photo  getPhoto(int IdPhoto);
-	void changePassword(User user, String newPassword);
+	boolean changePassword(User user,String oldPassword ,String newPassword);
 	boolean emailAlreadyExists(String email);
 	boolean nickAlreadyExists(String nick);
 	public void addFollow(String nick);

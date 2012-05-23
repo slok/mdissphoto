@@ -60,9 +60,15 @@ public class UserManagerImpl implements UserManager {
 	}
 	
 	@Override
-	public void changePassword(User user, String newPassword) {		
+	public boolean changePassword(User user,String oldPassword ,String newPassword) {
+		if(user.getPass().equals(PEncoder(oldPassword)))
+		{
 		user.setPass(PEncoder(newPassword));
 		userDao.updateUser(user);		
+		return true;
+		}
+		else
+			return false;
 	}
 	
 	/**

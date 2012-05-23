@@ -35,31 +35,7 @@
 					<h2>Update your profile info</h2>
 					<ui:insert name="PerSettingContent" >
 						<ui:include src="/faces/app/self/settings/per-settings.xhtml"/>
-					</ui:insert>
-	
-				
-				<hr/>
-				 <h2>Tell us more about yourself</h2>
-					
-					<h:form id="formDetails">						
-						<p:growl id="growl" sticky="true" showDetail="true" />
-
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-
-							
-					
-							
-							
-							<h:outputLabel value="Preferences:" />
-							<p:inplace>
-								<p:inputText id="preferences" value="#{userBean.user.preferences}"
-									label="Preferences"/>
-						
-							</p:inplace>
-						
-						</h:panelGrid>
-
-					</h:form>				
+					</ui:insert>	
 				
 				</div>
 				<div class="tab-pane" id="tab2">

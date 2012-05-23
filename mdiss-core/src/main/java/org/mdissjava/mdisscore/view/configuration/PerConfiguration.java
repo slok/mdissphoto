@@ -47,8 +47,8 @@ public class PerConfiguration {
 		this.nick=this.userNick ;
 		this.setName(this.user.getName());
 		this.email=this.user.getEmail();
-		this.setGender(this.getGender());
-		this.setPhone(this.getPhone());
+		this.setGender(this.user.getGender());
+		this.setPhone(this.user.getPhone());
 		this.setSurname(this.user.getSurname());
 		this.setBirthdate(this.user.getBirthdate());
 		
@@ -118,7 +118,7 @@ public class PerConfiguration {
 	
 	public String doPerSave() throws ServletException, IOException
 	{
-		System.out.println("Save clicked....");
+		//System.out.println("Save clicked....");
 		this.user.setName(this.getName());
 		this.user.setSurname(this.getSurname());
 		this.user.setBirthdate(this.getBirthdate());
@@ -129,7 +129,25 @@ public class PerConfiguration {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Personal settings updated"));
 		return null;
 	}
-
 	
+	
+	public String doPasswordSave() throws ServletException, IOException
+	{
+		System.out.println("Save password clicked....");
+		if(userManager.changePassword(this.user, this.getOldPassword(), this.getNewPassword()))
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Password changed"));			
+		}
+		else
+		{
+			FacesMessage msg	=new FacesMessage("Password change Failed.", 
+					"Please enter correct password.");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage(null , msg);
+					
+		
+		}
+		return null;
+	}
 
 }

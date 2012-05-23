@@ -96,6 +96,8 @@
 			    </h:panelGrid>
 			    <div>
 			    	<h:commandButton  id="modalDialogCancelButton" styleClass="btn btn-primary btn-medium" value="Cancel" onclick="dlg.hide();" type="button"/>
+			    	<h:commandButton styleClass="btn btn-primary btn-medium" actionListener="#{perConfiguration.doPasswordSave}" value="Save" update="Per_growl" />
+		
 			    </div>
 			</p:dialog>
 	</h:form>	
