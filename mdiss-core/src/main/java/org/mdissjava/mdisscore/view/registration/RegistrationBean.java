@@ -166,11 +166,12 @@ public class RegistrationBean {
 		userBll.saveUser(user);
 
 		// Validation Key creation
+		RegistrationBean.logger.info("Now keylink creation");
 		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
 		KeyLinkDao keylinkdao = new KeyLinkDaoImpl(db);
 		KeyLink keylink = new KeyLink(user.getId(), KeyLink.EMAIL_VALIDATION);
 		keylinkdao.insertKeyLink(keylink);
-
+		RegistrationBean.logger.info("Created: " + keylink);
 		// Notification
 		NotificationManager notifier = NotificationManager.getInstance();
 		VerifyAccountObservable vao = notifier.getVerifyAccountObservable();
@@ -180,7 +181,7 @@ public class RegistrationBean {
 				user.getEmail(),
 				"http://localhost:8080/mdissphoto/p/validate/"
 						+ keylink.getId());
-
+		RegistrationBean.logger.info("Registration notification sent");
 		String outcome = "pretty:confirmation";
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.getApplication().getNavigationHandler()
