@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -24,6 +25,9 @@ import org.stringtemplate.v4.STGroupDir;
  */
 public class EmailUtils {
 
+	private static Logger logger = Logger.getLogger(EmailUtils.class
+			.getName());
+	
 	/** The constant which represents a simple email with only text */
 	public static final int TEXT = 1;
 
@@ -187,6 +191,7 @@ public class EmailUtils {
 
 		// send the email
 		email.send();
+		EmailUtils.logger.info("HTML Email sent");
 	}
 
 	/**
@@ -204,6 +209,7 @@ public class EmailUtils {
 	public static void sendWelcomeEmail(String to, String name)
 			throws EmailException, IOException {
 		// TODO: Add all the text to properties files - i18n
+		
 		STGroup group = new STGroupDir("src/main/resources/templates", '$', '$');
 		ST st = group.getInstanceOf("welcome");
 
@@ -215,8 +221,10 @@ public class EmailUtils {
 	
 	public static void sendValidationEmail(String to, String name, String link)
 			throws EmailException, IOException {
-		// TODO: Add all the text to properties files - i18n
-		STGroup group = new STGroupDir("src/main/resources/templates", '$', '$');
+		java.io.File fichero = new java.io.File("./");
+		System.out.println("%%%%%%%%%%%%%%%%%%%%" + fichero.getAbsolutePath());
+		//STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
+		STGroup group = new STGroupDir("/templates", '$', '$');
 		ST st = group.getInstanceOf("welcome");
 
 		st.add("name", name);

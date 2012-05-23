@@ -16,11 +16,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     </properties>
 
     <modules>
-        <module>mdiss-core</module>
+        <module>common-utils</module>
         <module>thumbnailer</module>
         <module>notifier</module>
-        <module>common-utils</module> <!-- Always the last one -->
-        <!--<module>mdiss-notifier</module>-->
+	<module>mdiss-core-model</module>
+	<module>mdiss-core</module>
+        
     </modules>
 
     <dependencies>

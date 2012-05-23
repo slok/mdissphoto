@@ -10,7 +10,6 @@ body
 
 }
 
-
 .alert-normal{
   color: #9a9994;
   background-color:#fcfcfa;
@@ -255,6 +254,52 @@ div.captcha
     margin-bottom: 10px;
 }
 
+/* Make the albums & photos beautiful! */
+
+.thumb {
+	position: relative;
+    width: 260px;
+    height: 260px;
+    margin-top:20px;
+    background-color: #FFFFFF;
+}
+
+#thumbAlbum {
+	border: 2px solid #999999;
+	-moz-box-shadow: 0px 0px 18px #000000;
+	-webkit-box-shadow: 0px 0px 18px #000000;
+	box-shadow: 0px 0px 18px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+}
+
+.textBox {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #999;
+    background: rgba(0,0,0,0.7);
+}
+
+.text{
+	text-align: center;   
+    color:#FFF;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.centeredText{
+	text-align: center;   
+    font-size: 18px;
+}
+
+.thumb:hover .textBox {
+    display: block;
+}
+
+.centered { margin: 0 auto; }
+
 .divModalActionsLeft
 {
 	margin-top:5px;
@@ -268,4 +313,17 @@ div.captcha
 	padding-bottom:5px;
 	padding-right:5px;
 	text-align:right;
+}
+
+/* Explore */
+
+.imageContainer {
+	margin-bottom: 10px;
+	position: relative;
+    background-color: #ffffff;
+	border: 1px solid #707070;
+	-moz-box-shadow: 0px 0px 5px #000000;
+	-webkit-box-shadow: 0px 0px 5px #000000;
+	box-shadow: 0px 0px 5px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/  
 }

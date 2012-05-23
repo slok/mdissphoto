@@ -200,9 +200,9 @@ public class UploadDetailsBean {
 	{
 		//add the album to database
 		try {
-			this.albumManager.insertAlbum(this.newAlbumTitle, userNick);
+			String albumId = this.albumManager.insertAlbum(this.newAlbumTitle, userNick);
 			//load the album directly in the map (we don't want to load all the other albums again) 
-			this.albums.put(this.newAlbumTitle, this.newAlbumTitle);
+			this.albums.put(this.newAlbumTitle, albumId);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"OK", "Album " + this.newAlbumTitle + " has been created"));
 		} catch (IOException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "Error creating " + this.newAlbumTitle + " album"));
@@ -265,7 +265,7 @@ public class UploadDetailsBean {
 		
 		for (Album i: albums)
 		{
-			this.albums.put(i.getTitle(), i.getTitle());
+			this.albums.put(i.getTitle(), i.getAlbumId());
 		}
 	}
 

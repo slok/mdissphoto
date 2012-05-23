@@ -7,9 +7,9 @@ import org.mdissjava.notifier.event.VerifyAccountEvent;
 
 public class VerifyAccountObservable extends Observable{
 
-	public void userRegister(String username){
+	public void userRegister(String username, String email, String key){
 		
-		MdissEvent event = new VerifyAccountEvent(username);
+		MdissEvent event = new VerifyAccountEvent(username, email, key);
 		
 		//set changed and notify observers
 		this.setChanged();

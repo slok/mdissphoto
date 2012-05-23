@@ -79,7 +79,7 @@ public class PhotoManagerImpl implements PhotoManager{
 	 * @param imageId
 	 * @param userNickname
 	 * @param title
-	 * @param albumTitle
+	 * @param albumId
 	 * @param publicPhoto
 	 * @param plus18
 	 * @param license
@@ -89,14 +89,14 @@ public class PhotoManagerImpl implements PhotoManager{
 	 */
 	@Override
 	public void insertPhoto(String imageId, String userNickname, String title, 
-							String albumTitle, boolean publicPhoto, boolean plus18, 
+							String albumId, boolean publicPhoto, boolean plus18, 
 							String license, String tags) throws IllegalArgumentException, IOException{
 		
-		this.logger.debug("Inserting new photo {} in {}", title, albumTitle);
+		this.logger.debug("Inserting new photo {} in {}", title, albumId);
 		
 		//the other are not necessary, only title, user, imageId and the album
 		if (imageId.isEmpty() || userNickname.isEmpty() || 
-			title.isEmpty() || albumTitle.isEmpty())
+			title.isEmpty() || albumId.isEmpty())
 		{
 			this.logger.error("Some arguments is/are null, can't continue with the action");
 			throw new IllegalArgumentException("Some arguments are null, can't continue with the action");
@@ -112,9 +112,8 @@ public class PhotoManagerImpl implements PhotoManager{
 		p.setPlus18(plus18);
 		//set date to now!
 		p.setUploadDate(new Date());
+		p.setRandom(Math.random());
 		//create a public token (with some blocks of the uuid)
-		System.out.println(UUID.randomUUID().toString());
-		System.out.println(UUID.randomUUID().toString());
 		String publicToken = UUID.randomUUID().toString();
 		String[] splittedToken = publicToken.split("-");
 		publicToken = splittedToken[0] + splittedToken[2] + splittedToken[1];
@@ -156,7 +155,7 @@ public class PhotoManagerImpl implements PhotoManager{
 			//call to the save with or without metadata
 			try
 			{
-				new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumTitle, p);
+				new AlbumManagerImpl(datastore).addNewPhotoToAlbum(userNickname, albumId, p);
 				
 				List<String> tags4Search = p.getTags();
 								
@@ -165,11 +164,11 @@ public class PhotoManagerImpl implements PhotoManager{
 				{
 					Tag newTag = new Tag();
 					newTag.setDescription(iterator.next());
-					System.out.println(newTag.getDescription());
+					try
+					{
 					List<Tag> tagList = this.tagDao.findTag(newTag);
 					if(tagList.isEmpty())
 					{
-						System.out.println("Time to store new tag");
 						List<Photo> photoList = new ArrayList<Photo>();
 						photoList.add(p);
 						newTag.setPhotos(photoList);
@@ -177,13 +176,18 @@ public class PhotoManagerImpl implements PhotoManager{
 					}
 					else if(!tagList.isEmpty())
 					{
-						System.out.println("Time to update old tag");
 						List<Photo> photoList = this.tagDao.findTag(newTag).get(0).getPhotos();
 						photoList.add(p);
-						System.out.println(photoList.size());
 						newTag.setPhotos(photoList);
 						this.tagDao.updateTag(newTag);
 					}
+					
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					
 				}
 			}
 			catch(Exception e)
@@ -283,11 +287,11 @@ public class PhotoManagerImpl implements PhotoManager{
 				List<Tag> tagList = this.tagDao.findTag(newTag);
 				if(!(tagList.isEmpty()))
 				{
-					List<Photo> photos = tagList.get(0).getPhotos();
-					if(!(photos.isEmpty()))
+					newTag = tagList.get(0);
+					List<Photo> photos = newTag.getPhotos();
+					
+					if((!(photos.isEmpty()))&&(photos.contains(photo)))
 					{
-						if(photos.contains(photo))
-						{
 							photos.remove(photo);
 							newTag.setPhotos(photos);
 							tagDao.updateTag(newTag);
@@ -297,7 +301,6 @@ public class PhotoManagerImpl implements PhotoManager{
 								this.tagDao.deleteTag(newTag);
 							}
 						}
-					}
 				}
 				
 			}

@@ -12,8 +12,10 @@ public class VerifyAccountEvent extends MdissEvent{
 	private String email;
 	private String key;
 
-	public VerifyAccountEvent(String userNick) {
+	public VerifyAccountEvent(String userNick, String email, String key) {
 		super("verifyAccount");
+		this.email = email;
+		this.key = key;
 		this.userNick = userNick; 
 	}
 	
