@@ -1,4 +1,4 @@
-package org.mdissjava.notifier.notifications.dao;
+package org.mdissjava.mdisscore.model.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,14 +13,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.notifier.notifications.dao.impl.MdissNotificationDaoImpl;
-import org.mdissjava.notifier.notifications.pojo.FollowingNotification;
-import org.mdissjava.notifier.notifications.pojo.MdissNotification;
-import org.mdissjava.notifier.notifications.pojo.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.notifications.FollowingNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MdissNotificationsDaoTest {
+public class MdissNotificationsDaoImplTest {
 
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

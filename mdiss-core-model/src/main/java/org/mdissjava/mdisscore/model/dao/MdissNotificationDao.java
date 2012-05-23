@@ -1,9 +1,9 @@
-package org.mdissjava.notifier.notifications.dao;
+package org.mdissjava.mdisscore.model.dao;
 
 import java.util.List;
 
-import org.mdissjava.notifier.notifications.pojo.MdissNotification;
-import org.mdissjava.notifier.notifications.pojo.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 
 public interface MdissNotificationDao {
 	

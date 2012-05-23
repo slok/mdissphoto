@@ -1,4 +1,4 @@
-package org.mdissjava.mdisscore.model.dao;
+package org.mdissjava.mdisscore.controller.bll;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mdissjava.mdisscore.controller.bll.UserOauthTokensManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserOauthTokensManagerImpl;
+import org.mdissjava.mdisscore.model.dao.UserOauthTokensDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.UserOauthTokensDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;

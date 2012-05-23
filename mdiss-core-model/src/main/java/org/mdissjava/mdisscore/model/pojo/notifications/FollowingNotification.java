@@ -1,4 +1,4 @@
-package org.mdissjava.notifier.notifications.pojo;
+package org.mdissjava.mdisscore.model.pojo.notifications;
 
 
 public final class FollowingNotification extends MdissNotification{

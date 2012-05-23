@@ -3,6 +3,7 @@ package org.mdissjava.mdisscore.controller.bll;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +28,8 @@ public class PhotoManagerTest {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final Album album = new Album();
 	private final Album albumMaster = new Album();
+	private String photoId;
+	private String albumId;
 	
 	@Before
 	public void init()
@@ -38,8 +41,8 @@ public class PhotoManagerTest {
 	
 	@After
 	public void destroy() throws IOException {
-		albumManager.deleteAlbum(album.getTitle(), album.getUserNick());
-		photoManager.deletePhoto(NAME);
+		albumManager.deleteAlbum(albumId, album.getUserNick());
+		photoManager.deletePhoto(photoId);
 		albumManager.forceDeleteAlbum(albumMaster);
 		this.photoManager = null;
 	}
@@ -56,7 +59,7 @@ public class PhotoManagerTest {
 		
 		String albumTitle = "Jaiak 2012";
 		String userNickname = "slok";
-		
+				
 		albumMaster.setTitle("Master");
 		albumMaster.setUserNick(userNickname);
 		
@@ -66,12 +69,23 @@ public class PhotoManagerTest {
 		album.setUserNick(userNickname);
 		albumManager.insertAlbum(album);
 		
+		List<Album> albums = albumManager.findAlbum(album);
+		
+		System.out.println("AlbumSize: "+albums.size());
+		albumId = albums.get(0).getAlbumId();
+		System.out.println("AlbumID: "+albumId);
+
+		
 		this.photoManager.insertPhoto(NAME, userNickname, 
-				"yeaaaaaaaaaaaah", albumTitle, true, false, 
+				"yeaaaaaaaaaaaah", albumId, true, false, 
 				"CC", tags);
 		 
+		Photo photoNew = new Photo();
+		photoNew.setDataId(NAME);
 
-		Photo photo = pManager.searchPhotoUniqueUtil(NAME);
+		List<Photo> photos = photoManager.findPhoto(photoNew);
+		Photo photo = photos.get(0);
+		photoId = photo.getPhotoId();
 		
 		if(photo!=null)
 		{
