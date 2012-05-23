@@ -1,12 +1,11 @@
-package org.mdissjava.notifier.notifications.dao.impl;
+package org.mdissjava.mdisscore.model.dao.impl;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.mdissjava.notifier.notifications.dao.MdissNotificationDao;
-import org.mdissjava.notifier.notifications.pojo.MdissNotification;
-import org.mdissjava.notifier.notifications.pojo.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
+import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.dao.BasicDAO;
