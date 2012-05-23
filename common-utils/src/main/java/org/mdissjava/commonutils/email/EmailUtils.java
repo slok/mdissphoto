@@ -223,7 +223,8 @@ public class EmailUtils {
 			throws EmailException, IOException {
 		java.io.File fichero = new java.io.File("./");
 		System.out.println("%%%%%%%%%%%%%%%%%%%%" + fichero.getAbsolutePath());
-		STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
+		//STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
+		STGroup group = new STGroupDir("/templates", '$', '$');
 		ST st = group.getInstanceOf("welcome");
 
 		st.add("name", name);
