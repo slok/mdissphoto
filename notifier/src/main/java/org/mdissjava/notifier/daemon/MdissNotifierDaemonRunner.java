@@ -32,7 +32,7 @@ public class MdissNotifierDaemonRunner {
 			Daemon daemon = null;
 			if (opt.equals(OPT_EMAIL_MAX) || opt.equals(OPT_EMAIL_MIN)){
 				
-				daemon = new EmailDaemon(QUEUE_EMAIL, DESTINATION_PERSISTENCE);
+				daemon = new EmailDaemon(QUEUE_EMAIL, DESTINATION_EMAIL);
 				
 			}else if(opt.equals(OPT_PERSISTENCE_MAX) || opt.equals(OPT_PERSISTENCE_MIN)){
 				
