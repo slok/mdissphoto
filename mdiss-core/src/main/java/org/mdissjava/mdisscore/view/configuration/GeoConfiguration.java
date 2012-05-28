@@ -332,7 +332,6 @@ public class GeoConfiguration implements Serializable{
 		  return auth.getName();
 		   
 		 }
-	
  
 }  
 
