@@ -58,8 +58,6 @@ public class ValidateBean {
 		ValidateBean.logger.info("Validation Email resend");
 
 		User user = userDao.getUserByEmail(this.email);
-		System.out
-				.println("GGGGGGGGGGGGGGGGGGGGGGG" + user + "KKKKKKKKKKKKKKK");
 		if (user != null && !user.isActive()) {
 			valid = true;
 			Datastore db = MorphiaDatastoreFactory.getDatastore("test");

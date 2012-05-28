@@ -49,7 +49,7 @@
 		<view-id value="/faces/public/validate.jsf" />
 	</url-mapping>
 	<url-mapping id="validateconfirmation">
-		<pattern value="/p/validate/resend" />
+		<pattern value="/p/validate/resend/ok" />
 		<view-id value="/faces/public/validateresend.jsf" />
 	</url-mapping>
 	
