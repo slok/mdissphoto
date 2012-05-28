@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      
+		<ui:define name="per_body">
+		<ui:composition>
+					<h:form id="per_form">
+						<p:growl id="Per_growl" sticky="true" showDetail="true" />
+
+						<h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+
+							<h:outputLabel value="Nick: *" />
+							<h:outputLabel id="nick" value="#{perConfiguration.nick}" />
+							<p:message id="nickoutput" for="nick" display="text" />
+
+							<h:outputLabel value="Name: *" />
+
+								<p:inputText id="nombre" value="#{perConfiguration.name}"
+									required="true" label="Name">
+									<p:ajax update="Per_growl" />
+								</p:inputText>
+								<p:message id="nombreoutput" for="nombre" display="text" />
+
+
+							<h:outputLabel value="Surname: *" />
+
+								<p:inputText id="apellido" value="#{perConfiguration.surname}"
+									required="true" label="Surname">
+									<p:ajax update="Per_growl" />
+								</p:inputText>
+								<p:message id="apellidooutput" for="apellido" display="text" />
+
+
+							<h:outputLabel for="bdate" value="Birthday: *" />
+
+								<p:inputMask id="bdate" value="#{perConfiguration.birthdate}"
+									mask="99/99/9999" label="Birthday" required="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+									<f:validator
+										validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" />
+									<p:ajax update="Per_growl" />
+								</p:inputMask>
+								<h:message for="bdate" display="text" />
+
+
+							<h:outputLabel value="I am: *" />
+
+								<p:selectOneMenu id="checkSex" value="#{perConfiguration.gender}"
+									label="I am">
+									<f:selectItem itemValue="Male" itemLabel="Male" />
+									<f:selectItem itemValue="Female" itemLabel="Female" />
+								</p:selectOneMenu>
+								<p:message id="Sexooutput" for="checkSex" display="text" />
+
+
+								<h:outputLabel value="Email: *" />
+								<h:outputLabel id="email" value="#{perConfiguration.email}" />
+								<h:message for="email" style="color:red" />
+								
+								<h:outputLabel value="Phone number:" />
+								<p:inputText id="phone" value="#{perConfiguration.phone}"
+									label="Phone"/>
+								<h:message for="phone" />	
+							
+						</h:panelGrid>
+		<p:separator/>
+		
+		<h:commandButton id="modalDialogButton" styleClass="btn btn-primary btn-medium" value="Change Password" onclick="dlg.show();" type="button"/>
+		<h:commandButton styleClass="btn btn-primary btn-medium" actionListener="#{perConfiguration.doPerSave}" value="Save" update="Per_growl" />
+		
+		<p:dialog id="modalDialog" header="Reset Password" widgetVar="dlg" modal="true" height="200"> 
+
+			    <h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+			    
+			    				<h:outputLabel for="pwd0" value="Old Password: *" />
+	
+									<p:password id="pwd0" value="#{perConfiguration.oldPassword}"
+										label="Password 0" feedback="false" />
+									<p:message id="contraseñaoldoutput" for="pwd0" display="text" />
+	
+								<h:outputLabel for="pwd1" value="New Password: *" />
+	
+									<p:password id="pwd1" match="pwd2"
+										label="Password 1" feedback="true" />
+									<p:message id="contraseñaoutput" for="pwd1" display="text" />
+	
+								<h:outputLabel for="pwd2" value="Re-enter New password: *" />
+									<p:password id="pwd2" value="#{perConfiguration.newPassword}"
+										label="Password 2" />
+									<p:message id="repetircontraseñaoutput" for="pwd2"
+										display="text" />
+			    </h:panelGrid>
+			    <div>
+			    	<h:commandButton  id="modalDialogCancelButton" styleClass="btn btn-primary btn-medium" value="Cancel" onclick="dlg.hide();" type="button"/>
+			    	<h:commandButton styleClass="btn btn-primary btn-medium" actionListener="#{perConfiguration.doPasswordSave}" value="Save" update="Per_growl" />
+		
+			    </div>
+			</p:dialog>
+	</h:form>	
+
+		</ui:composition>
+		</ui:define>
+</html>

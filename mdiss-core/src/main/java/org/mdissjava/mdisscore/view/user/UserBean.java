@@ -2,6 +2,7 @@ package org.mdissjava.mdisscore.view.user;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -9,7 +10,6 @@ import javax.faces.context.FacesContext;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
-import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -20,6 +20,7 @@ public class UserBean {
 	private String userNick;
 	private List<User> follows;
 	private List<User> followers;
+
 	
 	private UserManager userManager;
 	
@@ -67,11 +68,11 @@ public class UserBean {
 		this.followers = followers;
 	}
 	
-	private ParamsBean getPrettyfacesParams() {
+/*	private ParamsBean getPrettyfacesParams() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
 		return pb;
-	}
+	}*/
 	
 	public void addFollow(String nick){
 		
@@ -83,6 +84,9 @@ public class UserBean {
 		  return auth.getName();
 		   
 		 }
+	
+
+
 	
 	
 }
