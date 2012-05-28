@@ -24,6 +24,7 @@ public class ParamsBean {
 	private String cameraId;
 	private String top;
 	private String token;
+	private int page;
 	
 	
 	public String getUserId() {
@@ -68,8 +69,11 @@ public class ParamsBean {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
-	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
 
 }

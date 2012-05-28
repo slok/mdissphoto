@@ -12,31 +12,49 @@
 		
 		<ui:define name="body">
 
-			<h:panelGroup layout="block">
+		<h:form id="form">				
+			<h:dataTable value="#{userBean.followers}" var="follower" >				
+					<div class="row-fluid">
+						<div class="span6">
+							<p:column>
+								<div class="span2">
+									<a href="#" class="thumbnail"> <img
+										src="http://placehold.it/60x60" alt="" />
+									</a>
+								</div>
+							</p:column>
+							<p:column>
+								<div class="span6">#{follower.nick}, #{follower.email}</div>
+							</p:column>
+							<p:column>
+								<h:commandButton styleClass="btn btn-success"
+									rendered="#{userBean.followsUser(follower) == false}"
+									actionListener="#{userBean.addFollow(follower)}" value="Follow"
+									update="growl" />
+								<h:commandButton styleClass="btn btn-warning"
+									rendered="#{userBean.followsUser(follower) != false}"
+									actionListener="#{userBean.deleteFollow(follower)}"
+									value="Unfollow" update="growl" />
+							</p:column>
+						</div>
+					</div>
+				
+				<br/>
+			</h:dataTable>
+		</h:form>
 
-				<br />
-		
-				<h:form id="form">
-					<p:dataList value="#{userBean.user.followers}" var="follower" itemType="none">
-						<p:column>		 
-								<a href="#" class="thumbnail"> <img
-									src="http://placehold.it/60x60" alt="" />
-								</a>				
-						</p:column> 
-						<p:column> 		
-			  						#{follower.nick}, #{follower.email}  
-			  			</p:column>
-			  			<p:column> 		   					    					       			    				
-			  					<h:commandButton styleClass="btn"
-							actionListener="#{userBean.addFollow(follower.nick)}" value="Follow"
-							update="growl" />
-						</p:column> 			
-					</p:dataList>
-				</h:form>
-		
-			</h:panelGroup>
-								
-		</ui:define>
+		<div class="pagination">
+			<ul>
+				<li><a href="#">Prev</a></li>
+				<li class="active"><a href="1">1</a></li>
+				<li><a href="2">2</a></li>
+				<li><a href="3">3</a></li>
+				<li><a href="4">4</a></li>
+				<li><a href="#">Next</a></li>
+			</ul>
+		</div>
+
+	</ui:define>
 				
     </ui:composition>
 </html>
