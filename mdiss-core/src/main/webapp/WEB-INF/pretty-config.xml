@@ -48,6 +48,10 @@
 		<pattern value="/p/validate/#{token:paramsBean.token}" />
 		<view-id value="/faces/public/validate.jsf" />
 	</url-mapping>
+	<url-mapping id="validateconfirmation">
+		<pattern value="/p/validate/resend" />
+		<view-id value="/faces/public/validateresend.jsf" />
+	</url-mapping>
 	
 	<!-- Errors -->
 	<url-mapping id="upload-error">
