@@ -118,10 +118,10 @@
 		<view-id value="/faces/app/user/album-list.jsf" />
 	</url-mapping>
 
-	<url-mapping id="album-detail">
+	<!-- url-mapping id="album-detail">
 		<pattern value="/u/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
 		<view-id value="/faces/app/user/album-detail.jsf" />
-	</url-mapping>
+	</url-mapping-->
 
 	<url-mapping id="photo-detail">
 		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/" />
@@ -135,6 +135,11 @@
 	
 	<url-mapping id="photowers">
 		<pattern value="/u/#{user:paramsBean.userId}/photowers/" />
+		<view-id value="/faces/app/user/photowers.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photowers_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowers/#{page:paramsBean.page}" />
 		<view-id value="/faces/app/user/photowers.jsf" />
 	</url-mapping>
 	
