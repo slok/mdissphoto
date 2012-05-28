@@ -55,7 +55,6 @@ public class DirectMessageDaoImplTest {
 	@Test
 	public void testUpdate() {
 		DirectMessage directMessage = new DirectMessage(1,2, "Hello");
-		System.out.println("1 " + directMessage.isRead());
 		directMessageDao.insertDirectMessage(directMessage);
 		DirectMessage filter = new DirectMessage();
 		filter.setId(directMessage.getId());
@@ -63,7 +62,6 @@ public class DirectMessageDaoImplTest {
 		List<DirectMessage> directMessageDaoList = directMessageDao.findDirectMessage(filter, true);
 		if(!directMessageDaoList.isEmpty()) {
 			directMessage = directMessageDaoList.get(0);
-			System.out.println("2 " + directMessage.isRead());
 			assertTrue(!directMessage.isRead());
 		}
 		else{
