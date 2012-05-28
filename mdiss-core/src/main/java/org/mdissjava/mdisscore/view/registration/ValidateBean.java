@@ -6,8 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.validator.ValidatorException;
 
 import org.mdissjava.mdisscore.model.dao.KeyLinkDao;
 import org.mdissjava.mdisscore.model.dao.UserDao;
@@ -55,13 +53,13 @@ public class ValidateBean {
 		}
 	}
 
-	public void resend(ActionEvent actionEvent) throws ValidatorException {
+	public void resend() {
 
 		ValidateBean.logger.info("Validation Email resend");
 
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + userDao
-				+ "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 		User user = userDao.getUserByEmail(this.email);
+		System.out
+				.println("GGGGGGGGGGGGGGGGGGGGGGG" + user + "KKKKKKKKKKKKKKK");
 		if (user != null && !user.isActive()) {
 			valid = true;
 			Datastore db = MorphiaDatastoreFactory.getDatastore("test");

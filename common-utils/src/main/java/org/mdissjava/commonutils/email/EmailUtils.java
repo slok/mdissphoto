@@ -221,8 +221,6 @@ public class EmailUtils {
 	
 	public static void sendValidationEmail(String to, String name, String link)
 			throws EmailException, IOException {
-		java.io.File fichero = new java.io.File("./");
-		System.out.println("%%%%%%%%%%%%%%%%%%%%" + fichero.getAbsolutePath());
 		//STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
 		STGroup group = new STGroupDir("/templates", '$', '$');
 		ST st = group.getInstanceOf("welcome");
