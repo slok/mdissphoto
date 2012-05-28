@@ -69,9 +69,9 @@ public class EmailDaemon extends Daemon{
 		try {
 			EmailUtils.sendValidationEmail(email, userNick, key);
 		} catch (EmailException e) {
-			this.logger.error("Error sending email: "+ e.toString());
+			this.logger.error("Error sending email: {}", e.toString());
 		} catch (IOException e) {
-			this.logger.error("Error sending email: "+ e.toString());
+			this.logger.error("Error sending email: {}", e.toString());
 		}
 	}
 
