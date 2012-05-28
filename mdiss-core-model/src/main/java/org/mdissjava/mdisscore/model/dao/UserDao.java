@@ -43,4 +43,6 @@ public interface UserDao {
 	
 	void activateUser(int userid);	
 
+	User getUserByEmail(String email);
+
 }

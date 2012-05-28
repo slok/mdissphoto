@@ -155,4 +155,53 @@ public class PhotoDaoImplTest {
 		
 	}
 
+	@Test
+	public void testgetPhotos(){
+		String prefix = "photo_";
+		this.logger.info("[TEST] testUpdate PhotoDaoImpl");
+		
+		//create the album
+		Album album = new Album();
+		album.setAlbumId(UUID.randomUUID().toString());
+		AlbumDao albumDao = new AlbumDaoImpl(db);
+		albumDao.insertAlbum(album);
+		
+		//create 10 photos
+		List<Photo> photos = new ArrayList<Photo>();
+		for (int i=0; i < 10; i++){
+			Photo p = new Photo();
+			p.setAlbum(album);
+			p.setPhotoId(UUID.randomUUID().toString());
+			p.setTitle(prefix+String.valueOf(i));
+			this.photodao.insertPhoto(p);
+			photos.add(p);
+		}
+		
+		//check by getting 4 photos starting in the second photo (photo_2, photo_3, photo_4, photo_5)
+		int start = 2;
+		int quantity = 4;
+		List<Photo> photosHelper = photodao.getPhotos(album, quantity, start);
+		
+		assertEquals(photosHelper.size(), quantity);
+		int cont = start;
+		for (Photo p: photosHelper){
+			assertEquals(prefix+cont, p.getTitle());
+			cont++;
+		}
+		
+		//check getting without limit and skip
+		photosHelper = photodao.getPhotos(album, 0, 0);
+		assertEquals(photos.size(), photosHelper.size());
+		
+		//delete album
+		albumDao.deleteAlbum(album);
+		
+		//delete photos
+		for (Photo p: photos){
+			photodao.deletePhoto(p);
+		}
+		
+		
+	}
+	
 }

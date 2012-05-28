@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
+import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 
 import com.google.code.morphia.Datastore;
@@ -170,6 +171,19 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 			photos.add(photo);
 		}
 		
+		return photos;
+	}
+	
+	@Override
+	public List<Photo> getPhotos(Album album, int quantityNumberPhotos, int skipNumberPhotos){
+		List<Photo> photos;
+		Query<Photo> query = ds.createQuery(Photo.class);
+		query.field("album").equal(album);
+		query.offset(skipNumberPhotos); //skip the first X
+		if (quantityNumberPhotos > 0) //If 0 then get all 
+			query.limit(quantityNumberPhotos); //limit the number
+		
+		photos = query.asList();
 		return photos;
 	}
 	

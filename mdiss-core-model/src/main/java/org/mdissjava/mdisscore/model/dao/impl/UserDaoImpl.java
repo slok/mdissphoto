@@ -93,6 +93,17 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
+	public User getUserByEmail( String email ) {	  
+		User user = null;
+		session = HibernateUtil.getSession();
+		Query q = session.createQuery("" + "from User as user "
+				+ "where user.email ='" + email + "'");
+		user = (User) q.uniqueResult();
+	//	session.close();		
+		return user;	
+	}
+	
+	@Override
 	public User getUserByNick(String nick) {		
 		User user = null;
 		session = HibernateUtil.getSession();
