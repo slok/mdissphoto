@@ -29,6 +29,7 @@ public class DirectMessage {
 		this.toUserId = to;
 		this.text = text;
 		this.sentDate = new Date();
+		this.read = false;
 	}
 
 	public String getId() {
