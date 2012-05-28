@@ -106,6 +106,10 @@
 		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="messages">
+		<pattern value="/s/messages/in/#{user:paramsBean.userId}" />
+		<view-id value="/faces/app/self/messages/message-received.jsf" />
+	</url-mapping>
 	<!-- user -->
 	
 	<url-mapping id="user-profile">
