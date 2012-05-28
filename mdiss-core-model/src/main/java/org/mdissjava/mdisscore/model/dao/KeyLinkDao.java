@@ -13,4 +13,6 @@ public interface KeyLinkDao {
 	void deleteKeyLink(KeyLink keyLink);
 
 	int retrieveUserFromValidationLink(String link);
+
+	KeyLink findKeyByUserId(int id); 
 }

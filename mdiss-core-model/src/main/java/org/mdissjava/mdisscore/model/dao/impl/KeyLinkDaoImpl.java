@@ -20,7 +20,7 @@ public class KeyLinkDaoImpl extends BasicDAO<Photo, ObjectId> implements
 
 	public KeyLinkDaoImpl(Datastore ds) {
 		super(ds);
-	}
+	} 
 
 	private Query<KeyLink> queryToFindMe(String id) {
 		return ds.createQuery(KeyLink.class).field(Mapper.ID_KEY).equal(id);
@@ -35,6 +35,18 @@ public class KeyLinkDaoImpl extends BasicDAO<Photo, ObjectId> implements
 	public KeyLink findKeyLink(String key) {
 		Query<KeyLink> query = ds.createQuery(KeyLink.class);
 		query.field("id").equal(key);
+		List<KeyLink> keylink = query.asList();
+		KeyLink kl = null;
+		if (!keylink.isEmpty()) {
+			kl = keylink.get(0);
+		}
+		return kl;
+	}
+	
+	@Override
+	public KeyLink findKeyByUserId(int id) {
+		Query<KeyLink> query = ds.createQuery(KeyLink.class);
+		query.field("userId").equal(id);
 		List<KeyLink> keylink = query.asList();
 		KeyLink kl = null;
 		if (!keylink.isEmpty()) {
