@@ -59,6 +59,8 @@ public class ValidateBean {
 
 		ValidateBean.logger.info("Validation Email resend");
 
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + userDao
+				+ "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 		User user = userDao.getUserByEmail(this.email);
 		if (user != null && !user.isActive()) {
 			valid = true;

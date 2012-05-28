@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/public-space.xhtml">
+      
+		<ui:define name="title">
+		</ui:define>
+		
+		<ui:define name="header">
+		
+		</ui:define>
+		
+		<ui:define name="body">
+			<h:panelGroup layout="block" rendered="#{validateBean.valid}">
+			   <p>The Email has been successfully sent!</p>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{!validateBean.valid}">
+			   <p>Email resending failed! The email is not correct or is already activated. Please enter your email address to try once again.</p> 
+			   <h:form>
+			   <p>
+			       <h:outputLabel value="Email: *"/>
+										<p:inputText id="email" value="#{validateBean.email}" required="true" label="email"/>
+										<h:message for="email" style="color:red" />	
+			       </p>
+			       <p>
+						<p:commandButton styleClass="btn btn-primary btn-large" value="Resend" type="submit" actionListener="#{validateBean.resend}"/>	
+					</p>
+			   </h:form>
+			</h:panelGroup>
+		</ui:define>
+		
+    </ui:composition>
+</html>
