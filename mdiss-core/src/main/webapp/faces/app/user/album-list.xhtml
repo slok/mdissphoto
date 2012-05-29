@@ -27,8 +27,19 @@
 		</ui:define>
 		
 		<ui:define name="body">
+		
+			<!-- Alert -->
+			<div class="row-fluid">
+				<div class="span12">
+			      	<h:outputText value="#{albumBean.informationMessage}" escape="false" />
+		       	</div>
+			</div>
+			
 			<div class="row-fluid">
 			  <div class="span12">	
+				<div class="well centered">	  		
+			  		<div class="centeredText">#{albumBean.owner} Albums</div>
+			  	</div>
 			  	<div class="box centered">
 		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="albums" varStatus="status">
 		    			<div id="thumbAlbum" class="thumb">
@@ -39,16 +50,43 @@
 				    				<ui:repeat value="#{albums}" var="album">				
 										 <h:graphicImage  value="#{album}" />																								 
 									</ui:repeat>																		
-								</div>
+								</div>					
 								<div class="textBox">
 									<div class="text">#{albumBean.albumTitles[status.index]}</div>	
 								</div> 	
-							</pretty:link>		
+								
+							</pretty:link>	
+							<div class="menuBox">
+								<a class="btn btn-danger" data-toggle="modal" onclick="triggerAlbumIdSetter(#{status.index});" href="#deleteModal" ><i class="icon-trash icon-white"/></a>						
+							</div>
+							<!-- Trigger -->
+							<h:form id="hidden" style="display:none">
+								<h:commandLink class="cmdlink#{status.index}">
+									<f:param name="albumID" value="#{albumBean.albumIDs[status.index]}" />
+									<f:ajax event="click" listener="#{albumBean.setDeletedAlbumId}" />
+								</h:commandLink>
+							</h:form>
 						</div>								
 		    		</ui:repeat>
 		    	</div>	    		
 			  </div> 
-			</div>						
+			</div>
+			
+			<div class="modal hide fade" id="deleteModal">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">×</button>
+					<h3>Delete album</h3>
+				</div>
+				<h:form>	             
+					<div class="modal-body"> Are you sure that you want to delete the album? </div>
+					<div class="modal-footer">
+						<h:commandButton styleClass="btn btn-primary" value="Yes, I'm sure!" type="submit" action="#{albumBean.deleteAlbum}">			                                   
+                      		<f:param name="user" value="#{albumBean.userNick}" />
+                     	</h:commandButton>
+                     </div>
+                 </h:form>
+			</div>
+									
 		</ui:define>
 				
     </ui:composition>

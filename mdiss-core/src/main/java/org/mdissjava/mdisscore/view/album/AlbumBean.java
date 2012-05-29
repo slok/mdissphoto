@@ -3,10 +3,17 @@ package org.mdissjava.mdisscore.view.album;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.naming.spi.DirStateFactory.Result;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
@@ -14,14 +21,19 @@ import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.code.morphia.Datastore;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class AlbumBean {
 	
 	private String userNick;
+	private String owner;
+	private boolean showMenu;
+	private String albumID;
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
@@ -34,38 +46,27 @@ public class AlbumBean {
 	
 	private List<Album> albumList;
 	
+	private String informationMessage = "";
+	
 	public AlbumBean()
 	{	
-		//TODO: Replace this with DB logic!
-		/*
+		System.out.println(this.informationMessage);
+		
+		//Depending on the logged user that is checking the albums, a different title is displayed		
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
-		this.photoId = pb.getPhotoId();
 		
-		this.photoURLs = new ArrayList<String>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
 		
-		this.photoURLs.add("http://www.trucospc.info/fondos-de-pantalla/Naturaleza/imagenes/Snow%20Mountain.jpg");
-		this.photoURLs.add("http://www.gjxu.com/uploads/Mountain-Wallpaper1.jpg");
-		this.photoURLs.add("http://2.bp.blogspot.com/_Hrh98i7uFqo/TSX0BAlLewI/AAAAAAAAACg/6jIG1FSxdKU/s1600/Great+Snow+Mountain.jpg");
-		this.photoURLs.add("http://www.dummyimage.com/200x200/");
-		
-		this.albumTitles = new ArrayList<String>();
-		this.albumPhotosURLs = new ArrayList<List<String>>();
-		
-		this.albumTitles.add("Album 1");
-		this.albumPhotosURLs.add(photoURLs);
-		this.albumTitles.add("Album 2");
-		this.albumPhotosURLs.add(photoURLs);
-		this.albumTitles.add("Album 3");
-		this.albumPhotosURLs.add(photoURLs);
-		this.albumTitles.add("Album 4");
-		this.albumPhotosURLs.add(photoURLs);
-		this.albumTitles.add("Album 5");
-		this.albumPhotosURLs.add(photoURLs); 
-		*/
-		
-		ParamsBean pb = getPrettyfacesParams();
-		this.userNick = pb.getUserId();
+		if(loggedUser.equals(this.userNick))
+		{
+			this.owner = "My";
+		}
+		else
+		{
+			this.owner = this.userNick + "'s"; 
+		}
 		
 		//get morphia database from properties and load the albums by its ids
 		try {
@@ -110,6 +111,79 @@ public class AlbumBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String deleteAlbum() {
+		
+	   FacesContext fc = FacesContext.getCurrentInstance();
+	   Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+		 
+	   String user = params.get("user");
+	   String albumID = params.get("albumID");
+	   
+	   System.out.println(user);
+	   System.out.println(albumID);
+			
+	   try {
+			String database;
+			
+			PropertiesFacade propertiesFacade = new PropertiesFacade();
+			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+		
+			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+			
+			albumManager.deleteAlbum(this.albumID, user);
+			
+			this.informationMessage  = "<div class=\"alert alert-success\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" A</div>";
+			
+	   } catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	   } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	   }   
+	   //This is used to force a page refresh
+	   return "pretty:";
+	}
+	
+	public void setDeletedAlbumId(AjaxBehaviorEvent event) {
+		
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+			 
+		String albumID = params.get("albumID");
+		
+		this.albumID = albumID;
+		
+		System.out.println(albumID);
+	}
+		
+	public String getAlbumID() {
+		return albumID;
+	}
+
+	public void setAlbumID(String albumID) {
+		this.albumID = albumID;
+	}
+
+	public boolean isShowMenu() {
+		return showMenu;
+	}
+
+	public void setShowMenu(boolean showMenu) {
+		this.showMenu = showMenu;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}	
 
 	public List<String> getAlbumIDs() {
@@ -158,6 +232,14 @@ public class AlbumBean {
 
 	public void setUserNick(String userNick) {
 		this.userNick = userNick;
+	}
+
+	public String getInformationMessage() {
+		return informationMessage;
+	}
+
+	public void setInformationMessage(String informationMessage) {
+		this.informationMessage = informationMessage;
 	}
 
 	private ParamsBean getPrettyfacesParams()
