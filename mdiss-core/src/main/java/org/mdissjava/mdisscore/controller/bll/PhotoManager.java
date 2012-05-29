@@ -14,5 +14,6 @@ public interface PhotoManager {
 	void updatePhoto(Photo photo)throws IllegalArgumentException;
 	void deletePhoto(Photo photo)throws IllegalArgumentException;
 	void deletePhoto(String photoId) throws IOException;
-
+	Photo searchPhotoUniqueUtil(String photoId) throws IOException;
+	int getTotalVotesFromPhoto(String photoId) throws IOException;
 }

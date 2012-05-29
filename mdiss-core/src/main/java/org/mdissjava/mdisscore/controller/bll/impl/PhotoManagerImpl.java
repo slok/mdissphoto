@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
 import org.mdissjava.mdisscore.model.dao.TagDao;
@@ -17,6 +18,7 @@ import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Metadata;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.Tag;
+import org.mdissjava.mdisscore.model.pojo.Vote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,27 +53,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		this.tagDao = new TagDaoImpl(this.datastore);
 	}
 	
-	/**
-	 * Splits the tags from a regular expression, if the regex is null then by default will split comma separated 
-	 * 
-	 * @param tags
-	 * @return
-	 */
-	private ArrayList<String> splitTags(String tags, String regex)
-	{
 
-		this.logger.debug("Splitting tags");
-		if (regex == null)
-			regex = "\\,";
-		
-		String[] splittedTags = tags.split(regex);
-
-		ArrayList<String> tagList = new ArrayList<String>();
-		for (String i:splittedTags)
-			tagList.add(i);
-
-		return tagList;
-	}
 	
 	/**
 	 * Inserts a photo with the data given the necessary arguments, some are necessary other no
@@ -126,7 +108,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(this.splitTags(tags, "\\,"));
+			p.setTags(Utils.splitTags(tags, "\\,"));
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
@@ -340,6 +322,7 @@ public class PhotoManagerImpl implements PhotoManager{
 	 * @return the photo pojo itself
 	 * @throws IOException
 	 */
+	@Override
 	public Photo searchPhotoUniqueUtil(String photoId) throws IOException
 	{
 		
@@ -366,6 +349,36 @@ public class PhotoManagerImpl implements PhotoManager{
 		return pList.get(0);
 		
 	}
+	
+	/**
+	 * calculate the total votes from a photoId
+	 * 
+	 * @param photoId
+	 * @return total votes
+	 * @throws IOException
+	 */
+	@Override
+	public int getTotalVotesFromPhoto(String photoId) throws IOException
+	{
+		int totalPoints = 0;
+		this.logger.debug("PhotoManagerImpl.getTotalVotesFromPhoto()");
+		if(!photoId.equals("")){
+			Photo photo = new Photo();
+			photo.setPhotoId(photoId);
+			List<Photo> photos = this.photoDao.findPhoto(photo);
+			if(photos.isEmpty()){
+				this.logger.error("There are not any albums from photo "+ photoId +" named is stored in database");
+				throw new IOException("There are not any albums from photo "+ photoId + " named is stored in database");
+			}
+			//TODO calcular total de votos de la foto
+			List<Vote> votes = photo.getVotes();
+			for (Vote vote : votes) {
+				totalPoints += vote.getPoints();
+			}
+		}
+		return totalPoints;
+	}
+	
 
 	
 	
