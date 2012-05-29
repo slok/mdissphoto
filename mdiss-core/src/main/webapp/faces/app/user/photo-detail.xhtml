@@ -221,10 +221,20 @@
 							<pretty:link mappingId="user-profile" >
 								<f:param value="#{photoDetailsBean.userNick}" />
 								<h2>#{photoDetailsBean.userNick}</h2>
-							</pretty:link>
-						
+							</pretty:link>						
 							
-							<a class="btn btn-success" href="#">Follow</a>
+							<h:form>
+								<h:commandButton styleClass="btn btn-success"
+									rendered="#{userBean.followsUser(userBean.user) == false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
+									actionListener="#{userBean.addFollow(userBean.user)}" value="Follow"
+									update="growl" />
+								<h:commandButton styleClass="btn btn-warning"
+									rendered="#{userBean.followsUser(userBean.user) != false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
+									actionListener="#{userBean.deleteFollow(userBean.user)}"
+									value="Unfollow" update="growl" />
+							</h:form>
 						</div>
 					</div>
 					<br/>
