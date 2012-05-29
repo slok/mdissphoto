@@ -3,6 +3,9 @@ package org.mdissjava.mdisscore.model.pojo;
 import java.util.Date;
 import java.util.UUID;
 
+import org.mdissjava.mdisscore.model.dao.UserDao;
+import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -16,6 +19,8 @@ public class DirectMessage {
 	private int toUserId;
 	private String text;
 	private boolean read;
+	private String fromUserName;
+	private String fromUserAvatar;
 	@Embedded
 	private Date sentDate;
 	
@@ -30,6 +35,9 @@ public class DirectMessage {
 		this.text = text;
 		this.sentDate = new Date();
 		this.read = false;
+		UserDao ud = new UserDaoImpl();
+		User fromUser = ud.getUserById(from);
+		this.fromUserName = fromUser.getNick();
 	}
 
 	public String getId() {
@@ -78,6 +86,22 @@ public class DirectMessage {
 
 	public void setSentDate(Date sentDate) {
 		this.sentDate = sentDate;
+	}
+
+	public String getFromUserName() {
+		return fromUserName;
+	}
+
+	public void setFromUserName(String fromUserName) {
+		this.fromUserName = fromUserName;
+	}
+
+	public String getFromUserAvatar() {
+		return fromUserAvatar;
+	}
+
+	public void setFromUserAvatar(String fromUserAvatar) {
+		this.fromUserAvatar = fromUserAvatar;
 	}
 	
 	
