@@ -26,6 +26,8 @@ public class UserBean {
 	private User user;
 	
 	private int page;
+	
+	private String userId;
 
 	public UserBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -33,18 +35,18 @@ public class UserBean {
 		if (this.page == 0){
 			this.page = 1;
 		}
+		this.userId = pb.getUserId();
 		this.userManager = new UserManagerImpl();			
 		this.userNickname = retrieveSessionUserNick();	
-		this.user = userManager.getUserByNick(this.userNickname);	
-		
+		this.user = userManager.getUserByNick(this.userId);			
 	}
 		
 	public String getUserId() {
-		return userNickname;
+		return this.userId;
 	}
 
 	public void setUserId(String userId) {
-		this.userNickname = userId;
+		this.userId = userId;
 	}
 		
 	public User getUser(){

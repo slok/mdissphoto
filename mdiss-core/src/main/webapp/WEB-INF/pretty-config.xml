@@ -126,10 +126,10 @@
 		<view-id value="/faces/app/user/album-list.jsf" />
 	</url-mapping>
 
-	<!-- url-mapping id="album-detail">
+	<url-mapping id="album-detail">
 		<pattern value="/u/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
 		<view-id value="/faces/app/user/album-detail.jsf" />
-	</url-mapping-->
+	</url-mapping>
 
 	<url-mapping id="photo-detail">
 		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/" />
