@@ -36,11 +36,13 @@
 						</div>
 							<h:form>
 							<h:commandButton styleClass="btn btn-success"
-									rendered="#{userBean.followsUser(userBean.user) == false}"
+									rendered="#{userBean.followsUser(userBean.user) == false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
 									actionListener="#{userBean.addFollow(userBean.user)}" value="Follow"
 									update="growl" />
 								<h:commandButton styleClass="btn btn-warning"
-									rendered="#{userBean.followsUser(userBean.user) != false}"
+									rendered="#{userBean.followsUser(userBean.user) != false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
 									actionListener="#{userBean.deleteFollow(userBean.user)}"
 									value="Unfollow" update="growl" />
 							</h:form>
