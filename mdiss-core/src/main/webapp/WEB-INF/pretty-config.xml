@@ -106,6 +106,14 @@
 		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="messages-in">
+		<pattern value="/s/messages/in/" />
+		<view-id value="/faces/app/self/messages/message-received.jsf" />
+	</url-mapping>
+	<url-mapping id="messages-out">
+		<pattern value="/s/messages/out/" />
+		<view-id value="/faces/app/self/messages/message-sent.jsf" />
+	</url-mapping>
 	<!-- user -->
 	
 	<url-mapping id="user-profile">
