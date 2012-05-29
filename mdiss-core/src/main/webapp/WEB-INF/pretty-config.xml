@@ -124,6 +124,11 @@
 		<view-id value="/faces/app/user/photo-detail.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="photo-detail-settings">
+        <pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/settings/" />
+        <view-id value="/faces/app/user/photo-detail-settings.jsf" />
+    </url-mapping>
+    	
 	<url-mapping id="photo-size">
 		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
 		<view-id value="/faces/app/user/photo-size.jsf" />
