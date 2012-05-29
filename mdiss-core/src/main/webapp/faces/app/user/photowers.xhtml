@@ -1,21 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:pretty="http://ocpsoft.com/prettyfaces"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions">    
-    
-    <ui:composition template="/faces/app/user-space.xhtml">
-      
-		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
-		
-			<ui:define name="head">
-		     	
-		    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script> 	
-     		<script type="text/javascript">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="/faces/app/user-space.xhtml">
+
+	<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+
+	<ui:define name="head">
+
+		<script type="text/javascript"
+			src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
      		
      		$(document).ready(function() { 
      			
@@ -26,59 +27,79 @@
      			var navigation_html = '<ul>';
      			var current_link = 0;
 
-     			  navigation_html += '<li>';
+     			  navigation_html += '<li class="previous_link">';
      			  navigation_html += '<a href="javascript:previous();">&larr; Previous</a>';
      			  navigation_html += '</li>';
      		      	     			  
      			 while(number_of_pages != current_link ) {
      				current_link++;
-     			    navigation_html += '<li id="id' + current_link +'">';
+     			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
        			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
-       			 //	navigation_html += '<a href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link) +'</a>';
+       			 	//navigation_html += '<a href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link) +'</a>';
      			    navigation_html += '</li>';     			  
      			 }
      			  
      			  navigation_html += '<li>';
-     			  navigation_html += '<a href="javascript:next();">Next &rarr;</a>';
+     			  navigation_html += '<a class="next_link" href="javascript:next();">Next &rarr;</a>';
      			  navigation_html += '</li>';
      			  navigation_html += '</ul>';
      			  
      			 $('#page_navigation').html(navigation_html);
      			 
      			 
-     		     		
+     			 var page_num = #{userBean.page}
+     			 var get_box = document.getElementById('id'+page_num);
+     			 $('#page_navigation').find('li.active').removeClass('active');
+     			 $(get_box).addClass('active');
+     			      			      		     		
      		});
      		
-     		</script>
+     		function previous(){
+   			  new_page = #{userBean.page}-1;
+   			  //if there is an item before the current active link run the function
+   			  if($('.active').prev('.page_link').length==true){
+   			    go_to_page(new_page);
+   			  }
+     		}
      		
-		</ui:define>
-		
-		<ui:define name="body">			
+     		function next(){
+     		  new_page = #{userBean.page}-1;
+       		  //if there is an item before the current active link run the function
+       		  if($('.active').prev('.page_link').length==true){
+       		    go_to_page(new_page);
+       		  }
+         	}
+     		
+     		function go_to_page(new_page){
+     			
+     		}
+     		
+     		</script>
 
-	<div class="box centered">	
-		<h:form id="form">				
-			<h:dataTable value="#{userBean.followers}" var="follower" >				
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="box centered">
+			<h:form id="form">
+				<h:dataTable value="#{userBean.followers}" var="follower">
 					<div class="row-fluid">
 						<div class="span6">
 							<p:column>
 								<div class="span2">
 									<pretty:link mappingId="user-profile">
-										<f:param value="#{follower.nick}" />										
-												<img class="thumbnail"	src="http://placehold.it/60x60" alt="" />
-									</pretty:link>	
+										<f:param value="#{follower.nick}" />
+										<img class="thumbnail" src="http://placehold.it/60x60" alt="" />
+									</pretty:link>
 								</div>
 							</p:column>
 							<p:column>
-								<div class="span4 offset1" >
-										<pretty:link mappingId="user-profile">
-											<f:param value="#{follower.nick}" />
-												<div class="row-fluid">
-													#{follower.nick}
-												</div>
-										</pretty:link>										
-									<div class="row-fluid">
-										#{follower.email}
-									</div>
+								<div class="span4 offset1">
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{follower.nick}" />
+										<div class="row-fluid">#{follower.nick}</div>
+									</pretty:link>
+									<div class="row-fluid">#{follower.email}</div>
 								</div>
 							</p:column>
 							<p:column>
@@ -93,17 +114,15 @@
 							</p:column>
 						</div>
 					</div>
-				
-				<br/>
-			</h:dataTable>
-		</h:form>
-		</div>
-		
-		<div id="page_navigation" class="pagination" >
 
+					<br />
+				</h:dataTable>
+			</h:form>
 		</div>
+
+		<div id="page_navigation" class="pagination"></div>
 
 	</ui:define>
-				
-    </ui:composition>
+
+</ui:composition>
 </html>
