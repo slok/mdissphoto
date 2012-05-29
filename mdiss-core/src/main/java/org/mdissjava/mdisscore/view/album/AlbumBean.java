@@ -109,29 +109,37 @@ public class AlbumBean {
 	
 	public String deleteAlbum() {
 		
-	   FacesContext fc = FacesContext.getCurrentInstance();
-	   Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
-		 
-	   String user = params.get("user");
-			
-	   try {
-			String database;
-			
-			PropertiesFacade propertiesFacade = new PropertiesFacade();
-			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+		//Security check just to ensure that the one erasing the album is the owner of the album 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
 		
-			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
-			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+		if(loggedUser.equals(this.userNick)) {
 			
-			albumManager.deleteAlbum(this.albumID, user);
-			
-	   } catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-	   } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-	   }   
+			 FacesContext fc = FacesContext.getCurrentInstance();
+			 Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+				 
+			 String user = params.get("user");
+					
+			 try {
+					String database;
+					
+					PropertiesFacade propertiesFacade = new PropertiesFacade();
+					database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+				
+					Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+					AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+					
+					albumManager.deleteAlbum(this.albumID, user);
+					
+			 } catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			 } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			 }   
+		}
+		
 	   //This is used to force a page refresh
 	   return "pretty:";
 	}
