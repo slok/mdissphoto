@@ -23,6 +23,7 @@ import com.google.code.morphia.Datastore;
 public class MessageBean {
 
 	private String userName;
+	private User user;
 	private Datastore db;
 	private DirectMessageDao directMessageDao;
 	private List<DirectMessage> messages;
@@ -32,10 +33,11 @@ public class MessageBean {
 			.getLogger(MessageBean.class.getName());
 
 	public MessageBean() {
+		logger.info("MessageBean Constructor inititated");
 		ParamsBean pb = getPrettyfacesParams();
 		this.userName = pb.getUserId();
 		UserDao userDao = new UserDaoImpl();
-		User user = userDao.getUserByNick(userName);
+		user = userDao.getUserByNick(userName);
 
 		db = MorphiaDatastoreFactory.getDatastore("test");
 		directMessageDao = new DirectMessageDaoImpl(db);
@@ -52,6 +54,20 @@ public class MessageBean {
 				.evaluateExpressionGet(context, "#{paramsBean}",
 						ParamsBean.class);
 		return pb;
+	}
+
+	public List<DirectMessage> getMessagesReceived() {
+		DirectMessage filter = new DirectMessage();
+		filter.setToUserId(user.getId());
+		messages = directMessageDao.findDirectMessage(filter, true);
+		return messages;
+	}
+
+	public List<DirectMessage> getMessagesSent() {
+		DirectMessage filter = new DirectMessage();
+		filter.setFromUserId(user.getId());
+		messages = directMessageDao.findDirectMessage(filter, true);
+		return messages;
 	}
 
 	public String getUserName() {
@@ -92,6 +108,14 @@ public class MessageBean {
 
 	public void setSelectedMessage(DirectMessage selectedMessage) {
 		this.selectedMessage = selectedMessage;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

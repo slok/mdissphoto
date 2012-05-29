@@ -23,9 +23,10 @@
 		
 			<div class="row">
 				<div class="span12">
-					<h1>Messages</h1>
+					<h1>Input Messages</h1>
 				</div>
 			</div>
+			<br/>
 			<div class="row-fluid">
 			
 			  <div class="span3">
@@ -33,10 +34,16 @@
 			  		<ul class="nav nav-list">
 			  			<li class="nav-header">Messages Menu</li>
 						<li class="active">
-							<a href="#">Received Messages</a>
+							<pretty:link mappingId="messages-in" >
+									<f:param value="#{messageBean.userName}" />
+									Received Messages
+							</pretty:link>
 						</li>
 						<li class="active">
-							<a href="#">Sent Messages</a>
+							<pretty:link mappingId="messages-out" >
+									<f:param value="#{messageBean.userName}" />
+							Sent Messages
+							</pretty:link>
 						</li>
 						<li class="nav-header">Actions</li>
 						<li class="active">
@@ -53,13 +60,13 @@
 			  		
 			  		<h:form id="form">  
               
-					    <p:dataList value="#{messageBean.messages}" var="message" id="messages"  
+					    <p:dataList value="#{messageBean.messagesReceived}" var="message" id="messages"  
 					        paginator="true" rows="5" effectSpeed="fast"  
 					        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"  
 					        rowsPerPageTemplate="5,10,15" type="none">  
 					  
 					            <f:facet name="header">  
-					                Messages  
+					                Input Messages  
 					            </f:facet>  
 					  
 					            <p:column>  
