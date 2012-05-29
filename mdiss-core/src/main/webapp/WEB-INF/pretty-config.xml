@@ -147,6 +147,11 @@
 		<pattern value="/u/#{user:paramsBean.userId}/photowing/" />
 		<view-id value="/faces/app/user/photowing.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="photowing_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowing/#{page:paramsBean.page}"/>
+		<view-id value="/faces/app/user/photowing.jsf" />
+	</url-mapping>
 
 	<!-- Logged -->
 	
