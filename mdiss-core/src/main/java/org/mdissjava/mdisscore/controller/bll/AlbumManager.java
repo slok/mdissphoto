@@ -23,5 +23,6 @@ public interface AlbumManager {
 	List<Album> findUserAlbums(String userNick);
 	void forceDeleteAlbum(Album albumMaster) throws IOException;
 	Album searchAlbumUniqueUtil(String albumId, String userNickname) throws IOException;
+	List<String> getAlbumsFromUserNick(String userNick) throws IOException;
 
 }
