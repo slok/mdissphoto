@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.mdissjava.mdisscore.model.dao.DirectMessageDao;
 import org.mdissjava.mdisscore.model.dao.UserDao;
@@ -14,7 +13,8 @@ import org.mdissjava.mdisscore.model.dao.impl.DirectMessageDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.DirectMessage;
 import org.mdissjava.mdisscore.model.pojo.User;
-import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.code.morphia.Datastore;
 
@@ -34,8 +34,9 @@ public class MessageBean {
 
 	public MessageBean() {
 		logger.info("MessageBean Constructor inititated");
-		ParamsBean pb = getPrettyfacesParams();
-		this.userName = pb.getUserId();
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		this.userName = auth.getName();
 		UserDao userDao = new UserDaoImpl();
 		user = userDao.getUserByNick(userName);
 
@@ -46,14 +47,6 @@ public class MessageBean {
 		filter.setToUserId(user.getId());
 		messages = directMessageDao.findDirectMessage(filter, true);
 
-	}
-
-	private ParamsBean getPrettyfacesParams() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ParamsBean pb = (ParamsBean) context.getApplication()
-				.evaluateExpressionGet(context, "#{paramsBean}",
-						ParamsBean.class);
-		return pb;
 	}
 
 	public List<DirectMessage> getMessagesReceived() {
