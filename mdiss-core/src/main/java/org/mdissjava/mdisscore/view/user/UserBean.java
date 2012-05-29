@@ -18,17 +18,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class UserBean {
 	
 	private String userNickname;
+	private String userId;
+
 	private List<User> follows;
 	private List<User> followers;
 	
-	private UserManager userManager;
-	
-	private User user;
-	
+	private UserManager userManager;	
+	private User user;	
 	private int page;
 	
-	private String userId;
 
+	
+	
+	
 	public UserBean() {
 		ParamsBean pb = getPrettyfacesParams();
 		this.page = pb.getPage();
@@ -57,7 +59,16 @@ public class UserBean {
 		this.user = user;
 	}
 	
+	public String getUserNickname() {
+		return userNickname;
+	}
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+
 	public List<User> getFollows() {
+		this.follows = userManager.findFollows(user.getNick(), page);
 		return this.follows;
 	}
 	
