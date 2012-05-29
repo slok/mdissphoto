@@ -27,7 +27,10 @@ public class MessageBean {
 	private Datastore db;
 	private DirectMessageDao directMessageDao;
 	private List<DirectMessage> messages;
-	public DirectMessage selectedMessage;
+	private DirectMessage selectedMessage;
+	private String sendingText;
+	private String sendingUserTo;
+	private String sendingSubject;
 
 	private static Logger logger = Logger
 			.getLogger(MessageBean.class.getName());
@@ -109,6 +112,30 @@ public class MessageBean {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getSendingText() {
+		return sendingText;
+	}
+
+	public void setSendingText(String sendingText) {
+		this.sendingText = sendingText;
+	}
+
+	public String getSendingUserTo() {
+		return sendingUserTo;
+	}
+
+	public void setSendingUserTo(String sendingUserTo) {
+		this.sendingUserTo = sendingUserTo;
+	}
+
+	public String getSendingSubject() {
+		return sendingSubject;
+	}
+
+	public void setSendingSubject(String sendingSubject) {
+		this.sendingSubject = sendingSubject;
 	}
 
 }
