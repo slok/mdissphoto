@@ -45,13 +45,13 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public List<User> findFollows(String user) {
-		return userDao.findFollows(user);	
+	public List<User> findFollows(String user, int pageNumber) {
+		return userDao.findFollows(user, pageNumber);	
 	}
 	
 	@Override
-	public List<User> findFollowers(String user) {
-		return userDao.findFollowers(user);	
+	public List<User> findFollowers(String user, int pageNumber) {
+		return userDao.findFollowers(user, pageNumber);	
 	}
 		
 	@Override
@@ -60,9 +60,15 @@ public class UserManagerImpl implements UserManager {
 	}
 	
 	@Override
-	public void changePassword(User user, String newPassword) {		
+	public boolean changePassword(User user,String oldPassword ,String newPassword) {
+		if(user.getPass().equals(PEncoder(oldPassword)))
+		{
 		user.setPass(PEncoder(newPassword));
 		userDao.updateUser(user);		
+		return true;
+		}
+		else
+			return false;
 	}
 	
 	/**
@@ -84,8 +90,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public boolean nickAlreadyExists(String nick) {
-		
+	public boolean nickAlreadyExists(String nick) {		
 		return userDao.nickAlreadyExists(nick);
 	}
 
@@ -94,18 +99,36 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public void addFollow(String nick) {
-		// TODO Auto-generated method stub
-		
+	public void addFollow(String userNickname, User follow) {
+		userDao.addFollow(userNickname, follow); 		
+	}
+	
+	@Override
+	public void addFollower(String userNickname, User follower) {
+		userDao.addFollower(userNickname, follower); 		
 	}
 
 	@Override
 	public void activateUser(int idUser) {
 		// TODO activate user business layer function
-		userDao.activateUser(idUser);
+		userDao.activateUser(idUser);		
+	}
+
+	@Override
+	public boolean followsUser(String userNickname, User follow) {
+		return userDao.followsUser(userNickname, follow);
+	}
+
+	@Override
+	public void deleteFollow(String userNickname, User follow) {
+		userDao.deleteFollow(userNickname, follow);
 		
 	}
+	
+	@Override
+	public void deleteFollower(String userNickname, User follower) {
+		userDao.deleteFollower(userNickname, follower);
 		
-
+	}
 
 }

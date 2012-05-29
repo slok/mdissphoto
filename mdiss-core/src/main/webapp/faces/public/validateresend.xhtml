@@ -17,10 +17,10 @@
 		
 		<ui:define name="body">
 			<h:panelGroup layout="block" rendered="#{validateBean.valid}">
-			   <p>Your account is successfully activated!</p>
+			   <p>The Email has been successfully sent!</p>
 			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{!validateBean.valid}">
-			   <p>Activation failed! Please enter your email address to try once again.</p> 
+			   <p>Email resending failed! The email is not correct or is already activated. Please enter your email address to try once again.</p> 
 			   <h:form>
 			   <p>
 			       <h:outputLabel value="Email: *"/>
@@ -28,7 +28,7 @@
 										<h:message for="email" style="color:red" />	
 			       </p>
 			       <p>
-						<h:commandButton styleClass="btn btn-primary btn-large" value="Resend" type="submit" action="#{validateBean.resend}"/>	
+						<p:commandButton styleClass="btn btn-primary btn-large" value="Resend" type="submit" actionListener="#{validateBean.resend}"/>	
 					</p>
 			   </h:form>
 			</h:panelGroup>

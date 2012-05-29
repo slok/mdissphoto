@@ -35,25 +35,6 @@ public class AlbumDetailsBean {
 	
 	public AlbumDetailsBean()
 	{	
-		//TODO: Replace this with DB logic!
-		/*
-		ParamsBean pb = getPrettyfacesParams();
-		this.userNick = pb.getUserId();
-		this.albumTitle = "AlbumTitle";
-		
-		this.photoURLs = new ArrayList<String>();
-		
-		this.photoURLs.add("http://www.trucospc.info/fondos-de-pantalla/Naturaleza/imagenes/Snow%20Mountain.jpg");
-		this.photoURLs.add("http://www.gjxu.com/uploads/Mountain-Wallpaper1.jpg");
-		this.photoURLs.add("http://2.bp.blogspot.com/_Hrh98i7uFqo/TSX0BAlLewI/AAAAAAAAACg/6jIG1FSxdKU/s1600/Great+Snow+Mountain.jpg");
-		this.photoURLs.add("http://www.dummyimage.com/260x260/");
-		
-		this.photoTitles = new ArrayList<String>();
-		this.photoTitles.add("Photo 1");
-		this.photoTitles.add("Photo 2");
-		this.photoTitles.add("Photo 3");
-		this.photoTitles.add("Photo 4");
-		*/
 		
 		//get morphia database from properties and load the albums by its ids
 		try {

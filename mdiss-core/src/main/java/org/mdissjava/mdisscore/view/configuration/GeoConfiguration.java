@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -57,20 +59,19 @@ public class GeoConfiguration implements Serializable{
     
     private int zoom=5;
       
-    private Map<String,String> countries = new HashMap<String, String>();    
+    private SortedMap<String, String> countries = new TreeMap<String, String>();    
       
-    private Map<String,String> states = new HashMap<String, String>();
+    private SortedMap<String, String> states = new TreeMap<String, String>();
     
-    private Map<String,String> cities = new HashMap<String, String>();
+    private SortedMap<String, String> cities = new TreeMap<String, String>();
   
     public GeoConfiguration() { 
     	
     	this.userNick = retrieveSessionUserNick();
 		
 		userManager = new UserManagerImpl();		
-		this.user = userManager.getUserByNick(this.userNick);	
-    	
-    	
+		this.user = userManager.getUserByNick(this.userNick);
+	  	
     	List<Country>Lpaises= adBll.getCountries();	
     	for(int i=0;i<Lpaises.size();i++)
     		countries.put(Lpaises.get(i).getNombre(),Short.toString(Lpaises.get(i).getId()));
@@ -110,11 +111,11 @@ public class GeoConfiguration implements Serializable{
 			return null;
 	}
   
-    public Map<String, String> getCountries() {  
+    public SortedMap<String, String> getCountries() {  
         return countries;  
     }  
   
-    public void setCountries(Map<String, String> countries) {  
+    public void setCountries(SortedMap<String, String> countries) {  
         this.countries = countries;  
     }        
       
@@ -134,11 +135,11 @@ public class GeoConfiguration implements Serializable{
 			return null;
 	}
     
-    public Map<String, String> getStates() {  
+    public SortedMap<String, String> getStates() {  
         return states;  
     }  
   
-    public void setStates(Map<String, String> states) {  
+    public void setStates(SortedMap<String, String> states) {  
         this.states = states;  
     }
     
@@ -159,11 +160,11 @@ public class GeoConfiguration implements Serializable{
 			return null;
 	}
 	
-	public Map<String,String> getCities() {
+	public SortedMap<String, String> getCities() {
 		return cities;
 	}
 
-	public void setCities(Map<String,String> cities) {
+	public void setCities(SortedMap<String, String> cities) {
 		this.cities = cities;
 	}
    
@@ -177,7 +178,7 @@ public class GeoConfiguration implements Serializable{
         	if(s!=null)
         		this.setCoordenadasXY(s.getX(), s.getY());
         	zoom=10;
-        	cities = new HashMap<String, String>();
+        	cities = new TreeMap<String, String>();
         	List<City>Lciudades= adBll.getCities(Short.parseShort(country), Short.parseShort(state));
         	for(int i=0;i<Lciudades.size();i++)
         		{
@@ -187,7 +188,7 @@ public class GeoConfiguration implements Serializable{
         }   
         else  
         {    
-        	cities = new HashMap<String, String>();
+        	cities =new TreeMap<String, String>();
         	this.setCity("0");
         }
     }
@@ -202,8 +203,8 @@ public class GeoConfiguration implements Serializable{
         	if(c!=null)
         		this.setCoordenadasXY(c.getX(), c.getY());
         	zoom=6;
-        	cities = new HashMap<String, String>();
-        	states = new HashMap<String, String>();
+        	cities = new TreeMap<String, String>();
+        	states = new TreeMap<String, String>();
         	List<State>Lestados= adBll.getStates(Short.parseShort(country));
         	for(int i=0;i<Lestados.size();i++)
         		{
@@ -213,8 +214,8 @@ public class GeoConfiguration implements Serializable{
         }   
         else  
         {    
-        	states = new HashMap<String, String>();
-        	cities = new HashMap<String, String>();
+        	states = new TreeMap<String, String>();
+        	cities = new TreeMap<String, String>();
         	this.setState("0");
         	this.setCity("0");
         }
@@ -310,7 +311,7 @@ public class GeoConfiguration implements Serializable{
 		
 		this.userManager.saveUser(this.user);
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Geographical data update"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Geographical settings updated"));
 		}
 		else
 		{

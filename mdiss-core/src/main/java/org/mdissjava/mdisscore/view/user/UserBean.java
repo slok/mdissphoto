@@ -17,54 +17,90 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @ManagedBean
 public class UserBean {
 	
-	private String userNick;
+	private String userNickname;
+	private String userId;
+
 	private List<User> follows;
 	private List<User> followers;
 	
-	private UserManager userManager;
+	private UserManager userManager;	
+	private User user;	
+	private int page;
 	
-	private User user;
 
+	
+	
+	
 	public UserBean() {
-		//ParamsBean pb = getPrettyfacesParams();
-		//this.userNick = pb.getUserId();
-		this.userNick = retrieveSessionUserNick();
-		
-		userManager = new UserManagerImpl();		
-		this.user = userManager.getUserByNick(this.userNick);	
-		follows = userManager.findFollows(user.getNick());
+		ParamsBean pb = getPrettyfacesParams();
+		this.page = pb.getPage();
+		if (this.page == 0){
+			this.page = 1;
+		}
+		this.userId = pb.getUserId();
+		this.userManager = new UserManagerImpl();			
+		this.userNickname = retrieveSessionUserNick();	
+		this.user = userManager.getUserByNick(this.userId);			
 	}
 		
-	public String getUserNick() {
-		return userNick;
+	public String getUserId() {
+		return this.userId;
 	}
 
-	public void setUserNick(String userNick) {
-		this.userNick = userNick;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 		
 	public User getUser(){
 		return this.user;
 	}
 	
-	public void setUser(User user){
+	public void setUser(User user) {
 		this.user = user;
 	}
 	
-	public List<User> getFollows(){
+	public String getUserNickname() {
+		return userNickname;
+	}
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+
+	public List<User> getFollows() {
+		this.follows = userManager.findFollows(user.getNick(), page);
 		return this.follows;
 	}
 	
-	public void setFollows(List<User> follows){
+	public void setFollows(List<User> follows) {
 		this.follows = follows;
 	}
 	
-	public List<User> getFollowers(){
+	public List<User> getFollowers() {
+		this.followers = userManager.findFollowers(user.getNick(), page);
 		return this.followers;
 	}
 	
-	public void setFollowers(List<User> followers){
+	public void setFollowers(List<User> followers) {
 		this.followers = followers;
+	}
+	
+	public void addFollow(User follow) {		
+		userManager.addFollow(this.userNickname, follow);
+	}
+	
+	public void deleteFollow(User follow) {		
+		userManager.deleteFollow(this.userNickname, follow);
+	}
+	
+	public boolean followsUser(User follow) {
+		return userManager.followsUser(this.userNickname, follow);
+	}
+			
+	private String retrieveSessionUserNick() {
+	  //Get the current logged user's username
+	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	  return auth.getName();		  
 	}
 	
 	private ParamsBean getPrettyfacesParams() {
@@ -72,17 +108,6 @@ public class UserBean {
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
 		return pb;
 	}
-	
-	public void addFollow(String nick){
-		
-	}
-	
-	private String retrieveSessionUserNick() {
-		  //Get the current logged user's username
-		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		  return auth.getName();
-		   
-		 }
 	
 	
 }

@@ -1,64 +1,41 @@
 package org.mdissjava.notifier.event.observer;
 
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.apache.commons.mail.EmailException;
-import org.mdissjava.commonutils.email.EmailUtils;
-import org.mdissjava.notifier.event.VerifyAccountEvent;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
+
+import org.mdissjava.notifier.broker.connection.MessageBrokerConnection.ConnectionType;
+import org.mdissjava.notifier.broker.connection.STOMPConnection;
+import org.mdissjava.notifier.event.MdissEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EmailObserver implements Observer{
 
-	private String userNick;
-	private String email;
-	private String key;
+	private String DESTINATION_EMAIL = "notifications_email";
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof VerifyAccountEvent)
-		{
-			this.userNick = ((VerifyAccountEvent)arg).getUserNick();
-			this.email = ((VerifyAccountEvent)arg).getEmail();
-			this.key = ((VerifyAccountEvent)arg).getKey();
-			//send verification email
-			try {
-				EmailUtils.sendValidationEmail(email, userNick, key);
-			} catch (EmailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		STOMPConnection connection;
+		try {
+			connection = new STOMPConnection(ConnectionType.QUEUE, DESTINATION_EMAIL, 
+					DeliveryMode.NON_PERSISTENT, Session.AUTO_ACKNOWLEDGE);
 		
-	}
-
-	public String getUserNick() {
-		return userNick;
-	}
-
-	public void setUserNick(String userNick) {
-		this.userNick = userNick;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
+			MessageProducer producer = connection.createProducer();
+			Session session = connection.getSession();
+			
+			ObjectMessage msg = session.createObjectMessage((MdissEvent)arg);
+			
+			producer.send(msg);
+		} catch (JMSException e) {
+			this.logger.error("Error sending event to the broker: {}", e.toString());
+		}
 	}
 	
-	
-
 }
