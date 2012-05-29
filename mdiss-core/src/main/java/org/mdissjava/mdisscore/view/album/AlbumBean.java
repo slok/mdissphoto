@@ -5,15 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.naming.spi.DirStateFactory.Result;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
@@ -46,13 +41,10 @@ public class AlbumBean {
 	
 	private List<Album> albumList;
 	
-	private String informationMessage = "";
-	
 	public AlbumBean()
-	{	
-		System.out.println(this.informationMessage);
-		
-		//Depending on the logged user that is checking the albums, a different title is displayed		
+	{		
+		// Depending on the logged user that is checking the albums, a different title 
+		// is displayed and deleteAlbum menu is shown or not.	
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
 		
@@ -62,10 +54,12 @@ public class AlbumBean {
 		if(loggedUser.equals(this.userNick))
 		{
 			this.owner = "My";
+			this.showMenu = true;
 		}
 		else
 		{
 			this.owner = this.userNick + "'s"; 
+			this.showMenu = false;
 		}
 		
 		//get morphia database from properties and load the albums by its ids
@@ -119,10 +113,6 @@ public class AlbumBean {
 	   Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
 		 
 	   String user = params.get("user");
-	   String albumID = params.get("albumID");
-	   
-	   System.out.println(user);
-	   System.out.println(albumID);
 			
 	   try {
 			String database;
@@ -135,10 +125,6 @@ public class AlbumBean {
 			
 			albumManager.deleteAlbum(this.albumID, user);
 			
-			this.informationMessage  = "<div class=\"alert alert-success\">" +
-					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
-					" A</div>";
-			
 	   } catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +136,7 @@ public class AlbumBean {
 	   return "pretty:";
 	}
 	
-	public void setDeletedAlbumId(AjaxBehaviorEvent event) {
+	public void setDeletedAlbumParams(AjaxBehaviorEvent event) {
 		
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
@@ -158,8 +144,6 @@ public class AlbumBean {
 		String albumID = params.get("albumID");
 		
 		this.albumID = albumID;
-		
-		System.out.println(albumID);
 	}
 		
 	public String getAlbumID() {
@@ -232,14 +216,6 @@ public class AlbumBean {
 
 	public void setUserNick(String userNick) {
 		this.userNick = userNick;
-	}
-
-	public String getInformationMessage() {
-		return informationMessage;
-	}
-
-	public void setInformationMessage(String informationMessage) {
-		this.informationMessage = informationMessage;
 	}
 
 	private ParamsBean getPrettyfacesParams()

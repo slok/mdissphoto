@@ -22,18 +22,19 @@
      		<h:outputScript library="js" name="jquery.masonry.min.js" />
      		<h:outputScript library="js" name="albumsPresentation.js" />
      		
-     		<script>$(document).ready(function() { initCarousel(#{fn:length(albumBean.albumPhotosURLs)}); });</script>
+     		<script>
+     			$(document).ready(function() { 
+     				initCarousel(#{fn:length(albumBean.albumPhotosURLs)});     				
+     				if (!#{albumBean.showMenu})
+     					$('.menuBox').hide();
+     				});
+     		</script>
      		
 		</ui:define>
 		
 		<ui:define name="body">
 		
-			<!-- Alert -->
-			<div class="row-fluid">
-				<div class="span12">
-			      	<h:outputText value="#{albumBean.informationMessage}" escape="false" />
-		       	</div>
-			</div>
+			<!-- TODO: Alert for feedback to the user -->
 			
 			<div class="row-fluid">
 			  <div class="span12">	
@@ -63,7 +64,7 @@
 							<h:form id="hidden" style="display:none">
 								<h:commandLink class="cmdlink#{status.index}">
 									<f:param name="albumID" value="#{albumBean.albumIDs[status.index]}" />
-									<f:ajax event="click" listener="#{albumBean.setDeletedAlbumId}" />
+									<f:ajax event="click" listener="#{albumBean.setDeletedAlbumParams}" />
 								</h:commandLink>
 							</h:form>
 						</div>								
@@ -78,9 +79,10 @@
 					<h3>Delete album</h3>
 				</div>
 				<h:form>	             
-					<div class="modal-body"> Are you sure that you want to delete the album? </div>
+					<div class="modal-body"> Are you sure that you want to delete this album? </div>
 					<div class="modal-footer">
-						<h:commandButton styleClass="btn btn-primary" value="Yes, I'm sure!" type="submit" action="#{albumBean.deleteAlbum}">			                                   
+						<a href="#" class="btn" data-dismiss="modal"> No way! </a>
+						<h:commandButton styleClass="btn btn-primary" value="Yes, I'm 100% sure!" type="submit" action="#{albumBean.deleteAlbum}">			                                   
                       		<f:param name="user" value="#{albumBean.userNick}" />
                      	</h:commandButton>
                      </div>
