@@ -15,7 +15,8 @@ import org.mdissjava.mdisscore.model.pojo.User;
 
 public class UserDaoImpl implements UserDao {
 
-	private Session session;
+	private Session session;	
+	private static int pageSize = 2;	
 	
 	public UserDaoImpl() {
 		
@@ -28,20 +29,17 @@ public class UserDaoImpl implements UserDao {
 			Transaction tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
-			//session.close();
 		}
 	}
 
 
 	@Override
-	public void updateUser(User user) {
-		
+	public void updateUser(User user) {		
 		if (user != null) {
 			session = HibernateUtil.getSession();
 			Transaction tx = session.beginTransaction();
 			session.update(user);
 			tx.commit();
-		//	session.close();
 		}		
 	}
 	
@@ -52,16 +50,13 @@ public class UserDaoImpl implements UserDao {
 			Transaction tx = session.beginTransaction();
 			session.delete(user);
 			tx.commit();
-		//	session.close();
 		}
 	}
 	
 	@Override
 	public boolean emailAlreadyExists(String email) {
 		session = HibernateUtil.getSession();
-
 		int num = (Integer) session.createQuery("from User where email = '"+email+"'").list().size();
-	//	session.close();
 		if(num>0)
 			return true;
 		else
@@ -73,7 +68,6 @@ public class UserDaoImpl implements UserDao {
 		session = HibernateUtil.getSession();
 
 		int num = (Integer) session.createQuery("from User where nick = '"+nick+"'").list().size();
-	//	session.close();
 		if(num>0)
 			return true;
 		else
@@ -87,8 +81,7 @@ public class UserDaoImpl implements UserDao {
 		session = HibernateUtil.getSession();
 		Query q = session.createQuery("" + "from User as user "
 				+ "where user.id =" + id);
-		user = (User) q.uniqueResult();
-	//	session.close();		
+		user = (User) q.uniqueResult();	
 		return user;	
 	}
 	
@@ -96,11 +89,9 @@ public class UserDaoImpl implements UserDao {
 	public User getUserByNick(String nick) {		
 		User user = null;
 		session = HibernateUtil.getSession();
-		
+
 		Query q = session.createQuery("" + "from User as user where user.nick =" + "'" + nick + "'");
 		user = (User) q.uniqueResult();
-	//	session.close();
-	//	System.out.println("getUserByNick: insert "+nick +" con Nick recuperado: "+user.getNick());
 		return user;
 	}
 	
@@ -114,57 +105,68 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> findFollows(String userId) {
+	public List<User> findFollows(String userId, int pageNumber) {
 		List<User> users = new ArrayList<User>();
 		Session session = HibernateUtil.getSession();
 
 		Query q = session.createQuery("Select follows from User as user "
 				+ " where user.nick = '" + userId + "'");
-								
+		q = q.setFirstResult(pageSize * (pageNumber - 1));		
+	    q.setMaxResults(pageSize);						
 		users =  q.list();
-		//	session.close();
-		
-		// user.getFollows();	
 		return users;
 	}
 
 	@Override
-	public void addFollow(int userid, int friendid) {
-		//TODO: 
-	}
-
-	@Override
-	public void deleteFollow(int userid, int friendid) {
-		// TODO Auto-generated method stub
+	public void addFollow(String userNickname,  User follow) {
+		session = HibernateUtil.getSession();
+		User user = getUserByNick(userNickname);						
+		user.addFollow(follow);		
+		follow.addFollower(user);		
 		
+		updateUser(user);
+		updateUser(follow);
+	}
+
+	@Override
+	public void deleteFollow(String userNickname, User follow) {
+		session = HibernateUtil.getSession();
+		User user = getUserByNick(userNickname);						
+		user.removeFollow(follow);		
+		follow.removeFollower(user);		
+		
+		session.save(user);
+		session.save(follow);
 	}
 
 
 	@Override
-	public List<User> findFollowers(String userId) {
+	public List<User> findFollowers(String userId, int pageNumber) {
 		List<User> users = new ArrayList<User>();
 		Session session = HibernateUtil.getSession();
 
 		Query q = session.createQuery("Select followers from User as user "
 				+ " where user.nick = '" + userId + "'");
-								
+		q = q.setFirstResult(pageSize * (pageNumber - 1));		
+	    q.setMaxResults(pageSize);
 		users =  q.list();
-		//	session.close();
-		
-		// user.getFollowers();	
 		return users;
 	}
 
 	@Override
-	public void addFollower(int userid, int friendid) {
-		// TODO Auto-generated method stub
-		
+	public void addFollower(String userNickname, User follower) {
+		session = HibernateUtil.getSession();
+		User user = getUserByNick(userNickname);				
+		user.addFollower(follower);				
+		session.save(user);		
 	}
 
 	@Override
-	public void deleteFollower(int userid, int friendid) {
-		// TODO Auto-generated method stub
-		
+	public void deleteFollower(String userNickname, User follower) {
+		session = HibernateUtil.getSession();
+		User user = getUserByNick(userNickname);				
+		user.removeFollow(follower);
+		session.save(user);			
 	}
 
 	@Override
@@ -177,9 +179,30 @@ public class UserDaoImpl implements UserDao {
 			this.updateUser(usuario);
 		}
 	}
-
 	
+	@Override
+	public boolean followsUser(String userNickname, User follower){
+		session = HibernateUtil.getSession();
+		User user = getUserByNick(userNickname);
 
-
+		if (user.getFollows().contains(follower)){
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
+	
+	@Override
+	public User getUserByEmail( String email ) {	  
+		User user = null;
+		session = HibernateUtil.getSession();
+		Query q = session.createQuery("" + "from User as user "
+				+ "where user.email ='" + email + "'");
+		user = (User) q.uniqueResult();
+	//	session.close();		
+		return user;	
+	}
 
 }

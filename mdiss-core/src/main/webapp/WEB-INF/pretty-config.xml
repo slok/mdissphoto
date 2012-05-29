@@ -48,6 +48,10 @@
 		<pattern value="/p/validate/#{token:paramsBean.token}" />
 		<view-id value="/faces/public/validate.jsf" />
 	</url-mapping>
+	<url-mapping id="validateconfirmation">
+		<pattern value="/p/validate/resend/ok" />
+		<view-id value="/faces/public/validateresend.jsf" />
+	</url-mapping>
 	
 	<!-- Errors -->
 	<url-mapping id="upload-error">
@@ -102,6 +106,14 @@
 		<view-id value="/faces/app/self/twitter-oauth.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="messages-in">
+		<pattern value="/s/messages/in/" />
+		<view-id value="/faces/app/self/messages/message-received.jsf" />
+	</url-mapping>
+	<url-mapping id="messages-out">
+		<pattern value="/s/messages/out/" />
+		<view-id value="/faces/app/self/messages/message-sent.jsf" />
+	</url-mapping>
 	<!-- user -->
 	
 	<url-mapping id="user-profile">
@@ -134,8 +146,18 @@
 		<view-id value="/faces/app/user/photowers.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="photowers_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowers/#{page:paramsBean.page}" />
+		<view-id value="/faces/app/user/photowers.jsf" />
+	</url-mapping>
+	
 	<url-mapping id="photowing">
 		<pattern value="/u/#{user:paramsBean.userId}/photowing/" />
+		<view-id value="/faces/app/user/photowing.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photowing_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowing/#{page:paramsBean.page}"/>
 		<view-id value="/faces/app/user/photowing.jsf" />
 	</url-mapping>
 

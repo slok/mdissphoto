@@ -1,5 +1,7 @@
 package org.mdissjava.mdisscore.view.registration;
 
+import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -10,7 +12,11 @@ import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.KeyLinkDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.KeyLink;
+import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.VerifyAccountObservable;
 
 import com.google.code.morphia.Datastore;
 
@@ -19,8 +25,12 @@ import com.google.code.morphia.Datastore;
 public class ValidateBean {
 
 	private String key;
-	private UserDao userDao=new UserDaoImpl();
+	private UserDao userDao = new UserDaoImpl();
 	private boolean valid;
+	private String email;
+
+	private static Logger logger = Logger.getLogger(RegistrationBean.class
+			.getName());
 
 	@PostConstruct
 	public void init() {
@@ -41,6 +51,35 @@ public class ValidateBean {
 			// TODO: Activate User using the userId
 			userDao.activateUser(userId);
 		}
+	}
+
+	public void resend() {
+
+		ValidateBean.logger.info("Validation Email resend");
+
+		User user = userDao.getUserByEmail(this.email);
+		if (user != null && !user.isActive()) {
+			valid = true;
+			Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+			KeyLinkDao keyLinkDao = new KeyLinkDaoImpl(db);
+			KeyLink keylink = new KeyLink(user.getId(),
+					KeyLink.EMAIL_VALIDATION);
+			keyLinkDao.insertKeyLink(keylink);
+			NotificationManager notifier = NotificationManager.getInstance();
+			VerifyAccountObservable vao = notifier.getVerifyAccountObservable();
+
+			vao.userRegister(
+					user.getName() + " " + user.getSurname(),
+					user.getEmail(),
+					"http://localhost:8080/mdissphoto/p/validate/"
+							+ keylink.getId());
+		} else {
+			valid = false;
+		}
+		String outcome = "pretty:validateconfirmation";
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler()
+				.handleNavigation(facesContext, null, outcome);
 	}
 
 	public String getKey() {
@@ -68,4 +107,13 @@ public class ValidateBean {
 						ParamsBean.class);
 		return pb;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 }

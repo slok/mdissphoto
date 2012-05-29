@@ -9,6 +9,7 @@ import org.mdissjava.mdisscore.model.pojo.User;
 
 public interface UserDao {
 
+
 	void addUser(User user); 
 	
 	void updateUser(User user);
@@ -25,22 +26,26 @@ public interface UserDao {
 	
 	boolean nickAlreadyExists(String nick);
 	
-//	void modifyAddress(ObjectId id, Address address);
+//		void modifyAddress(ObjectId id, Address address);
 	
-//	void modifyConfiguration(ObjectId id, Configuration conf);
+//		void modifyConfiguration(ObjectId id, Configuration conf);
 	
-	List<User> findFollows(String userId);
+	List<User> findFollows(String userId, int pageNumber);
 	
-	List<User> findFollowers(String user);
+	List<User> findFollowers(String user, int pageNumber);
 	
-	void addFollow(int userid, int friendid);
+	void addFollow(String userNickname, User follow);
+
+	void addFollower(String userNickname, User follower);
+
+	void deleteFollow(String userNickname, User follow);
 	
-	void deleteFollow(int userid, int friendid);
+	void deleteFollower(String userNickname, User follower);
 	
-	void addFollower(int userid, int friendid);
+	void activateUser(int userid);
+
+	boolean followsUser(String userNickname, User follower);
 	
-	void deleteFollower(int userid, int friendid);
-	
-	void activateUser(int userid);	
+	User getUserByEmail(String email);
 
 }

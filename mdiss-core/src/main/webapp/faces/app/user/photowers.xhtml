@@ -4,39 +4,106 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">    
     
     <ui:composition template="/faces/app/user-space.xhtml">
       
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
 		
-		<ui:define name="body">
+			<ui:define name="head">
+		     	
+		    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script> 	
+     		<script type="text/javascript">
+     		
+     		$(document).ready(function() { 
+     			
+     			var show_per_page = 2;
+     			var number_of_items = #{fn:length(userBean.user.followers)}
+     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
 
-			<h:panelGroup layout="block">
+     			var navigation_html = '<ul>';
+     			var current_link = 0;
 
-				<br />
-		
-				<h:form id="form">
-					<p:dataList value="#{userBean.user.followers}" var="follower" itemType="none">
-						<p:column>		 
-								<a href="#" class="thumbnail"> <img
-									src="http://placehold.it/60x60" alt="" />
-								</a>				
-						</p:column> 
-						<p:column> 		
-			  						#{follower.nick}, #{follower.email}  
-			  			</p:column>
-			  			<p:column> 		   					    					       			    				
-			  					<h:commandButton styleClass="btn"
-							actionListener="#{userBean.addFollow(follower.nick)}" value="Follow"
-							update="growl" />
-						</p:column> 			
-					</p:dataList>
-				</h:form>
-		
-			</h:panelGroup>
-								
+     			  navigation_html += '<li>';
+     			  navigation_html += '<a href="javascript:previous();">&larr; Previous</a>';
+     			  navigation_html += '</li>';
+     		      	     			  
+     			 while(number_of_pages != current_link ) {
+     				current_link++;
+     			    navigation_html += '<li id="id' + current_link +'">';
+       			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
+       			 //	navigation_html += '<a href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link) +'</a>';
+     			    navigation_html += '</li>';     			  
+     			 }
+     			  
+     			  navigation_html += '<li>';
+     			  navigation_html += '<a href="javascript:next();">Next &rarr;</a>';
+     			  navigation_html += '</li>';
+     			  navigation_html += '</ul>';
+     			  
+     			 $('#page_navigation').html(navigation_html);
+     			 
+     			 
+     		     		
+     		});
+     		
+     		</script>
+     		
 		</ui:define>
+		
+		<ui:define name="body">			
+
+	<div class="box centered">	
+		<h:form id="form">				
+			<h:dataTable value="#{userBean.followers}" var="follower" >				
+					<div class="row-fluid">
+						<div class="span6">
+							<p:column>
+								<div class="span2">
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{follower.nick}" />										
+												<img class="thumbnail"	src="http://placehold.it/60x60" alt="" />
+									</pretty:link>	
+								</div>
+							</p:column>
+							<p:column>
+								<div class="span4 offset1" >
+										<pretty:link mappingId="user-profile">
+											<f:param value="#{follower.nick}" />
+												<div class="row-fluid">
+													#{follower.nick}
+												</div>
+										</pretty:link>										
+									<div class="row-fluid">
+										#{follower.email}
+									</div>
+								</div>
+							</p:column>
+							<p:column>
+								<h:commandButton styleClass="btn btn-success"
+									rendered="#{userBean.followsUser(follower) == false}"
+									actionListener="#{userBean.addFollow(follower)}" value="Follow"
+									update="growl" />
+								<h:commandButton styleClass="btn btn-warning"
+									rendered="#{userBean.followsUser(follower) != false}"
+									actionListener="#{userBean.deleteFollow(follower)}"
+									value="Unfollow" update="growl" />
+							</p:column>
+						</div>
+					</div>
+				
+				<br/>
+			</h:dataTable>
+		</h:form>
+		</div>
+		
+		<div id="page_navigation" class="pagination" >
+
+		</div>
+
+	</ui:define>
 				
     </ui:composition>
 </html>
