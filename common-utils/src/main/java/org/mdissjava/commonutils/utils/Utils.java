@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -63,6 +64,28 @@ public class Utils {
 	public static ByteArrayInputStream byteArrayOutputStreamToByteArrayInputStream(ByteArrayOutputStream baos)
 	{
 		return new ByteArrayInputStream(baos.toByteArray());	
+	}
+	
+	/**
+	 * Splits the tags from a regular expression, if the regex is null then by default will split comma separated 
+	 * 
+	 * @param tags
+	 * @return
+	 */
+	public static ArrayList<String> splitTags(String tags, String regex)
+	{
+
+//		this.logger.debug("Splitting tags");
+		if (regex == null)
+			regex = "\\,";
+		
+		String[] splittedTags = tags.split(regex);
+
+		ArrayList<String> tagList = new ArrayList<String>();
+		for (String i:splittedTags)
+			tagList.add(i);
+
+		return tagList;
 	}
 	
 
