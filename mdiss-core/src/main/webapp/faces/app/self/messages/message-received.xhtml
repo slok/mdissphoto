@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
+    
+    <ui:composition template="/faces/app/user-space.xhtml">
+      
+		<ui:define name="head">
+		
+			<!-- for the album slider -->
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			
+		</ui:define>
+		
+		<ui:define name="body">
+		
+			<div class="row">
+				<div class="span12">
+					<h1>Input Messages</h1>
+				</div>
+			</div>
+			<br/>
+			<div class="row-fluid">
+			
+			  <div class="span3">
+			  	<div class="well sidebar-nav">
+			  		<ul class="nav nav-list">
+			  			<li class="nav-header">Messages Menu</li>
+						<li class="active">
+							<pretty:link mappingId="messages-in" >
+									Received Messages
+							</pretty:link>
+						</li>
+						<li class="active">
+							<pretty:link mappingId="messages-out" >
+							Sent Messages
+							</pretty:link>
+						</li>
+						<li class="nav-header">Actions</li>
+						<li class="active">
+							<a href="#">Send a new Message</a>
+						</li>
+						<li class="active">
+							<a href="#">Delete selected Messages</a>
+						</li>
+			  		</ul>
+			  	</div>
+			  </div>
+			  <div class="span9">	
+			  	<div class="box centered">
+			  		
+			  		<h:form id="form">  
+              
+					    <p:dataList value="#{messageBean.messagesReceived}" var="message" id="messages"  
+					        paginator="true" rows="5" effectSpeed="fast"  
+					        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"  
+					        rowsPerPageTemplate="5,10,15" type="none">  
+					  
+					            <f:facet name="header">  
+					                Input Messages  
+					            </f:facet>  
+					  
+					            <p:column>  
+					                <p:commandButton icon="ui-icon-search" update=":form:messageDetail" oncomplete="messageDialog.show()" title="View Detail">  
+					                    <f:setPropertyActionListener value="#{message}" target="#{messageBean.selectedMessage}" />  
+					                </p:commandButton>  
+					  
+					                <h:outputText value="From: #{message.fromUserName}, Text: #{message.text}" style="margin-left:10px" />  
+					                <br />  
+					            </p:column>  
+					    </p:dataList>  
+					      
+					    <p:dialog header="Message Detail" widgetVar="messageDialog" modal="true" showEffect="fade">  
+					        <p:outputPanel id="messageDetail" style="text-align:center;" layout="block">  
+					          
+					            <!-- <p:graphicImage value="/images/cars/#{tableBean.selectedCar.manufacturer}.jpg"/> -->  
+					              
+					            <h:panelGrid  columns="2" cellpadding="5">  
+					                <h:outputLabel for="modelNo" value="Model No: " />  
+					                <h:outputText id="modelNo" value="#{tableBean.selectedCar.model}" />  
+					                  
+					                <h:outputLabel for="text" value="Text: " />  
+					                <h:outputText id="text" value="#{messageBean.selectedMessage.text}" />  
+					                  
+					                <h:outputLabel for="date" value="Date: " />  
+					                <h:outputText id="date" value="#{messageBean.selectedMessage.sentDate}" style="color:green"/>  
+					            </h:panelGrid>  
+					        </p:outputPanel>  
+					    </p:dialog>  
+					  
+					</h:form>
+			  	</div>	    		
+			  </div> 
+			</div>						
+		</ui:define>
+				
+    </ui:composition>
+</html>
+			  	

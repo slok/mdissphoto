@@ -225,6 +225,16 @@ div.captcha
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 }
 
+.menuBox {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+	padding:5px;
+    background: #999;
+    background: rgba(0,0,0,0.7);
+}
+
 .textBox {
     display: none;
     position: absolute;
@@ -248,6 +258,10 @@ div.captcha
 }
 
 .thumb:hover .textBox {
+    display: block;
+}
+
+.thumb:hover .menuBox {
     display: block;
 }
 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+	var albumID;
 	var t;
 	var id;
 	
@@ -33,6 +33,11 @@ $(document).ready(function() {
 	}
 	
 });
+
+function triggerAlbumIdSetter(albumNum){
+	 var id = $(".cmdlink" + albumNum).attr('id');
+	 document.getElementById(id).onclick();
+}
 
 //Function to dynamically initialize the album carousels
 function initCarousel(num){
