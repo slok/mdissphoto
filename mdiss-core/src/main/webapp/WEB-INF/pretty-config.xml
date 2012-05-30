@@ -191,8 +191,5 @@
 	<url-mapping id="admin">
 		<pattern value="/admin/" />
 		<view-id value="/faces/admin/admin-index.jsf" />
-	</url-mapping>
-	
-	
-	
+	</url-mapping>	
 </pretty-config>
