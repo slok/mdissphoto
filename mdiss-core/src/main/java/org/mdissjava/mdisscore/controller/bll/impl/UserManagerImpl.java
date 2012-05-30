@@ -1,7 +1,10 @@
 package org.mdissjava.mdisscore.controller.bll.impl;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
@@ -12,8 +15,11 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class UserManagerImpl implements UserManager {
 	//MorphiaDatastoreFactory.getDatastore("test")
-	private UserDao userDao = new UserDaoImpl();
 	
+	private final String GLOBAL_PROPS_KEY = "globals";
+	private final String DEFAULT_ALBUM_NAME = "default_album_name.var";
+	private UserDao userDao = new UserDaoImpl();
+	private AlbumManager albumbll= new AlbumManagerImpl();
 
 	
 	@Override
@@ -24,6 +30,16 @@ public class UserManagerImpl implements UserManager {
 			System.out.println("UserManagerImpl//Nuevo Usuario**********");
 			user.setPass(PEncoder(user.getPass()));
 			userDao.addUser(user);				
+			
+			String albumName="Master";
+			try {
+				 albumName= new PropertiesFacade().getProperties(GLOBAL_PROPS_KEY).getProperty(DEFAULT_ALBUM_NAME);
+				 String albumId =albumbll.insertAlbum(albumName, user.getNick());
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 		else
 		{//salvar una modificación
