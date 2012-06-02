@@ -173,7 +173,13 @@
 								<!-- Tweet button -->
 								<h:form>
 									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
-								</h:form>							
+								</h:form>
+								<!-- Edit Settings -->
+								<pretty:link mappingId="photo-detail-settings" >
+									<f:param value="#{photoDetailsBean.userNick}" />
+									<f:param value="#{photoDetailsBean.photoId}" />
+									Edit Settings
+								</pretty:link>							
 							</div>
 							
 						</div> <!-- span 12 end -->
