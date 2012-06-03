@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"> 
+   
+    <ui:composition template="/faces/app/user-space.xhtml">
+     
+       <ui:define name="head">
+     		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+     		
+     		<!-- for the album thumbnail slider -->
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>
+			
+			<script type="text/javascript">
+						    $(document).ready(function() {
+						        $("#myTags").tagit();
+						    });
+			</script>
+     		
+     		<style type="text/css">
+				#container {
+					width: 440px;
+					position: relative;
+				}
+				
+				#carousel {
+					margin: 0 auto;
+				}
+	
+				#carousel img {
+					border: 0;
+				}
+				
+				.ui-carousel {
+					height: 80px;
+					margin: 0;
+					overflow: auto;
+					padding: 0;
+					position: relative; /*for ie7 to work e.g in html carousels*/
+					width: 300px
+				}
+				
+				.ui-carousel > .wrapper {
+				    margin: 0;
+				    padding: 0;
+				    width: 9999px;
+				}
+				
+				.ui-carousel > .wrapper > * {
+					border: 0;
+					display: block;
+					float: left;
+					height: 80px;
+					overflow: hidden;
+					width: 80px;	
+				}
+				
+			</style>
+     		
+     		<script type="text/javascript">
+     		
+     		//if we have less than 3 thumbnails then the quantity of thumnails to display
+     		//is that number and not three
+     		
+     		var total = #{fn:length(photoDetailsBean.thumbnailIds)};
+     		if (total > 3)
+     			total = 3;
+     		
+			jQuery(function($) {
+				$( "#carousel ").rcarousel({
+					margin: 5,
+					visible: total,
+					width: 75,	
+					height: 75,
+					step: 1,
+				});
+				
+				$( "#ui-carousel-next" )
+					.add( "#ui-carousel-prev" )
+					.hover(
+						function() {
+							$( this ).css( "opacity", 0.7 );
+						},
+						function() {
+							$( this ).css( "opacity", 1.0 );
+						}
+					);					
+			});
+		</script>
+     				 
+      	</ui:define>
+      	
+      	
+		<ui:define name="title">
+			Mdissphoto / #{photoDetailsBean.photo.title} by #{photoDetailsBean.userNick}
+		</ui:define>
+		
+		<ui:define name="header">	
+		</ui:define>
+		
+		<ui:define name="body">
+		
+        <h:form>    			
+	    	<!-- Photo title -->
+	    	<div class="row-fluid">
+				<div class="span12">				
+		      		<h1 class="photo-title"><h:outputLabel value="Photo Title: " /></h1>
+		      		<p:inputText id="photoTitle" value="#{photoDetailsBean.photo.title}" label="photoTitle"/>	
+	       		</div>
+            </div>
+
+			<!-- UserNick -->
+	    	<div class="row-fluid">
+				<div class="span12">
+		      		<h:outputLabel value="UserNickaaaaaa: " />
+		      		#{photoDetailsBean.userNick}	
+	       		</div>
+            </div>
+
+			<!-- Album title -->
+	    	<div class="row-fluid">
+				<div class="span12">				
+		      		<h1 class="photo-title"><h:outputLabel value="Album Title: " /></h1>		 
+		      		<p:selectOneMenu id="selected" value="#{photoDetailsBean.selectedAlbum}">  			                 
+			                <!-- <f:selectItems value="#{photoDetailsBean.albumTitles}"/>-->
+			                <f:selectItem itemValue="Male" itemLabel="Male" />
+							<f:selectItem itemValue="Female" itemLabel="Female" />"  			                 
+		            </p:selectOneMenu> 
+	       		</div>
+            </div>
+	    	
+            <!-- TODO: Show votos Totales -->
+            <div class="row-fluid">
+				<div class="span12">
+		      		<h:outputLabel value="Votes: " />
+		      		#{photoDetailsBean.totalVotesPoints}  	
+	       		</div>
+            </div>
+	    	
+	    	<!-- Photo and menu -->
+	    	<div class="row-fluid">
+				<div class="row">
+					<!-- <div class="span8">
+						<h:graphicImage styleClass="thumbnail" value="#{photoDetailsBean.detailedPhotoURL}" />
+					</div>-->
+   				
+					<div class="span4">
+		   				<!-- Statistics -->
+	   					<div class="row">
+						</div>			   				
+						<!-- tags -->
+						<div class="row">
+							<hr/>	
+							<ul class="tags">
+								<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
+									<li>
+										<i class="icon-tags"/> 
+										<pretty:link mappingId="tag_detail">
+											<f:param value="#{tag}" />
+											#{tag} 
+										</pretty:link>
+										<div class="span4">
+											<h:inputText id="myTags" value="#{photoDetailsBean.myTags}" />
+										</div>
+									</li>
+								</ui:repeat>
+							</ul>																							
+						</div>									   										
+					</div>
+				</div> 
+			</div>
+			<p:commandButton id="formSubmitButton" styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{photoDetailsBean.saveSettings}" />
+
+			<!-- CANCELAR -->
+			<!-- Cargar nuevamente el -->
+			
+		</h:form>			
+		</ui:define>
+               
+    </ui:composition>
+</html>

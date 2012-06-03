@@ -480,6 +480,7 @@ public class AlbumManagerImpl implements AlbumManager{
 	 * @return
 	 * @throws IOException
 	 */
+	@Override
 	public Album searchAlbumUniqueUtil(String albumId, String userNickname) throws IOException
 	{
 		this.logger.debug("Searching for the album {} from {} user", albumId, userNickname);
@@ -507,7 +508,32 @@ public class AlbumManagerImpl implements AlbumManager{
 		
 	}
 
-
+	/**
+	 * Search all the albums from a userNick
+	 * @param usuario
+	 * @return List<String>
+	 * @throws IOException
+	 */
+	@Override
+	public List<String> getAlbumsFromUserNick(String userNick) throws IOException{
+		this.logger.debug("PhotoManagerImpl.getAlbumsFromUserNick()");
+		List<Album> albums = null;
+		List<String> albumTitles = null;
+		if(!userNick.equals("")) {
+			Album album = new Album();
+			album.setUserNick(userNick);
+			albums = this.albumDao.findAlbum(album);
+			if(albums.isEmpty()){
+				this.logger.error("There are not any albums from user "+ userNick +" named is stored in database");
+				throw new IOException("There are not any albums from user "+ userNick +" named is stored in database");
+			}
+			albumTitles = new ArrayList<String>();
+			for (Album a : albums) {
+				albumTitles.add(a.getTitle());
+			}
+		}		
+		return albumTitles;
+	}
 	
 	
 }

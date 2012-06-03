@@ -173,7 +173,13 @@
 								<!-- Tweet button -->
 								<h:form>
 									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
-								</h:form>							
+								</h:form>
+								<!-- Edit Settings -->
+								<pretty:link mappingId="photo-detail-settings" >
+									<f:param value="#{photoDetailsBean.userNick}" />
+									<f:param value="#{photoDetailsBean.photoId}" />
+									Edit Settings
+								</pretty:link>							
 							</div>
 							
 						</div> <!-- span 12 end -->
@@ -221,10 +227,20 @@
 							<pretty:link mappingId="user-profile" >
 								<f:param value="#{photoDetailsBean.userNick}" />
 								<h2>#{photoDetailsBean.userNick}</h2>
-							</pretty:link>
-						
+							</pretty:link>						
 							
-							<a class="btn btn-success" href="#">Follow</a>
+							<h:form>
+								<h:commandButton styleClass="btn btn-success"
+									rendered="#{userBean.followsUser(userBean.user) == false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
+									actionListener="#{userBean.addFollow(userBean.user)}" value="Follow"
+									update="growl" />
+								<h:commandButton styleClass="btn btn-warning"
+									rendered="#{userBean.followsUser(userBean.user) != false
+												&amp;&amp; userBean.userId != userBean.userNickname}"
+									actionListener="#{userBean.deleteFollow(userBean.user)}"
+									value="Unfollow" update="growl" />
+							</h:form>
 						</div>
 					</div>
 					<br/>
