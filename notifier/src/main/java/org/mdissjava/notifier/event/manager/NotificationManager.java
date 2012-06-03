@@ -5,10 +5,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.mdissjava.notifier.event.observable.NewFollowerObservable;
 import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
 import org.mdissjava.notifier.event.observable.VerifyAccountObservable;
 import org.mdissjava.notifier.event.observer.EmailObserver;
 import org.mdissjava.notifier.event.observer.LoggerObserver;
+import org.mdissjava.notifier.event.observer.PersistenceObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ public class NotificationManager {
 	private enum ObservableNames {
 										VERIFY_ACCOUNT,
 										PHOTO_UPLOADED,
+										NEW_FOLLOWER,
 										
 					};
 	
@@ -66,6 +69,7 @@ public class NotificationManager {
 	{
 		this.observables.put(ObservableNames.VERIFY_ACCOUNT, this.registerVerifyAccountObservers());
 		this.observables.put(ObservableNames.PHOTO_UPLOADED, this.registerPhotoUploadObservers());
+		this.observables.put(ObservableNames.NEW_FOLLOWER, this.registerNewFollowerObservers());
 	}
 
 	
@@ -81,6 +85,10 @@ public class NotificationManager {
 		return (PhotoUploadedObservable)this.observables.get(ObservableNames.PHOTO_UPLOADED);
 	}
 	
+	public NewFollowerObservable getNewFollowerObservable()
+	{
+		return (NewFollowerObservable)this.observables.get(ObservableNames.NEW_FOLLOWER);
+	}
 	
 	/**
 	 * Registers all the observers in the VerifyAccount observable
@@ -117,6 +125,7 @@ public class NotificationManager {
 		//create all the observers
 		Observer photoUploadedObservers[] = {
 												new LoggerObserver(),
+												new PersistenceObserver(),
 											};
 		
 		PhotoUploadedObservable puo = new PhotoUploadedObservable();
@@ -128,6 +137,23 @@ public class NotificationManager {
 		return puo;
 	}
 	
-	
+	private Observable registerNewFollowerObservers()
+	{
+		this.logger.info("Registering new follower observers");
+		
+		//create all the observers
+		Observer newFollowerObservers[] = {
+												new EmailObserver(),
+												new PersistenceObserver(),
+											};
+		
+		NewFollowerObservable nfo = new NewFollowerObservable();
+		
+		//register all the observers
+		for (Observer i: newFollowerObservers)
+			nfo.addObserver(i);
+		
+		return nfo;
+	}
 	
 }

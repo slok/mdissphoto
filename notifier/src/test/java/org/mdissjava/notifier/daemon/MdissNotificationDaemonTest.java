@@ -20,6 +20,8 @@ import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.mdissjava.notifier.broker.connection.MessageBrokerConnection.ConnectionType;
 import org.mdissjava.notifier.broker.connection.STOMPConnection;
+import org.mdissjava.notifier.event.MdissEvent;
+import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +31,17 @@ public class MdissNotificationDaemonTest {
 	final private String DESTINATION_EMAIL = "notifications_email";
 	final private String DESTINATION_PERSISTENCE = "notifications_persistence";
 	
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	//@Test
+	@Test
 	public void PhotoUploadAndPersistenceDaemonTest() throws JMSException, InterruptedException {
 		
 		this.logger.info("[TEST] PhotoUploadAndPersistenceDaemonTest");
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
-		new Thread(new daemonThread("-p")).start();
+		String[] args = {"-p", "test"};
+        //new Thread(new daemonThread(args)).start();
 		
 		//Producer
 		
@@ -49,7 +53,7 @@ public class MdissNotificationDaemonTest {
 		MessageProducer producer = connection.createProducer();
 		Session session = connection.getSession();
 		
-		PhotoUploadedEvent event = new PhotoUploadedEvent("slok", UUID.randomUUID().toString());
+		PhotoUploadedEvent event = new PhotoUploadedEvent("cerealguy", UUID.randomUUID().toString());
 		ObjectMessage msg = session.createObjectMessage(event);
 		
 		producer.send(msg);
@@ -59,29 +63,87 @@ public class MdissNotificationDaemonTest {
 		producer.send(exitMsg);
 		
 		//check persistence
-		this.logger.info("[TEST] Check stored notification");
+		/*this.logger.info("[TEST] Check stored notification");
 		MdissNotificationDao notificationDao = new MdissNotificationDaoImpl(MorphiaDatastoreFactory.getDatastore("mdiss"));
 		MdissNotification notification = new PhotoUploadedNotification();
 		notification.setDate(event.getEventDate());
 		notification.setNotificationType(MdissNotification.NotificationType.PHOTO_UPLOADED); 
 		PhotoUploadedNotification notificationHelper = ((PhotoUploadedNotification)notificationDao.findMdissNotification(notification).get(0));
 		assertEquals(event.getUserNick(), notificationHelper.getUploaderUsername());
-		notificationDao.deleteMdissNotification(notificationHelper);
+		notificationDao.deleteMdissNotification(notificationHelper);*/
 
 	}
-
+	@Test
+	public void NewFollowerPersistenceDaemonTest() throws JMSException, InterruptedException{
+		
+		this.logger.info("[TEST] NewFollowerPersistenceDaemonTest");
+		//Receiver daemon in other thread
+		this.logger.info("[TEST] Launch the daemon in new thread");
+		String[] args = {"-p", "test"};
+        //new Thread(new daemonThread(args)).start();
+		
+		//Producer
+		
+		Thread.sleep(100);
+		this.logger.info("[TEST] Send event to Apollo queue");
+		STOMPConnection connection = new STOMPConnection(ConnectionType.QUEUE, DESTINATION_PERSISTENCE, 
+				DeliveryMode.NON_PERSISTENT, Session.AUTO_ACKNOWLEDGE);
+		
+		MessageProducer producer = connection.createProducer();
+		Session session = connection.getSession();
+		
+		NewFollowerEvent event = new NewFollowerEvent("cerealguy", "ikermatic");
+		ObjectMessage msg = session.createObjectMessage(event);
+		
+		producer.send(msg);
+		
+		//produce the event that triggers the shutdown of the listener (we only have one listener in the queue)
+		TextMessage exitMsg = session.createTextMessage("EXIT");
+		producer.send(exitMsg);
+		
+	}
+	
+	@Test
+	public void NewFollowerEmailDaemonTest() throws JMSException, InterruptedException{
+		
+		this.logger.info("[TEST] NewFollowerEmailDaemonTest");
+		//Receiver daemon in other thread
+		this.logger.info("[TEST] Launch the daemon in new thread");
+		String[] args = {"-e"};
+        //new Thread(new daemonThread(args)).start();
+		
+		//Producer
+		
+		Thread.sleep(100);
+		this.logger.info("[TEST] Send event to Apollo queue");
+		STOMPConnection connection = new STOMPConnection(ConnectionType.QUEUE, DESTINATION_EMAIL, 
+				DeliveryMode.NON_PERSISTENT, Session.AUTO_ACKNOWLEDGE);
+		
+		MessageProducer producer = connection.createProducer();
+		Session session = connection.getSession();
+		
+		NewFollowerEvent event = new NewFollowerEvent("maifrup", "cerealguy");
+		ObjectMessage msg = session.createObjectMessage(event);
+		
+		producer.send(msg);
+		
+		//produce the event that triggers the shutdown of the listener (we only have one listener in the queue)
+		TextMessage exitMsg = session.createTextMessage("EXIT");
+		producer.send(exitMsg);
+		
+	}
 	
 	class daemonThread implements Runnable{
 		
-		private String params;
+		private String[] params;
 		
-		public daemonThread(String mainParams) {
+		public daemonThread(String[] mainParams) {
 			this.params = mainParams;
 		}
 		
 		@Override
 		public void run() {
-			String params[] = {this.params}; 
+			
 			try {
 				MdissNotifierDaemonRunner.main(params);
 			} catch (JMSException e) {

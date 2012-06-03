@@ -20,6 +20,8 @@ import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotificatio
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.code.morphia.Datastore;
+
 public class MdissNotificationsDaoImplTest {
 
 	
@@ -66,6 +68,13 @@ public class MdissNotificationsDaoImplTest {
 			if (i instanceof PhotoUploadedNotification)
 			{
 				PhotoUploadedNotification iHelper = (PhotoUploadedNotification)i;
+				
+				PhotoUploadedNotification pUploadedNotification = new PhotoUploadedNotification(iHelper.getSelfUserName(), iHelper.getPhotoId());
+				
+				Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+				
+				mdissNotification.insertMdissNotification(pUploadedNotification);
+				
 				assertEquals(notification.getSelfUserName(), iHelper.getSelfUserName());
 				assertEquals(notification.getPhotoId(), iHelper.getPhotoId());
 				assertEquals(notification.getUploaderUsername(), iHelper.getUploaderUsername());
