@@ -10,6 +10,8 @@ import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.NewFollowerObservable;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
@@ -117,11 +119,14 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public void addFollow(String userNickname, User follow) {
 		userDao.addFollow(userNickname, follow); 		
+		NotificationManager notifier = NotificationManager.getInstance();
+        NewFollowerObservable nfo = notifier.getNewFollowerObservable();
+        nfo.newFollower(follow.getNick(), userNickname);
 	}
 	
 	@Override
 	public void addFollower(String userNickname, User follower) {
-		userDao.addFollower(userNickname, follower); 		
+		userDao.addFollower(userNickname, follower); 
 	}
 
 	@Override
