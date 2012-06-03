@@ -16,9 +16,22 @@ body
   border-color:#e2e0d8;
 }
 
+.notification-image{
+	position:absolute; 
+	left:1px;
+}
+
+.notification-alert,
 .alert-normal{
 	padding: 0px 0px 0px 0px;
+	
 }
+
+.notification-date{
+	font-size:85%;
+	text-align:right;
+}
+
 .alert-normal h2,
 .alert-normal b{
 	color: #333333;
@@ -31,6 +44,12 @@ body
 .alert-normal .table td{
 	border-top: 0px solid #dddddd;
 }
+
+.alert-padding{
+	padding: 10px 10px 0px 10px;
+}
+
+
 
 .row .centered{
 	margin: 0 auto;
@@ -78,6 +97,10 @@ body
     -ms-transition: border-right 1000ms linear;
     transition: border-right 1000ms linear;
  
+}
+
+ul.album-list{
+	list-style-type: none;
 }
 
 .numberCircle-active,
