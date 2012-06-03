@@ -4,8 +4,9 @@ $(document).ready(function() {
 
 	$container.imagesLoaded( function(){
 	  $container.masonry({
-	    itemSelector : '.imageContainer',
+	    itemSelector : '.photoContainer',
 	    isFitWidth : 'true',
+	    gutterWidth : 6,
 	    columnWidth: function(containerWidth) {
 	    	return containerWidth / 50
 	    }

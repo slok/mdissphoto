@@ -378,6 +378,12 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		return totalPoints;
 	}
+
+	@Override
+	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException {
+		this.logger.debug("PhotoManagerImpl.getRandomPhotos");
+		return this.photoDao.getRandomPhotos(quantity);
+	}
 	
 
 	
