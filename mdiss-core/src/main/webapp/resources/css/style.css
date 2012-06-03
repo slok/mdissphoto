@@ -254,7 +254,15 @@ div.captcha
 
 .centeredText{
 	text-align: center;   
-    font-size: 18px;
+    font-size: 32px;
+}
+
+.alignRight{
+	float: right;   
+}
+
+.alignLeft{
+	float: left;   
 }
 
 .thumb:hover .textBox {

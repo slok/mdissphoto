@@ -7,5 +7,8 @@ $(document).ready(function() {
 	    isResizable : true,
 	    isFitWidth : true
 	  });
+	  
+	  $('#modifyModal').modal();
 
 });
+
