@@ -108,7 +108,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(Utils.splitTags(tags, "\\,"));
+			p.setTags(Utils.splitTags(tags, "\\,")); 
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
