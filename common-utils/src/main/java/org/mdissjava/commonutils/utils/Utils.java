@@ -72,7 +72,7 @@ public class Utils {
 	 * @param tags
 	 * @return
 	 */
-	public static ArrayList<String> splitTags(String tags, String regex)
+	public static ArrayList<String> splitTags(String tags, String regex) 
 	{
 
 //		this.logger.debug("Splitting tags");

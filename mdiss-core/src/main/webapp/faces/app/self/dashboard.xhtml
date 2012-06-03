@@ -4,60 +4,122 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
     
     <ui:composition template="/faces/app/self-space.xhtml">
       
-		<!--<ui:define name="title">MDISSPHOTO</ui:define>-->
-		
-		<ui:define name="body">
-								
-			<!-- Main hero unit for a primary marketing message or call to action -->
-			<div class="hero-unit">
-				<h1>Hello, world!</h1>
-				<p>This is a template for a simple marketing or informational
-					website. It includes a large callout called the hero unit and three
-					supporting pieces of content. Use it as a starting point to create
-					something more unique.</p>
-				<p>
-					<a class="btn btn-primary btn-large">Learn more &raquo;</a>
-				</p>
-			</div>
-	
-			<!-- Example row of columns -->
-			<div class="row">
-				<div class="span4">
-					<h2>Heading</h2>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn" href="#">View details &raquo;</a>
-					</p>
-				</div>
-				<div class="span4">
-					<h2>Heading</h2>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn" href="#">View details &raquo;</a>
-					</p>
-				</div>
-				<div class="span4">
-					<h2>Heading</h2>
-					<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-						egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-						Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-						nibh, ut fermentum massa justo sit amet risus.</p>
-					<p>
-						<a class="btn" href="#">View details &raquo;</a>
-					</p>
-				</div>
-			</div>
-
+	<ui:define name="body">
+					<div class="row" id="notifications">
+						<div class="span6">
+						<h1>Notifications</h1>
+						<div class=" alert-normal alert alert-padding">
+							<ui:repeat value="#{dashboardBean.notifications}" var="notification">
+							  	<h:panelGroup layout="block" rendered="#{notification['class'].simpleName == 'PhotoUploadedNotification'}" 
+							  					styleClass="alert alert-info notification-alert">
+							  	
+							  		<div class="row-fluid">
+							  			<div class="span3">
+											<img src="http://www.dummyimage.com/100x100"></img>
+										</div>
+							  			<div class="span9">
+								  			<div class="row-fluid">
+										  		<div class="span12 notification-date">
+								  					<em>#{notification.date}</em>
+								  				</div>
+								  			</div>
+								  			<div class="row-fluid">
+								  				<div class="span10">
+									  				<h3>
+										  				<pretty:link mappingId="user-profile" >
+															<f:param value="#{notification.uploaderUsername}" /><strong>#{notification.uploaderUsername}</strong>
+														</pretty:link> uploaded a new photo!
+													</h3>
+												</div>
+									  			<div class="span2">
+									  				<h:graphicImage value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=#{dashboardBean.thumbnailBucket}&amp;id=#{notification.photoId}"/>
+									  			</div>
+								  			</div>
+							  			</div>
+							  		</div>
+							  	</h:panelGroup>
+							    <h:panelGroup layout="block" rendered="#{notification['class'].simpleName == 'FollowingNotification'}" 
+							  					styleClass="alert alert-success notification-alert">
+							  	
+								  	<div class="row-fluid">
+									  	<div class="span3">
+											<img src="http://www.dummyimage.com/100x100"></img>
+										</div>
+										<div class="span9">
+											<div class="row-fluid">
+									  			<div class="span12 notification-date">
+													<em class="">#{notification.date}</em>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span9">
+													<h3>
+														<pretty:link mappingId="user-profile" >
+															<f:param value="#{notification.followerUserName}" /><strong>#{notification.followerUserName}</strong>
+														</pretty:link> is now following you!
+													</h3>
+												</div>
+												<div class="span1">
+													<h:form>
+														<h:commandButton styleClass="btn btn-success"
+																rendered="#{!dashboardBean.followsUser(dashboardBean.users[notification.followerUserName])}"
+																actionListener="#{dashboardBean.addFollow(dashboardBean.users[notification.followerUserName])}" value="Follow"
+																update="growl" />
+														<h:commandButton styleClass="btn btn-warning"
+																rendered="#{userBean.followsUser(dashboardBean.users[notification.followerUserName])}"
+																actionListener="#{dashboardBean.deleteFollow(dashboardBean.users[notification.followerUserName])}"
+																value="Unfollow" update="growl" />
+													</h:form>
+												</div>
+											</div>
+										</div>
+								  	</div>
+							  	</h:panelGroup>
+							</ui:repeat>
+						</div>
+						</div>
+						<div class="span4 offset1">
+							<div class="row-fluid alert alert-normal">
+								<div class="span4">
+									<img src="http://www.dummyimage.com/100x100"></img>
+								</div>
+								<div class="span7">
+									<h2>#{dashboardBean.user}</h2>
+									<h3>#{dashboardBean.userObject.name} #{dashboardBean.userObject.surname}</h3>
+									<div>
+										Followers: #{fn:length(userObect.followers)} 
+										Following: #{fn:length(userObect.follows)}
+									</div>
+								</div>
+							</div>	
+							
+							<div class="row-fluid">
+								<div class="span12">
+									<h1>Albums</h1>
+									<div class="alert-normal alert alert-padding">
+										<ul class="album-list">
+											<ui:repeat value="#{dashboardBean.albums}" var="album">
+												<li> 
+													<i class="icon-folder-open"></i> 
+													<pretty:link mappingId="album-detail" >
+														<f:param value="#{album.userNick}" />
+														<f:param value="#{album.albumId}" />
+														<strong>#{album.title} (#{fn:length(album.photos)})</strong>
+													</pretty:link>
+												</li>
+											</ui:repeat>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 	</ui:define>
 				
     </ui:composition>
