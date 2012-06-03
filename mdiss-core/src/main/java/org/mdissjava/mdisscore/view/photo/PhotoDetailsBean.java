@@ -69,7 +69,6 @@ public class PhotoDetailsBean {
 	private String informationMessage = "";
 
 	private String selectedAlbum; 
-//	private List<String> albumTitles;
 	private List<String> albumTitles;
 	private int totalVotesPoints;
 	private String photoTitle;
@@ -204,13 +203,8 @@ public class PhotoDetailsBean {
 			//add the others map at the end of the list
 			this.albumTitles.addAll(otherAlbumTitles);
 			
-			
 			// get total votes from the photoId
-			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);
-			
-			//get all the photos from an specific tag
-			//TODO obtener el nombre del link tag sobre el que clickea
-//			photosFromTag = tagManager.getPhotosFromTag("tagDescription");
+			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);			
 			
 			
 		} catch (IllegalArgumentException e) {
@@ -475,7 +469,6 @@ public class PhotoDetailsBean {
 				photo.setTitle(this.getPhotoTitle());
 				
 				Album album = new Album();
-//				album.setTitle(this.getSelectedAlbum());
 				List<Album> albums = albumManager.findAlbum(album);
 				if(!albums.isEmpty()){
 					photo.setAlbum(albums.get(0));
@@ -484,7 +477,7 @@ public class PhotoDetailsBean {
 				if (!myTags.isEmpty())
 				{
 					// get the "previous" tags from the photo are stored in db
-					List<String> newTagList = photo.getTags();
+					List<String> newTagList = photo.getTags(); 
 					// add the new tags to the prevous list stored in db 
 					List<String> tags = Utils.splitTags(myTags, "\\,"); 
 					newTagList.addAll(tags);
