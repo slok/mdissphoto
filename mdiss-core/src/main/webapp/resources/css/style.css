@@ -315,7 +315,7 @@ div.captcha
 
 /* Explore */
 
-.imageContainer {
+.photoContainer {
 	margin-bottom: 10px;
 	position: relative;
     background-color: #ffffff;
@@ -324,4 +324,19 @@ div.captcha
 	-webkit-box-shadow: 0px 0px 5px #000000;
 	box-shadow: 0px 0px 5px #000000;
 	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/  
+}
+
+.infoContainer{
+	background-color: #feffed;
+	margin: 5px;
+}
+
+.imageContainer{
+	background-color: #000000;
+}
+
+.photoTitle{
+	font-family: 'Handlee', cursive;
+	font-size: 18px;
+	text-align: center;
 }
