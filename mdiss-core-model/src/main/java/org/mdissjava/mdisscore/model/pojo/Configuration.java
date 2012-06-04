@@ -42,6 +42,8 @@ public class Configuration {
 	@Column(name="showcameras")
 	private boolean showCameras;
 	
+	@Column(name="isprivate")
+	private boolean isPrivate;
 	
 	public Configuration(){
 		showNick = true;
@@ -56,6 +58,7 @@ public class Configuration {
 		showAddress = false;
 		showZip = false;
 		showCameras = false;
+		isPrivate = false;
 	}	
 		
 	public boolean isShowNick() {
@@ -129,5 +132,13 @@ public class Configuration {
 	}
 	public void setShowCameras(boolean showCameras) {
 		this.showCameras = showCameras;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
 	}	
 }
