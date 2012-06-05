@@ -30,7 +30,7 @@ public class ExploreBean {
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
-	private final int PHOTO_QUANTITY = 10;
+	private final int PHOTO_QUANTITY = 14;
 	
 	public ExploreBean()
 	{	
@@ -59,8 +59,8 @@ public class ExploreBean {
 				this.photoUsers.add(p.getAlbum().getUserNick());
 				
 				//Get random size for the photo
-				List<String> sizeList = Arrays.asList("240", "320", "500");
-				int randNum = utils.getRandomNumInRange(0, 2);
+				List<String> sizeList = Arrays.asList("240", "320");
+				int randNum = utils.getRandomNumInRange(0, 1);
 				
 				String bucketPropertyKey = "thumbnail.scale." + sizeList.get(randNum) + "px.bucket.name";
 				String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
@@ -101,6 +101,10 @@ public class ExploreBean {
 
 	public void setPhotoUsers(List<String> photoUsers) {
 		this.photoUsers = photoUsers;
+	}
+
+	public int getPHOTO_QUANTITY() {
+		return PHOTO_QUANTITY;
 	}
 
 	private ParamsBean getPrettyfacesParams()

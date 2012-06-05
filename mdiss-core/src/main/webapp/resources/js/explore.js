@@ -4,13 +4,13 @@ $(document).ready(function() {
 
 	$container.imagesLoaded( function(){
 	  $container.masonry({
-	    itemSelector : '.photoContainer',
+	    itemSelector : '.polaroid2',
 	    isFitWidth : 'true',
-	    gutterWidth : 6,
+	    gutterWidth : 4,
 	    columnWidth: function(containerWidth) {
 	    	return containerWidth / 50
 	    }
 	  });
 	});
-
+	
 });
