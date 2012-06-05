@@ -10,7 +10,7 @@
         <property name="hibernate.connection.password">test</property>
         <property name="hibernate.id.new_generator_mappings">true"</property>        
 		<property name="dialect">org.mdissjava.mdisscore.model.dao.hibernate.MDISSMySQL5Dialect</property>
-        <property name="hbm2ddl.auto">validate</property>
+        <property name="hbm2ddl.auto">update</property>
         <!-- Get current session (automated)-->
 		<!-- <property name="hibernate.current_session_context_class">thread</property>-->
         <mapping class="org.mdissjava.mdisscore.model.pojo.User"/>

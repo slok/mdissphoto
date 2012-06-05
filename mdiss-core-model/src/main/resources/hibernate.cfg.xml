@@ -32,7 +32,7 @@
 		<!-- Datasource -->
         <property name="hibernate.connection.datasource">java:jboss/mysql/mdissphoto</property>
 		<property name="dialect">org.mdissjava.mdisscore.model.dao.hibernate.MDISSMySQL5Dialect</property>
-		<property name="hbm2ddl.auto">validate</property>
+		<property name="hbm2ddl.auto">update</property>
 		<property name="hibernate.id.new_generator_mappings">true"</property> 
         <mapping class="org.mdissjava.mdisscore.model.pojo.User"/>
         <mapping class="org.mdissjava.mdisscore.model.pojo.Country"/>
