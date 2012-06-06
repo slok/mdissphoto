@@ -151,32 +151,6 @@
 			<version>1.2.2</version>
 		</dependency>
 		
-		<!-- MongoDB API  & Morphia-->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.7.2</version>
-		</dependency>
-		
-		<dependency>
-            <groupId>com.google.code.morphia</groupId>
-            <artifactId>morphia</artifactId>
-            <version>0.99.1-SNAPSHOT</version> 
-		</dependency>
-		
-		<!-- Morphia lazy loading dependencies -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.thoughtworks.proxytoys</groupId>
-			<artifactId>proxytoys</artifactId>
-			<version>1.0</version>
-		</dependency>
-
 		<!-- Our dependencies -->
 		<dependency>
             <groupId>org.mdissjava.commonutils</groupId>

@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mdissjava.api</groupId>
+    <artifactId>mdiss-api</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>mdiss-api</name>
+    <url>http://maven.apache.org</url>
+  
+    <properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jboss.as>7.0.2.Final</version.jboss.as>
+        <spring-security.version>3.0.7.RELEASE</spring-security.version>
+    </properties>
+  
+    <parent>
+        <groupId>org.mdissjava.mdissphoto</groupId>
+        <artifactId>mdissphoto</artifactId>
+        <version>1.0</version>
+    </parent>
+
+	<!-- Dependency repositories-->
+	<repositories>
+		<repository>
+			<id>mvn.mdiss.info</id>
+			<name>MDISS custom repo</name>
+			<url>http://mvn.mdiss.info</url>
+		</repository>
+		
+		<!-- Morphia updated repo -->
+        <repository>
+            <id>com.google.code.morphia</id>
+            <name>Morphia Repo at Google Code</name>
+            <url>http://morphia.googlecode.com/svn/mavenrepo</url>
+        </repository>
+		
+	</repositories>
+      
+    <dependencies>
+      
+      	<dependency>
+            <groupId>org.mdissjava.commonutils</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+      	<dependency>
+            <groupId>org.mdissjava.mdisscore</groupId>
+            <artifactId>mdiss-core-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>      
+	    
+	    <!-- MongoDB API  & Morphia-->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.google.code.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.99.1-SNAPSHOT</version> 
+		</dependency>
+        
+        <!-- Morphia lazy loading dependencies -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.thoughtworks.proxytoys</groupId>
+			<artifactId>proxytoys</artifactId>
+			<version>1.0</version>
+		</dependency>
+        
+        <!-- Resteasy JAX-RS  for REST API-->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.3.4.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		 <dependency>
+	       <groupId>org.jboss.resteasy</groupId>
+	       <artifactId>resteasy-jackson-provider</artifactId>
+	       <version>2.3.4.Final</version>
+	       <scope>provided</scope>
+	    </dependency>
+            
+    </dependencies>
+    
+     <!--Build options (plugins...) -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.as}</version>
+                <configuration>
+                    <hostname>localhost</hostname>
+                    <port>9999</port>
+                    <filename>${project.build.finalName}.${project.packaging}</filename>
+                </configuration>
+                <!-- Execute deploy after packaging -->
+			    <executions>
+				    <execution>
+				        <phase>package</phase>
+				        <goals>
+				            <goal>deploy</goal>
+				        </goals>
+				    </execution>
+				</executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
