@@ -34,7 +34,11 @@
 									  				<h3>
 										  				<pretty:link mappingId="user-profile" >
 															<f:param value="#{notification.uploaderUsername}" /><strong>#{notification.uploaderUsername}</strong>
-														</pretty:link> uploaded a new photo!
+														</pretty:link> uploaded a new 
+														<pretty:link mappingId="photo-detail" >
+															<f:param value="#{notification.uploaderUsername}" />
+															<f:param value="#{notification.photoId}" /><strong>photo</strong>
+														</pretty:link>!
 													</h3>
 												</div>
 									  			<div class="span2">

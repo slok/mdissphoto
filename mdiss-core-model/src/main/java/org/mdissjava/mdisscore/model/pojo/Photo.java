@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
@@ -17,6 +18,7 @@ import com.google.code.morphia.annotations.Reference;
  * 
  * @author mdiss_java
  */
+
 @Entity
 public class Photo {
 
@@ -32,7 +34,9 @@ public class Photo {
 	private String title;
 
 	/** the reference to the album */
-	@Reference (lazy = true) private Album album;
+	@JsonIgnore
+	@Reference 
+	(lazy = true) private Album album;
 	
 	/** Represents if the photo is public, can be seen by anyone, or private. */
 	private Boolean publicPhoto;
@@ -150,6 +154,7 @@ public class Photo {
 	 * gets the album (we use lazyness so we don't have until we call some of this methods)
 	 * @return
 	 */
+	@JsonIgnore
 	public Album getAlbum() {
 		return album;
 	}
@@ -159,6 +164,7 @@ public class Photo {
 	 * 
 	 * @param album
 	 */
+	@JsonIgnore
 	public void setAlbum(Album album) {
 		this.album = album;
 	}

@@ -19,8 +19,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         <module>common-utils</module>
         <module>thumbnailer</module>
         <module>notifier</module>
-	<module>mdiss-core-model</module>
-	<module>mdiss-core</module>
+        <module>mdiss-core-model</module>
+        <module>mdiss-core</module>
+        <module>mdiss-api</module>
         
     </modules>
 

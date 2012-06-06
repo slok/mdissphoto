@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -23,6 +24,7 @@ public class Album {
 	private Date creationDate;
 	private String userNick;
 	
+	@JsonIgnore
 	@Reference
 	private List<Photo> photos;
 	
@@ -59,9 +61,12 @@ public class Album {
 		this.creationDate = creationDate;
 	}
 	
+	@JsonIgnore
 	public List<Photo> getPhotos() {
 		return photos;
 	}
+	
+	@JsonIgnore
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
