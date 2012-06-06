@@ -73,11 +73,11 @@ public class SolrImportDataMongo {
 				List<Photo> listaFotosEnc = photodao.findPhoto(fotoToIndex);
 				if (listaFotosEnc.size() > 0){
 					Photo photo = listaFotosEnc.get(0);
-					document.addField("photoId", photo.getId());
+					document.addField("photoId", photo.getPhotoId());
 					document.addField("titleFoto", photo.getTitle());
 					Album album = photo.getAlbum();
 					if(album != null){
-						document.addField("albumId", album.getId());
+						document.addField("albumId", album.getAlbumId());
 						document.addField("titleAlbum", album.getTitle());
 						document.addField("userNick", album.getUserNick());						
 					}
