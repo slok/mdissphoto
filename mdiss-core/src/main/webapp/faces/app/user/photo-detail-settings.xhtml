@@ -27,6 +27,11 @@
 			    	$('#myTags').tagit();
 			    });
 
+			    
+				function getAllTags() {
+			    	var allTags = $('#myTags').tagit("assignedTags");
+			    	$('#misTags').attr('value', allTags);    					    	
+		    	};			    
 			</script>
      		
      		<style type="text/css">
@@ -112,7 +117,8 @@
 		
 		<ui:define name="body">
 		
-        <h:form>    			
+        <h:form id="formulario">    		
+        	<input type="hidden" id="misTags" name="misTags" value="#{photoDetailsBean.misTags}"/>	
 	    	<!-- Photo title -->
 	    	<div class="row-fluid">
 				<div class="span12">				
@@ -146,22 +152,24 @@
 		      		#{photoDetailsBean.totalVotesPoints}  	
 	       		</div>
             </div>
-	    	
+	    	 
 	    	<!-- Photo and menu -->
 	    	<div class="row-fluid">				
 				<div class="span12">   				
 					<!-- tags -->					
 					 <h1 class="photo-title"><h:outputLabel value="Tags: " /></h1>
-					 <ul id="myTags">
+					 <ul id="myTags" >
 					 	<!-- Obtener todos los tags de la photo -->
 					 	<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
-					 	<li>#{tag}</li>
+					 	<li id="listaTags">
+					 		#{tag}					 		 			 		
+					 	</li>
 					 	</ui:repeat>
 					 </ul>																																							   										
 				</div>				
 			</div>
-			<p:commandButton id="formSubmitButton" styleClass="btn btn-primary btn-large" value="submit" type="submit" action="#{photoDetailsBean.saveSettings}" />
-
+			<h:commandButton styleClass="btn btn-primary" value="Modify" type="submit" action="#{photoDetailsBean.saveSettings}" onclick="getAllTags();"/>
+			<!-- <input type="button" value="Modificar" onclick="getAllTags();" />-->			
 			<!-- CANCELAR -->
 			<!-- Cargar nuevamente el -->
 			
