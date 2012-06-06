@@ -3,17 +3,14 @@ package org.mdissjava.mdisscore.view.photo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
@@ -21,7 +18,6 @@ import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
-import org.mdissjava.mdisscore.controller.bll.impl.TagManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
@@ -71,13 +67,13 @@ public class PhotoDetailsBean {
 	private String selectedAlbum; 
 	private List<String> albumTitles;
 	private int totalVotesPoints;
-	private String photoTitle;
 	private String myTags;
 	private PhotoManagerImpl photoManager;
 	private AlbumManagerImpl albumManager;
-	private TagManagerImpl tagManager;
 	private List<Photo> photosFromTag;
 	private List<Album> albumList;
+	private Album album;
+	private String misTags;
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -96,7 +92,6 @@ public class PhotoDetailsBean {
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			photoManager = new PhotoManagerImpl(datastore);
 			albumManager = new AlbumManagerImpl(datastore);
-			tagManager = new TagManagerImpl(datastore);
 			
 			this.photo = photoManager.searchPhotoUniqueUtil(photoId);
 			
@@ -174,7 +169,7 @@ public class PhotoDetailsBean {
 			
 			//set the album thumbnails identifiers and necessary data
 			this.thumbnailIds= new ArrayList<String>();
-			Album album = this.photo.getAlbum();
+			album = this.photo.getAlbum();
 			this.thumbnailBucket = "square.75";
 			this.thumbnailDatabase = database;
 			
@@ -204,7 +199,7 @@ public class PhotoDetailsBean {
 			this.albumTitles.addAll(otherAlbumTitles);
 			
 			// get total votes from the photoId
-			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);			
+			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);
 			
 			
 		} catch (IllegalArgumentException e) {
@@ -389,8 +384,7 @@ public class PhotoDetailsBean {
 		this.albumTitles = albumTitles;
 	}
 	
-	public String getSelectedAlbum() {
-		System.out.println("elegido" + this.selectedAlbum); 
+	public String getSelectedAlbum() { 
 		return selectedAlbum;
 	}
 	
@@ -406,15 +400,9 @@ public class PhotoDetailsBean {
 		this.totalVotesPoints = totalVotesPoints;
 	}
 
-	public String getPhotoTitle() {
-		return photoTitle;
-	}
-	
-	public void setPhotoTitle(String photoTitle) {
-		this.photoTitle = photoTitle;
-	}
-
 	public String getMyTags() {
+		List<String> tags = this.photo.getTags();
+		myTags = tags.toString();
 		return myTags;
 	}
 
@@ -428,6 +416,23 @@ public class PhotoDetailsBean {
 
 	public void setPhotosFromTag(List<Photo> photosFromTag) {
 		this.photosFromTag = photosFromTag;
+	}
+
+	public List<Album> getAlbumList() {
+		return albumList;
+	}
+	
+	public void setAlbumList(List<Album> albumList) {
+		this.albumList = albumList;
+	}
+	
+	public String getMisTags() {
+		return misTags;
+	}
+
+	public void setMisTags(String misTags) {
+		System.out.println("Mistags: " + misTags);
+		this.misTags = misTags;
 	}
 
 	private ParamsBean getPrettyfacesParams()
@@ -458,53 +463,60 @@ public class PhotoDetailsBean {
 		
 	}
 	
-	public void saveSettings() 
+	public void saveSettings()
 	{
+		System.out.println("saveSettings");
+		String allTags = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("misTags");
+		System.out.println("allTags: " + allTags);		
+		System.out.println("title: " + photo.getTitle());
 		System.out.println("PhotoDetailsBean.doSave()");
+		Album readNewAlbum = null;
 		
-		if(!this.photoTitle.equals("")){
-			
-			try {
-				Photo photo = photoManager.searchPhotoUniqueUtil(photoId);
-				photo.setTitle(this.getPhotoTitle());
+		//add the album to database
+			if(!this.photo.getTitle().equals("")){
+		
+				//get the photo
+//					Photo newPhoto = photoManager.searchPhotoUniqueUtil(photoId);
+				this.photo.setTitle(this.photo.getTitle());
+									
+				//get the tags
+				System.out.println("Tags photo: " + this.photo.getTags());
+				if (!allTags.equals(""))
+				{ 
+					//get the list of tags from the photo
+					List<String> newTagList = Utils.splitTags(allTags, ",");
+					// add the new tags to the prevous list stored in db
+					System.out.println("tags: " + newTagList.toString());
+					this.photo.setTags(newTagList);						
+				}			
+				//update modified photo
+				this.photoManager.updatePhoto(this.photo);
+
 				
-				Album album = new Album();
-				List<Album> albums = albumManager.findAlbum(album);
-				if(!albums.isEmpty()){
-					photo.setAlbum(albums.get(0));
+				//get the new object album from title selected
+				Album newAlbum = new Album();
+				newAlbum.setTitle(this.selectedAlbum);
+				List<Album> readListAlbum = albumManager.findAlbum(newAlbum);
+				//add the new photo to the album has found previously 
+				if(readListAlbum != null) {
+					readNewAlbum = readListAlbum.get(0);				
+					try {
+						albumManager.movePhotoToAlbum(this.userNick, readNewAlbum.getAlbumId(), this.photo);
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
-				if (!myTags.isEmpty())
-				{
-					// get the "previous" tags from the photo are stored in db
-					List<String> newTagList = photo.getTags(); 
-					// add the new tags to the prevous list stored in db 
-					List<String> tags = Utils.splitTags(myTags, "\\,"); 
-					newTagList.addAll(tags);
-					photo.setTags(newTagList);
-				}			
-				photoManager.updatePhoto(photo);
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//Navigation to photo-detail view
+				String outcome = "pretty:photo-detail";
+				FacesContext facesContext =  FacesContext.getCurrentInstance();
+				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			}
 			
-			
-		}
-			
 	}
-
-	public List<Album> getAlbumList() {
-		return albumList;
-	}
-
-	public void setAlbumList(List<Album> albumList) {
-		this.albumList = albumList;
-	}
-
-
-
-
-
+	
 }
