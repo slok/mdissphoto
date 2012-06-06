@@ -10,6 +10,12 @@ import javax.jms.TextMessage;
 
 import org.apache.commons.mail.EmailException;
 import org.mdissjava.commonutils.email.EmailUtils;
+import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
+import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.VerifyAccountEvent;
 
 public class EmailDaemon extends Daemon{
@@ -38,7 +44,14 @@ public class EmailDaemon extends Daemon{
 	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
 	        			this.sendVerificationEmail(eventReceived);
 	        			
-	            	}else
+	            	}
+	        		else if(obj instanceof NewFollowerEvent)
+	        		{
+	        			NewFollowerEvent eventReceived = (NewFollowerEvent)obj;
+	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
+	        			this.sendFollowerEmail(eventReceived);
+	        		}
+	        		else
 	            		throw new IllegalStateException("Wrong message received");
 	
 	            }else if(msgReceived instanceof TextMessage){
@@ -75,4 +88,20 @@ public class EmailDaemon extends Daemon{
 		}
 	}
 
+	public void sendFollowerEmail(NewFollowerEvent eventReceived){
+		String username = eventReceived.getSelfUserName();
+		String followerUsername = eventReceived.getFollowerUsername();
+		UserDao userDao = new UserDaoImpl();
+		User selfUser = userDao.getUserByNick(eventReceived.getSelfUserName());
+		String email = selfUser.getEmail();
+	
+		//send follower email
+		try {
+			EmailUtils.sendFollowerEmail(email, username, followerUsername);
+		} catch (EmailException e) {
+			this.logger.error("Error sending email: {}", e.toString());
+		} catch (IOException e) {
+			this.logger.error("Error sending email: {}", e.toString());
+		}
+	}
 }

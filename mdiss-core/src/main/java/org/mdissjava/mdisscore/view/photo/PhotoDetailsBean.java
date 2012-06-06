@@ -3,14 +3,17 @@ package org.mdissjava.mdisscore.view.photo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
@@ -73,7 +76,8 @@ public class PhotoDetailsBean {
 	private PhotoManagerImpl photoManager;
 	private AlbumManagerImpl albumManager;
 	private TagManagerImpl tagManager;
-	List<Photo> photosFromTag;
+	private List<Photo> photosFromTag;
+	private List<Album> albumList;
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -179,15 +183,28 @@ public class PhotoDetailsBean {
 				if(!i.getPhotoId().equals(this.photoId))
 					this.thumbnailIds.add(i.getPhotoId());
 			}
+			
+			//get the album from the photo
+			String albumTitle = this.photo.getAlbum().getTitle();
 			//get all the albums from the userNick
-			this.albumTitles = albumManager.getAlbumsFromUserNick(this.userNick);		
+			this.albumList = albumManager.findUserAlbums(this.userNick);			
+			this.albumTitles = new ArrayList<String>();
+			List<String> otherAlbumTitles = new ArrayList<String>();
+			for (Album a: albumList)
+			{	
+				//insert the first the album of that photo
+				if(a.getTitle().equals(albumTitle)){
+					this.albumTitles.add(a.getTitle());
+				}
+				else {
+					otherAlbumTitles.add(a.getTitle());
+				}
+			}
+			//add the others map at the end of the list
+			this.albumTitles.addAll(otherAlbumTitles);
 			
 			// get total votes from the photoId
-			this.setTotalVotesPoints(photoManager.getTotalVotesFromPhoto(this.photoId));
-			
-			//get all the photos from an specific tag
-			//TODO obtener el nombre del link tag sobre el que clickea
-//			photosFromTag = tagManager.getPhotosFromTag("tagDescription");
+			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);			
 			
 			
 		} catch (IllegalArgumentException e) {
@@ -365,7 +382,7 @@ public class PhotoDetailsBean {
 	}
 
 	public List<String> getAlbumTitles() {
-		return albumTitles;
+		return this.albumTitles;
 	}
 	
 	public void setAlbumTitles(List<String> albumTitles) {
@@ -373,6 +390,7 @@ public class PhotoDetailsBean {
 	}
 	
 	public String getSelectedAlbum() {
+		System.out.println("elegido" + this.selectedAlbum); 
 		return selectedAlbum;
 	}
 	
@@ -451,7 +469,6 @@ public class PhotoDetailsBean {
 				photo.setTitle(this.getPhotoTitle());
 				
 				Album album = new Album();
-				album.setTitle(this.getSelectedAlbum());
 				List<Album> albums = albumManager.findAlbum(album);
 				if(!albums.isEmpty()){
 					photo.setAlbum(albums.get(0));
@@ -460,9 +477,9 @@ public class PhotoDetailsBean {
 				if (!myTags.isEmpty())
 				{
 					// get the "previous" tags from the photo are stored in db
-					List<String> newTagList = photo.getTags();
+					List<String> newTagList = photo.getTags(); 
 					// add the new tags to the prevous list stored in db 
-					List<String> tags = Utils.splitTags(myTags, "\\,");
+					List<String> tags = Utils.splitTags(myTags, "\\,"); 
 					newTagList.addAll(tags);
 					photo.setTags(newTagList);
 				}			
@@ -478,6 +495,13 @@ public class PhotoDetailsBean {
 			
 	}
 
+	public List<Album> getAlbumList() {
+		return albumList;
+	}
+
+	public void setAlbumList(List<Album> albumList) {
+		this.albumList = albumList;
+	}
 
 
 

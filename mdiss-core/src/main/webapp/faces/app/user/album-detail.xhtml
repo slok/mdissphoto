@@ -15,6 +15,7 @@
 			
 	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
 	     	<h:outputScript library="js" name="albumContent.js" />	 
+	     	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script> 
 	     	    		
 		</ui:define>
       
@@ -22,11 +23,31 @@
 		
 		<ui:define name="body">
 			<div class="row-fluid">
-			  <div class="span12">	
-			  <!-- TODO: Add erase album and modify title options  -->
-			  	<div class="well centered">	  		
-			  		<div class="centeredText">#{albumDetailsBean.albumTitle}</div>
+			  <div class="span12">						  
+			  	<div class="well centered">	 
+			  		<div class="row-fluid">
+				  		<div class="span4">
+					  		<pretty:link mappingId="album-list" >
+					  			<f:param value="#{albumDetailsBean.userNick}" />
+					  			<button class="btn btn-inverse alignLeft" type="submit">
+								  	<i class="icon-arrow-left icon-white"/>						  																		
+									Back to Albums
+								</button>
+							</pretty:link>	
+						</div>		
+						<div class="span4">		
+							<div class="centeredText">
+								<h:outputText id="albTitle" value="#{albumDetailsBean.albumTitle}" />				
+							</div>				  		
+				  		</div>
+				  		<h:panelGroup layout="block" rendered="#{albumBean.showMenu}">
+					  		<div class="span4">
+					  			<a class="btn btn-danger alignRight" data-toggle="modal" href="#modifyModal" ><i class="icon-pencil icon-white"/></a>						
+					  		</div>
+					  	</h:panelGroup>
+			  		</div>
 			  	</div>
+			  			  	
 			  	<div class="box centered">	
 		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
 		   				<div class="thumb">	
@@ -42,7 +63,29 @@
 		    		</ui:repeat>
 		    	</div>	    		
 			  </div> 		
-			</div>					
+			</div>	
+			
+			<h:panelGroup layout="block" rendered="#{albumDetailsBean.showMenu}">
+				<div class="modal hide fade" id="modifyModal">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">×</button>
+						<h3>Modify album name</h3>
+					</div>
+					<h:form>	    					         
+						<div class="modal-body">
+							<h:inputText id="newTitle" class="alighnLeft" value="#{albumDetailsBean.albumTitle}"></h:inputText>
+							<h:outputText id="feedback" class="alert alert-success alignRight" value="#{albumDetailsBean.message}" />
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal"> Close </a>
+							<h:commandButton styleClass="btn btn-primary" value="Change it!">
+								<f:ajax execute="newTitle" render=":albTitle feedback" listener="#{albumDetailsBean.modifyTitle}" />
+							</h:commandButton>	
+						</div>		                                                    	                    
+	                 </h:form>
+				</div>
+			</h:panelGroup>
+							
 		</ui:define>
 				
     </ui:composition>

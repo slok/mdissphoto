@@ -253,6 +253,12 @@
 	  		<version>2.2.1</version>
 	  		<scope>compile</scope>
 	  	</dependency>
+	  	<!--  Json -->
+	  		<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>20090211</version>
+			</dependency>
     </dependencies>
     
     

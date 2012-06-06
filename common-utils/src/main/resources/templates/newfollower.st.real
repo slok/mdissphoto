@@ -1,0 +1,12 @@
+newfollower(title, name, followername) ::= <<
+<html>
+    <head>
+       <title>Welcome To MDISS PHOTO Java</title>
+    </head>
+    <body>
+    	<h1>Congrats $name$ !!!</h1>
+       <p>Hello $name$, $followername$ is now following you!</p>
+    	<!-- <p><a href="http://goo.gl/Pm4tt">VALIDATE</a></p> -->
+    </body>
+</html>
+>>

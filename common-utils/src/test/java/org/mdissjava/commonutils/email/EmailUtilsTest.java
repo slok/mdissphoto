@@ -22,5 +22,17 @@ public class EmailUtilsTest {
 		}
 		assertTrue("Correct", true);*/
 	}
+	
+	@Test
+	public void TemplateFollowerEmailTest() {
+		/*try {
+			EmailUtils.sendFollowerEmail("maitefru@gmail.com", "maifrup", "cerealguy");
+		} catch (EmailException e) {
+			fail("Exception ocurred sending email");
+		} catch (IOException e) {
+			fail("Exception ocurred reading the properties");
+		}
+		assertTrue("Correct", true);*/
+	}
 
 }

@@ -108,7 +108,7 @@ public class PhotoManagerImpl implements PhotoManager{
 		}
 		else
 		{
-			p.setTags(Utils.splitTags(tags, "\\,"));
+			p.setTags(Utils.splitTags(tags, "\\,")); 
 		}
 		
 		//sometimes the metadata is inserted before all this data so we retrieve metadata, 
@@ -377,6 +377,12 @@ public class PhotoManagerImpl implements PhotoManager{
 			}
 		}
 		return totalPoints;
+	}
+
+	@Override
+	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException {
+		this.logger.debug("PhotoManagerImpl.getRandomPhotos");
+		return this.photoDao.getRandomPhotos(quantity);
 	}
 	
 

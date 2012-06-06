@@ -1,6 +1,9 @@
 package org.mdissjava.notifier.daemon;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -8,9 +11,15 @@ import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
 
 import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.mdisscore.model.pojo.notifications.FollowingNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification.NotificationType;
+import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
 
 import com.google.code.morphia.Datastore;
@@ -28,7 +37,6 @@ public class PersistenceDaemon extends Daemon {
 	@Override
 	public void startDaemon() {
 		this.logger.info("run persistence daemon");
-		
 		try{
 			while(true) {
 	        	Message msgReceived = consumer.receive();
@@ -41,13 +49,23 @@ public class PersistenceDaemon extends Daemon {
 	        		//DO THINGS FOR EACH TYPE OF EVENT!!!!
 	            	//if is MdissEvent type object
 	        		//TODO: Check followers etc...
+
 	        		if (obj instanceof PhotoUploadedEvent)
 	            	{
 	        			PhotoUploadedEvent eventReceived = (PhotoUploadedEvent)obj;
+	    					    			
 	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
 	        			this.storePhotoUploadNotification(eventReceived, notificationDao);     			
-	        			
-	            	}else
+
+	            	}
+	    			else if(obj instanceof NewFollowerEvent)
+	    			{
+	    				NewFollowerEvent eventReceived = (NewFollowerEvent)obj;
+	    				
+	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
+	        			this.storeNewFollowerNotification(eventReceived, notificationDao);   
+	    			}
+	        		else
 	            		throw new IllegalStateException("Wrong message received");
 	
 	            }else if(msgReceived instanceof TextMessage){
@@ -65,17 +83,53 @@ public class PersistenceDaemon extends Daemon {
 
 	}
 
+	private void storeNewFollowerNotification(NewFollowerEvent event, MdissNotificationDao notificationDao)
+	{
+		FollowingNotification followerNotification = new FollowingNotification(event.getFollowerUsername());
+		followerNotification.setDate(new Date());
+		followerNotification.setFollowerUserName(event.getFollowerUsername());
+		followerNotification.setRead(false);
+		followerNotification.setSelfUserName(event.getSelfUserName());
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
+		
+		notificationDao.insertMdissNotification(followerNotification);
+	}
+	
 	private void storePhotoUploadNotification(PhotoUploadedEvent eventReceived, MdissNotificationDao notificationDao) {
-		
+	
 		//create the notifiacion/s
+		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
 		PhotoUploadedNotification notification = new PhotoUploadedNotification(eventReceived.getUserNick(), eventReceived.getPhotoId());
-		notification.setDate(eventReceived.getEventDate());
-		notification.setSelfUserName("Python-Ruby");
-		notification.setRead(false);
 		
-		//save
-		notificationDao.insertMdissNotification(notification);	   
+		List<PhotoUploadedNotification> new_follower_notifications = new ArrayList<PhotoUploadedNotification>();
 		
+		UserDao userDao = new UserDaoImpl();
+		
+		User uploaderUser = userDao.getUserByNick(eventReceived.getUserNick());
+		List<User> followers = uploaderUser.getFollowers();
+		System.out.println("Followers' size: "+followers.size());
+		for(User u : followers)
+		{
+			notification = new PhotoUploadedNotification(eventReceived.getUserNick(), eventReceived.getPhotoId());
+			notification.setPhotoId(eventReceived.getPhotoId());
+			notification.setSelfUserName(u.getNick());
+			System.out.println("Notification selfUserName: "+notification.getSelfUserName());
+			notification.setRead(false);
+			notification.setDate(eventReceived.getEventDate());
+			notification.setNotificationType(NotificationType.PHOTO_UPLOADED);
+			notification.setUploaderUsername(eventReceived.getUserNick());
+			
+			//save
+			System.out.println("Insertando notification");
+			new_follower_notifications.add(notification);
+			System.out.println("notifications size: "+new_follower_notifications.size());
+		}
+		
+		for(PhotoUploadedNotification puNot : new_follower_notifications)
+		{
+			notificationDao.insertMdissNotification(puNot);
+		}
+
 	}
 
 	@Override

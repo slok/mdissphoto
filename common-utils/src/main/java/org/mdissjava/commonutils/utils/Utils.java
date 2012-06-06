@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -72,7 +73,7 @@ public class Utils {
 	 * @param tags
 	 * @return
 	 */
-	public static ArrayList<String> splitTags(String tags, String regex)
+	public static ArrayList<String> splitTags(String tags, String regex) 
 	{
 
 //		this.logger.debug("Splitting tags");
@@ -88,5 +89,14 @@ public class Utils {
 		return tagList;
 	}
 	
+	public static int getRandomNumInRange(int min, int max)
+	{
+		Random rand = new Random();
 
+		// nextInt is normally exclusive of the top value,
+		// so add 1 to make it inclusive
+		int randomNum = rand.nextInt(max - min + 1) + min;
+		return randomNum;
+	}
+	
 }

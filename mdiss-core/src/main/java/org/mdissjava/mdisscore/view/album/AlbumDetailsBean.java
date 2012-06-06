@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
@@ -14,16 +16,22 @@ import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.code.morphia.Datastore;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class AlbumDetailsBean {
 	
 	private String userNick;
-	private String albumId;
+	private String albumID;
 	private String albumTitle;
+	private boolean showMenu;
+	private boolean showMessage;
+	private String message;
+	private String errorMessage;
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
@@ -34,7 +42,25 @@ public class AlbumDetailsBean {
 	private List<Photo> photoList;
 	
 	public AlbumDetailsBean()
-	{	
+	{			
+		//Depending on the logged user that is checking the albums, modifyAlbum button is shown or not.	
+		ParamsBean pb = getPrettyfacesParams();
+		this.userNick = pb.getUserId();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
+		
+		if(loggedUser.equals(this.userNick))
+		{
+			this.showMenu = true;
+		}
+		else
+		{
+			this.showMenu = false;
+		}
+		
+		this.message = "";
+		this.showMessage = false;
 		
 		//get morphia database from properties and load the albums by its ids
 		try {
@@ -44,9 +70,7 @@ public class AlbumDetailsBean {
 			this.photoIDs = new ArrayList<String>();
 			this.photoList = new ArrayList<Photo>();
 			
-			ParamsBean pb = getPrettyfacesParams();
-			this.userNick = pb.getUserId();
-			this.albumId = pb.getAlbumId();
+			this.albumID = pb.getAlbumId();
 			
 			PropertiesFacade propertiesFacade = new PropertiesFacade();
 			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
@@ -54,10 +78,10 @@ public class AlbumDetailsBean {
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
 			
-			Album a = albumManager.searchAlbumUniqueUtil(this.albumId, this.userNick);
+			Album a = albumManager.searchAlbumUniqueUtil(this.albumID, this.userNick);
 			
 			this.albumTitle = a.getTitle();	
-			this.photoList = albumManager.getPhotosFromAlbum(this.albumId, this.userNick);
+			this.photoList = albumManager.getPhotosFromAlbum(this.albumID, this.userNick);
 			
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
 			String bucketPropertyKey = "thumbnail.square.260px.bucket.name";
@@ -72,13 +96,51 @@ public class AlbumDetailsBean {
 				this.photoURLs.add(detailedPhotoURL);	
 			}
 				
-
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+	}
+	
+	public void modifyTitle(AjaxBehaviorEvent event) {
+		
+		this.showMessage = false;
+		
+		//Security check just to ensure that the one erasing the album is the owner of the album 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
+		
+		if(loggedUser.equals(this.userNick)) {
+			 
+			 try {
+					String database;
+					
+					PropertiesFacade propertiesFacade = new PropertiesFacade();
+					database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+				
+					Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+					AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+					
+					//Find in the DB the album to be modified
+					Album album = albumManager.searchAlbumUniqueUtil(this.albumID, this.userNick);
+					//Change the album title to the new one
+					album.setTitle(this.albumTitle);					
+					albumManager.updateAlbum(album);
+					
+					this.message = "Album name succesfully changed!";
+					this.showMessage = true;
+					
+			 } catch (IllegalArgumentException e) {
+				this.errorMessage = "ERROR! Couldn't change album name.";
+				e.printStackTrace();
+			 } catch (IOException e) {
+				this.errorMessage = "ERROR! Couldn't change album name.";
+				e.printStackTrace();
+			 }   
 		}
 		
 	}
@@ -99,12 +161,12 @@ public class AlbumDetailsBean {
 		this.albumTitle = albumTitle;
 	}
 
-	public String getAlbumId() {
-		return albumId;
+	public String getAlbumID() {
+		return albumID;
 	}
 
-	public void setAlbumId(String albumId) {
-		this.albumId = albumId;
+	public void setAlbumId(String albumID) {
+		this.albumID = albumID;
 	}
 
 	public String getUserNick() {
@@ -129,6 +191,38 @@ public class AlbumDetailsBean {
 
 	public void setPhotoTitles(List<String> photoTitles) {
 		this.photoTitles = photoTitles;
+	}
+
+	public boolean isShowMenu() {
+		return showMenu;
+	}
+
+	public void setShowMenu(boolean showMenu) {
+		this.showMenu = showMenu;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public boolean isShowMessage() {
+		return showMessage;
+	}
+
+	public void setShowMessage(boolean showMessage) {
+		this.showMessage = showMessage;
 	}
 
 	private ParamsBean getPrettyfacesParams()

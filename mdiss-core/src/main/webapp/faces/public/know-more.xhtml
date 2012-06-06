@@ -9,8 +9,11 @@
     <ui:composition template="/templates/public-space.xhtml">
     
     	<ui:define name="head">
-	    
+   	
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+			<link href='http://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'/>
+			
+			<h:outputStylesheet library="css" name="bootstrap.css"  />
 			
 	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
 	     	<h:outputScript library="js" name="explore.js" />	 
@@ -21,16 +24,21 @@
 		
 		<ui:define name="body">
 			<div class="row-fluid">
-					  	<div class="photoBox centered">	
-			  				<ui:repeat value="#{exploreBean.photoURLs}" var="photoURL" varStatus="status">	
-				   				<div class="imageContainer">			
-									<img src="#{photoURL}" alt=""/>																							 																								
-									<div>#{exploreBean.photoTitles[status.index]}</div>	
-									<div>#{exploreBean.photoUsers[status.index]}</div>
-								</div>								
-			    			</ui:repeat>
-				    	</div>	    		
-			
+				<div class="span12">
+			  	<div class="photoBox centered">	
+	  				<ui:repeat value="#{exploreBean.photoURLs}" var="photoURL" varStatus="status">	
+		   				<div class="photoContainer">
+		   					<div class="imageContainer">			
+								<h:graphicImage class="border" value="#{photoURL}" />	
+							</div>
+							<div class="infoContainer">
+								<div><h:outputText class="photoTitle centered" value="#{exploreBean.photoTitles[status.index]}" /></div> 
+								<div> by <h:outputText class="author centered" value="#{exploreBean.photoUsers[status.index]}" /></div>
+							</div>
+						</div>								
+	    			</ui:repeat>
+		    	</div>	    
+		    	</div>					
 			</div>
 		</ui:define>
 		

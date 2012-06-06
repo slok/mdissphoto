@@ -232,6 +232,20 @@ public class EmailUtils {
 				EmailUtils.HTML);
 	}
 	
+	public static void sendFollowerEmail(String to, String name, String followerUsername)
+			throws EmailException, IOException {
+		//STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
+		String template_url = EmailUtils.class.getResource("/templates").getPath();
+		STGroup group = new STGroupDir(template_url, '$', '$');
+		ST st = group.getInstanceOf("newfollower");
+
+		st.add("name", name);
+		st.add("followername", followerUsername);
+
+		EmailUtils.sendEmail(to, "Hi "+name+"! "+followerUsername+" is now following you", st.render(),
+				EmailUtils.HTML);
+	}
+	
 	public static void sendEmail(String to, String template, Map<String, String> data) throws EmailException, IOException {
 		STGroup group = new STGroupDir("src/main/resources/templates", '$', '$');
 		ST st = group.getInstanceOf(template);
