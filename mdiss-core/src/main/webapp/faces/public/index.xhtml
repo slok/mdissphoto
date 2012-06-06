@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
     <ui:composition template="/templates/public-space.xhtml">
@@ -26,53 +27,71 @@
 						<!-- Carousel items -->
 						<div class="carousel-inner">
 							<div class="active item">
-								<img src="http://www.trucospc.info/fondos-de-pantalla/Naturaleza/imagenes/Snow%20Mountain.jpg" alt=""/>
+								<img src="http://www.dummyimage.com/1024x768" alt=""/>
 								<div class="carousel-caption">
-									<h2>Una flor</h2>
-									<p>cdaf sdnf sdkn fsdnfdskb dskfbdskf d</p>
+									<h4>Welcome to [APPNAME]!</h4>
+									<p>The coolest and newest webapp to store and share your photos and images!</p>
 								</div>
 							</div>
 							
 							<div class="item">
-								<img src="http://www.gjxu.com/uploads/Mountain-Wallpaper1.jpg"/>
+								<img src="http://www.dummyimage.com/1024x768" alt=""/>
 								<div class="carousel-caption">
-									<h2>Una Leona</h2>
-									<p>jkyhbt b hyh hhyh nh n g fhhf hg</p>
+									<h4>Be part of the comunity!</h4>
+									<p>If you join us, you'll become part of a growing community of photographers and artist of all kind, where you can make new friends and/or follow their work.</p>
 								</div>
 							</div>
 							
 							<div class="item">
-								<img src="http://2.bp.blogspot.com/_Hrh98i7uFqo/TSX0BAlLewI/AAAAAAAAACg/6jIG1FSxdKU/s1600/Great+Snow+Mountain.jpg" alt=""/>
+								<img src="http://www.dummyimage.com/1024x768"/>
 								<div class="carousel-caption">
-									<h2>Un café</h2>
-									<p>mmmm gsf ds m dapdawppqqdjsn habsaiva ausvuaudb u dsauidsab dbsabsab</p>
+									<h4>Upload photos!</h4>
+									<p>[APPNAME] lets you upload, store and organize your images/photos the way you want in a very easy way!</p>
 								</div>
 							</div>
 							
 							<div class="item">
-								<img src="http://wallpapers5.com/images/wallpapers/72943173/Landscape/Amazing-Mountain-Fuji-003.jpg" alt=""/>
+								<img src="http://www.dummyimage.com/1024x768" alt=""/>
 								<div class="carousel-caption">
-									<h2>Edificios</h2>
-									<p>cdafdsad dds fdssda dsa dsa dsadsa sdnf sdkn fsdnfdskb dskfbdskfsadsdsa dsa dsads d</p>
+									<h4>Share them!</h4>
+									<p>Not only that! It also lets you to share your uploaded photos with everyone in the community or show them to your friends, both the ones that are part of our community and those from the outside.</p>
 								</div>
 							</div>
-							
 							
 							<div class="item">
-								<img src="http://upload.wikimedia.org/wikipedia/commons/8/86/Peak_of_the_Matterhorn,_seen_from_Zermatt,_Switzerland.jpg" alt=""/>
+								<img src="http://www.dummyimage.com/1024x768" alt=""/>
 								<div class="carousel-caption">
-									<h2>Edificios</h2>
-									<p>cdafdsad dds fdssda dsa dsa dsadsa sdnf sdkn fsdnfdskb dskfbdskfsadsdsa dsa dsads d</p>
+									<h4>Find cool stuff!</h4>
+									<p>You can also check other people's work and who knows, maybe find an inspiring piece of work! :D </p>
 								</div>
-							</div>
-							
+							</div>			
 						</div>
+						
 						<!-- Carousel nav -->
 						<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+						
 					</div>
 				</div>
 			</div>
+			
+			<br />
+			
+			<div class="row-fluid">
+		  		<div class="well span12">
+					<h1>Still not convinced to join us?</h1>
+					<h:outputText id="subText" value="Go on and get a sneak peak of some of our users' photos and images!" />				
+					<div id="exploreButton">
+						<pretty:link mappingId="know-more" >
+					  		<button class="btn btn-primary btn-large">
+								<i class="icon-eye-open icon-white"/>						  																		
+								Explore
+							</button>
+						</pretty:link>
+					</div>
+				</div>
+			</div>	
+
 		</ui:define>
 		
     </ui:composition>

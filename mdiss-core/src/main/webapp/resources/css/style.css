@@ -313,6 +313,18 @@ div.captcha
 	text-align:right;
 }
 
+/* Index */
+
+#subText{  
+	margin-top:5px;
+    font-size: 20px;
+}
+
+#exploreButton{
+	text-align:right;
+	margin-top:10px;
+}
+
 /* Explore */
 
 .exploreTable{
