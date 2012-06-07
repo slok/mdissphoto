@@ -105,6 +105,20 @@
 		<dispatcher>ERROR</dispatcher>
     </filter-mapping>
   	
+    <!-- Photo Settings -->
+  		<filter>
+        <filter-name>PhotoSettingsFilter</filter-name>
+        <filter-class>org.mdissjava.mdisscore.filter.PhotoSettingsFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+		<filter-name>PhotoSettingsFilter</filter-name>
+		<url-pattern>/faces/app/user/photo-detail-settings.jsf</url-pattern>
+		<dispatcher>FORWARD</dispatcher> 
+		<dispatcher>REQUEST</dispatcher> 
+		<dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

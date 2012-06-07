@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/error-space.xhtml">
+      
+		<ui:define name="title">NOT YOUR PHOTO</ui:define>
+		
+		
+			
+		<ui:define name="head">
+			<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>
+		</ui:define>	
+		
+		<ui:define name="body">
+			
+			<h1 class="photo-title">Oops! Apparently this photo is not yours...</h1>
+
+			
+			<pretty:link mappingId="dashboard" >
+				<h:graphicImage library="img" name="PhotoSettingsError.png" />
+			</pretty:link>
+		
+		</ui:define>
+		                                                
+    </ui:composition>
+</html>
