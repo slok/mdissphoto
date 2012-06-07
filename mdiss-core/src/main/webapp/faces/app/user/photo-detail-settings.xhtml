@@ -106,74 +106,82 @@
 		</script>
      				 
       	</ui:define>
-      	
-      	
-		<ui:define name="title">
-			Mdissphoto / #{photoDetailsBean.photo.title} by #{photoDetailsBean.userNick}
-		</ui:define>
-		
-		<ui:define name="header">	
-		</ui:define>
-		
-		<ui:define name="body">
-		
-        <h:form id="formulario">    		
-        	<input type="hidden" id="misTags" name="misTags" value="#{photoDetailsBean.misTags}"/>	
-	    	<!-- Photo title -->
-	    	<div class="row-fluid">
-				<div class="span12">				
-		      		<h1 class="photo-title"><h:outputLabel value="Photo Title: " /></h1>
-		      		<p:inputText id="photoTitle" value="#{photoDetailsBean.photo.title}" label="photoTitle"/>	
-	       		</div>
-            </div>
-
-			<!-- UserNick -->
-	    	<div class="row-fluid">
-				<div class="span12">
-		      		<h1 class="photo-title"><h:outputLabel value="UserNick: " /></h1>
-		      		#{photoDetailsBean.userNick}	
-	       		</div>
-            </div>
-
-			<!-- Album title -->
-	    	<div class="row-fluid">
-				<div class="span12">				
-		      		<h1 class="photo-title"><h:outputLabel value="Album Title: " /></h1>		 
-		      		<p:selectOneMenu id="selected" value="#{photoDetailsBean.selectedAlbum}">  			                 
-			               <f:selectItems value="#{photoDetailsBean.albumTitles}"/>  			                 
-		            </p:selectOneMenu> 
-	       		</div>
-            </div>
-	    	
-            <!-- TODO: Show votos Totales -->
-            <div class="row-fluid">
-				<div class="span12">
-		      		<h1 class="photo-title"><h:outputLabel value="Votes: " /></h1>
-		      		#{photoDetailsBean.totalVotesPoints}  	
-	       		</div>
-            </div>
-	    	 
-	    	<!-- Photo and menu -->
-	    	<div class="row-fluid">				
-				<div class="span12">   				
-					<!-- tags -->					
-					 <h1 class="photo-title"><h:outputLabel value="Tags: " /></h1>
-					 <ul id="myTags" >
-					 	<!-- Obtener todos los tags de la photo -->
-					 	<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
-					 	<li id="listaTags">
-					 		#{tag}					 		 			 		
-					 	</li>
-					 	</ui:repeat>
-					 </ul>																																							   										
-				</div>				
-			</div>
-			<h:commandButton styleClass="btn btn-primary" value="Modify" type="submit" action="#{photoDetailsBean.saveSettings}" onclick="getAllTags();"/>
-			<!-- <input type="button" value="Modificar" onclick="getAllTags();" />-->			
-			<!-- CANCELAR -->
-			<!-- Cargar nuevamente el -->
+      	      	
+			<ui:define name="title">
+				Mdissphoto / #{photoDetailsBean.photo.title} by #{photoDetailsBean.userNick}
+			</ui:define>
 			
-		</h:form>			
+			<ui:define name="header">	
+			</ui:define>
+			
+			<ui:define name="body">
+			
+	        <h:form id="formulario">    		
+	        	<input type="hidden" id="misTags" name="misTags" value="#{photoDetailsBean.misTags}"/>	
+		    	<!-- Photo title -->
+		    	<div class="row-fluid">
+					<div class="span12">				
+			      		<h1 class="photo-title"><h:outputLabel value="Photo Title: " /></h1>
+			      		<p:inputText id="photoTitle" value="#{photoDetailsBean.photo.title}" label="photoTitle"/>	
+		       		</div>
+	            </div>
+	
+				<!-- UserNick -->
+		    	<div class="row-fluid">
+					<div class="span12">
+			      		<h1 class="photo-title"><h:outputLabel value="UserNick: " /></h1>
+			      		#{photoDetailsBean.userNick}	
+		       		</div>
+	            </div>
+	
+				<!-- Album title -->
+		    	<div class="row-fluid">
+					<div class="span12">				
+			      		<h1 class="photo-title"><h:outputLabel value="Album Title: " /></h1>		 
+			      		<p:selectOneMenu id="selected" value="#{photoDetailsBean.selectedAlbum}">  			                 
+				               <f:selectItems value="#{photoDetailsBean.albumTitles}"/>  			                 
+			            </p:selectOneMenu> 
+		       		</div>
+	            </div>
+		    	
+	            <!-- TODO: Show votos Totales -->
+	            <div class="row-fluid">
+					<div class="span12">
+			      		<h1 class="photo-title"><h:outputLabel value="Votes: " /></h1>
+			      		#{photoDetailsBean.totalVotesPoints}  	
+		       		</div>
+	            </div>
+		    	 
+		    	<!-- Photo and menu -->
+		    	<div class="row-fluid">				
+					<div class="span12">   				
+						<!-- tags -->					
+						 <h1 class="photo-title"><h:outputLabel value="Tags: " /></h1>
+						 <ul id="myTags" >
+						 	<!-- Obtener todos los tags de la photo -->
+						 	<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
+						 	<li id="listaTags">
+						 		#{tag}					 		 			 		
+						 	</li>
+						 	</ui:repeat>
+						 </ul>																																							   										
+					</div>				
+				</div>
+				<div class="row-fluid">
+					<!-- MODIFICAR -->
+					<h:commandButton styleClass="btn btn-primary" value="Modify" type="submit" action="#{photoDetailsBean.saveSettings}" onclick="getAllTags();"/>				
+					<!-- CANCELAR -->
+					<pretty:link mappingId="photo-detail" >
+						<f:param value="#{photoDetailsBean.userNick}" />
+						<f:param value="#{photoDetailsBean.photoId}" />
+						<button class="btn btn-primary" type="submit">
+							Cancel
+						</button>
+					</pretty:link>
+				</div>
+			</h:form>			
+			
+			
 		</ui:define>
                
     </ui:composition>
