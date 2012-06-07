@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
@@ -52,6 +53,8 @@ public class PhotoDetailsBean {
 	private List<String> metadataKeys;
 	
 	private Photo photo;
+	private int likes;
+	private int dislikes;
 	
 	private String tweetMessage;
 	private String executeModal;
@@ -209,6 +212,22 @@ public class PhotoDetailsBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		DisqusJsonReader djr=new DisqusJsonReader();
+		try {
+			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.publicLink);
+			this.setLikes(arrayAux.get(0));
+			this.setDislikes(arrayAux.get(1));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 
 	public void startTweeterBirdOauthAuthProcess() throws TwitterException, IOException{
@@ -433,6 +452,22 @@ public class PhotoDetailsBean {
 	public void setMisTags(String misTags) {
 		System.out.println("Mistags: " + misTags);
 		this.misTags = misTags;
+	}
+	
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(int dislikes) {
+		this.dislikes = dislikes;
 	}
 
 	private ParamsBean getPrettyfacesParams()
