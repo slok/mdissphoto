@@ -159,8 +159,16 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 	 public long bytesToKb(int bytes) {
 	  return bytes / KBYTE ;
 	 }
-	 
-	 
+
+	 @Override
+	 public double getDecimal(int numberOfDecimals, double decimal){
+		 
+		 decimal = decimal*(java.lang.Math.pow(10, numberOfDecimals));
+		 decimal = java.lang.Math.round(decimal);
+		 decimal = decimal/java.lang.Math.pow(10, numberOfDecimals);
+
+		 return decimal;  
+	 } 
 	@Override
 	public Map<String, String> getMetadataFormatted(Metadata metadata) {
 		
@@ -223,7 +231,16 @@ public class MetadataExtractorImpl implements MetadataExtractor {
 			Float size = metadata.getSize();
 
 			if(size != 0)
-				metadataMap.put("Original size", String.valueOf(size)+" MB");
+			{
+				if(size < 1024)
+				{	
+					metadataMap.put("Original size", String.valueOf(size)+" kB");
+				}
+				else
+				{
+					metadataMap.put("Original size", String.valueOf(getDecimal(2, size/1024L))+" MB");
+				}
+			}
 		}catch(Exception e){
 		}
 		
