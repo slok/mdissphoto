@@ -17,5 +17,5 @@ public interface MetadataExtractor {
 	public long bytesToMb(int bytes);
 	public long bytesToKb(int bytes);
 	public Map<String, String> getMetadataFormatted(Metadata metadata);
-
+	public double getDecimal(int numberOfDecimals, double decimal);
 }

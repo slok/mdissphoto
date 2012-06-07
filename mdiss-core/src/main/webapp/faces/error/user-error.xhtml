@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+    
+    <ui:composition template="/templates/error-space.xhtml">
+      
+		<ui:define name="title">PRIVATE USER</ui:define>
+		
+		<ui:define name="body">
+		
+			<pretty:link mappingId="dashboard" >
+				<h:graphicImage library="img" name="RestrictedError.png" />
+			</pretty:link>
+		
+		</ui:define>
+		                                                
+    </ui:composition>
+</html>
