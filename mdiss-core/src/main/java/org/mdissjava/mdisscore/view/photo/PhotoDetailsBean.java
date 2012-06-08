@@ -511,7 +511,6 @@ public class PhotoDetailsBean {
 			if(!this.photo.getTitle().equals("")){
 		
 				//get the photo
-//					Photo newPhoto = photoManager.searchPhotoUniqueUtil(photoId);
 				this.photo.setTitle(this.photo.getTitle());
 									
 				//get the tags
@@ -534,16 +533,19 @@ public class PhotoDetailsBean {
 				List<Album> readListAlbum = albumManager.findAlbum(newAlbum);
 				//add the new photo to the album has found previously 
 				if(readListAlbum != null) {
-					readNewAlbum = readListAlbum.get(0);				
-					try {
-						albumManager.movePhotoToAlbum(this.userNick, readNewAlbum.getAlbumId(), this.photo);
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					readNewAlbum = readListAlbum.get(0);
+					// check if newAlbum is the same, if there are not the same move the album
+					if(!readNewAlbum.getAlbumId().equals(this.photo.getAlbum().getAlbumId())) {
+						try {
+							albumManager.movePhotoToAlbum(this.userNick, readNewAlbum.getAlbumId(), this.photo);
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}						
+						
 					}
+					
 				}
 				
 				//Navigation to photo-detail view
