@@ -23,6 +23,11 @@
 			<name>MDISS custom repo</name>
 			<url>http://mvn.mdiss.info</url>
 		</repository>
+		<repository>
+            <id>morphia.googlecode.com</id>
+            <name>Morphia Repo at Google Code</name>
+            <url>http://morphia.googlecode.com/svn/mavenrepo</url>
+        </repository>
 	</repositories>
       
     <dependencies>	
