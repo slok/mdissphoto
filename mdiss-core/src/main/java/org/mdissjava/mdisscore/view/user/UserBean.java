@@ -97,6 +97,14 @@ public class UserBean {
 		return userManager.followsUser(this.userNickname, follow);
 	}
 			
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
 	private String retrieveSessionUserNick() {
 	  //Get the current logged user's username
 	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
