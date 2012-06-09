@@ -125,7 +125,34 @@
 			<br/>
 			<div class="row-fluid">
 				<div class="span12">
-			      		<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>	
+					<div class="span4">
+		      			<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>
+		      		</div>
+		      		<!-- Edit Settings -->
+		      		<div class="span8" align="right">
+		      			<div class="span7"/>
+		      			<div class="span3">
+		      			<!-- BOTON BACK TO ALBUM DETAIL -->
+					  		<pretty:link mappingId="album-detail" >
+					  			<f:param value="#{photoDetailsBean.userNick}" />
+								<f:param value="#{photoDetailsBean.photo.album.albumId}" />
+					  			<button class="btn btn-inverse alignLeft" type="submit">
+								  	<i class="icon-arrow-left icon-white"/>						  																		
+									Back to Album Detail
+								</button>
+							</pretty:link>
+						</div>
+						<!-- BOTON EDIT SETTINGS -->
+						<div class="span2">		      		
+							<pretty:link mappingId="photo-detail-settings" >
+								<f:param value="#{photoDetailsBean.userNick}" />
+								<f:param value="#{photoDetailsBean.photoId}" />
+								<button class="btn btn-primary alignRight" type="submit">
+									Edit Settings
+								</button>
+							</pretty:link>
+						</div>
+					</div>	
 		       	</div>
 			</div>
 			<br/>
@@ -173,18 +200,14 @@
 								<!-- Tweet button -->
 								<h:form>
 									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
-								</h:form>
-								<!-- Edit Settings -->
-								<pretty:link mappingId="photo-detail-settings" >
-									<f:param value="#{photoDetailsBean.userNick}" />
-									<f:param value="#{photoDetailsBean.photoId}" />
-									Edit Settings
-								</pretty:link>							
+								</h:form>															
 							</div>
 							
 						</div> <!-- span 12 end -->
 					</div> <!-- row end -->
-					
+					<div>
+						<h4>Likes: #{photoDetailsBean.likes} / Dislikes: #{photoDetailsBean.dislikes}</h4>
+					</div>
 					<!-- Public link -->
 					<div class="row-fluid">
 						<div class="span2">
