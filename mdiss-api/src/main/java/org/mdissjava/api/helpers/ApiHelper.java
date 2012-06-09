@@ -3,16 +3,24 @@ package org.mdissjava.api.helpers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 
 public class ApiHelper {
 	
 	static private String HMAC_SHA1_ALGORITHM = "HmacSHA1";
+	static public final String HEADER_KEY_USER = "user"; //public key
+	static public final String HEADER_KEY_HMAC = "hmac";
+	static public final String HEADER_KEY_DATE = "timeStamp";
 	
 	static public String calculateHMAC(String secret, String data, String timeStamp, String method, String url) {
 		try {
@@ -44,4 +52,46 @@ public class ApiHelper {
 		
 	}
 
+	
+	static public HttpPost assembleHttpPost(String user, String key, String data, String url) throws UnsupportedEncodingException{
+		//necessary data
+		String jsonMime = "application/json";
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, data, date, "POST", url);
+		
+		//create the client
+		HttpPost httpPost = new HttpPost(url);
+
+		//add headers
+		httpPost.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpPost.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpPost.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		httpPost.addHeader("Accept", jsonMime);
+		httpPost.addHeader("Content-Type", jsonMime);
+		
+		//add body
+		StringEntity dataHelper = new StringEntity(data, "UTF-8");
+		httpPost.setEntity(dataHelper);
+		
+		return httpPost;
+	}
+	
+	static public HttpGet assembleHttpGet(String user, String key, String url) throws UnsupportedEncodingException{
+		//necessary data
+		String jsonMime = "application/json";
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, "", date, "GET", url);
+		
+		//create the client
+		HttpGet httpGet = new HttpGet(url);
+
+		//add headers
+		httpGet.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpGet.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpGet.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		httpGet.addHeader("Accept", jsonMime);
+		httpGet.addHeader("Content-Type", jsonMime);
+		
+		return httpGet;
+	}
 }
