@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.jboss.resteasy.spi.HttpRequest;
 
 public class ApiHelper {
 	
@@ -137,6 +138,10 @@ public class ApiHelper {
 		httpDelete.addHeader("Content-Type", jsonMime);
 		
 		return httpDelete;
+	}
+	
+	static public String getUserFromHttpRequest(HttpRequest request){
+		return request.getHttpHeaders().getRequestHeaders().get(ApiHelper.HEADER_KEY_USER).get(0);
 	}
 	
 }

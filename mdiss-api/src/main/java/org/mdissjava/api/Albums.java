@@ -11,8 +11,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.spi.HttpRequest;
+import org.mdissjava.api.helpers.ApiHelper;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
@@ -28,8 +31,10 @@ public class Albums {
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	private Datastore datastore = null;
+	private String userName = null;
 	
-	public Albums() throws IllegalArgumentException, IOException {
+	public Albums(@Context HttpRequest request) throws IllegalArgumentException, IOException {
+		this.userName = ApiHelper.getUserFromHttpRequest(request);
 		PropertiesFacade propertiesFacade = new PropertiesFacade();
 		String database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
 		this.datastore = MorphiaDatastoreFactory.getDatastore(database);
