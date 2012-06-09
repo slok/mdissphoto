@@ -13,8 +13,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.spi.HttpRequest;
+import org.mdissjava.api.helpers.ApiHelper;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
@@ -32,14 +35,13 @@ public class Albums {
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	private Datastore datastore = null;
-	private String usernick;
+	private String userName = null;
 	
-	public Albums() throws IllegalArgumentException, IOException {
+	public Albums(@Context HttpRequest request) throws IllegalArgumentException, IOException {
+		this.userName = ApiHelper.getUserFromHttpRequest(request);
 		PropertiesFacade propertiesFacade = new PropertiesFacade();
 		String database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
 		this.datastore = MorphiaDatastoreFactory.getDatastore(database);
-		//TODO: Change this and fetch the usernick from the header of the request
-		this.usernick = "cerealguy";
 	}
 	
 	@GET
@@ -70,7 +72,6 @@ public class Albums {
 		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
 		List<Album> albums = albumDao.findAlbum(album);
 		
-		//System.out.println("yeah");
 		if (albums.size() == 1)
 			return Response.status(200).entity(albums.get(0)).build();
 		else
