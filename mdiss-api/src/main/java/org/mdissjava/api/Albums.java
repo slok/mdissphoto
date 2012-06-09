@@ -50,7 +50,7 @@ public class Albums {
 	public Response getAlbums(){
 		
 		Album album = new Album();
-		album.setUserNick(this.usernick);
+		album.setUserNick(this.userName);
 		
 		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
 		List<Album> albums = albumDao.findAlbum(album);
@@ -81,21 +81,27 @@ public class Albums {
 	@PUT
 	@Path("/{albumId}")
 	@Consumes("application/json")
-	public Response updateAlbum(Album album){
-		if (album !=null){
-			
+	public Response updateAlbum(@PathParam("albumId") String albumId, Album album){
+	
 			AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
 			//Search if album exists
 			Album a = new Album();
-			a.setAlbumId(album.getAlbumId());
-			a.setUserNick(album.getUserNick());
-			if (albumDao.findAlbum(a).size() == 1)
+			a.setAlbumId(albumId);
+			
+			List<Album> albums = albumDao.findAlbum(a);
+			
+			if (albums.size() == 1)
 			{
+				album.setId(albums.get(0).getId());
+				album.setAlbumId(albums.get(0).getAlbumId());
+				
 				albumDao.updateAlbum(album);
-				return Response.status(200).entity(album).build();
+				
+				//Return the updated album's values
+				return Response.status(200).entity(albumDao.findAlbum(a).get(0)).build();
 			}
-		}
-		return Response.status(400).entity("Error updating album").build();
+			else
+				return Response.status(400).entity("Error updating album").build();
 	}
 	
 	@POST
@@ -124,13 +130,25 @@ public class Albums {
 			return Response.status(400).entity("Error creating album").build();
 	}
 	
-	/*
 	@DELETE
 	@Path("/{albumId}")
-	@Consumes("application/json")
 	public Response deleteAlbum(@PathParam("albumId") String albumId){
+		
+		Album album = new Album();
+		album.setAlbumId(albumId);
+		
+		// To delete an album first we must find it in the DB
+		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
+		List<Album> albums = albumDao.findAlbum(album);
+		
+		if (albums.size() == 1)
+		{
+			albumDao.deleteAlbum(albums.get(0));
+			return Response.status(200).entity("Album successfuly deleted.").build();
+		}
+		else
+			return Response.status(400).entity("Error album doesn't exist").build();		
 	}
-	*/
 	
 	@GET
 	@Path("/{albumId}/photos")
