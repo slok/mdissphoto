@@ -521,3 +521,18 @@ div.captcha
                         skew(10deg,10deg)
                         rotate(-50deg)
 }
+
+
+/* Photowers */
+
+#boxwers {
+	width: auto;
+	height: auto;
+	border: 1px solid #FFFFFF;
+	text-align: center;  
+	background-color: #FFFFFF;
+}
+
+#separator {
+  border-bottom: 1px solid #EEE;
+}
