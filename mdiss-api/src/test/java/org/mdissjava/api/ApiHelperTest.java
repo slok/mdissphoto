@@ -30,6 +30,53 @@ public class ApiHelperTest {
 		
 		System.out.println(message);
 	}
+	
+	@Test
+	public void HttpGetAlbumsTest() throws ClientProtocolException, IOException {
+		String user = "slok";
+		String secret = "32d9737523ec594fc9b007643b162011863c1024";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/";
+		
+		HttpGet get = ApiHelper.assembleHttpGet(user, secret, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(get);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	}
+	
+	/*
+	@Test
+	public void HttpPutTest() throws ClientProtocolException, IOException {
+		String user = "slok";
+		String secret = "32d9737523ec594fc9b007643b162011863c1024";
+		String data = "{\"title\":\"Catuset\",\"userNick\":\"cerealguy\"}";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/bb305a10-8960-48dc-aba2-e176dd718c65/";
+		
+		HttpPost post = ApiHelper.assembleHttpPost(user, secret, data, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(post);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	} */
+	
+	@Test
+	public void HttpGetAlbumsPhotosTest() throws ClientProtocolException, IOException {
+		String user = "slok";
+		String secret = "32d9737523ec594fc9b007643b162011863c1024";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/bb305a10-8960-48dc-aba2-e176dd718c65/photos/";
+		
+		HttpGet get = ApiHelper.assembleHttpGet(user, secret, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(get);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	}
 
 	@Test
 	public void HttpGetTest() throws ClientProtocolException, IOException {
