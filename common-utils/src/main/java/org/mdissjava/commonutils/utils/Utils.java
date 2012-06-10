@@ -9,10 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
 
 public class Utils {
 	
@@ -97,6 +101,25 @@ public class Utils {
 		// so add 1 to make it inclusive
 		int randomNum = rand.nextInt(max - min + 1) + min;
 		return randomNum;
+	}
+	/**
+	 * 
+	 * 
+	 * @param contentToEncode
+	 * @param algorithm: 	MD2: 	RFC 1319
+							MD5: 	RFC 1321
+							SHA-1:	NIST FIPS 180-1.
+							SHA-256:NIST FIPS 180-1. 
+							SHA-384:NIST FIPS 180-1. 
+							SHA-512:NIST FIPS 180-1.
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	public static String calculateHash(String contentToEncode, String algorithm) throws NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance(algorithm);
+		digest.update(contentToEncode.getBytes());
+		String result = new String(Base64.encodeBase64(digest.digest()));
+		return result;
 	}
 	
 }
