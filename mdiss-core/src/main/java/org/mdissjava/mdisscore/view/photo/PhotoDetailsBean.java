@@ -470,7 +470,7 @@ public class PhotoDetailsBean {
 		this.dislikes = dislikes;
 	}
 	
-	public float getNota() {
+	public float getMark() {
 		if(dislikes>0 || likes>0)
 			return (likes/(dislikes+likes))*10;
 		else
