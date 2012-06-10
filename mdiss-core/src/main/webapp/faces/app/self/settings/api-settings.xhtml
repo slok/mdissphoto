@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      
+		<ui:define name="sec_body">
+		<ui:composition>
+	    	<h:form>
+				<div><p:growl id="api_growl" showDetail="true" sticky="true" redisplay="false" /></div>
+				<div>
+				<br/>
+				<table class="table table-bordered table-condensed">
+			  		<tbody>
+				  		<tr>
+				  			<td>
+				  				<img src="https://si0.twimg.com/a/1339096274/images/three_circles/twitter-bird-light-bgs.png"  width="30" height="30" alt=""/>
+							</td>
+							<td>
+								<b>Twitter OAUTH Token</b>
+							</td>
+							<td>
+			        			<pre>#{apiConfigurationBean.twitterToken}</pre>
+							</td>
+							<td>
+			        			<h:commandButton styleClass="btn btn-danger btn-medium"
+							actionListener="#{apiConfigurationBean.deleteTwitterToken}" value="Delete" update="Sec_growl" />
+							</td>
+				  		</tr>
+				  		<tr>
+				  			<td>
+				  				<img src="http://openclipart.org/image/250px/svg_to_png/169002/lens.png" width="30" height="30" alt=""/>
+							</td>
+							<td>
+								<b>MdissPhoto HMAC Private key</b>
+							</td>
+							<td>
+			        			<pre>#{apiConfigurationBean.mdissphotoToken}</pre>
+							</td>
+							<td>
+			        			<h:commandButton styleClass="btn btn-danger btn-medium"
+							actionListener="#{apiConfigurationBean.regenerateMdissPhotoToken}" value="Regenerate" update="Sec_growl" />
+							</td>
+				  		</tr>
+			  		</tbody>
+			   </table>
+			   </div>
+
+			</h:form>
+		</ui:composition>
+		</ui:define>
+</html>
