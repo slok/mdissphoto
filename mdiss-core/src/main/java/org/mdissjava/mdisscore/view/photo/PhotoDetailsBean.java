@@ -469,6 +469,13 @@ public class PhotoDetailsBean {
 	public void setDislikes(int dislikes) {
 		this.dislikes = dislikes;
 	}
+	
+	public float getNota() {
+		if(dislikes>0 || likes>0)
+			return (likes/(dislikes+likes))*10;
+		else
+			return 5;
+	}
 
 	private ParamsBean getPrettyfacesParams()
 	{
@@ -555,5 +562,7 @@ public class PhotoDetailsBean {
 			}
 			
 	}
+
+
 	
 }
