@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -54,6 +55,7 @@ public class User implements Serializable {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;	
 	
+	@JsonIgnore
 	private String preferences;
 	private String role;
 	
@@ -69,6 +71,7 @@ public class User implements Serializable {
 	 joinColumns=@JoinColumn(name="userid"),
 	 inverseJoinColumns=@JoinColumn(name="followsuserid")
 	)
+	@JsonIgnore
 	private List<User> follows = new ArrayList<User>();
 	
 	@ManyToMany( 
@@ -79,6 +82,7 @@ public class User implements Serializable {
 	 joinColumns=@JoinColumn(name="userid"),
 	 inverseJoinColumns=@JoinColumn(name="followedbyid")
 	)
+	@JsonIgnore
 	private List<User> followers;
 	
 
@@ -189,10 +193,12 @@ public class User implements Serializable {
 		this.role = role;
 	}
 	
+	@JsonIgnore
 	public List<String> getPreferences() {		
 		return getPreferencesList(this.preferences);
 	}
 	
+	@JsonIgnore
 	public void setPreferences(List<String> preferences) {
 		this.preferences =getConvertPreferences(preferences);
 	}
@@ -205,10 +211,12 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 	
+	@JsonIgnore
 	public List<User> getFollows() {
 		return this.follows;
 	}
 	
+	@JsonIgnore
 	public void setFollows(List<User> follows) {
 		this.follows = follows;
 	}
@@ -225,10 +233,12 @@ public class User implements Serializable {
 		this.follows.remove(friend);
 	}
 	
+	@JsonIgnore
 	public List<User> getFollowers() {
 		return followers;
 	}
-
+	
+	@JsonIgnore
 	public void setFollowers(List<User> followers) {
 		this.followers = followers;
 	}

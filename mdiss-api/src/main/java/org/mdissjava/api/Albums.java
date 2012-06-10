@@ -26,7 +26,6 @@ import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 
 import com.google.code.morphia.Datastore;
-import com.google.code.morphia.annotations.AlsoLoad;
 
 @Path("/albums")
 public class Albums {
@@ -55,10 +54,10 @@ public class Albums {
 		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
 		List<Album> albums = albumDao.findAlbum(album);
 		
-		if (albums.size() != 0)
+		if (albums.size() > 0)
 			return Response.status(200).entity(albums).build();
 		else
-			return Response.status(400).entity("Error retrieving albums").build();
+			return Response.status(400).entity("Error user has no albums").build();
 	}
 	
 	@GET
@@ -124,7 +123,7 @@ public class Albums {
 			album.setAlbumId(UUID.randomUUID().toString());
 			album.setCreationDate(new Date());
 			albumDao.insertAlbum(album);
-			return Response.status(200).entity(album).build();
+			return Response.status(200).entity("Album successfully created: "+ album).build();
 			
 		}else
 			return Response.status(400).entity("Error creating album").build();

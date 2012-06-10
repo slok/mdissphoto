@@ -73,6 +73,7 @@ public class HmacSecurityInterceptor implements PreProcessInterceptor {
 		HashMap<String, String> keys = new HashMap<String, String>();
 		keys.put("slok", "32d9737523ec594fc9b007643b162011863c1024");
 		keys.put("test", "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3");
+		keys.put("cerealguy", "0f49b4dca61952cbafb1da0e433963c5424bb0301701611a23c58075e65f6878");
 		
 		return keys.get(user);
 	}
