@@ -291,8 +291,9 @@
 								<ui:repeat value="#{photoDetailsBean.photo.tags}" var="tag">
 									<li>
 										<i class="icon-tags"/> 
-										<pretty:link mappingId="tag_detail">
+										<pretty:link mappingId="tag-detail">
 											<f:param value="#{tag}" />
+											<f:param value="#{photoDetailsBean.userNick}" />
 											#{tag}
 										</pretty:link>
 									</li>
