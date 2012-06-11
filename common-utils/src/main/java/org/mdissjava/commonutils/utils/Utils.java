@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -120,6 +121,17 @@ public class Utils {
 		digest.update(contentToEncode.getBytes());
 		String result = new String(Base64.encodeBase64(digest.digest()));
 		return result;
+	}
+	
+	
+	public static String getCurrentUrl(HttpServletRequest request){
+		String host = request.getServerName();
+		int portNumber = request.getServerPort();
+		String port = null;
+		port =  (portNumber != 80)?(":"+portNumber):"";
+		String app = request.getContextPath();
+		String publicLink = "http://"+ host + port + app;
+		return publicLink;
 	}
 	
 }
