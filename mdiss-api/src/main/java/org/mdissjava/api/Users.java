@@ -101,26 +101,15 @@ public class Users {
 			return Response.status(400).entity("Error retrieving user").build();
 	}
 	
+	/*
 	@PUT
 	@Path("/{username}")
 	@Consumes("application/json")
 	public Response updateUser(@PathParam("username") String username, User user){
 	
-			//user = Complete user (none of the attribute is null)
-			User u = new User();	
-			UserDao userDao = new UserDaoImpl();
-			
-			u = userDao.getUserByNick(username);
-			
-			if (!u.equals(null))
-			{
-				userDao.updateUser(user);
-				return Response.status(200).entity(userDao.getUserByNick(username)).build();
-			}
-			else
-				return Response.status(400).entity("Error updating user. User not found.").build();
 	}
-	
+	*/
+	/*
 	@POST
 	@Consumes("application/json")
 	public Response createUser(User user){
@@ -143,30 +132,7 @@ public class Users {
 		}else
 			return Response.status(400).entity("Error creating user").build();
 	}
-	
-	@DELETE
-	@Path("/{username}")
-	public Response deleteUser(@PathParam("username") String username){
-		
-		User user = new User();
-		UserDao userDao = new UserDaoImpl();
-		
-		try{
-			user = userDao.getUserByNick(username);
-			// It is not really necessary to deactivate the user but by doing this
-			// it triggers the exception if the "user" doesn't exist. 
-			// This issue is produced by the lazy loading.
-			user.setActive(false);
-		
-			userDao.deleteUser(user);
-			return Response.status(200).entity("User successfuly deleted.").build();
-	
-		}
-		catch (Exception e) {
-			return Response.status(400).entity("Error user doesn't exist").build();		
-		}
-	}
-	
+	*/
 	@GET
 	@Path("/{username}/albums")
 	@Produces("application/json")

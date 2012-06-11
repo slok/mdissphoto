@@ -13,29 +13,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Test;
 import org.mdissjava.api.helpers.ApiHelper;
 
-public class AlbumsTest {
+public class PhotosTest {
 	
 	private final String user = "cerealguy";
 	private final String secret = "JUFXM/rQP07SQEHJFtGszFSDFYbkRCXmBieaUC9sMlU=";
 	
 	@Test
-	public void HttpGetAlbumsTest() throws ClientProtocolException, IOException {
+	public void HttpGetPhotoTest() throws ClientProtocolException, IOException {
 		
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/";
-		
-		HttpGet get = ApiHelper.assembleHttpGet(this.user, this.secret, url);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(get);
-		
-		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
-		
-		System.out.println(message);
-	}
-	
-	@Test
-	public void HttpGetAlbumTest() throws ClientProtocolException, IOException {
-		
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/bb305a10-8960-48dc-aba2-e176dd718c65/";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/photos/fcf6a3a3-77e8-4a0f-8ce5-cd9aaf9b5e0d/";
 		
 		HttpGet get = ApiHelper.assembleHttpGet(this.user, this.secret, url);
 		HttpClient client = new DefaultHttpClient();
@@ -47,10 +33,39 @@ public class AlbumsTest {
 	}
 	
 	@Test
-	public void HttpUpdateAlbumTest() throws ClientProtocolException, IOException {
+	public void HttpDeletePhotoTest() throws ClientProtocolException, IOException {
 		
-		String data = "{\"title\":\"Catuset\",\"userNick\":\"cerealguy\"}";
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/51758be8-2d48-4567-8660-740173633da8/";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/photos/3002ee16-43b2-49f1-97dd-5356293f8845/";
+		
+		HttpDelete delete = ApiHelper.assembleHttpDelete(this.user, this.secret, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(delete);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	} 
+	
+	@Test
+	public void HttpCreatePhotoTest() throws ClientProtocolException, IOException {
+		
+		String data = "{\"title\":\"Foto de Prueba\",\"photoId\":\"de324fe2-778d-4a0f-5fe6-e679023098ea\",\"dataId\":\"de324fe2-778d-4a0f-5fe6-e679023098ea\"}";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/photos/";
+		
+		HttpPost post = ApiHelper.assembleHttpPost(this.user, this.secret, data, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(post);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	}
+	
+	@Test
+	public void HttpUpdatePhotoTest() throws ClientProtocolException, IOException {
+		
+		String data = "{\"title\":\"Fajitassss!\"}";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/photos/fcf6a3a3-77e8-4a0f-8ce5-cd9aaf9b5e0d/";
 		
 		HttpPut put = ApiHelper.assembleHttpPut(this.user, this.secret, data, url);
 		HttpClient client = new DefaultHttpClient();
@@ -62,38 +77,9 @@ public class AlbumsTest {
 	}
 	
 	@Test
-	public void HttpCreateAlbumTest() throws ClientProtocolException, IOException {
+	public void HttpGetPhotoAlbumTest() throws ClientProtocolException, IOException {
 		
-		String data = "{\"title\":\"Master\",\"userNick\":\"cerealguy\"}";
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/";
-		
-		HttpPost post = ApiHelper.assembleHttpPost(this.user, this.secret, data, url);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(post);
-		
-		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
-		
-		System.out.println(message);
-	}	
-	
-	@Test
-	public void HttpDeleteAlbumTest() throws ClientProtocolException, IOException {
-		
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/bb305a10-8960-48dc-aba2-e176dd718c65/";
-		
-		HttpDelete delete = ApiHelper.assembleHttpDelete(this.user, this.secret, url);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(delete);
-		
-		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
-		
-		System.out.println(message);
-	} 
-
-	@Test
-	public void HttpGetAlbumsPhotosTest() throws ClientProtocolException, IOException {
-		
-		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/51758be8-2d48-4567-8660-740173633da8/photos/";
+		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/photos/fcf6a3a3-77e8-4a0f-8ce5-cd9aaf9b5e0d/album/";
 		
 		HttpGet get = ApiHelper.assembleHttpGet(this.user, this.secret, url);
 		HttpClient client = new DefaultHttpClient();
@@ -103,4 +89,5 @@ public class AlbumsTest {
 		
 		System.out.println(message);
 	}
+
 }
