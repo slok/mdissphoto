@@ -175,12 +175,12 @@
 		<view-id value="/faces/app/user/photowing.jsf" />
 	</url-mapping>
 
-	<!-- Logged -->
-	
 	<url-mapping id="tag-detail">
-		<pattern value="/l/tag/#{tag:paramsBean.tag}/" />
+	    <pattern value="/l/tag/#{tag:paramsBean.tag}/user/#{user:paramsBean.userId}/" />
 		<view-id value="/faces/app/logged/tag-detail.jsf" />
 	</url-mapping>
+
+	<!-- Logged -->
 	
 	<url-mapping id="tag-list">
 		<pattern value="/l/tags/" />
