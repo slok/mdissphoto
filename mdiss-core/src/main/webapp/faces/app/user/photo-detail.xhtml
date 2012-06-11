@@ -92,6 +92,14 @@
 					);					
 			});
 		</script>
+		<script src="http://www.html5canvastutorials.com/libraries/kinetic-v3.9.8.js"></script>
+		<h:outputScript library="js" name="popularityGraphic.js" />
+		<script>
+		 window.onload = function() {
+        	var mark='${photoDetailsBean.mark}';
+        	showGraphic(mark);
+		 };
+		</script>
 			
 		</ui:define>
 		
@@ -205,8 +213,18 @@
 							
 						</div> <!-- span 12 end -->
 					</div> <!-- row end -->
-					<div>
-						<h4>Likes: #{photoDetailsBean.likes} / Dislikes: #{photoDetailsBean.dislikes}</h4>
+					
+					<!--Graphic marks-->
+					<div class="row-fluid">
+						<div style="float:left;">
+						<p></p>
+						<h4>Mark:</h4>
+						<h2><h:outputText id="PhotoMark" value="#{photoDetailsBean.mark}"/></h2>
+						</div>
+						<div style="float:right;">
+							<h4>Likes: #{photoDetailsBean.likes} / Dislikes: #{photoDetailsBean.dislikes}</h4>
+							<canvas  id="myCanvas" width="100" height="100"></canvas>
+						</div>
 					</div>
 					<!-- Public link -->
 					<div class="row-fluid">

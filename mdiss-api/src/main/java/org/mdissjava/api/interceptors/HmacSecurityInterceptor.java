@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +19,15 @@ import org.jboss.resteasy.spi.Failure;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.interception.PreProcessInterceptor;
 import org.mdissjava.api.helpers.ApiHelper;
+import org.mdissjava.mdisscore.model.dao.UserHmacTokensDao;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.dao.impl.UserHmacTokensDaoImpl;
+import org.mdissjava.mdisscore.model.pojo.UserHmacTokens;
+import org.mdissjava.mdisscore.model.pojo.UserHmacTokens.HmacService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.code.morphia.Datastore;
 
 
 @Provider
@@ -30,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class HmacSecurityInterceptor implements PreProcessInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final String DATABASE =  "mdissphoto";
 	
 	@Override
 	public ServerResponse preProcess(HttpRequest request, ResourceMethod resourceMethod)
@@ -63,19 +70,21 @@ public class HmacSecurityInterceptor implements PreProcessInterceptor {
 				logger.info("Access denied with server hmac: {}\nclient hmac: {}", serverHmacHash, clientHmacHash);
 				return (ServerResponse) Response.status(400).entity("Autentication Error").build();
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return (ServerResponse) Response.status(400).entity("Security process Error").build();
 		}
 	}
 	
 	private String getUserPrivateKey(String user){
 		
-		HashMap<String, String> keys = new HashMap<String, String>();
-		keys.put("slok", "32d9737523ec594fc9b007643b162011863c1024");
-		keys.put("test", "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3");
-		keys.put("cerealguy", "0f49b4dca61952cbafb1da0e433963c5424bb0301701611a23c58075e65f6878");
-		
-		return keys.get(user);
+
+		Datastore datastore = MorphiaDatastoreFactory.getDatastore(DATABASE);
+		UserHmacTokensDao userHmacTokensDao = new UserHmacTokensDaoImpl(datastore);
+		UserHmacTokens uht = new UserHmacTokens();
+		uht.setUsername(user);
+		String key = userHmacTokensDao.findUserHmacTokens(uht).get(0).getTokens().get(HmacService.MDISSPHOTO);
+		return key;
+
 	}
 	
 	private String getRequestBody(HttpRequest request) throws IOException{

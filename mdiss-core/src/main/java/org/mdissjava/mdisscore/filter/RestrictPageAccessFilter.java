@@ -56,8 +56,9 @@ public class RestrictPageAccessFilter implements Filter{
 			
 			//boolean isFollowing = udao.followsUser(username, userLogged);
 			boolean isFollowing = udao.followsUser(loggedUser, requestedUser);
-			if((!isFollowing)&&(requestedUser.getConfiguration().isPrivate()))
+			if((!isFollowing)&&(requestedUser.getConfiguration().isPrivate())&&(!requestedUser.getNick().equals(loggedUser)))
 			{
+				
 				//If they don't match send the naughty user to error page.
 				this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", loggedUser);   	
 				PrettyContext context = PrettyContext.getCurrentInstance((HttpServletRequest)request);

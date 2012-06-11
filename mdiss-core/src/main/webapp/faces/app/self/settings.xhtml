@@ -29,6 +29,7 @@
 				<li class="active"><a href="#tab1" data-toggle="tab">Personal info</a></li>
 				<li><a href="#tab2" data-toggle="tab">Privacy settings</a></li>
 				<li><a href="#tab3" data-toggle="tab">Geographical settings</a></li>
+				<li><a href="#tab4" data-toggle="tab">API settings</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
@@ -51,6 +52,13 @@
 					 <h2>Configure your geographical settings</h2>
 					<ui:insert name="GeoSettingContent" >
 						<ui:include src="/faces/app/self/settings/geo-settings.xhtml"/>
+					</ui:insert>
+				</div>
+				<div class="tab-pane" id="tab4">
+				
+					 <h2>Configure your APIs settings</h2>
+					<ui:insert name="ApiSettingContent" >
+						<ui:include src="/faces/app/self/settings/api-settings.xhtml"/>
 					</ui:insert>
 				</div>
 		</div>

@@ -10,15 +10,22 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mdissjava.commonutils.properties.PropertiesFacade;
 
 
 
 public class DisqusJsonReader {
 
+	final private String OAUTH_PROPERTIES = "oauth";
+	final private String DISQUS_CONSUMER_KEY = "disqus.consumer.key";
+	final private String FORUM = "disqus.forum.id";
+	
+	
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
@@ -41,9 +48,15 @@ public class DisqusJsonReader {
 	  }
 
 	  public ArrayList<Integer> readLikesAndDislikes(String url) throws IOException, JSONException {
-	    
+		 
+		Properties oauthProperties = new PropertiesFacade().getProperties(OAUTH_PROPERTIES);
+		String consumerKey = oauthProperties.getProperty(DISQUS_CONSUMER_KEY);
+		String forum = oauthProperties.getProperty(FORUM);
+	
+		
 		ArrayList<Integer> array=new ArrayList<Integer>();
-		JSONObject json = readJsonFromUrl("http://disqus.com/api/3.0/threads/list.json?api_key=hCYB59qaUgKv4BrD6CF7Qyqk46qFinidYAcUEDP10YAgOJQz7W2u0wJRXIGgTNnB&forum=mdissphoto&thread:link="+url);//http://jboss.mdiss.info/mdissphoto/u/cerealguy/photo/3e0af8cc-331c-430d-83f8-ccd23c4f6395/");
+		
+		JSONObject json = readJsonFromUrl("http://disqus.com/api/3.0/threads/list.json?api_key="+consumerKey+"&forum="+forum+"&thread:link="+url);
 	    System.out.println(json.toString());
 	    JSONArray rec= json.getJSONArray("response");
 	    array.add(rec.getJSONObject(0).getInt("likes")); 
