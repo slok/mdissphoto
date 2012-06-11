@@ -11,9 +11,12 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.jboss.resteasy.spi.HttpRequest;
 
 public class ApiHelper {
 	
@@ -94,4 +97,51 @@ public class ApiHelper {
 		
 		return httpGet;
 	}
+	
+	static public HttpPut assembleHttpPut(String user, String key, String data, String url) throws UnsupportedEncodingException{
+		//necessary data
+		String jsonMime = "application/json";
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, data, date, "PUT", url);
+		
+		//create the client
+		HttpPut httpPut = new HttpPut(url);
+
+		//add headers
+		httpPut.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpPut.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpPut.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		httpPut.addHeader("Accept", jsonMime);
+		httpPut.addHeader("Content-Type", jsonMime);
+		
+		//add body
+		StringEntity dataHelper = new StringEntity(data, "UTF-8");
+		httpPut.setEntity(dataHelper);
+		
+		return httpPut;
+	}
+	
+	static public HttpDelete assembleHttpDelete(String user, String key, String url) throws UnsupportedEncodingException{
+		//necessary data
+		String jsonMime = "application/json";
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, "", date, "DELETE", url);
+		
+		//create the client
+		HttpDelete httpDelete = new HttpDelete(url);
+
+		//add headers
+		httpDelete.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpDelete.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpDelete.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		httpDelete.addHeader("Accept", jsonMime);
+		httpDelete.addHeader("Content-Type", jsonMime);
+		
+		return httpDelete;
+	}
+	
+	static public String getUserFromHttpRequest(HttpRequest request){
+		return request.getHttpHeaders().getRequestHeaders().get(ApiHelper.HEADER_KEY_USER).get(0);
+	}
+	
 }
