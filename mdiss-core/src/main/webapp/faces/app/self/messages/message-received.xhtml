@@ -66,7 +66,9 @@
 			  		
 			  		<h:form id="form">  
               
-					    <p:dataTable var="car" value="#{messageBean.messagesSent}">  
+					    <p:dataTable var="message" value="#{messageBean.messagesReceived}"  paginator="true" rows="10"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15">  
   
 				        <f:facet name="header">  
 				             Expand rows to see detailed information  
@@ -92,7 +94,7 @@
 				  
 				        <p:rowExpansion>  
 				            <h:panelGrid id="display" columns="2" cellpadding="4"  
-				                        style="width:300px;"  
+				                        style="width:100%;"  
 				                        styleClass="ui-widget-content"  
 				                        columnClasses="label, value">  
 				  
