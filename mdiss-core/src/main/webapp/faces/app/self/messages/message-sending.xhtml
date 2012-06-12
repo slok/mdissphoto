@@ -56,15 +56,16 @@
 			  	</div>
 			  </div>
 			  <div class="span9">	
-			  	<div class="hero-unit">
+			  	<div>
 			  		<h3>New Message</h3>
 			  		<h:form id="form">  
 					    <p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
 			            <h:outputLabel value="To :" for="to" />  
 			            <p:inputText id="to" value="#{messageBean.sendingUserTo}" required="true" label="Name"/>
 			       		<br/>
-			       		<p style="width:100%">
-			       			<p:inputTextarea rows="6" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
+			       		<br/>
+			       		<p>
+			       			<p:inputTextarea style="width:70%" rows="6" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
 			            </p>
 			            <p> 
 					    	<h:commandButton styleClass="btn btn-primary btn-medium"
