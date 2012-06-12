@@ -1,5 +1,6 @@
 package org.mdissjava.api.interceptors;
 
+import java.awt.PageAttributes.MediaType;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -90,8 +91,13 @@ public class HmacSecurityInterceptor implements PreProcessInterceptor {
 		InputStream is = request.getInputStream();
 		ByteArrayOutputStream baos = ApiHelper.inputStreamToOutputStream(is);
 		request.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
+		String result = baos.toString();
 		
-		return baos.toString();
+		//if is a photo then
+		if (result.contains("Content-Disposition: form-data; name=\"filedata\"; filename=\"filedata\""))
+			result = "";
+		
+		return result;
 	}
 
 }
