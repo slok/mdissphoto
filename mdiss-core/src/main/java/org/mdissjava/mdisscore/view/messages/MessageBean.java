@@ -118,9 +118,17 @@ public class MessageBean {
 
 	public void onRowSelect(SelectEvent event) {
 
+		db = MorphiaDatastoreFactory.getDatastore("test");
+		directMessageDao = new DirectMessageDaoImpl(db);
 		DirectMessage selectedMessage = (DirectMessage) event.getObject();
 		directMessageDao.markAsRead(selectedMessage.getId());
 
+	}
+
+	public void deleteRow() {
+		db = MorphiaDatastoreFactory.getDatastore("test");
+		directMessageDao = new DirectMessageDaoImpl(db);
+		directMessageDao.deleteDirectMessage(selectedMessage);
 	}
 
 	public String getUserName() {
