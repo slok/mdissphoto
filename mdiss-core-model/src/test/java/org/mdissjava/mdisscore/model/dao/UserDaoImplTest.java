@@ -183,13 +183,5 @@ public class UserDaoImplTest {
 		assertEquals("mdissWorarkarfer2",  userdao.getUserByNick("mdissWorarkarfer2").getNick());		
 		userdao.deleteUser(user);
 	}
-	
-	@Test
-	public void getUserByRole()throws IllegalArgumentException{		
-		this.logger.info("[TEST] getUserByRole UserDaoImpl");	
-		
-		List<User> adminUsers = userdao.getUserByRole("admin");
-		assertEquals(adminUsers.size(),  1);		
-	}
 
 }
