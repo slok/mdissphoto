@@ -42,6 +42,7 @@ public class HmacSecurityInterceptor implements PreProcessInterceptor {
 	public ServerResponse preProcess(HttpRequest request, ResourceMethod resourceMethod)
 			throws Failure, WebApplicationException {
 		
+		this.logger.info("Executing HMAC Security Interceptor");
 		
 		//get neccesary data
 		Map<String, List<String>> headers = request.getHttpHeaders().getRequestHeaders();

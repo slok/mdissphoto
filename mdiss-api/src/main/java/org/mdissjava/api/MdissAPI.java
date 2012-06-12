@@ -7,6 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import org.mdissjava.api.interceptors.HmacSecurityInterceptor;
+import org.mdissjava.api.interceptors.ModificationSecurityInterceptor;
 /**
  * This is neccessary for the jboss 7 Resteasy bundled jar 
  * 
@@ -27,6 +28,7 @@ public class MdissAPI extends Application
 		
 		//set classes
 		this.classes.add(HmacSecurityInterceptor.class);
+		this.classes.add(ModificationSecurityInterceptor.class);
 		this.classes.add(Albums.class);
 		this.classes.add(PhotoContent.class);
 		this.classes.add(Users.class);

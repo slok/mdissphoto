@@ -224,29 +224,34 @@ public class Albums {
 		PhotoDao photoDao = new PhotoDaoImpl(this.datastore);
 		
 		searchPhoto.setPhotoId(photoId);
-		List<Photo> photos= photoDao.findPhoto(searchPhoto);
+		List<Photo> photos = photoDao.findPhoto(searchPhoto);
 		
 		if(albums.size() == 1 && photos.size() == 1)
-		{		
+		{	
 			Photo photo = new Photo();
 			photo = photos.get(0);
 			
 			Album album = new Album();
 			album = albums.get(0);
 			
-			Album oldAlbum = new Album();
-			oldAlbum = photo.getAlbum();
+			if(album.getId().equals(photo.getAlbum().getId()))
+				return Response.status(400).entity("Photo already in album. No need to move.").build();
+			else
+			{
+				Album oldAlbum = new Album();
+				oldAlbum = photo.getAlbum();
 			
-			photo.setAlbum(album);
-			photoDao.updatePhoto(photo);
+				photo.setAlbum(album);
+				photoDao.updatePhoto(photo);
+					
+				album.addPhotoToAlbum(photo);
+				albumDao.updateAlbum(album);
 				
-			album.addPhotoToAlbum(photo);
-			albumDao.updateAlbum(album);
+				oldAlbum.getPhotos().remove(photo);
+				albumDao.updateAlbum(oldAlbum);
 			
-			oldAlbum.getPhotos().remove(photo);
-			albumDao.updateAlbum(oldAlbum);
-			
-			return Response.status(200).entity("Photo successfully moved to album.").build();		
+				return Response.status(200).entity("Photo successfully moved to album.").build();
+			}
 		}
 		else
 			return Response.status(400).entity("Error moving photo to album").build();
