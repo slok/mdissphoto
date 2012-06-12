@@ -16,7 +16,7 @@ import org.mdissjava.api.helpers.ApiHelper;
 public class PhotosTest {
 	
 	private final String user = "cerealguy";
-	private final String secret = "JUFXM/rQP07SQEHJFtGszFSDFYbkRCXmBieaUC9sMlU=";
+	private final String secret = "h67U3OKYHlf0RzMBoG2gY+uahXxi8FEcH0HVMzpekWg=";
 	
 	@Test
 	public void HttpGetPhotoTest() throws ClientProtocolException, IOException {

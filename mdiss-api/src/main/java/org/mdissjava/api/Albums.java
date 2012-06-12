@@ -20,8 +20,10 @@ import org.jboss.resteasy.spi.HttpRequest;
 import org.mdissjava.api.helpers.ApiHelper;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
+import org.mdissjava.mdisscore.model.dao.PhotoDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.AlbumDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 
@@ -33,6 +35,7 @@ public class Albums {
 	//constants
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+	private final String DEFAULT_ALBUM_TITLE = "Master";
 	private Datastore datastore = null;
 	private String userName = null;
 	
@@ -115,13 +118,14 @@ public class Albums {
 			//search if the title exists
 			Album a = new Album();
 			a.setTitle(album.getTitle());
-			a.setUserNick(album.getUserNick());
+			a.setUserNick(this.userName);
 			if (albumDao.findAlbum(a).size() > 0)
 				return Response.status(400).entity("Album already exists").build();
 			
 			//save in database
 			album.setAlbumId(UUID.randomUUID().toString());
 			album.setCreationDate(new Date());
+			album.setUserNick(this.userName);
 			albumDao.insertAlbum(album);
 			return Response.status(200).entity("Album successfully created: "+ album).build();
 			
@@ -142,6 +146,33 @@ public class Albums {
 		
 		if (albums.size() == 1)
 		{
+			Album searchMasterAlbum = new Album();
+			Album masterAlbum = new Album();
+			
+			searchMasterAlbum.setTitle(DEFAULT_ALBUM_TITLE);
+			searchMasterAlbum.setUserNick(albums.get(0).getUserNick());
+			masterAlbum = albumDao.findAlbum(searchMasterAlbum).get(0);
+
+			List<Photo> photoList = albums.get(0).getPhotos();
+			
+			PhotoDao photoDao = new PhotoDaoImpl(this.datastore);
+			
+			//if there aren't any photos, then we don't need to move nothing
+			if (photoList != null)
+			{
+				for(Photo i: photoList)
+				{
+					System.out.println("moving to master album: "+ i.getPhotoId());
+					
+					i.setAlbum(masterAlbum);
+					photoDao.updatePhoto(i);
+					
+					masterAlbum.addPhotoToAlbum(i);
+					albumDao.updateAlbum(masterAlbum);
+					albumDao.updateAlbum(albums.get(0));
+				}
+			}
+			
 			albumDao.deleteAlbum(albums.get(0));
 			return Response.status(200).entity("Album successfuly deleted.").build();
 		}
@@ -177,5 +208,48 @@ public class Albums {
 	
 	}
 	*/
+	
+	@PUT
+	@Path("/{albumId}/addPhoto/{photoId}")
+	public Response movePhotoToAlbum(@PathParam("albumId") String albumId, @PathParam("photoId") String photoId){
+		
+		Album searchAlbum = new Album();
+		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
+		
+		searchAlbum.setAlbumId(albumId);
+		searchAlbum.setUserNick(this.userName);
+		List<Album> albums = albumDao.findAlbum(searchAlbum);
+		
+		Photo searchPhoto = new Photo();
+		PhotoDao photoDao = new PhotoDaoImpl(this.datastore);
+		
+		searchPhoto.setPhotoId(photoId);
+		List<Photo> photos= photoDao.findPhoto(searchPhoto);
+		
+		if(albums.size() == 1 && photos.size() == 1)
+		{		
+			Photo photo = new Photo();
+			photo = photos.get(0);
+			
+			Album album = new Album();
+			album = albums.get(0);
+			
+			Album oldAlbum = new Album();
+			oldAlbum = photo.getAlbum();
+			
+			photo.setAlbum(album);
+			photoDao.updatePhoto(photo);
+				
+			album.addPhotoToAlbum(photo);
+			albumDao.updateAlbum(album);
+			
+			oldAlbum.getPhotos().remove(photo);
+			albumDao.updateAlbum(oldAlbum);
+			
+			return Response.status(200).entity("Photo successfully moved to album.").build();		
+		}
+		else
+			return Response.status(400).entity("Error moving photo to album").build();
+	}
 
 }

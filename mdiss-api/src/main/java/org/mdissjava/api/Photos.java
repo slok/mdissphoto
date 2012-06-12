@@ -139,6 +139,7 @@ public class Photos {
 		
 		//By default every photo uploaded this way will be set in the default "Master" album
 		Album a = new Album();
+		a.setUserNick(this.userName);
 		a.setTitle("Master");
 		
 		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
@@ -207,7 +208,7 @@ public class Photos {
 	
 	@DELETE
 	@Path("/{photoId}")
-	public Response deleteUser(@PathParam("photoId") String photoId){
+	public Response deletePhoto(@PathParam("photoId") String photoId){
 		
 		Photo photo = new Photo();
 		photo.setPhotoId(photoId);
