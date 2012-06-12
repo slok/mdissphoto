@@ -123,6 +123,10 @@
 		<pattern value="/s/messages/send/" />
 		<view-id value="/faces/app/self/messages/message-sending.jsf" />
 	</url-mapping>
+	<url-mapping id="messages-send-confirmation">
+		<pattern value="/s/messages/send/ok/" />
+		<view-id value="/faces/app/self/messages/message-sending-confirmation.jsf" />
+	</url-mapping>
 	<!-- user -->
 	
 	<url-mapping id="user-profile">

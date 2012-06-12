@@ -52,12 +52,6 @@
 								Send a New Message
 							</pretty:link>
 						</li>
-						<li class="active">
-							<pretty:link mappingId="messages-in" >
-								<i class="icon-remove-sign"></i>
-								Delete selected Messages
-							</pretty:link>
-						</li>
 			  		</ul>
 			  	</div>
 			  </div>
@@ -68,7 +62,7 @@
               
 					    <p:dataTable var="message" value="#{messageBean.messagesReceived}"  paginator="true" rows="10"  
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                 rowsPerPageTemplate="5,10,15">  
+                 rowsPerPageTemplate="5,10,15" selection="#{messageBean.selectedMessages}" selectionMode="multiple">  
   
 				        <f:facet name="header">  
 				             Expand rows to see detailed information  
@@ -113,7 +107,11 @@
 				   
 				            </h:panelGrid>  
 				  
-				        </p:rowExpansion>  
+				        </p:rowExpansion>
+				        <f:facet name="footer">  
+				            <p:commandButton value="View" icon="icon-remove"  
+				                        update=":form" oncomplete=""/>  
+				        </f:facet>  
 				    </p:dataTable>    
 					  
 					</h:form>

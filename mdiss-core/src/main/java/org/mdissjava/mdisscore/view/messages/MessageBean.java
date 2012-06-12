@@ -1,16 +1,18 @@
 package org.mdissjava.mdisscore.view.messages;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.dao.DirectMessageDao;
-import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.DirectMessageDaoImpl;
-import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.DirectMessage;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,7 @@ public class MessageBean {
 	private String sendingText;
 	private String sendingUserTo;
 	private String sendingSubject;
+	private DirectMessage[] selectedMessages;
 
 	private static Logger logger = Logger
 			.getLogger(MessageBean.class.getName());
@@ -40,8 +43,8 @@ public class MessageBean {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		this.userName = auth.getName();
-		UserDao userDao = new UserDaoImpl();
-		user = userDao.getUserByNick(userName);
+		UserManager um = new UserManagerImpl();
+		user = um.getUserByNick(this.userName);
 
 		db = MorphiaDatastoreFactory.getDatastore("test");
 		directMessageDao = new DirectMessageDaoImpl(db);
@@ -65,6 +68,34 @@ public class MessageBean {
 		messages = directMessageDao.findDirectMessage(filter, true);
 		return messages;
 	}
+
+	public void sendMessage() {
+		DirectMessage messageToSend = new DirectMessage();
+		messageToSend.setSentDate(new Date());
+		messageToSend.setRead(false);
+		UserManager um = new UserManagerImpl();
+		messageToSend.setToUserId(um.getUserByNick(sendingUserTo).getId());
+		messageToSend.setText(this.getSendingText());
+		messageToSend.setFromUserId(user.getId());
+		messageToSend.setFromUserName(user.getNick());
+		messageToSend.setToUserName(sendingUserTo);
+		directMessageDao.insertDirectMessage(messageToSend);
+
+		MessageBean.logger.info("Direct Message Sent");
+		String outcome = "pretty:messages-send-confirmation";
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler()
+				.handleNavigation(facesContext, null, outcome);
+
+	}
+
+	// public List<String> complete() {
+	// List<String> results = new ArrayList<String>();
+	//
+	// // TODO: Autocomplete of the "to" textfield. Followers? Followings? All?
+	//
+	// return results;
+	// }
 
 	public String getUserName() {
 		return userName;
@@ -136,6 +167,14 @@ public class MessageBean {
 
 	public void setSendingSubject(String sendingSubject) {
 		this.sendingSubject = sendingSubject;
+	}
+
+	public DirectMessage[] getSelectedMessages() {
+		return selectedMessages;
+	}
+
+	public void setSelectedMessages(DirectMessage[] selectedMessages) {
+		this.selectedMessages = selectedMessages;
 	}
 
 }
