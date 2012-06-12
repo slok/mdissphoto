@@ -107,7 +107,11 @@
 				   
 				            </h:panelGrid>  
 				  
-				        </p:rowExpansion>  
+				        </p:rowExpansion>
+				        <f:facet name="footer">  
+				            <p:commandButton value="Delete" icon="ui-icon-remove"  
+				                        update=":form" oncomplete=""/>  
+				        </f:facet>   
 				    </p:dataTable>  
 					  
 					</h:form>
