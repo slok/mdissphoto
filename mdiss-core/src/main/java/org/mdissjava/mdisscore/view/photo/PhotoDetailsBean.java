@@ -107,6 +107,7 @@ public class PhotoDetailsBean {
 			//String app = request.getContextPath();
 			//System.out.println(host + String.valueOf(port) + app);
 			String url = Utils.getCurrentUrl(request);
+			this.varAux=url;
 			this.publicLink = url + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
 			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
 			
@@ -218,8 +219,8 @@ public class PhotoDetailsBean {
 		
 		DisqusJsonReader djr=new DisqusJsonReader();
 		try {
-			this.varAux=this.publicLink;
-			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.publicLink);
+			this.varAux+="/u/"+this.getPrettyfacesParams().getUserId()+"/photo/"+this.getPrettyfacesParams().getPhotoId();
+			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.varAux);
 			this.setLikes(arrayAux.get(0));
 			this.setDislikes(arrayAux.get(1));
 		} catch (IOException e) {
