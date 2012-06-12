@@ -76,7 +76,7 @@ public class ApiHelperTest {
 		System.out.println(message);
 	} 
 	
-	@Test
+	//@Test
 	public void HttpPostContentTest() throws ClientProtocolException, IOException {
 		File f = new File("/home/slok/Desktop.png");
 		byte[] data = FileUtils.readFileToByteArray(f);
