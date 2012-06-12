@@ -52,12 +52,6 @@
 								Send a New Message
 							</pretty:link>
 						</li>
-						<li class="active">
-							<pretty:link mappingId="messages-in" >
-								<i class="icon-remove-sign"></i>
-								Delete selected Messages
-							</pretty:link>
-						</li>
 			  		</ul>
 			  	</div>
 			  </div>
@@ -66,42 +60,65 @@
 			  		
 			  		<h:form id="form">  
               
-					    <p:dataList value="#{messageBean.messagesReceived}" var="message" id="messages"  
-					        paginator="true" rows="5" effectSpeed="fast"  
-					        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"  
-					        rowsPerPageTemplate="5,10,15" type="none">  
-					  
-					            <f:facet name="header">  
-					                Input Messages  
-					            </f:facet>  
-					  
-					            <p:column>  
-					                <p:commandButton icon="ui-icon-search" update=":form:messageDetail" oncomplete="messageDialog.show()" title="View Detail">  
-					                    <f:setPropertyActionListener value="#{message}" target="#{messageBean.selectedMessage}" />  
-					                </p:commandButton>  
-					  
-					                <h:outputText value="From: #{message.fromUserName}, Text: #{message.text}" style="margin-left:10px" />  
-					                <br />  
-					            </p:column>  
-					    </p:dataList>  
-					      
-					    <p:dialog header="Message Detail" widgetVar="messageDialog" modal="true" showEffect="fade">  
-					        <p:outputPanel id="messageDetail" style="text-align:center;" layout="block">  
-					          
-					            <!-- <p:graphicImage value="/images/cars/#{tableBean.selectedCar.manufacturer}.jpg"/> -->  
-					              
-					            <h:panelGrid  columns="2" cellpadding="5">  
-					                <h:outputLabel for="modelNo" value="Model No: " />  
-					                <h:outputText id="modelNo" value="#{tableBean.selectedCar.model}" />  
-					                  
-					                <h:outputLabel for="text" value="Text: " />  
-					                <h:outputText id="text" value="#{messageBean.selectedMessage.text}" />  
-					                  
-					                <h:outputLabel for="date" value="Date: " />  
-					                <h:outputText id="date" value="#{messageBean.selectedMessage.sentDate}" style="color:green"/>  
-					            </h:panelGrid>  
-					        </p:outputPanel>  
-					    </p:dialog>  
+					    <p:dataTable var="message" value="#{messageBean.messagesReceived}"  paginator="true" rows="10"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" rowKey="#{message.id}" selection="#{messageBean.selectedMessage}" selectionMode="single">  
+  
+  						<p:ajax event="rowSelect" listener="#{messageBean.onRowSelect}" update=":form" oncomplete="" />
+				        <f:facet name="header">  
+				             Expand rows to see detailed information  
+				        </f:facet>  
+				  
+				        <p:column style="width:16px">  
+				            <p:rowToggler />  
+				        </p:column>  
+				  
+				        <p:column style="width:250px">  
+				            <f:facet name="header">  
+				                    From  
+				            </f:facet>
+				            <h:panelGroup layout="block" rendered="#{message.read}">
+				            	<h:outputText value="#{message.fromUserName}" />
+				            </h:panelGroup>
+				            <h:panelGroup layout="block" rendered="#{!message.read}">
+				            	<h:outputText style=" font-weight: bold" value="#{message.fromUserName}" />
+				            </h:panelGroup>
+				        </p:column>  
+				  
+				        <p:column style="width:250px">  
+				            <f:facet name="header">  
+				                    Date
+				            </f:facet>  
+				            <h:outputText value="#{message.sentDate}" />  
+				        </p:column>  
+				  
+				        <p:rowExpansion>  
+				            <h:panelGrid id="display" columns="2" cellpadding="4"  
+				                        style="width:100%;"  
+				                        styleClass="ui-widget-content"  
+				                        columnClasses="label, value">  
+				  
+				                <f:facet name="header">  
+				                    <img src="http://www.dummyimage.com/100x100"></img> 
+				                </f:facet>  
+				  
+				                <h:outputText value="From:" />  
+				                <h:outputText id="from" value="#{message.fromUserName}" />  
+				  
+				                <h:outputText value="Date:" />  
+				                <h:outputText id="date" value="#{message.sentDate}" />  
+				  
+				                <h:outputText value="Text:" />  
+				                <h:outputText value="#{message.text}"/>  
+				   
+				            </h:panelGrid>  
+				  
+				        </p:rowExpansion>
+				        <f:facet name="footer">  
+				            <p:commandButton value="Delete" icon="ui-icon-remove"  
+				                        update=":form" oncomplete="" actionListener="#{messageBean.deleteRow}"/>  
+				        </f:facet>  
+				    </p:dataTable>    
 					  
 					</h:form>
 			  	</div>	    		

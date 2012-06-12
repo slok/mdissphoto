@@ -2,7 +2,6 @@ package org.mdissjava.thumbnailer.gearman.client;
 
 import org.gearman.client.GearmanClient;
 import org.gearman.client.GearmanClientImpl;
-import org.gearman.common.Constants;
 import org.gearman.common.GearmanJobServerConnection;
 import org.gearman.common.GearmanNIOJobServerConnection;
 

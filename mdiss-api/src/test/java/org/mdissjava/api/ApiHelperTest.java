@@ -1,7 +1,13 @@
 package org.mdissjava.api;
 
+<<<<<<< HEAD
+=======
+
+import java.io.File;
+>>>>>>> e61e55fb8f6c17e355214439da606bd3fb561e64
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -15,6 +21,9 @@ import org.mdissjava.api.helpers.ApiHelper;
 
 public class ApiHelperTest {
 
+	private String user = "cerealguy";
+	private String secret = "I7ZGuMSWB981eLmi228n2d0jB+5EInMALy0mwmIlElo=";
+	
 	@Test
 	public void HttpGetTest() throws ClientProtocolException, IOException {
 		String user = "slok";
@@ -32,8 +41,6 @@ public class ApiHelperTest {
 	
 	@Test
 	public void HttpPostTest() throws ClientProtocolException, IOException {
-		String user = "slok";
-		String secret = "32d9737523ec594fc9b007643b162011863c1024";
 		String data = "{\"title\":\"Me\",\"userNick\":\"horl\"}";
 		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/";
 		
@@ -48,8 +55,6 @@ public class ApiHelperTest {
 	
 	@Test
 	public void HttpPutTest() throws ClientProtocolException, IOException {
-		String user = "slok";
-		String secret = "32d9737523ec594fc9b007643b162011863c1024";
 		String data = "{\"title\":\"Catuset\",\"userNick\":\"cerealguy\"}";
 		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/51758be8-2d48-4567-8660-740173633da8/";
 		
@@ -64,8 +69,6 @@ public class ApiHelperTest {
 	
 	@Test
 	public void HttpDeleteTest() throws ClientProtocolException, IOException {
-		String user = "slok";
-		String secret = "32d9737523ec594fc9b007643b162011863c1024";
 		String url = "http://127.0.0.1:8080/mdissapi/api/1.0/albums/bb305a10-8960-48dc-aba2-e176dd718c65/";
 		
 		HttpDelete delete = ApiHelper.assembleHttpDelete(user, secret, url);
@@ -77,4 +80,19 @@ public class ApiHelperTest {
 		System.out.println(message);
 	} 
 	
+	@Test
+	public void HttpPostContentTest() throws ClientProtocolException, IOException {
+		File f = new File("/home/slok/Desktop.png");
+		byte[] data = FileUtils.readFileToByteArray(f);
+		String url = "http://localhost:8080/mdissapi/api/1.0/photo-content/";
+		
+		HttpPost post = ApiHelper.assembleHttpPostData(user, secret, data, url);
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(post);
+		
+		String message = ApiHelper.inputStreamToOutputStream(response.getEntity().getContent()).toString();
+		
+		System.out.println(message);
+	}
+
 }

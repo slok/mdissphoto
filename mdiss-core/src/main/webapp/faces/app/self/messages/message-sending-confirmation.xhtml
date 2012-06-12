@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
+    
+    <ui:composition template="/faces/app/user-space.xhtml">
+      
+		<ui:define name="head">
+		
+			<!-- for the album slider -->
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			
+		</ui:define>
+		
+		<ui:define name="body">
+		
+			<div class="row">
+				<div class="span12">
+					<h1>Output Messages</h1>
+				</div>
+			</div>
+			<br/>
+			<div class="row-fluid">
+			
+			  <div class="span3">
+			  	<div class="well sidebar-nav">
+			  		<ul class="nav nav-list">
+			  			<li class="nav-header">Messages Menu</li>
+						<li class="active">
+							<pretty:link mappingId="messages-in" >
+								<i class="icon-list"></i>
+									Received Messages
+							</pretty:link>
+						</li>
+						<li class="active">
+							<pretty:link mappingId="messages-out" >
+								<i class="icon-list"></i>
+								Sent Messages
+							</pretty:link>
+						</li>
+						<li class="nav-header">Actions</li>
+						<li class="active">
+							<pretty:link mappingId="messages-send" >
+								<i class="icon-pencil"></i>
+								Send a New Message
+							</pretty:link>
+						</li>
+			  		</ul>
+			  	</div>
+			  </div>
+			  <div class="span12">
+			  	<h1>Message Correctly Sent</h1>  		
+			  </div> 
+			</div>						
+		</ui:define>
+				
+    </ui:composition>
+</html>
+			  	

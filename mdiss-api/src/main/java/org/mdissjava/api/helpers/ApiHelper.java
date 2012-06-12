@@ -1,6 +1,8 @@
 package org.mdissjava.api.helpers;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -9,6 +11,7 @@ import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.HttpDelete;
@@ -16,6 +19,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.jboss.resteasy.spi.HttpRequest;
 
 public class ApiHelper {
@@ -78,6 +84,35 @@ public class ApiHelper {
 		
 		return httpPost;
 	}
+	
+	static public HttpPost assembleHttpPostData(String user, String key, byte[] data, String url) throws IOException{
+		//necessary data
+		String mime = MediaType.MULTIPART_FORM_DATA;
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, "", date, "POST", url);
+		
+		//create the client
+		HttpPost httpPost = new HttpPost(url);
+
+		//add headers
+		httpPost.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpPost.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpPost.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		
+		InputStream is = new ByteArrayInputStream(data);
+	    InputStreamBody uploadFilePart = new InputStreamBody(is, "filedata");
+		MultipartEntity reqEntity = new MultipartEntity();
+		reqEntity.addPart("filedata", uploadFilePart);
+		httpPost.setEntity(reqEntity);
+		
+		//calculate hmac
+		//is = new ByteArrayInputStream(data);
+		//uploadFilePart = new InputStreamBody(is, "filedata");
+		//ByteArrayOutputStream baos = ApiHelper.inputStreamToOutputStream(uploadFilePart.getInputStream());
+		//System.out.println(new String(baos.toByteArray()));
+		return httpPost;
+	}
+	
 	
 	static public HttpGet assembleHttpGet(String user, String key, String url) throws UnsupportedEncodingException{
 		//necessary data

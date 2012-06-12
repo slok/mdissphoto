@@ -78,6 +78,8 @@ public class PhotoDetailsBean {
 	private Album album;
 	private String misTags;
 	
+	private String varAux;
+	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
@@ -100,11 +102,12 @@ public class PhotoDetailsBean {
 			
 			//set the public link and the default message
 			HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			String host = request.getServerName();
-			int port = request.getServerPort();
-			String app = request.getContextPath();
+			//String host = request.getServerName();
+			//int port = request.getServerPort();
+			//String app = request.getContextPath();
 			//System.out.println(host + String.valueOf(port) + app);
-			this.publicLink = "http://"+ host + ":" + port + app + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
+			String url = Utils.getCurrentUrl(request);
+			this.publicLink = url + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
 			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
 			
 			//get metadata in a visible format
@@ -215,6 +218,7 @@ public class PhotoDetailsBean {
 		
 		DisqusJsonReader djr=new DisqusJsonReader();
 		try {
+			this.varAux=this.publicLink;
 			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.publicLink);
 			this.setLikes(arrayAux.get(0));
 			this.setDislikes(arrayAux.get(1));
@@ -236,7 +240,7 @@ public class PhotoDetailsBean {
 		try
 		{
 			accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
-		}catch(IllegalAccessError iae)
+		}catch(Exception e)
 		{
 			//if there was an illegal access then we need to create the user, so we redirect to the twitter oauth page
 			//so we don't do anything because will enter in the null block
@@ -561,6 +565,14 @@ public class PhotoDetailsBean {
 				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			}
 			
+	}
+
+	public String getVarAux() {
+		return varAux;
+	}
+
+	public void setVarAux(String varAux) {
+		this.varAux = varAux;
 	}
 
 

@@ -14,6 +14,7 @@ public abstract class MdissNotification {
 	public enum NotificationType {
 									FOLLOWING,
 									PHOTO_UPLOADED,
+									REPORT_PHOTO,
 	}
 	
 	@Id 

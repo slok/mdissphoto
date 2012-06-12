@@ -59,7 +59,7 @@ public class DirectMessageDaoImpl  extends BasicDAO<Photo, ObjectId> implements 
 		if(directMessage.getId() != null) {
 			query.field("id").equal(directMessage.getId());
 		}
-		
+		query.order("-sentDate");
 		List<DirectMessage> directMessageList = query.asList();
 		return directMessageList;
 	}

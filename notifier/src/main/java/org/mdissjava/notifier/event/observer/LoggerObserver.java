@@ -3,15 +3,10 @@ package org.mdissjava.notifier.event.observer;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
-import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
-import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.code.morphia.Datastore;
 
 public class LoggerObserver implements Observer{
 

@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.bll.UserOauthTokensManager;
 import org.mdissjava.mdisscore.controller.bll.impl.UserOauthTokensManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
@@ -26,13 +30,17 @@ public class TwitterApiManager {
 	private ConfigurationBuilder cb = new ConfigurationBuilder();
 	private Twitter twitter = null;
 	static private Map<String, RequestToken> requestTokens = null;
-	final private String CALLBACK_URL = "http://127.0.0.1:8080/mdissphoto/s/twitter/oauth/";
+	private String callbackUrl = null;
 	final private String OAUTH_PROPERTIES = "oauth";
 	final private String TWITTER_CONSUMER_KEY = "twitter.consumer.key";
 	final private String TWITTER_COnSUMER_SECRET = "twitter.consumer.secret";
 	final private Datastore datastore;
 	
 	public TwitterApiManager() throws TwitterException, IllegalArgumentException, IOException {
+		
+		//get callbackurl
+		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		this.callbackUrl = Utils.getCurrentUrl(request)+"/s/twitter/oauth/";
 		
 		//load twitter oauth props.
 		Properties oauthProperties = new PropertiesFacade().getProperties(OAUTH_PROPERTIES);
@@ -56,7 +64,7 @@ public class TwitterApiManager {
 	public String getTwitterTokenUrl(String username) throws TwitterException{
 		
 		//Add the requestToken for each user :)
-		RequestToken rt = twitter.getOAuthRequestToken(this.CALLBACK_URL);
+		RequestToken rt = twitter.getOAuthRequestToken(this.callbackUrl);
 		requestTokens.put(username, rt);
 		//return the url where the user accepts our app
 		return rt.getAuthorizationURL();

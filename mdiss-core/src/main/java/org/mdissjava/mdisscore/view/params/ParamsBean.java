@@ -24,6 +24,7 @@ public class ParamsBean {
 	private String cameraId;
 	private String top;
 	private String token;
+	private String tag;
 	private int page;
 	
 	
@@ -75,5 +76,12 @@ public class ParamsBean {
 	public void setPage(int page) {
 		this.page = page;
 	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
 
 }
