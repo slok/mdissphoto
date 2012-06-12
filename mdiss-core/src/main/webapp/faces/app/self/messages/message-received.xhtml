@@ -64,6 +64,7 @@
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                  rowsPerPageTemplate="5,10,15">  
   
+  						<p:ajax event="rowSelect" listener="#{messageBean.onRowSelect}" update=":form" oncomplete=" />
 				        <f:facet name="header">  
 				             Expand rows to see detailed information  
 				        </f:facet>  

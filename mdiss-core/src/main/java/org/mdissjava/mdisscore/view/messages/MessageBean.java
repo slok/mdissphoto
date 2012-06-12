@@ -15,6 +15,7 @@ import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.DirectMessageDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.DirectMessage;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -96,6 +97,13 @@ public class MessageBean {
 	//
 	// return results;
 	// }
+
+	public void onRowSelect(SelectEvent event) {
+
+		DirectMessage selectedMessage = (DirectMessage) event.getObject();
+		directMessageDao.markAsRead(selectedMessage.getId());
+
+	}
 
 	public String getUserName() {
 		return userName;
