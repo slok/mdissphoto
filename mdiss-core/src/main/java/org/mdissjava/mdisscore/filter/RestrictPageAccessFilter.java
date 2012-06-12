@@ -2,7 +2,6 @@ package org.mdissjava.mdisscore.filter;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,78 +24,85 @@ import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
 import com.ocpsoft.pretty.faces.util.PrettyURLBuilder;
 
-public class RestrictPageAccessFilter implements Filter{
+public class RestrictPageAccessFilter implements Filter {
 
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Override
 	public void destroy() {
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		
-		//Get the current logged user's username
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		// Get the current logged user's username
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 		String loggedUser = auth.getName();
-		
-		//get the user access page
+
+		// get the user access page
 		String username = request.getParameter("user");
-	    //TODO: Check if the requested user exists in DB. If it doesn't exist send to 404 Error page?
-	    
+		// TODO: Check if the requested user exists in DB. If it doesn't exist
+		// send to 404 Error page?
+
 		UserDao udao = new UserDaoImpl();
 		User requestedUser = udao.getUserByNick(username);
-		User userLogged = udao.getUserByNick(loggedUser); 
+		User userLogged = udao.getUserByNick(loggedUser);
+		userLogged.equals(userLogged); // TODO: userLogged needed?
 
-		
-		if(requestedUser != null)
-		{
-			
-			//boolean isFollowing = udao.followsUser(username, userLogged);
+		if (requestedUser != null) {
+
+			// boolean isFollowing = udao.followsUser(username, userLogged);
 			boolean isFollowing = udao.followsUser(loggedUser, requestedUser);
-			if((!isFollowing)&&(requestedUser.getConfiguration().isPrivate())&&(!requestedUser.getNick().equals(loggedUser)))
-			{
-				
-				//If they don't match send the naughty user to error page.
-				this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", loggedUser);   	
-				PrettyContext context = PrettyContext.getCurrentInstance((HttpServletRequest)request);
+			if ((!isFollowing)
+					&& (requestedUser.getConfiguration().isPrivate())
+					&& (!requestedUser.getNick().equals(loggedUser))) {
+
+				// If they don't match send the naughty user to error page.
+				this.logger
+						.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.",
+								loggedUser);
+				PrettyContext context = PrettyContext
+						.getCurrentInstance((HttpServletRequest) request);
 				PrettyURLBuilder builder = new PrettyURLBuilder();
-				
-				UrlMapping mapping = context.getConfig().getMappingById("restricted-error");
-				String targetURL = builder.build(mapping, true, new HashMap<String, String[]>());
-		    	
-		    	HttpServletResponse httpResponse=(HttpServletResponse)response;
-		    	httpResponse.sendRedirect("/mdissphoto" + targetURL);
-			}
-			else
-			{
-			    chain.doFilter(request,response);
+
+				UrlMapping mapping = context.getConfig().getMappingById(
+						"restricted-error");
+				String targetURL = builder.build(mapping, true,
+						new HashMap<String, String[]>());
+
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				httpResponse.sendRedirect("/mdissphoto" + targetURL);
+			} else {
+				chain.doFilter(request, response);
 			}
 
-		}
-		else
-		{
-	    	this.logger.error("FORBIDDEN ACCESS EVENT: User {} does not exists.", loggedUser);   	
-	    	PrettyContext context = PrettyContext.getCurrentInstance((HttpServletRequest)request);
+		} else {
+			this.logger.error(
+					"FORBIDDEN ACCESS EVENT: User {} does not exists.",
+					loggedUser);
+			PrettyContext context = PrettyContext
+					.getCurrentInstance((HttpServletRequest) request);
 			PrettyURLBuilder builder = new PrettyURLBuilder();
-			
-			UrlMapping mapping = context.getConfig().getMappingById("restricted-error");
-			String targetURL = builder.build(mapping, true, new HashMap<String, String[]>());
-	    	
-	    	HttpServletResponse httpResponse=(HttpServletResponse)response;
-	    	//TODO: delete "/mdissphoto" when moving to custom subdomain
-	    	httpResponse.sendRedirect("/mdissphoto" + targetURL);
+
+			UrlMapping mapping = context.getConfig().getMappingById(
+					"restricted-error");
+			String targetURL = builder.build(mapping, true,
+					new HashMap<String, String[]>());
+
+			HttpServletResponse httpResponse = (HttpServletResponse) response;
+			// TODO: delete "/mdissphoto" when moving to custom subdomain
+			httpResponse.sendRedirect("/mdissphoto" + targetURL);
 		}
 
-	    	    
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		this.logger.info("APPLYING RestrictPageAccessFilter");
-		
+
 	}
 
 }

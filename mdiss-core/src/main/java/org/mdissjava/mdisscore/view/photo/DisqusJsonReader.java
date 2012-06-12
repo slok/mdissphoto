@@ -56,7 +56,7 @@ public class DisqusJsonReader {
 		
 		ArrayList<Integer> array=new ArrayList<Integer>();
 		
-		JSONObject json = readJsonFromUrl("http://disqus.com/api/3.0/threads/list.json?api_key="+consumerKey+"&forum="+forum+"&thread:link="+url);
+		JSONObject json = readJsonFromUrl("http://disqus.com/api/3.0/threads/list.json?api_key=hCYB59qaUgKv4BrD6CF7Qyqk46qFinidYAcUEDP10YAgOJQz7W2u0wJRXIGgTNnB&forum=mdissphoto&thread:link="+url);
 	    System.out.println(json.toString());
 	    JSONArray rec= json.getJSONArray("response");
 	    array.add(rec.getJSONObject(0).getInt("likes")); 

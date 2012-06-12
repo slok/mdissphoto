@@ -182,7 +182,5 @@ public class UserDaoImplTest {
 		assertEquals("mdissWorarkarfer2",  userdao.getUserByNick("mdissWorarkarfer2").getNick());		
 		userdao.deleteUser(user);
 	}
-	
-
 
 }

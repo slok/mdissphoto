@@ -21,6 +21,8 @@ public class DirectMessage {
 	private boolean read;
 	private String fromUserName;
 	private String fromUserAvatar;
+	private String toUserName;
+	private String toUserAvatar;
 	@Embedded
 	private Date sentDate;
 	
@@ -102,6 +104,22 @@ public class DirectMessage {
 
 	public void setFromUserAvatar(String fromUserAvatar) {
 		this.fromUserAvatar = fromUserAvatar;
+	}
+
+	public String getToUserName() {
+		return toUserName;
+	}
+
+	public void setToUserName(String toUserName) {
+		this.toUserName = toUserName;
+	}
+
+	public String getToUserAvatar() {
+		return toUserAvatar;
+	}
+
+	public void setToUserAvatar(String toUserAvatar) {
+		this.toUserAvatar = toUserAvatar;
 	}
 	
 	

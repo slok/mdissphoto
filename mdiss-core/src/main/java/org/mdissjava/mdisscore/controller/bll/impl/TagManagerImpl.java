@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.mdissjava.mdisscore.controller.bll.TagManager;
+import org.mdissjava.mdisscore.model.dao.PhotoDao;
 import org.mdissjava.mdisscore.model.dao.TagDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.TagDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.Tag;
@@ -26,6 +28,7 @@ public class TagManagerImpl implements TagManager {
 	//TODO: Load from properties
 	private final String DATABASE = "mdissphoto";
 	private TagDao tagDao;
+	private PhotoDao photoDao;
 	private Datastore datastore;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -33,11 +36,13 @@ public class TagManagerImpl implements TagManager {
 	public TagManagerImpl(Datastore datastore) {
 		this.datastore = datastore;
 		this.tagDao = new TagDaoImpl(this.datastore);
+		this.photoDao = new PhotoDaoImpl(this.datastore);
 	}
 
 	public TagManagerImpl() {
 		this.datastore = MorphiaDatastoreFactory.getDatastore(DATABASE);
 		this.tagDao = new TagDaoImpl(this.datastore);
+		this.photoDao = new PhotoDaoImpl(this.datastore);
 	}
 	
 	/**
@@ -57,7 +62,7 @@ public class TagManagerImpl implements TagManager {
 				this.logger.error("There are not any tags called such as "+ tagDescription +" stored in database");
 				throw new IOException("There are not any tags called such as "+ tagDescription +" stored in database");
 			}
-			photos = tags.get(0).getPhotos();
+			photos = this.photoDao.getPhotosFromTag(tags.get(0).getDescription());
 			if(photos.isEmpty()){
 				this.logger.error("There are not any photos from tag "+ tagDescription +" stored in database");
 				throw new IOException("There are not any photos from tag "+ tagDescription +" stored in database");

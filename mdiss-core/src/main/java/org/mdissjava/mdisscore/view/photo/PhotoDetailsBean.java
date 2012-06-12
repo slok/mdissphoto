@@ -78,6 +78,8 @@ public class PhotoDetailsBean {
 	private Album album;
 	private String misTags;
 	
+	private String varAux;
+	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
@@ -216,6 +218,7 @@ public class PhotoDetailsBean {
 		
 		DisqusJsonReader djr=new DisqusJsonReader();
 		try {
+			this.varAux=this.publicLink;
 			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.publicLink);
 			this.setLikes(arrayAux.get(0));
 			this.setDislikes(arrayAux.get(1));
@@ -562,6 +565,14 @@ public class PhotoDetailsBean {
 				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
 			}
 			
+	}
+
+	public String getVarAux() {
+		return varAux;
+	}
+
+	public void setVarAux(String varAux) {
+		this.varAux = varAux;
 	}
 
 

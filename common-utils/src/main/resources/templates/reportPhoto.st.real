@@ -1,0 +1,12 @@
+reportPhoto(title, username, photoId) ::= <<
+<html>
+    <head>
+       <title>Welcome To MDISS PHOTO Java</title>
+    </head>
+    <body>
+    	<h1>New reported photo</h1>
+       <p>The user with username $username$ reported the photo with id $photoId$. Please check it.</p>
+    	<!-- <p><a href="http://goo.gl/Pm4tt">VALIDATE</a></p> -->
+    </body>
+</html>
+>>

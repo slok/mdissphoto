@@ -255,4 +255,18 @@ public class EmailUtils {
 		EmailUtils.sendEmail(to, "Welcome to MDISS", st.render(),
 				EmailUtils.HTML);
 	}
+
+	public static void sendReportPhotoEmail(String to, String username,
+			String photoId) throws EmailException, IOException {
+		//STGroup group = new STGroupDir("/src/main/resources/templates", '$', '$');
+		String template_url = EmailUtils.class.getResource("/templates").getPath();
+		STGroup group = new STGroupDir(template_url, '$', '$');
+		ST st = group.getInstanceOf("reportPhoto");
+
+		st.add("username", username);
+		st.add("photoId", photoId);
+
+		EmailUtils.sendEmail(to, username +" report the photo with id "+photoId+ " as innapropiate, please check it.", st.render(),
+				EmailUtils.HTML);
+	}
 }

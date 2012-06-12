@@ -1,12 +1,5 @@
 package org.mdissjava.commonutils.email;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-import java.util.UUID;
-
-import org.apache.commons.mail.EmailException;
 import org.junit.Test;
 
 public class EmailUtilsTest {

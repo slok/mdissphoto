@@ -188,6 +188,15 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 	}
 	
 	@Override
+	public List<Photo> getPhotosFromTag(String tag){
+		List<Photo> photos;
+		Query<Photo> query = ds.createQuery(Photo.class);
+		query.field("tags").contains(tag);
+		photos = query.asList();
+		return photos;
+	}
+	
+	@Override
 	public void deletePhoto(Photo photo) {
 
 		ds.delete(photo);

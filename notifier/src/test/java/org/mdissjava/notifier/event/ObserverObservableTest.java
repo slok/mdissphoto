@@ -1,8 +1,5 @@
 package org.mdissjava.notifier.event;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Observable;
 import java.util.Observer;
 
 import org.junit.Test;

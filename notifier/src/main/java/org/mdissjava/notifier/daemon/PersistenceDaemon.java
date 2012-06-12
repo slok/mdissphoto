@@ -19,8 +19,10 @@ import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.notifications.FollowingNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification.NotificationType;
+import org.mdissjava.mdisscore.model.pojo.notifications.ReportPhotoNotification;
 import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
+import org.mdissjava.notifier.event.ReportPhotoEvent;
 
 import com.google.code.morphia.Datastore;
 
@@ -65,6 +67,13 @@ public class PersistenceDaemon extends Daemon {
 	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
 	        			this.storeNewFollowerNotification(eventReceived, notificationDao);   
 	    			}
+	    			else if(obj instanceof ReportPhotoEvent)
+	    			{
+	    				ReportPhotoEvent eventReceived = (ReportPhotoEvent)obj;
+	    				
+	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
+	        			this.storeReportPhotoNotification(eventReceived, notificationDao);   
+	    			}
 	        		else
 	            		throw new IllegalStateException("Wrong message received");
 	
@@ -83,6 +92,7 @@ public class PersistenceDaemon extends Daemon {
 
 	}
 
+	
 	private void storeNewFollowerNotification(NewFollowerEvent event, MdissNotificationDao notificationDao)
 	{
 		FollowingNotification followerNotification = new FollowingNotification(event.getFollowerUsername());
@@ -90,7 +100,6 @@ public class PersistenceDaemon extends Daemon {
 		followerNotification.setFollowerUserName(event.getFollowerUsername());
 		followerNotification.setRead(false);
 		followerNotification.setSelfUserName(event.getSelfUserName());
-		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
 		
 		notificationDao.insertMdissNotification(followerNotification);
 	}
@@ -98,7 +107,6 @@ public class PersistenceDaemon extends Daemon {
 	private void storePhotoUploadNotification(PhotoUploadedEvent eventReceived, MdissNotificationDao notificationDao) {
 	
 		//create the notifiacion/s
-		Datastore db = MorphiaDatastoreFactory.getDatastore("test");
 		PhotoUploadedNotification notification = new PhotoUploadedNotification(eventReceived.getUserNick(), eventReceived.getPhotoId());
 		
 		List<PhotoUploadedNotification> new_follower_notifications = new ArrayList<PhotoUploadedNotification>();
@@ -132,6 +140,22 @@ public class PersistenceDaemon extends Daemon {
 
 	}
 
+	private void storeReportPhotoNotification(ReportPhotoEvent eventReceived,
+			MdissNotificationDao notificationDao) {
+
+		//create the notifiacion/s
+		Datastore db = MorphiaDatastoreFactory.getDatastore("mdissphoto");
+		ReportPhotoNotification notification = new ReportPhotoNotification(eventReceived.getUsername(), eventReceived.getPhotoId(), eventReceived.getDescription());
+				
+		notification = new ReportPhotoNotification(eventReceived.getUsername(), eventReceived.getPhotoId(), eventReceived.getDescription());
+		notification.setRead(false);
+		notification.setDate(new Date());
+		notification.setNotificationType(NotificationType.PHOTO_UPLOADED);
+		notificationDao.insertMdissNotification(notification);
+		
+	}
+
+	
 	@Override
 	public void stopDaemon() {
 		System.out.println("run persistence daemon");
