@@ -15,6 +15,8 @@ import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.DirectMessageDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.DirectMessage;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.DirectMessageObservable;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -92,6 +94,13 @@ public class MessageBean {
 		directMessageDao.insertDirectMessage(messageToSend);
 
 		MessageBean.logger.info("Direct Message Sent");
+		NotificationManager notifier = NotificationManager.getInstance();
+		DirectMessageObservable dmo = notifier.getDirectMessageObservable();
+
+		dmo.messageSent(messageToSend.getFromUserName(),
+				messageToSend.getText(), messageToSend.getSentDate());
+		MessageBean.logger.info("Direct Message Notification sent");
+
 		String outcome = "pretty:messages-send-confirmation";
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.getApplication().getNavigationHandler()

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.mdissjava.notifier.event.observable.DirectMessageObservable;
 import org.mdissjava.notifier.event.observable.NewFollowerObservable;
 import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
 import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
@@ -30,6 +31,7 @@ public class NotificationManager {
 										PHOTO_UPLOADED,
 										NEW_FOLLOWER,
 										REPORT_PHOTO,
+										DIRECT_MESSAGE,
 										
 					};
 	
@@ -73,6 +75,7 @@ public class NotificationManager {
 		this.observables.put(ObservableNames.PHOTO_UPLOADED, this.registerPhotoUploadObservers());
 		this.observables.put(ObservableNames.NEW_FOLLOWER, this.registerNewFollowerObservers());
 		this.observables.put(ObservableNames.REPORT_PHOTO, this.registerReportPhotoObservers());
+		this.observables.put(ObservableNames.DIRECT_MESSAGE, this.registerDirectMessageObservers());
 	}
 
 	
@@ -80,6 +83,12 @@ public class NotificationManager {
 	{
 		//we cast this way the user can use in VerifyAccount mode or observable mode if he/she wants
 		return (VerifyAccountObservable)this.observables.get(ObservableNames.VERIFY_ACCOUNT);
+	}
+	
+	public DirectMessageObservable getDirectMessageObservable()
+	{
+		//we cast this way the user can use in DirectMessage mode or observable mode if he/she wants
+		return (DirectMessageObservable)this.observables.get(ObservableNames.DIRECT_MESSAGE);
 	}
 	
 	public PhotoUploadedObservable getPhotoUploadedObservable()
@@ -120,6 +129,29 @@ public class NotificationManager {
 			vao.addObserver(i);
 		
 		return vao;
+	}
+	
+	/**
+	 * Registers all the observers in the VerifyAccount observable
+	 * 
+	 * @return the observable object with all the observers registered
+	 */
+	private Observable registerDirectMessageObservers()
+	{
+		this.logger.info("Registering verify account observers");
+		
+		//create all the observers
+		Observer directMessageObservers[] = {
+												new EmailObserver(),
+											};
+		
+		DirectMessageObservable dmo = new DirectMessageObservable();
+		
+		//register all the observers
+		for (Observer i: directMessageObservers)
+			dmo.addObserver(i);
+		
+		return dmo;
 	}
 	
 	/**
