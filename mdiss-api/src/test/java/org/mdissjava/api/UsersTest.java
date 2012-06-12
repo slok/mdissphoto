@@ -16,7 +16,7 @@ import org.mdissjava.api.helpers.ApiHelper;
 public class UsersTest {
 	
 	private final String user = "cerealguy";
-	private final String secret = "h67U3OKYHlf0RzMBoG2gY+uahXxi8FEcH0HVMzpekWg=";
+	private final String secret = "I/eN3CaDswAqPDMz+fgyeWRNyeDv+ywVbgNFtZlLXgA=";
 
 	@Test
 	public void HttpGetUserFollowingsTest() throws ClientProtocolException, IOException {

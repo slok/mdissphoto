@@ -1,10 +1,6 @@
 package org.mdissjava.api;
 
-<<<<<<< HEAD
-=======
-
 import java.io.File;
->>>>>>> e61e55fb8f6c17e355214439da606bd3fb561e64
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -22,7 +18,7 @@ import org.mdissjava.api.helpers.ApiHelper;
 public class ApiHelperTest {
 
 	private String user = "cerealguy";
-	private String secret = "I7ZGuMSWB981eLmi228n2d0jB+5EInMALy0mwmIlElo=";
+	private String secret = "h67U3OKYHlf0RzMBoG2gY+uahXxi8FEcH0HVMzpekWg=";
 	
 	@Test
 	public void HttpGetTest() throws ClientProtocolException, IOException {
