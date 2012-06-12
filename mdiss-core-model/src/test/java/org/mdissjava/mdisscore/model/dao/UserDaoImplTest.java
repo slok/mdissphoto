@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+import java.util.List;
 
 
 import org.junit.After;
@@ -183,6 +184,12 @@ public class UserDaoImplTest {
 		userdao.deleteUser(user);
 	}
 	
-
+	@Test
+	public void getUserByRole()throws IllegalArgumentException{		
+		this.logger.info("[TEST] getUserByRole UserDaoImpl");	
+		
+		List<User> adminUsers = userdao.getUserByRole("admin");
+		assertEquals(adminUsers.size(),  1);		
+	}
 
 }

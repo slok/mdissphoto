@@ -23,6 +23,9 @@ import org.mdissjava.notifier.broker.connection.STOMPConnection;
 import org.mdissjava.notifier.event.MdissEvent;
 import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
+import org.mdissjava.notifier.event.ReportPhotoEvent;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,7 +105,35 @@ public class MdissNotificationDaemonTest {
 		producer.send(exitMsg);
 		
 	}
-	
+	@Test
+	public void ReportPhotoPersistenceDaemonTest() throws JMSException, InterruptedException{
+		
+		this.logger.info("[TEST] ReportPhotoPersistenceDaemonTest");
+		//Receiver daemon in other thread
+		this.logger.info("[TEST] Launch the daemon in new thread");
+		String[] args = {"-p", "test"};
+        //new Thread(new daemonThread(args)).start();
+		
+		//Producer
+		
+		Thread.sleep(100);
+		this.logger.info("[TEST] Send event to Apollo queue");
+		STOMPConnection connection = new STOMPConnection(ConnectionType.QUEUE, DESTINATION_PERSISTENCE, 
+				DeliveryMode.NON_PERSISTENT, Session.AUTO_ACKNOWLEDGE);
+		
+		MessageProducer producer = connection.createProducer();
+		Session session = connection.getSession();
+		
+		ReportPhotoEvent event = new ReportPhotoEvent("maifrup", "0987349928a", "Photo +18");
+		ObjectMessage msg = session.createObjectMessage(event);
+		
+		producer.send(msg);
+		
+		//produce the event that triggers the shutdown of the listener (we only have one listener in the queue)
+		TextMessage exitMsg = session.createTextMessage("EXIT");
+		producer.send(exitMsg);
+		
+	}
 	@Test
 	public void NewFollowerEmailDaemonTest() throws JMSException, InterruptedException{
 		
@@ -131,6 +162,44 @@ public class MdissNotificationDaemonTest {
 		TextMessage exitMsg = session.createTextMessage("EXIT");
 		producer.send(exitMsg);
 		
+	}
+	
+	@Test
+	public void ReportPhotoEmailDaemonTest() throws JMSException, InterruptedException{
+		
+		this.logger.info("[TEST] NewFollowerEmailDaemonTest");
+		//Receiver daemon in other thread
+		this.logger.info("[TEST] Launch the daemon in new thread");
+		String[] args = {"-e"};
+        //new Thread(new daemonThread(args)).start();
+		
+		//Producer
+		
+		Thread.sleep(100);
+		this.logger.info("[TEST] Send event to Apollo queue");
+		STOMPConnection connection = new STOMPConnection(ConnectionType.QUEUE, DESTINATION_EMAIL, 
+				DeliveryMode.NON_PERSISTENT, Session.AUTO_ACKNOWLEDGE);
+		
+		MessageProducer producer = connection.createProducer();
+		Session session = connection.getSession();
+		
+		ReportPhotoEvent event = new ReportPhotoEvent("maifrup", "0987349928a", "Photo +18");
+		ObjectMessage msg = session.createObjectMessage(event);
+		
+		producer.send(msg);
+		
+		//produce the event that triggers the shutdown of the listener (we only have one listener in the queue)
+		TextMessage exitMsg = session.createTextMessage("EXIT");
+		producer.send(exitMsg);
+		
+	}
+	
+	@Test
+	public void ReportPhotoDaemonTest() throws JMSException, InterruptedException
+	{
+		 NotificationManager notifier = NotificationManager.getInstance();
+		 ReportPhotoObservable rpo = notifier.getReportPhotoObservable();
+		 rpo.reportPhoto("maifrup", "09348s9f3-asd", "Photo +18");
 	}
 	
 	class daemonThread implements Runnable{
