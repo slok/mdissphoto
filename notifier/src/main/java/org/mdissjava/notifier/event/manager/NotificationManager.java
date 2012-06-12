@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import org.mdissjava.notifier.event.observable.NewFollowerObservable;
 import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
+import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
 import org.mdissjava.notifier.event.observable.VerifyAccountObservable;
 import org.mdissjava.notifier.event.observer.EmailObserver;
 import org.mdissjava.notifier.event.observer.LoggerObserver;
@@ -28,6 +29,7 @@ public class NotificationManager {
 										VERIFY_ACCOUNT,
 										PHOTO_UPLOADED,
 										NEW_FOLLOWER,
+										REPORT_PHOTO,
 										
 					};
 	
@@ -70,6 +72,7 @@ public class NotificationManager {
 		this.observables.put(ObservableNames.VERIFY_ACCOUNT, this.registerVerifyAccountObservers());
 		this.observables.put(ObservableNames.PHOTO_UPLOADED, this.registerPhotoUploadObservers());
 		this.observables.put(ObservableNames.NEW_FOLLOWER, this.registerNewFollowerObservers());
+		this.observables.put(ObservableNames.REPORT_PHOTO, this.registerReportPhotoObservers());
 	}
 
 	
@@ -89,6 +92,12 @@ public class NotificationManager {
 	{
 		return (NewFollowerObservable)this.observables.get(ObservableNames.NEW_FOLLOWER);
 	}
+	
+	public ReportPhotoObservable getReportPhotoObservable()
+	{
+		return (ReportPhotoObservable)this.observables.get(ObservableNames.REPORT_PHOTO);
+	}
+	
 	
 	/**
 	 * Registers all the observers in the VerifyAccount observable
@@ -156,4 +165,23 @@ public class NotificationManager {
 		return nfo;
 	}
 	
+	private Observable registerReportPhotoObservers()
+	{
+		this.logger.info("Registering report photo observers");
+		
+		//create all the observers
+		Observer reportPhotoObservers[] = {
+												new EmailObserver(),
+												new PersistenceObserver(),
+											};
+		
+		ReportPhotoObservable rpo = new ReportPhotoObservable();
+		
+		//register all the observers
+		for (Observer i: reportPhotoObservers)
+			rpo.addObserver(i);
+		
+		return rpo;
+		
+	}
 }

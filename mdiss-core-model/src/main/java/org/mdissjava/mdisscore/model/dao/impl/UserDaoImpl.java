@@ -205,4 +205,17 @@ public class UserDaoImpl implements UserDao {
 		return user;	
 	}
 
+	@Override
+	public List<User> getUserByRole(String role) {
+		List<User> users = new ArrayList<User>();
+		
+		Session session = HibernateUtil.getSession();
+		Query q = session.createQuery("" + "from User as user "
+				+ " where user.role = '" + role + "'");
+		
+		users = (List<User>) q.list();
+		
+		return users;
+	}
+
 }

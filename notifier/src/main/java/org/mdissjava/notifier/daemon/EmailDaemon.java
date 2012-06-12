@@ -2,6 +2,7 @@ package org.mdissjava.notifier.daemon;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -16,6 +17,7 @@ import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.notifier.event.NewFollowerEvent;
+import org.mdissjava.notifier.event.ReportPhotoEvent;
 import org.mdissjava.notifier.event.VerifyAccountEvent;
 
 public class EmailDaemon extends Daemon{
@@ -50,6 +52,12 @@ public class EmailDaemon extends Daemon{
 	        			NewFollowerEvent eventReceived = (NewFollowerEvent)obj;
 	        			this.logger.info("New Message event received: {}", eventReceived.getEventType());
 	        			this.sendFollowerEmail(eventReceived);
+	        		}
+	        		else if(obj instanceof ReportPhotoEvent)
+	        		{
+	        			ReportPhotoEvent eventReceived = (ReportPhotoEvent)obj;
+	        			this.logger.info("New Photo Report event received {}", eventReceived.getEventType());
+	        			this.sendReportPhoto(eventReceived);
 	        		}
 	        		else
 	            		throw new IllegalStateException("Wrong message received");
@@ -102,6 +110,26 @@ public class EmailDaemon extends Daemon{
 			this.logger.error("Error sending email: {}", e.toString());
 		} catch (IOException e) {
 			this.logger.error("Error sending email: {}", e.toString());
+		}
+	}
+	
+	public void sendReportPhoto(ReportPhotoEvent eventReceived)
+	{
+		String username = eventReceived.getUsername();
+		String photoId = eventReceived.getPhotoId();
+		UserDao userDao = new UserDaoImpl();
+		List<User> adminUsers = userDao.getUserByRole("admin");
+
+		for(User u:adminUsers)
+		{
+			try {
+				EmailUtils.sendReportPhotoEmail(u.getEmail(), username, photoId);
+			} catch (EmailException e) {
+				this.logger.error("Error sending email: {}", e.toString());
+			} catch (IOException e) {
+				this.logger.error("Error sending email: {}", e.toString());
+			}
+			
 		}
 	}
 }

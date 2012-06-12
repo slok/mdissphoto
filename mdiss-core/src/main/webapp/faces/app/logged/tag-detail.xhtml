@@ -4,15 +4,63 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
-    <ui:composition template="/templates/app/logged-space.xhtml">
-      
-		<ui:define name="title">Tag list</ui:define>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces">  
+   
+   	<ui:composition template="/faces/app/logged-space.xhtml">
+		<ui:define name="title">
+			Mdissphoto / #{tagDetailsBean.tag}
+		</ui:define>
 		
 		<ui:define name="body">
-								
+		
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span4">
+		      			<h1 class="photo-title">#{tagDetailsBean.tag}</h1>
+		      		</div>
+		      	</div>
+			</div>
+			<br/>
+        	
+        	<div class="box centered">
+			<h:form id="form">
+				<h:dataTable value="#{tagDetailsBean.photos}" var="photo">
+					<div class="row-fluid">
+						<div class="span6">							
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Photo Title" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{photo.title}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Album Title" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{photo.album.title}
+								</div>
+							</p:column>
+							<p:column>
+								<div class="span6" align="center">
+									<div class="span2">
+										<pretty:link mappingId="photo-detail">
+											<f:param value="#{tagDetailsBean.userNick}" />
+											<f:param value="#{photo.photoId}" />
+											<h:graphicImage styleClass="thumbnail center-thing" value="#{tagDetailsBean.detailedPhotoURL[photo.photoId]}" />
+										</pretty:link>
+									</div>
+								</div>
+							</p:column>
+						</div>
+					</div>
+					<br />
+				</h:dataTable>
+			</h:form>
+			</div>
 		</ui:define>
-				
-    </ui:composition>
+	</ui:composition>								
 </html>
