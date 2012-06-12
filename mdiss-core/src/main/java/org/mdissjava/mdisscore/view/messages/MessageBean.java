@@ -34,7 +34,6 @@ public class MessageBean {
 	private String sendingText;
 	private String sendingUserTo;
 	private String sendingSubject;
-	private DirectMessage[] selectedMessages;
 
 	private static Logger logger = Logger
 			.getLogger(MessageBean.class.getName());
@@ -175,14 +174,6 @@ public class MessageBean {
 
 	public void setSendingSubject(String sendingSubject) {
 		this.sendingSubject = sendingSubject;
-	}
-
-	public DirectMessage[] getSelectedMessages() {
-		return selectedMessages;
-	}
-
-	public void setSelectedMessages(DirectMessage[] selectedMessages) {
-		this.selectedMessages = selectedMessages;
 	}
 
 }
