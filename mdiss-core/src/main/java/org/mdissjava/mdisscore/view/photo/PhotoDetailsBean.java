@@ -25,6 +25,9 @@ import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.PhotoUploadedObservable;
+import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -79,6 +82,7 @@ public class PhotoDetailsBean {
 	private String misTags;
 	
 	private String varAux;
+	private String description;
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -274,6 +278,28 @@ public class PhotoDetailsBean {
 					" There was an error eith the tweet. Try again please </div>";
 		}
 	} 
+	
+	public void reportNotification(){
+		
+		try{
+			
+			//throw photo upload event
+			NotificationManager notifier = NotificationManager.getInstance();
+			ReportPhotoObservable rpo = notifier.getReportPhotoObservable();
+			rpo.reportPhoto(loggedUserNick, photoId, description);
+			
+			this.informationMessage  = "<div class=\"alert alert-success\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" Reported succesfully</div>";
+			
+		}catch(Exception e){
+			this.informationMessage  = "<div class=\"alert alert-error\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+				" There was an error reporting. Try again please</div>";
+		}
+		
+		
+	}
 	
 	public String getPhotoId() {
 		return photoId;
@@ -474,6 +500,14 @@ public class PhotoDetailsBean {
 		this.dislikes = dislikes;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public float getMark() {
 		if(dislikes>0 || likes>0)
 			return (likes/(dislikes+likes))*10;
