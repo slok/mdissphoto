@@ -1,8 +1,6 @@
 package org.mdissjava.notifier.daemon;
 
-import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.jms.DeliveryMode;
@@ -13,14 +11,8 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.junit.Test;
-import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
-import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
-import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
-import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.mdissjava.notifier.broker.connection.MessageBrokerConnection.ConnectionType;
 import org.mdissjava.notifier.broker.connection.STOMPConnection;
-import org.mdissjava.notifier.event.MdissEvent;
 import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.PhotoUploadedEvent;
 import org.mdissjava.notifier.event.ReportPhotoEvent;
@@ -44,6 +36,7 @@ public class MdissNotificationDaemonTest {
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
 		String[] args = {"-p", "test"};
+		args.equals(args);
         //new Thread(new daemonThread(args)).start();
 		
 		//Producer
@@ -83,6 +76,7 @@ public class MdissNotificationDaemonTest {
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
 		String[] args = {"-p", "test"};
+		args.equals(args);
         //new Thread(new daemonThread(args)).start();
 		
 		//Producer
@@ -112,6 +106,7 @@ public class MdissNotificationDaemonTest {
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
 		String[] args = {"-p", "test"};
+		args.equals(args);
         //new Thread(new daemonThread(args)).start();
 		
 		//Producer
@@ -141,6 +136,7 @@ public class MdissNotificationDaemonTest {
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
 		String[] args = {"-e"};
+		args.equals(args);
         //new Thread(new daemonThread(args)).start();
 		
 		//Producer
@@ -171,6 +167,7 @@ public class MdissNotificationDaemonTest {
 		//Receiver daemon in other thread
 		this.logger.info("[TEST] Launch the daemon in new thread");
 		String[] args = {"-e"};
+		args.equals(args);
         //new Thread(new daemonThread(args)).start();
 		
 		//Producer

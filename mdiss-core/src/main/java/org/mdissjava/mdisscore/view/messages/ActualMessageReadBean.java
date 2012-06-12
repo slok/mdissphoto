@@ -23,7 +23,6 @@ public class ActualMessageReadBean {
 
 	private Datastore db;
 	private DirectMessageDao directMessageDao;
-	private int number;
 	private User user;
 	private String userName;
 
@@ -44,10 +43,6 @@ public class ActualMessageReadBean {
 		List<DirectMessage> messages = directMessageDao.findDirectMessage(
 				filter, false);
 		return messages.size();
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
 	}
 
 }

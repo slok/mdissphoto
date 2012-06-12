@@ -12,43 +12,39 @@ import org.apache.solr.core.CoreContainer;
 import org.mdissjava.mdisscore.solr.pojo.users;
 
 public class SolrImportDataMySQL {
-	
+
 	private static final String SOLR_HOME = "C:/servers/jboss7/standalone/deployments/mdissSearch/solr";
-	private static final String CORE_NAME =	"mysql";
+	private static final String CORE_NAME = "mysql";
 	private EmbeddedSolrServer server;
-	
-	public SolrImportDataMySQL() throws MalformedURLException
-	{
-		try
-		{
+
+	public SolrImportDataMySQL() throws MalformedURLException {
+		try {
 			File home = new File(SOLR_HOME);
-			File f = new File(home,"solr.xml");
+			File f = new File(home, "solr.xml");
 			CoreContainer container = new CoreContainer(SOLR_HOME);
 			container.load(SOLR_HOME, f);
 			server = new EmbeddedSolrServer(container, CORE_NAME);
-			
-		} catch(Exception ex)
-		{
+
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void createQuery()
-	{
-		try
-		{
+
+	public void createQuery() {
+		try {
 			SolrQuery query = new SolrQuery();
 			query.setQuery("*:*");
 			query.addSortField("id", SolrQuery.ORDER.asc);
 			QueryResponse rsp = server.query(query);
 			SolrDocumentList docs = rsp.getResults();
-		    List<users> beans = rsp.getBeans(users.class);
-			
-		} catch (Exception ex)
-		{
+			List<users> beans = rsp.getBeans(users.class);
+			docs.equals(docs); // TODO: docs Needed?
+			beans.equals(beans); // TODO: beans Needed?
+
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
+
 	}
 
 }

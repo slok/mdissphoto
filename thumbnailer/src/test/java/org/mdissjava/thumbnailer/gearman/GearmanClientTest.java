@@ -2,20 +2,15 @@ package org.mdissjava.thumbnailer.gearman;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
 
-import org.gearman.worker.GearmanFunction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,11 +19,8 @@ import org.mdissjava.commonutils.mongo.morphia.MorphiaDatastoreConnection;
 import org.mdissjava.commonutils.photo.status.PhotoStatus;
 import org.mdissjava.commonutils.photo.status.PhotoStatusManager;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
-import org.mdissjava.thumbnailer.gearman.GearmanWorkersTest.workerThread;
 import org.mdissjava.thumbnailer.gearman.client.ThumbnailerGearmanClient;
 import org.mdissjava.thumbnailer.gearman.worker.GearmanDaemonWorker;
-import org.mdissjava.thumbnailer.gearman.worker.ThumbnailerGearmanWorker;
-import org.mdissjava.thumbnailer.gearman.worker.ThumbnailerScaleFunction;
 
 import com.google.code.morphia.Datastore;
 

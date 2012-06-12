@@ -2,10 +2,7 @@ package org.mdissjava.mdisscore.model.pojo;
 
 import java.util.Date;
 
-import org.bson.types.ObjectId;
-
 import com.google.code.morphia.annotations.Embedded;
-import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Reference;
 
 /**

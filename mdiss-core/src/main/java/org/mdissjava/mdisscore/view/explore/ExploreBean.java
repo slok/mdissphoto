@@ -21,54 +21,58 @@ import com.google.code.morphia.Datastore;
 @RequestScoped
 @ManagedBean
 public class ExploreBean {
-	
+
 	private List<String> photoURLs;
 	private List<String> photoTitles;
 	private List<String> photoUsers;
-	
+
 	private List<Photo> photoList;
-	
+
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	private final int PHOTO_QUANTITY = 14;
-	
-	public ExploreBean()
-	{	
+
+	public ExploreBean() {
 		try {
 			String database;
 			this.photoURLs = new ArrayList<String>();
 			this.photoTitles = new ArrayList<String>();
 			this.photoUsers = new ArrayList<String>();
-			
+
 			PropertiesFacade propertiesFacade = new PropertiesFacade();
-			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
-		
-			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY)
+					.getProperty(MORPHIA_DATABASE_KEY);
+
+			Datastore datastore = MorphiaDatastoreFactory
+					.getDatastore(database);
 			PhotoManagerImpl photoManager = new PhotoManagerImpl(datastore);
-			
+
 			this.photoList = photoManager.getRandomPhotos(PHOTO_QUANTITY);
-			
-			String imageDatabase = propertiesFacade.getProperties("globals").getProperty("images.db");
-			
-			Utils utils = new Utils();
-			
-			//Start distributing photo info into different arrays
-			for (Photo p : this.photoList)
-			{
+
+			String imageDatabase = propertiesFacade.getProperties("globals")
+					.getProperty("images.db");
+
+			// Utils utils = new Utils(); //TODO: Utils needed?
+
+			// Start distributing photo info into different arrays
+			for (Photo p : this.photoList) {
 				this.photoTitles.add(p.getTitle());
 				this.photoUsers.add(p.getAlbum().getUserNick());
-				
-				//Get random size for the photo
+
+				// Get random size for the photo
 				List<String> sizeList = Arrays.asList("240", "320");
-				int randNum = utils.getRandomNumInRange(0, 1);
-				
-				String bucketPropertyKey = "thumbnail.scale." + sizeList.get(randNum) + "px.bucket.name";
-				String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
-							
-				String detailedPhotoURL = "/dynamic/image?db="+imageDatabase+"&amp;bucket="+bucket+"&amp;id="+p.getDataId();
-				this.photoURLs.add(detailedPhotoURL);				
-			}			
-			
+				int randNum = Utils.getRandomNumInRange(0, 1);
+
+				String bucketPropertyKey = "thumbnail.scale."
+						+ sizeList.get(randNum) + "px.bucket.name";
+				String bucket = propertiesFacade.getProperties("thumbnails")
+						.getProperty(bucketPropertyKey);
+
+				String detailedPhotoURL = "/dynamic/image?db=" + imageDatabase
+						+ "&amp;bucket=" + bucket + "&amp;id=" + p.getDataId();
+				this.photoURLs.add(detailedPhotoURL);
+			}
+
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,7 +82,7 @@ public class ExploreBean {
 		}
 
 	}
-	
+
 	public List<String> getPhotoURLs() {
 		return photoURLs;
 	}
@@ -107,10 +111,11 @@ public class ExploreBean {
 		return PHOTO_QUANTITY;
 	}
 
-	private ParamsBean getPrettyfacesParams()
-	{
+	private ParamsBean getPrettyfacesParams() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
+		ParamsBean pb = (ParamsBean) context.getApplication()
+				.evaluateExpressionGet(context, "#{paramsBean}",
+						ParamsBean.class);
 		return pb;
 	}
 
