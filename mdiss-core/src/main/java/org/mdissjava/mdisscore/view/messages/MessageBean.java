@@ -59,6 +59,11 @@ public class MessageBean {
 		DirectMessage filter = new DirectMessage();
 		filter.setToUserId(user.getId());
 		messages = directMessageDao.findDirectMessage(filter, true);
+		for (DirectMessage message : messages) {
+			if (message.getFromUserId() == user.getId()) {
+				message.setFromUserName("Me");
+			}
+		}
 		return messages;
 	}
 
@@ -66,6 +71,11 @@ public class MessageBean {
 		DirectMessage filter = new DirectMessage();
 		filter.setFromUserId(user.getId());
 		messages = directMessageDao.findDirectMessage(filter, true);
+		for (DirectMessage message : messages) {
+			if (message.getToUserId() == user.getId()) {
+				message.setToUserName("Me");
+			}
+		}
 		return messages;
 	}
 

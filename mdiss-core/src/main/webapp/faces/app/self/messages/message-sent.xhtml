@@ -62,7 +62,7 @@
               
 					    <p:dataTable var="message" value="#{messageBean.messagesSent}"  paginator="true" rows="10"  
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                 rowsPerPageTemplate="5,10,15">  
+                 rowsPerPageTemplate="5,10,15" rowKey="#{message.id}" selection="#{messageBean.selectedMessage}" selectionMode="single">  
   
 				        <f:facet name="header">  
 				             Expand rows to see detailed information  
