@@ -62,7 +62,7 @@
               
 					    <p:dataTable var="message" value="#{messageBean.messagesReceived}"  paginator="true" rows="10"  
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                 rowsPerPageTemplate="5,10,15" selection="#{messageBean.selectedMessages}" selectionMode="multiple">  
+                 rowsPerPageTemplate="5,10,15">  
   
 				        <f:facet name="header">  
 				             Expand rows to see detailed information  
@@ -109,7 +109,7 @@
 				  
 				        </p:rowExpansion>
 				        <f:facet name="footer">  
-				            <p:commandButton value="View" icon="icon-remove"  
+				            <p:commandButton value="Delete" icon="ui-icon-remove"  
 				                        update=":form" oncomplete=""/>  
 				        </f:facet>  
 				    </p:dataTable>    
