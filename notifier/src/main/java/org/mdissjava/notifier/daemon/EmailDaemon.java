@@ -16,6 +16,7 @@ import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.MdissNotificationDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.User;
+import org.mdissjava.notifier.event.DirectMessageEvent;
 import org.mdissjava.notifier.event.NewFollowerEvent;
 import org.mdissjava.notifier.event.ReportPhotoEvent;
 import org.mdissjava.notifier.event.VerifyAccountEvent;
@@ -58,6 +59,8 @@ public class EmailDaemon extends Daemon{
 	        			ReportPhotoEvent eventReceived = (ReportPhotoEvent)obj;
 	        			this.logger.info("New Photo Report event received {}", eventReceived.getEventType());
 	        			this.sendReportPhoto(eventReceived);
+	        		}else if(obj instanceof DirectMessageEvent) {
+	        			//TODO: Send Email
 	        		}
 	        		else
 	            		throw new IllegalStateException("Wrong message received");
