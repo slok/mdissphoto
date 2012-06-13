@@ -10,7 +10,11 @@
 		        var radius = 60;
 		        var startAngle = 1 * Math.PI;
 		        var endAngle = 0 * Math.PI;
-		        var startAngleVar = ((mark/10)+1) * Math.PI;
+		        var startAngleVar;
+		        if(mark==10.0)
+		              startAngleVar=((9.99/10)+1) * Math.PI;
+		          	else
+		              startAngleVar=((mark/10)+1) * Math.PI;
 		        var counterClockwise = false;
 		        //green
 		  		context2.beginPath();
