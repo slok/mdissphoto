@@ -29,6 +29,8 @@ public class SolrImportDataMySQL {
 			ex.printStackTrace();
 		}
 	}
+	
+	
 
 	public void createQuery() {
 		try {
