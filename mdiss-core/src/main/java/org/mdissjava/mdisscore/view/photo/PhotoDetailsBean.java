@@ -223,7 +223,7 @@ public class PhotoDetailsBean {
 		
 		DisqusJsonReader djr=new DisqusJsonReader();
 		try {
-			this.varAux+="/u/"+this.getPrettyfacesParams().getUserId()+"/photo/"+this.getPrettyfacesParams().getPhotoId();
+			this.varAux+="/u/"+this.getPrettyfacesParams().getUserId()+"/photo/"+this.getPrettyfacesParams().getPhotoId()+"/";
 			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.varAux);
 			this.setLikes(arrayAux.get(0));
 			this.setDislikes(arrayAux.get(1));
