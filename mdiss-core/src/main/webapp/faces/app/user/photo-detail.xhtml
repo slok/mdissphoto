@@ -123,6 +123,24 @@
 				</h:form>
 			</div>
 			
+			<!-- THE Report MODAL -->
+			<div class="modal hide fade" id="myModalReport">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">×</button>
+					<h3>Report abuse!</h3>
+				</div>
+				<h:form prependId="false">
+					<div class="modal-body">
+						<h:inputTextarea id="reportDescription"
+							value="#{photoDetailsBean.description}"/>
+					</div>
+					<div class="modal-footer">
+						<h:commandButton styleClass="btn btn-primary" value="Report"
+							type="submit" action="#{photoDetailsBean.reportNotification}" />
+					</div>
+				</h:form>
+			</div>
+			
 		
 			<!-- message-->
 			<div class="row-fluid">
@@ -176,41 +194,39 @@
 							<h:graphicImage styleClass="thumbnail center-thing" value="#{photoDetailsBean.detailedPhotoURL}" />
 						</div>
 					</div>
+					<br/>
 					<!-- Photo buttons -->
 					<div class="row-fluid">
 						<!-- size button -->
 						<div class="span12">
-								<div class="btn-group">   
-								<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-resize-full icon-white"></i> Size<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
-												<li>
-													<pretty:link mappingId="photo-size" >
-														<f:param value="#{photoDetailsBean.userNick}" />
-														<f:param value="#{photoDetailsBean.photoId}" />
-														<f:param value="#{size}" />
-														#{size}px
-													</pretty:link>
-												</li>
-										</ui:repeat>
-								
-									<li class="divider"></li>
-									<li>
-										<pretty:link mappingId="photo-size" >
-												<f:param value="#{photoDetailsBean.userNick}" />
-												<f:param value="#{photoDetailsBean.photoId}" />
-												<f:param value="original" />
-												Original
-										</pretty:link>
-									</li>
-								</ul>
-								
-								<!-- Tweet button -->
-								<h:form>
-									<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
-								</h:form>															
-							</div>
-							
+							<div class="row-fluid">
+								<div class="span2">
+									<a class="btn btn-danger" data-toggle="modal" href="#myModalReport"> <i class="icon-warning-sign icon-white"></i> Report</a>
+								</div>
+								<div class="span2">
+									<div class="btn-group">   
+										<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-resize-full icon-white"></i> Size<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
+														<li>
+															<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=scale.#{size}&amp;id=#{photoDetailsBean.photoId}">#{size}px</a>
+														</li>
+												</ui:repeat>
+										
+											<li class="divider"></li>
+											<li>
+												<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=original&amp;id=#{photoDetailsBean.photoId}">Original</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="span2">
+									<!-- Tweet button -->
+									<h:form>
+										<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
+									</h:form>
+								</div>
+							</div> <!-- Row fluid end -->
 						</div> <!-- span 12 end -->
 					</div> <!-- row end -->
 					

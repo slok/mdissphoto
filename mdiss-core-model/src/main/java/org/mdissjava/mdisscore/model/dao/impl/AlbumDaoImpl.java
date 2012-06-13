@@ -67,7 +67,7 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 			ops.set("title", album.getTitle());
 		}
 		if (album.getCreationDate() !=null){
-			ops.set("creationDay", album.getCreationDate());
+			ops.set("creationDate", album.getCreationDate());
 		}
 		if (album.getUserNick() != null){
 			ops.set("userNick", album.getUserNick());
