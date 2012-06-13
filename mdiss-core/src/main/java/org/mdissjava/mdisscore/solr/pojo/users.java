@@ -265,5 +265,18 @@ public class users {
 	public void setIsprivate(boolean isprivate) {
 		this.isprivate = isprivate;
 	}
+	
+	@Override
+	public String toString() {
+		return "usuario [id=" + id + ", city=" + city
+				+ ", country=" + country + ", state=" + state + ", street="
+				+ street + ", zip=" + zip + ", avatar=" + avatar
+				+ ", birthdate=" + birthdate + ", email=" + email + ", gender="
+				+ gender + ", lastsession=" + lastsession + ", name=" + name
+				+ ", nick=" + nick + ", pass=" + pass + ", phone=" + phone
+				+ ", preferences=" + preferences + ", registereddate="
+				+ registereddate + ", role=" + role + ", surname=" + surname
+				+ ", isprivate=" + isprivate +"]";
+	}
 
 }
