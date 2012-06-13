@@ -511,7 +511,10 @@ public class PhotoDetailsBean {
 
 	public float getMark() {
 		if(dislikes>0 || likes>0)
-			return (likes/(dislikes+likes))*10;
+			{
+			System.out.println("Mark: "+(likes/(dislikes+likes))*10);
+			return (Float.intBitsToFloat(likes)/(Float.intBitsToFloat(dislikes)+Float.intBitsToFloat(likes)))*10;
+			}
 		else
 			return 5;
 	}
