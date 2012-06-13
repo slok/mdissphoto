@@ -204,23 +204,13 @@
 								<ul class="dropdown-menu">
 									<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
 												<li>
-													<pretty:link mappingId="photo-size" >
-														<f:param value="#{photoDetailsBean.userNick}" />
-														<f:param value="#{photoDetailsBean.photoId}" />
-														<f:param value="#{size}" />
-														#{size}px
-													</pretty:link>
+													<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=scale.#{size}&amp;id=#{photoDetailsBean.photoId}">#{size}px</a>
 												</li>
 										</ui:repeat>
 								
 									<li class="divider"></li>
 									<li>
-										<pretty:link mappingId="photo-size" >
-												<f:param value="#{photoDetailsBean.userNick}" />
-												<f:param value="#{photoDetailsBean.photoId}" />
-												<f:param value="original" />
-												Original
-										</pretty:link>
+										<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=original&amp;id=#{photoDetailsBean.photoId}">Original</a>
 									</li>
 								</ul>
 								
