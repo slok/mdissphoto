@@ -53,9 +53,9 @@
      		
 		</ui:define>
 		
-		<ui:define name="body">			
+		<ui:define name="user_body">			
 
-	<div class="box centered">	
+	<div class="offset2 table table-condensed">	
 		<h:form id="form">				
 			<h:dataTable value="#{userBean.follows}" var="follow" >				
 					<div class="row-fluid">
@@ -64,7 +64,7 @@
 								<div class="span2">
 									<pretty:link mappingId="user-profile">
 										<f:param value="#{follow.nick}" />										
-												<img class="thumbnail"	src="http://placehold.it/60x60" alt="" />
+											<h:graphicImage  value="#{userBean.getThumbPhoto('0')}" />	
 									</pretty:link>	
 								</div>
 							</p:column>
@@ -72,13 +72,9 @@
 								<div class="span4 offset1" >
 										<pretty:link mappingId="user-profile">
 											<f:param value="#{follow.nick}" />
-												<div class="row-fluid">
-													#{follow.nick}
-												</div>
+												<div class="row-fluid">	#{follow.nick}</div>
 										</pretty:link>										
-									<div class="row-fluid">
-										#{follow.email}
-									</div>
+									<div class="row-fluid">#{follow.email}</div>
 								</div>
 							</p:column>
 							<p:column>
@@ -91,16 +87,14 @@
 				
 				<br/>
 			</h:dataTable>
-		</h:form>
+		</h:form>		
 		</div>
 		
-		<div id="page_navigation" class="pagination" >
+		<div id="page_navigation" class="pagination offset3" >
 
 		</div>
 
 	</ui:define>
 				
     </ui:composition>
-</html>
-				
-		
+</html>			
