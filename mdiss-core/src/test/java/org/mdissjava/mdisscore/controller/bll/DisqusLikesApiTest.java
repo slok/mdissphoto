@@ -19,7 +19,7 @@ public class DisqusLikesApiTest {
 	
 	final private String DISQUS_CONSUMER_KEY ="http://jboss.mdiss.info/mdissphoto/u/cerealguy/photo/7e9ff298-3e8c-4d8a-8ec5-5a0b83d57fea/";
 	
-/*	@Test
+	@Test
 	public void callDisqusTest() throws IllegalArgumentException, IOException {
 		DisqusJsonReader dqr=new DisqusJsonReader();
 		int likes = 0,dislikes;
@@ -34,7 +34,7 @@ public class DisqusLikesApiTest {
 			e.printStackTrace();
 		}
 		assertTrue(likes==1);	
-	}*/
+	}
 	
 	@Test
 	public void callAlternateDisqusTest() throws IllegalArgumentException, IOException {
@@ -49,7 +49,7 @@ public class DisqusLikesApiTest {
 			      String aux1="";
 			      String aux2="";
 			      boolean find=false;
-			 for(int i=1;i<As.length()-1;i++)
+			 for(int i=0;i<As.length();i++)
 				 {
 				 if(As.charAt(i)=='-')
 					 find=true;
