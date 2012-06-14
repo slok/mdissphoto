@@ -48,7 +48,6 @@ public class SecConfiguration{
 	
 	public String doSecuritySave() throws ServletException, IOException
 	{
-
 		userManager.saveUser(this.user);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Security settings updated"));
 		return null;

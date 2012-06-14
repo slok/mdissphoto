@@ -1,6 +1,7 @@
 package org.mdissjava.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -49,11 +50,17 @@ public class Users {
 		
 		user = userDao.getUserByNick(username);
 		
-		//System.out.println(user.getFollows());
-		
 		if (!user.equals(null))
 		{		
-			List<User> following = user.getFollows();
+			// We create another separate list (and fetch manually each followins one by one) to 
+			// avoid problems with hibernate
+			List<User> following = new ArrayList<User>();
+			List<User> users = user.getFollows();
+			
+			for (User u : users)
+			{
+				following.add(userDao.getUserById(u.getId()));
+			}
 			return Response.status(200).entity(following).build();
 		}
 		else
@@ -70,11 +77,18 @@ public class Users {
 		
 		user = userDao.getUserByNick(username);
 		
-		//System.out.println(user.getFollowers());
-		
 		if (!user.equals(null))
 		{
-			List<User> followers = user.getFollowers();
+			// We create another separate list (and fetch manually each followins one by one) to 
+			// avoid problems with hibernate
+			
+			List<User> followers = new ArrayList<User>();
+			List<User> users = user.getFollowers();
+			
+			for (User u : users)
+			{
+				followers.add(userDao.getUserById(u.getId()));
+			}		
 			return Response.status(200).entity(followers).build();
 		}
 		else
@@ -97,38 +111,6 @@ public class Users {
 			return Response.status(400).entity("Error retrieving user").build();
 	}
 	
-	/*
-	@PUT
-	@Path("/{username}")
-	@Consumes("application/json")
-	public Response updateUser(@PathParam("username") String username, User user){
-	
-	}
-	*/
-	/*
-	@POST
-	@Consumes("application/json")
-	public Response createUser(User user){
-		
-		//Test: curl -i -X POST -H Accept:application/json -H Content-Type:application/json  -d '{"title":"Me","userNick":"horl"}' '127.0.0.1:8080/mdissapi/api/1.0/albums/'
-		if (user != null){
-			
-			UserDao userDao = new UserDaoImpl();
-			
-			//search if the username or email already exists in DB
-			if (!userDao.getUserByNick(user.getNick()).equals(null))
-				return Response.status(400).entity("Username is taken").build();
-			if (!userDao.getUserByEmail(user.getEmail()).equals(null))
-				return Response.status(400).entity("Email already exists").build();
-			
-			//save in database
-			userDao.addUser(user);
-			return Response.status(200).entity("User asuccessfully created: " + user).build();
-			
-		}else
-			return Response.status(400).entity("Error creating user").build();
-	}
-	*/
 	@GET
 	@Path("/{username}/albums")
 	@Produces("application/json")

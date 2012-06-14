@@ -133,6 +133,22 @@ public class ApiHelper {
 		return httpGet;
 	}
 	
+	static public HttpGet assembleHttpGetData(String user, String key, String url) throws UnsupportedEncodingException{
+		//necessary data
+		String date =  new Date().toString();
+		String hmac =  ApiHelper.calculateHMAC(key, "", date, "GET", url);
+		
+		//create the client
+		HttpGet httpGet = new HttpGet(url);
+
+		//add headers
+		httpGet.addHeader(ApiHelper.HEADER_KEY_HMAC, hmac);
+		httpGet.addHeader(ApiHelper.HEADER_KEY_DATE, date);
+		httpGet.addHeader(ApiHelper.HEADER_KEY_USER, user);
+		
+		return httpGet;
+	}
+	
 	static public HttpPut assembleHttpPut(String user, String key, String data, String url) throws UnsupportedEncodingException{
 		//necessary data
 		String jsonMime = "application/json";

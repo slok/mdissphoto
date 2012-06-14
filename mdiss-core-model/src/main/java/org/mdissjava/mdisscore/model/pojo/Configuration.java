@@ -10,7 +10,7 @@ public class Configuration {
 	private boolean showNick;
 	
 	@Column(name="showname")
-	private boolean	showName;
+	private boolean showName;
 	
 	@Column(name="showsurname")
 	private boolean showSurname;
@@ -133,12 +133,10 @@ public class Configuration {
 	public void setShowCameras(boolean showCameras) {
 		this.showCameras = showCameras;
 	}
-
-	public boolean isPrivate() {
+	public boolean isIsPrivate() {
 		return isPrivate;
 	}
-
-	public void setPrivate(boolean isPrivate) {
+	public void setIsPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
 	}	
 }
