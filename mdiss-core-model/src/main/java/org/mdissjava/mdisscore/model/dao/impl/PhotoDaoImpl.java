@@ -177,7 +177,7 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 			
 			user = userDao.getUserByNick(photo.getAlbum().getUserNick());
 			
-			if (!(user.getConfiguration().isPrivate()))
+			if (!(user.getConfiguration().isIsPrivate()))
 			{
 				//add the photo to the list
 				photos.add(photo);

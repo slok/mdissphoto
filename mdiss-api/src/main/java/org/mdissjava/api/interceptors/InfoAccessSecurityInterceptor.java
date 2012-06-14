@@ -87,7 +87,7 @@ public class InfoAccessSecurityInterceptor implements PreProcessInterceptor {
 					{
 						if(!requestedUser.getNick().equals(user))
 						{
-							if ((!isFollowing) && (requestedUser.getConfiguration().isPrivate()))
+							if ((!isFollowing) && (requestedUser.getConfiguration().isIsPrivate()))
 									{
 								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
 								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();
@@ -117,7 +117,7 @@ public class InfoAccessSecurityInterceptor implements PreProcessInterceptor {
 						{
 							boolean isFollowing = userDao.followsUser(user, requestedAlbumOwner);
 							
-							if ((!isFollowing) && (requestedAlbumOwner.getConfiguration().isPrivate()))
+							if ((!isFollowing) && (requestedAlbumOwner.getConfiguration().isIsPrivate()))
 							{
 								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
 								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();
@@ -146,7 +146,7 @@ public class InfoAccessSecurityInterceptor implements PreProcessInterceptor {
 						{
 							boolean isFollowing = userDao.followsUser(user, requestedPhotoOwner);
 							
-							if ((!isFollowing) && (requestedPhotoOwner.getConfiguration().isPrivate()))
+							if ((!isFollowing) && (requestedPhotoOwner.getConfiguration().isIsPrivate()))
 							{
 								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
 								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();

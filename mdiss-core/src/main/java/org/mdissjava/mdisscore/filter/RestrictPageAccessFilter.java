@@ -57,7 +57,7 @@ public class RestrictPageAccessFilter implements Filter {
 			// boolean isFollowing = udao.followsUser(username, userLogged);
 			boolean isFollowing = udao.followsUser(loggedUser, requestedUser);
 			if ((!isFollowing)
-					&& (requestedUser.getConfiguration().isPrivate())
+					&& (requestedUser.getConfiguration().isIsPrivate())
 					&& (!requestedUser.getNick().equals(loggedUser))) {
 
 				// If they don't match send the naughty user to error page.
