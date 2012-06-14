@@ -6,11 +6,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.mdissjava.mdisscore.solr.pojo.photo;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMongo;
-import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMongoMain;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -85,7 +83,7 @@ public class SearcherBean {
 			//Invoke Load Mongo data function
 			new SolrImportDataMongo();
 			//create query
-			List<String> Jarraysearch = SolrImportDataMongoMain.searchingByField(selectedOption, searchText);
+			List<String> Jarraysearch = SolrImportDataMongo.searchingByField(selectedOption, searchText);
 			System.out.println("tam lista coincidencias searchingByField: " + Jarraysearch.size());
 			
 			//Retrieve JSON data to parse to Pojo class called 'photo'
