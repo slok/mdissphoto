@@ -52,7 +52,7 @@ public class users {
 	@Field
 	private String email;
 	@Field
-	private int gender;
+	private String gender;
 	@Field
 	private Date lastsession;
 	@Field
@@ -136,7 +136,7 @@ public class users {
 	public String getEmail() {
 		return email;
 	}
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 	public Date getLastsession() {
@@ -232,7 +232,7 @@ public class users {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setGender(int gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	public void setLastsession(Date lastsession) {
@@ -264,6 +264,19 @@ public class users {
 	}
 	public void setIsprivate(boolean isprivate) {
 		this.isprivate = isprivate;
+	}
+	
+	@Override
+	public String toString() {
+		return "usuario [id=" + id + ", city=" + city
+				+ ", country=" + country + ", state=" + state + ", street="
+				+ street + ", zip=" + zip + ", avatar=" + avatar
+				+ ", birthdate=" + birthdate + ", email=" + email + ", gender="
+				+ gender + ", lastsession=" + lastsession + ", name=" + name
+				+ ", nick=" + nick + ", pass=" + pass + ", phone=" + phone
+				+ ", preferences=" + preferences + ", registereddate="
+				+ registereddate + ", role=" + role + ", surname=" + surname
+				+ ", isprivate=" + isprivate +"]";
 	}
 
 }

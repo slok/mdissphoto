@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
-import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
@@ -25,6 +24,8 @@ import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.mdissjava.notifier.event.manager.NotificationManager;
+import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -67,18 +68,10 @@ public class PhotoDetailsBean {
 	private Map<String, String> metadataMap;
 	private String informationMessage = "";
 
-	private String selectedAlbum; 
-	private List<String> albumTitles;
-	private int totalVotesPoints;
-	private String myTags;
 	private PhotoManagerImpl photoManager;
-	private AlbumManagerImpl albumManager;
-	private List<Photo> photosFromTag;
-	private List<Album> albumList;
-	private Album album;
-	private String misTags;
-	
+	private Album album;	
 	private String varAux;
+	private String description;
 	
 	public PhotoDetailsBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -95,8 +88,7 @@ public class PhotoDetailsBean {
 			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
 		
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
-			photoManager = new PhotoManagerImpl(datastore);
-			albumManager = new AlbumManagerImpl(datastore);
+			this.photoManager = new PhotoManagerImpl(datastore);
 			
 			this.photo = photoManager.searchPhotoUniqueUtil(photoId);
 			
@@ -107,6 +99,7 @@ public class PhotoDetailsBean {
 			//String app = request.getContextPath();
 			//System.out.println(host + String.valueOf(port) + app);
 			String url = Utils.getCurrentUrl(request);
+			this.varAux=url;
 			this.publicLink = url + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
 			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
 			
@@ -183,29 +176,7 @@ public class PhotoDetailsBean {
 			{
 				if(!i.getPhotoId().equals(this.photoId))
 					this.thumbnailIds.add(i.getPhotoId());
-			}
-			
-			//get the album from the photo
-			String albumTitle = this.photo.getAlbum().getTitle();
-			//get all the albums from the userNick
-			this.albumList = albumManager.findUserAlbums(this.userNick);			
-			this.albumTitles = new ArrayList<String>();
-			List<String> otherAlbumTitles = new ArrayList<String>();
-			for (Album a: albumList)
-			{	
-				//insert the first the album of that photo
-				if(a.getTitle().equals(albumTitle)){
-					this.albumTitles.add(a.getTitle());
-				}
-				else {
-					otherAlbumTitles.add(a.getTitle());
-				}
-			}
-			//add the others map at the end of the list
-			this.albumTitles.addAll(otherAlbumTitles);
-			
-			// get total votes from the photoId
-			this.totalVotesPoints = photoManager.getTotalVotesFromPhoto(this.photoId);
+			}		
 			
 			
 		} catch (IllegalArgumentException e) {
@@ -218,8 +189,8 @@ public class PhotoDetailsBean {
 		
 		DisqusJsonReader djr=new DisqusJsonReader();
 		try {
-			this.varAux=this.publicLink;
-			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.publicLink);
+			this.varAux+="/u/"+this.getPrettyfacesParams().getUserId()+"/photo/"+this.getPrettyfacesParams().getPhotoId()+"/";
+			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.varAux);
 			this.setLikes(arrayAux.get(0));
 			this.setDislikes(arrayAux.get(1));
 		} catch (IOException e) {
@@ -274,6 +245,28 @@ public class PhotoDetailsBean {
 					" There was an error eith the tweet. Try again please </div>";
 		}
 	} 
+	
+	public void reportNotification(){
+		
+		try{
+			
+			//throw photo upload event
+			NotificationManager notifier = NotificationManager.getInstance();
+			ReportPhotoObservable rpo = notifier.getReportPhotoObservable();
+			rpo.reportPhoto(loggedUserNick, photoId, description);
+			
+			this.informationMessage  = "<div class=\"alert alert-success\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+					" Reported succesfully</div>";
+			
+		}catch(Exception e){
+			this.informationMessage  = "<div class=\"alert alert-error\">" +
+					"<button class=\"close\" data-dismiss=\"alert\">×</button>" +
+				" There was an error reporting. Try again please</div>";
+		}
+		
+		
+	}
 	
 	public String getPhotoId() {
 		return photoId;
@@ -343,7 +336,6 @@ public class PhotoDetailsBean {
 		return metadataKeys;
 	}
 
-
 	public void setMetadataKeys(List<String> metadataKeys) {
 		this.metadataKeys = metadataKeys;
 	}
@@ -398,66 +390,7 @@ public class PhotoDetailsBean {
 	public void setPublicLink(String publicLink) {
 		this.publicLink = publicLink;
 	}
-
-	public List<String> getAlbumTitles() {
-		return this.albumTitles;
-	}
-	
-	public void setAlbumTitles(List<String> albumTitles) {
-		this.albumTitles = albumTitles;
-	}
-	
-	public String getSelectedAlbum() { 
-		return selectedAlbum;
-	}
-	
-	public void setSelectedAlbum(String selectedAlbum) {
-		this.selectedAlbum = selectedAlbum;
-	}
-
-	public int getTotalVotesPoints() {
-		return totalVotesPoints;
-	}
-	
-	public void setTotalVotesPoints(int totalVotesPoints) {
-		this.totalVotesPoints = totalVotesPoints;
-	}
-
-	public String getMyTags() {
-		List<String> tags = this.photo.getTags();
-		myTags = tags.toString();
-		return myTags;
-	}
-
-	public void setMyTags(String myTags) {
-		this.myTags = myTags;
-	}
-	
-	public List<Photo> getPhotosFromTag() {
-		return photosFromTag;
-	}
-
-	public void setPhotosFromTag(List<Photo> photosFromTag) {
-		this.photosFromTag = photosFromTag;
-	}
-
-	public List<Album> getAlbumList() {
-		return albumList;
-	}
-	
-	public void setAlbumList(List<Album> albumList) {
-		this.albumList = albumList;
-	}
-	
-	public String getMisTags() {
-		return misTags;
-	}
-
-	public void setMisTags(String misTags) {
-		System.out.println("Mistags: " + misTags);
-		this.misTags = misTags;
-	}
-	
+		
 	public int getLikes() {
 		return likes;
 	}
@@ -474,13 +407,32 @@ public class PhotoDetailsBean {
 		this.dislikes = dislikes;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public float getMark() {
 		if(dislikes>0 || likes>0)
-			return (likes/(dislikes+likes))*10;
+			{
+			System.out.println("Mark: "+(likes/(dislikes+likes))*10);
+			return (Float.intBitsToFloat(likes)/(Float.intBitsToFloat(dislikes)+Float.intBitsToFloat(likes)))*10;
+			}
 		else
 			return 5;
 	}
 
+	public String getVarAux() {
+		return varAux;
+	}
+
+	public void setVarAux(String varAux) {
+		this.varAux = varAux;
+	}
+	
 	private ParamsBean getPrettyfacesParams()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -508,72 +460,8 @@ public class PhotoDetailsBean {
 		
 		
 	}
-	
-	public void saveSettings()
-	{
-		System.out.println("saveSettings");
-		String allTags = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("misTags");
-		System.out.println("allTags: " + allTags);		
-		System.out.println("title: " + photo.getTitle());
-		System.out.println("PhotoDetailsBean.doSave()");
-		Album readNewAlbum = null;
-		
-		//add the album to database
-			if(!this.photo.getTitle().equals("")){
-		
-				//get the photo
-				this.photo.setTitle(this.photo.getTitle());
-									
-				//get the tags
-				System.out.println("Tags photo: " + this.photo.getTags());
-				if (!allTags.equals(""))
-				{ 
-					//get the list of tags from the photo
-					List<String> newTagList = Utils.splitTags(allTags, ",");
-					// add the new tags to the prevous list stored in db
-					System.out.println("tags: " + newTagList.toString());
-					this.photo.setTags(newTagList);						
-				}			
-				//update modified photo
-				this.photoManager.updatePhoto(this.photo);
 
-				
-				//get the new object album from title selected
-				Album newAlbum = new Album();
-				newAlbum.setTitle(this.selectedAlbum);
-				List<Album> readListAlbum = albumManager.findAlbum(newAlbum);
-				//add the new photo to the album has found previously 
-				if(readListAlbum != null) {
-					readNewAlbum = readListAlbum.get(0);
-					// check if newAlbum is the same, if there are not the same move the album
-					if(!readNewAlbum.getAlbumId().equals(this.photo.getAlbum().getAlbumId())) {
-						try {
-							albumManager.movePhotoToAlbum(this.userNick, readNewAlbum.getAlbumId(), this.photo);
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}						
-						
-					}
-					
-				}
-				
-				//Navigation to photo-detail view
-				String outcome = "pretty:photo-detail";
-				FacesContext facesContext =  FacesContext.getCurrentInstance();
-				facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
-			}
-			
-	}
 
-	public String getVarAux() {
-		return varAux;
-	}
-
-	public void setVarAux(String varAux) {
-		this.varAux = varAux;
-	}
 
 
 	
