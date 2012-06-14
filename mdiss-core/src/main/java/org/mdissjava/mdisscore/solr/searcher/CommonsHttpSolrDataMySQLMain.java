@@ -7,7 +7,7 @@ public class CommonsHttpSolrDataMySQLMain {
 	public static void main(String[] args) throws MalformedURLException {
 		
 		CommonsHttpSolrDataMySQL conex = new CommonsHttpSolrDataMySQL();
-		conex.createQuery();
+		conex.searchingByField("nick", "user");
 	}
 
 }
