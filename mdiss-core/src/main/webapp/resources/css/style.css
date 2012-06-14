@@ -1,13 +1,27 @@
 body
 {
 	background-image:url("#{resource['img:bg.png']}");
+	margin-top: 20px;
 }
 #global
 {
   /*background-image:url("#{resource['img:bg.png']}");*/
    	padding-top: 60px;
     padding-bottom: 40px;
+}
 
+.bold{
+	font-weight:bold;
+}
+
+.settings{
+	margin-top: 10px;
+	padding: 25px;
+}
+
+.sTitle{
+	font-weight:bold;
+	padding-left: 10px;
 }
 
 .alert-normal{
