@@ -10,11 +10,13 @@
 		<br/>
 		<ui:composition>
 			<div class="well settings">
-		    	<h:form>    	
+		    	<h:form id="secSet">    	
 					<div><p:growl id="Sec_growl" showDetail="true" sticky="true" redisplay="false" /></div>
 					<div>
 						<i class="icon-lock"/><h:outputText value=" Make account private: "/>
-						<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.isPrivate}" />  			  	
+						<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.isPrivate}" >  
+							<p:ajax event="click" update="sCheckbox1 sCheckbox2 sCheckbox3 sCheckbox4 sCheckbox5 sCheckbox6 sCheckbox7 sCheckbox8 sCheckbox9 sCheckbox10 sCheckbox11 sCheckbox12" listener="#{secConfiguration.disableCheckboxes}" />		
+						</p:selectBooleanCheckbox>	  	
 					</div>
 					<p:separator />
 					<div>
@@ -23,43 +25,43 @@
 					  			<td>
 					  				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 								        <h:outputText value="Show nick: " />  
-								        <p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showNick}" />  
+								        <p:selectBooleanCheckbox id="sCheckbox1" value="#{secConfiguration.user.configuration.showNick}" disabled="#{secConfiguration.disabled}"/>  
 								  
 								        <h:outputText value="Show name: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showName}" />   
+							        	<p:selectBooleanCheckbox id="sCheckbox2" value="#{secConfiguration.user.configuration.showName}" disabled="#{secConfiguration.disabled}" />   
 										
 								        <h:outputText value="Show surname: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showSurname}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox3" value="#{secConfiguration.user.configuration.showSurname}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							     		<h:outputText value="Show email: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showEmail}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox4" value="#{secConfiguration.user.configuration.showEmail}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							    		<h:outputText value="Show birthdate: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showBirthdate}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox5" value="#{secConfiguration.user.configuration.showBirthdate}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							     		<h:outputText value="Show phone: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showPhone}" />
+							        	<p:selectBooleanCheckbox id="sCheckbox6" value="#{secConfiguration.user.configuration.showPhone}" disabled="#{secConfiguration.disabled}" />
 							        </h:panelGrid>	 
 								</td>
 								<td>
 									<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 							     		<h:outputText value="Show gender: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showGender}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox7" value="#{secConfiguration.user.configuration.showGender}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							     		<h:outputText value="Show address: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showAddress}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox8" value="#{secConfiguration.user.configuration.showAddress}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							        	<h:outputText value="Show city: " />  
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showCity}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox9" value="#{secConfiguration.user.configuration.showCity}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							        	<h:outputText value="Show country: " />  				        				        					        	 				        	     				         
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showCountry}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox10" value="#{secConfiguration.user.configuration.showCountry}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							        	<h:outputText value="Show zip code: " />  				        				        					        	 				        	     				
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showZip}" /> 
+							        	<p:selectBooleanCheckbox id="sCheckbox11" value="#{secConfiguration.user.configuration.showZip}" disabled="#{secConfiguration.disabled}" /> 
 							        	
 							        	<h:outputText value="Show cameras: " />  				        				        					        	 				        	     				      
-							        	<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.showCameras}" />
+							        	<p:selectBooleanCheckbox id="sCheckbox12" value="#{secConfiguration.user.configuration.showCameras}" disabled="#{secConfiguration.disabled}" />
 							        </h:panelGrid> 					        	
 								</td>
 					  		</tr>
