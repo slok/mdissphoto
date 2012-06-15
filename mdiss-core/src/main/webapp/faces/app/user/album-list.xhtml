@@ -35,10 +35,20 @@
 			<!-- TODO: Alert for feedback to the user -->
 			
 			<div class="row-fluid">
-			  <div class="span12">	
-			  	<div class="well centered">	 
-			  		<div class="centeredText">#{albumBean.owner} Albums</div>
+			 	<div class="span12">	
+			  		<div class="ribbonContainer">
+			  			<div class="ribbon">
+			  				<div class="ribbon-stitches-top"></div>
+			  				<strong class="ribbon-content"> 
+			  					<h1>#{albumBean.owner} Albums</h1>
+			  				</strong>
+			  				<div class="ribbon-stitches-bottom"></div>
+			  			</div> 
+			  		</div>
 				</div>
+			</div>
+			<div class="row-fluid">
+			  <div class="span12">	
 			  	<div class="box centered">
 		    		<ui:repeat value="#{albumBean.albumPhotosURLs}" var="albums" varStatus="status">
 		    			<div id="thumbAlbum" class="thumb">

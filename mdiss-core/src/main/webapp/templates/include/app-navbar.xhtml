@@ -72,7 +72,8 @@
 				</ul>
 				<ul class="nav pull-right">
 					<li>
-					 <h:outputText styleClass="navbar-text" value="Logged in as #{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}"/>
+					 <h:outputText styleClass="navbar-text" value="Logged in as " rendered="#{dashboardBean.user != 'anonymousUser'}"/>
+					 <h:outputText id="navUsername" styleClass="navbar-text" value="#{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}"/>
 					 <h:outputText styleClass="navbar-text" value="Login" rendered="#{dashboardBean.user == 'anonymousUser'}" /> 
 					
 					</li>
