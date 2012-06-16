@@ -59,6 +59,7 @@ public class SolrImportDataMySQL {
 				listaUsers.add(gson.toJson(user));
 			}
 		    System.out.println("listaUsuarios: " + listaUsers.size());
+		    return listaUsers;
 			
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block

@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.mdissjava.mdisscore.solr.pojo.photo;
 import org.mdissjava.mdisscore.solr.pojo.users;
+import org.mdissjava.mdisscore.solr.searcher.CommonsHttpSolrDataMongo;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMongo;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMySQL;
 
@@ -186,6 +187,48 @@ public class SearcherBean {
 
 	}
 
+	public void importHttpSolrDataMongo(String selectedOption, String searchText){
+		System.out.println("SearcherBean.importHttpSolrDataMongo()");
+		if(!searchText.equals("")) {
+			try {			
+				//Invoke Load Mongo data function
+				new CommonsHttpSolrDataMongo();
+				//create query
+				List<String> Jarraysearch = CommonsHttpSolrDataMongo.searchingByField(selectedOption, searchText);
+				System.out.println("tam lista coincidencias searchingByField: " + Jarraysearch.size());
+				
+				//Retrieve JSON data to parse to Pojo class called 'photo'
+				JsonParser parser = new JsonParser();
+				this.photos = new ArrayList<photo>();			
+				for (String jstring : Jarraysearch) {
+					JsonObject jsonObject = parser.parse(jstring).getAsJsonObject();
+					photo fromJson = new Gson().fromJson(jsonObject, photo.class);
+	//				System.out.println("fromJson: " + fromJson.getTitleFoto());				
+					this.photos.add(fromJson);
+				}	
+				//TODO llamar al metodo photoPagination	(cargar el valor de currentPage)		
+	//			this.photoPagination(currentPage, MAXENTRIES_PHOTO);
+				//LISTAR DATOS
+				int i= 0;
+				System.out.println("lista photos: " + this.photos.size());
+				for (photo p : this.photos) {
+					i += 1;
+					System.out.print("Ind " + i + ": " + "Photo title: " + p.getTitleFoto() + " , Album Title: " + p.getTitleAlbum() + " , Tags: ");				
+					String[] tags = p.getTags();
+					for (String tag : tags) {
+						System.out.print("[" + tag + ", ");
+					}
+					System.out.print("]");
+					System.out.println();
+				}						
+
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		
+	}
 	
 
 	public List<String> getSearchOptions() {

@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 public class CommonsHttpSolrDataMongo {
 	
 	private static final String URL = "http://jboss.mdiss.info/solr/mongo";
-	private CommonsHttpSolrServer server;
+	private static CommonsHttpSolrServer server;
 	
 	
 	public CommonsHttpSolrDataMongo() throws MalformedURLException{
@@ -33,7 +33,7 @@ public class CommonsHttpSolrDataMongo {
 	/*
 	 * busca por todos los titulos de las fotos
 	 */	
-	public List<String> searchingByField(String filterField, String searchText){
+	public static List<String> searchingByField(String filterField, String searchText){
 			List<String> listaFotos = null;
 			
 			System.out.println("SolrImportDataMongoMain.searchingByFotoTitle()");			
