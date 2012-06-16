@@ -3,6 +3,8 @@ package org.mdissjava.mdisscore.controller.bll.impl;
 import java.io.IOException;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
@@ -146,6 +148,11 @@ public class UserManagerImpl implements UserManager {
 	public void deleteFollower(String userNickname, User follower) {
 		userDao.deleteFollower(userNickname, follower);
 
+	}
+
+	@Override
+	public int getTotalUsers() {		
+		return userDao.getTotalUsers();
 	}
 
 }

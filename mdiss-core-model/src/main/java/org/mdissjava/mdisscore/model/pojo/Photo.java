@@ -215,14 +215,41 @@ public class Photo {
 	{
 		float puntos=0;
 		for(Vote voto : this.votes)
-		{puntos+=voto.getPoints();}
-		return puntos/this.votes.size();
+		{
+			puntos+=voto.getPoints();
+		}
+		if(this.votes.size()>0)
+			{	
+				System.out.println("Mark: ***"+puntos/this.votes.size());
+				return puntos/this.votes.size();
+			}
+		
+		else
+		{
+			System.out.println("Mark: ***"+puntos);
+			return puntos;
+		}
 		
 	}
 	
 	public void addVote(Vote e)
 	{
-		this.votes.add(e);
+		boolean New=true;
+		for(int i=0;i<this.votes.size();i++)
+		{
+			if(this.votes.get(i).getIdUser().equals(e.getIdUser()))
+			{
+				this.votes.get(i).setDate(e.getDate());
+				this.votes.get(i).setPoints(e.getPoints());
+				System.out.println("Update vote");
+				New=false;
+			}
+		}
+		if(New)
+		{
+			this.votes.add(e);
+			System.out.println("Added vote");
+		}
 	}
 
 	/**

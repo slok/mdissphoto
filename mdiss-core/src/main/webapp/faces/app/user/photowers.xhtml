@@ -26,22 +26,14 @@
 
      			var navigation_html = '<ul>';
      			var current_link = 0;
-
-     			/*  navigation_html += '<li class="previous_link">';
-     			  navigation_html += '<a href="javascript:previous();">&larr; Previous</a>';
-     			  navigation_html += '</li>';*/
      		      	     			  
      			 while(number_of_pages != current_link ) {
      				current_link++;
      			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
        			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
-       			 	//navigation_html += '<a href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link) +'</a>';
      			    navigation_html += '</li>';     			  
      			 }
      			  
-     			/*  navigation_html += '<li>';
-     			  navigation_html += '<a class="next_link" href="javascript:next();">Next &rarr;</a>';
-     			  navigation_html += '</li>'; */
      			  navigation_html += '</ul>';
      			  
      			 $('#page_navigation').html(navigation_html);
@@ -54,31 +46,12 @@
      			      			      		     		
      		});
      		
-     		function previous(){
-   			  new_page = #{userBean.page}-1;
-   			  //if there is an item before the current active link run the function
-   			  if($('.active').prev('.page_link').length==true){
-   			    go_to_page(new_page);
-   			  }
-     		}
-     		
-     		function next(){
-     		  new_page = #{userBean.page}-1;
-       		  //if there is an item before the current active link run the function
-       		  if($('.active').prev('.page_link').length==true){
-       		    go_to_page(new_page);
-       		  }
-         	}
-     		
-     		function go_to_page(new_page){
-     			
-     		}
      		
      		</script>
 
 	</ui:define>
 
-	<ui:define name="user_body">
+	<ui:define name="body">
 
 		<div class="offset2 table table-condensed">
 			<h:form id="form">
@@ -88,8 +61,8 @@
 							<p:column>
 								<div class="span2">
 									<pretty:link mappingId="user-profile">
-										<f:param value="#{follower.nick}" />
-									    <h:graphicImage  value="#{userBean.getThumbPhoto('0')}" />			
+										<f:param value="#{follower.nick}" />					
+									    <h:graphicImage value="/dynamic/image?db=#{userBean.thumbnailDatabase}&amp;bucket=#{userBean.thumbnailBucket}&amp;id=#{follower.avatar}"/>
 									</pretty:link>
 								</div>
 							</p:column>

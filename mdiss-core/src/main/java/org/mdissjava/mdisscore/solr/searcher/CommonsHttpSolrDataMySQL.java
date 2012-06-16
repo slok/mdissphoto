@@ -2,7 +2,6 @@ package org.mdissjava.mdisscore.solr.searcher;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -12,7 +11,6 @@ import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.core.CoreContainer;
 import org.mdissjava.mdisscore.solr.pojo.users;
 
 import com.google.gson.Gson;
@@ -20,7 +18,7 @@ import com.google.gson.Gson;
 public class CommonsHttpSolrDataMySQL {
 	
 	private static final String URL = "http://jboss.mdiss.info/solr/mysql";
-	private CommonsHttpSolrServer server;
+	private static CommonsHttpSolrServer server;
 	
 	
 	public CommonsHttpSolrDataMySQL() throws MalformedURLException{
@@ -33,7 +31,7 @@ public class CommonsHttpSolrDataMySQL {
 	}
 	
 	
-	public List<String> searchingByField(String filterField, String searchText){
+	public static List<String> searchingByField(String filterField, String searchText){
 		List<String> listaUsers = null;
 		
 		System.out.println("CommonsHttpSolrDataMySQL.searchingByField()");			
@@ -55,6 +53,7 @@ public class CommonsHttpSolrDataMySQL {
 				listaUsers.add(gson.toJson(user));
 			}
 		    System.out.println("listaUsuarios: " + listaUsers.size());
+		    return listaUsers;
 			
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
