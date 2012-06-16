@@ -19,7 +19,7 @@
      		
      		$(document).ready(function() { 
      			
-     			var show_per_page = 2;
+     			var show_per_page = #{userBean.maxNumberConnections};
      			var number_of_items = #{fn:length(userBean.user.follows)}
      			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
 
