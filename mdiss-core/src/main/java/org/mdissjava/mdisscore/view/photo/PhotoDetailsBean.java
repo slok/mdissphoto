@@ -485,6 +485,11 @@ public class PhotoDetailsBean {
 		System.out.println("Setrating****"+rating);
 		this.rating = rating;
 	}
+	
+	public Integer getNumberOfVotes()
+	{
+		return this.photo.getVotes().size();
+	}
 
 	
 }
