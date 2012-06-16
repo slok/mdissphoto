@@ -22,7 +22,7 @@ public class users {
 	@Field
 	private String zip;
 	@Field
-	private int avatar;
+	private String avatar;
 	@Field
 	private Date birthdate;
 	@Field
@@ -91,7 +91,7 @@ public class users {
 	public String getZip() {
 		return zip;
 	}
-	public int getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 	public Date getBirthdate() {
@@ -187,7 +187,7 @@ public class users {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	public void setAvatar(int avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 	public void setBirthdate(Date birthdate) {

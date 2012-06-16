@@ -44,7 +44,7 @@ public class User implements Serializable {
 	private Gender gender;	
 	private Date birthdate;	
 	private int phone;
-	private int avatar;
+	private String avatar;
 	
 	@Column(name="registereddate")
 	private Date registeredDate;	
@@ -153,11 +153,11 @@ public class User implements Serializable {
 		this.phone = phone;
 	}
 	
-	public int getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 	
-	public void setAvatar(int avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 	

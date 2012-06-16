@@ -6,8 +6,8 @@ public class SolrImportDataMySQLMain {
 	
 	public static void main(String[] args) throws MalformedURLException {
 		
-		SolrImportDataMySQL conex = new SolrImportDataMySQL();
-		conex.createQuery();
+		new SolrImportDataMySQL();
+		SolrImportDataMySQL.searchingByField("nick", "user");
 	}
 
 }

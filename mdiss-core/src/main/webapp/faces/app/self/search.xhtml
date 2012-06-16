@@ -28,7 +28,6 @@
 		<ui:define name="body">
 			<h:form>
 				<!-- Search option -->
-				
 		    	<div class="row-fluid">
 					<div class="span3">				
 			      		<h1 class="photo-title"><h:outputLabel value="Search options: " /></h1>		 
@@ -37,7 +36,7 @@
 			            </p:selectOneMenu> 
 		       		</div>
  					<div class="span3" align="left">
-						<h1 class="photo-title"><h:outputLabel value="Search Text:"/></h1>						
+						<h1 class="photo-title"><h:outputLabel value="Search Text: *"/></h1>						
 						<div class="span10">				
 			      			<p:inputText id="photoTitle" value="#{searcherBean.searchText}" label="searchText"/>
 			      		</div>	
@@ -55,7 +54,7 @@
 				</div>	           	            
 			</h:form>
 			
-			<!-- LISTADO DE BUSQUEDA -->
+			<!-- SEARCH LIST OF PHOTOS, ALBUM, TAGS -->
 			<h:form id="form" rendered="#{searcherBean.photos != null}">
 				<h:dataTable value="#{searcherBean.photos}" var="photo">
 					<div class="row-fluid">
@@ -80,12 +79,50 @@
 								<f:facet name="header">
 						             <h:outputText class="photo-title" value="Tags" />
 						         </f:facet>
+								<div class="span6" align="left">
+									<ul class="tags">
+										<ui:repeat value="#{photo.tags}" var="tag">
+								 			<li id="listaTags">
+								 				<i class="icon-tags"/> 
+								 				#{tag}					 		 			 		
+								 			</li>
+							 			</ui:repeat>
+							 		</ul>
+								</div>
+							</p:column>							
+						</div>
+					</div>
+					<br />
+				</h:dataTable>
+			</h:form>
+			
+			<!-- SEARCH LIST OF USERS -->
+			<h:form id="formMysql" rendered="#{searcherBean.users != null}">
+				<h:dataTable value="#{searcherBean.users}" var="user">
+					<div class="row-fluid">
+						<div class="span6">							
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Name" />
+						         </f:facet>
 								<div class="span4" align="center">
-									<ui:repeat value="#{photo.tags}" var="tag">
-							 			<li id="listaTags">
-							 				#{tag}					 		 			 		
-							 			</li>
-						 			</ui:repeat>
+									#{user.name}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Surname" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.surname}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Nick" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.nick}
 								</div>
 							</p:column>							
 						</div>

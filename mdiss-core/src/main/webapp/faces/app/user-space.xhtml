@@ -4,15 +4,21 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
       xmlns:ui="http://java.sun.com/jsf/facelets">  
     
     <ui:composition template="/templates/app-space.xhtml">
       
-		<ui:define name="title">USER</ui:define>
-		
-		<ui:define name="body">
-								
-		</ui:define>
-				
-    </ui:composition>
+	<ui:define name="title">USER</ui:define>
+
+	<ui:define name="body">			
+
+			<ui:insert name="body">
+
+
+			</ui:insert>
+
+	</ui:define>
+
+</ui:composition>
 </html>

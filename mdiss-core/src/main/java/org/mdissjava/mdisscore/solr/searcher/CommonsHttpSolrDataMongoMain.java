@@ -6,8 +6,8 @@ public class CommonsHttpSolrDataMongoMain {
 	
 	public static void main(String[] args) throws MalformedURLException {
 		
-		CommonsHttpSolrDataMongo conex = new CommonsHttpSolrDataMongo();
-		conex.searchingByField("titleFoto", "Iris");
+		new CommonsHttpSolrDataMongo();
+		CommonsHttpSolrDataMongo.searchingByField("titleFoto", "Iris");
 	}
 
 }

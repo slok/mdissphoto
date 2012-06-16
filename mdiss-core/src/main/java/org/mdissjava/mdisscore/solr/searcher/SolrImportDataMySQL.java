@@ -18,7 +18,8 @@ import com.google.gson.Gson;
 
 public class SolrImportDataMySQL {
 
-	private static final String SOLR_HOME = "C:/servers/jboss7/standalone/deployments/mdissSearch/solr";
+//	private static final String SOLR_HOME = "C:/servers/jboss7/standalone/deployments/mdissSearch/solr";
+	private static final String SOLR_HOME = "D:/jboss/jboss-as-7.0.2.Final/standalone/deployments/mdissphoto/solr";
 	private static final String CORE_NAME = "mysql";
 	private static EmbeddedSolrServer server;
 
@@ -58,6 +59,7 @@ public class SolrImportDataMySQL {
 				listaUsers.add(gson.toJson(user));
 			}
 		    System.out.println("listaUsuarios: " + listaUsers.size());
+		    return listaUsers;
 			
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
