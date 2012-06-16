@@ -33,6 +33,8 @@ public class SearcherBean {
 	private final String OPTION_TITLEALBUM ="albums";
 	private final String OPTION_TAGS ="tags";
 	private final String OPTION_USERS ="users";
+	private final int MAXENTRIES_PHOTO = 5;
+	private int currentPage;
 	
 	private ArrayList<photo> photos;
 	private ArrayList<users> users;
@@ -80,6 +82,11 @@ public class SearcherBean {
 		
 	}
 
+	/**
+	 * import data from table photos of Mysql
+	 * @param selectedOption
+	 * @param searchText
+	 */
 	public void importarFotosMongo(String selectedOption, String searchText) {
 		try {			
 			System.out.println("SearcherBean.importarFotosMongo()");
@@ -98,6 +105,9 @@ public class SearcherBean {
 //				System.out.println("fromJson: " + fromJson.getTitleFoto());				
 				this.photos.add(fromJson);
 			}	
+			//TODO llamar al metodo photoPagination	(cargar el valor de currentPage)		
+			this.photoPagination(currentPage, MAXENTRIES_PHOTO);
+			//LISTAR DATOS
 			int i= 0;
 			System.out.println("lista photos: " + this.photos.size());
 			for (photo p : this.photos) {
@@ -109,20 +119,18 @@ public class SearcherBean {
 				}
 				System.out.print("]");
 				System.out.println();
-			}
-			
-			//Navigation to search-detail view
-//			String outcome = "pretty:search-details";
-//			FacesContext facesContext =  FacesContext.getCurrentInstance();
-//			facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
-//			
-			
+			}						
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 *  import data from table users of Mysql
+	 * @param selectedOption
+	 * @param searchText
+	 */
 	public void importarUsersMysql(String selectedOption, String searchText) {
 		System.out.println("SearcherBean.importarUsersMysql()");
 		//Invoke Load MySql data function
@@ -155,6 +163,24 @@ public class SearcherBean {
 		}
 		
 		
+	}
+
+	/**
+	 *  Get the range of photoArray to show in the table
+	 * @param currentPage
+	 * @param maxEntries
+	 * @return List<photo>
+	 */
+	private List<photo> photoPagination(int currentPage, int maxEntries) {
+		List<photo> photos = new ArrayList<photo>();
+		int startRange = maxEntries * (currentPage - 1);
+		int finalRange = (startRange + maxEntries) - 1;
+		List<photo> photoRange = new ArrayList<photo>(); 
+		for(int i= startRange; i< finalRange; i++){
+			photoRange.add(photos.get(i));
+		}	
+		return photoRange;
+
 	}
 
 	
@@ -215,7 +241,13 @@ public class SearcherBean {
 		this.users = users;
 	}
 
-	
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
 		
-	
 }
