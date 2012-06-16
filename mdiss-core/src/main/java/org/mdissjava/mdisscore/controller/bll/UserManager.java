@@ -26,5 +26,6 @@ public interface UserManager {
 	boolean followsUser(String userNickname, User follow);
 	void deleteFollow (String userNickname, User follow);
 	void deleteFollower(String userNickname, User follower);
+	int getTotalUsers();
 }
 	
