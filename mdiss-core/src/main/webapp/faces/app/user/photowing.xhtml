@@ -60,7 +60,7 @@
 								<div class="span2">
 									<pretty:link mappingId="user-profile">
 										<f:param value="#{follow.nick}" />										
-											<h:graphicImage  value="#{userBean.getThumbPhoto('0')}" />	
+											<h:graphicImage value="/dynamic/image?db=#{userBean.thumbnailDatabase}&amp;bucket=#{userBean.thumbnailBucket}&amp;id=#{follow.avatar}"/>
 									</pretty:link>	
 								</div>
 							</p:column>

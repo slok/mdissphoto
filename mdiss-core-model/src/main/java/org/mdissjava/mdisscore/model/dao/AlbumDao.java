@@ -12,4 +12,6 @@ public interface AlbumDao {
 	void updateAlbum(Album album);
 
 	void deleteAlbum(Album album);
+
+	int getTotalAlbums();
 }

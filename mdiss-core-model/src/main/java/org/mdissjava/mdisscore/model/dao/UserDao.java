@@ -10,6 +10,8 @@ import org.mdissjava.mdisscore.model.pojo.User;
 public interface UserDao {
 
 
+	Object getTotalUsers = null;
+
 	void addUser(User user); 
 	
 	void updateUser(User user);
@@ -49,4 +51,6 @@ public interface UserDao {
 	User getUserByEmail(String email);
 
 	List<User> getUserByRole(String role);
+
+	int getTotalUsers();
 }

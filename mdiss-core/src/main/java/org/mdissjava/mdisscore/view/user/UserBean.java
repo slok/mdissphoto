@@ -1,7 +1,6 @@
 package org.mdissjava.mdisscore.view.user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -9,12 +8,9 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
-import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
-import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
-import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.springframework.security.core.Authentication;
@@ -31,12 +27,15 @@ public class UserBean {
 
 	private List<User> follows;
 	private List<User> followers;
-	private List<String> photoURLs;
 	
 	private UserManager userManager;	
-	private PhotoManager photoManager;
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+	
+	private String thumbnailBucket = "square.75";
+	private String thumbnailDatabase = "images";
+	private Datastore datastore;
+	
 		
 	private User user;	
 	private int page;
@@ -58,8 +57,7 @@ public class UserBean {
 		try {
 			propertiesFacade = new PropertiesFacade();
 			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);	
-			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
-			photoManager = new PhotoManagerImpl(datastore);
+			datastore = MorphiaDatastoreFactory.getDatastore(database);
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -94,26 +92,7 @@ public class UserBean {
 	}
 
 	public List<User> getFollows() {
-		this.follows = userManager.findFollows(user.getNick(), page);
-		
-		try {
-				String bucketPropertyKey = "thumbnail.square.75px.bucket.name";
-				String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
-				photoURLs = new ArrayList<String>();
-				
-				for (User u:follows){
-					Photo photo = photoManager.searchPhotoUniqueUtil(u.getAvatar());					
-					photoURLs.add("/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+photo.getDataId());
-				}
-					
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+		this.follows = userManager.findFollows(user.getNick(), page);		
 		return this.follows;
 	}
 	
@@ -122,25 +101,7 @@ public class UserBean {
 	}
 	
 	public List<User> getFollowers() {
-		this.followers = userManager.findFollowers(user.getNick(), page);		
-						
-		try {
-			String bucketPropertyKey = "thumbnail.square.75px.bucket.name";
-			String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
-			photoURLs = new ArrayList<String>();
-			
-			for (User u:followers){
-				Photo photo = photoManager.searchPhotoUniqueUtil(u.getAvatar());					
-				photoURLs.add("/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+photo.getDataId());
-			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
+		this.followers = userManager.findFollowers(user.getNick(), page);														
 		return this.followers;
 	}
 	
@@ -169,13 +130,22 @@ public class UserBean {
 	}
 
 
-	public List<String> getPhotoURLs() {
-		return photoURLs;
+	public String getThumbnailBucket() {
+		return thumbnailBucket;
 	}
 
-	public void setPhotoURLs(List<String> photoURLs) {
-		this.photoURLs = photoURLs;
+	public void setThumbnailBucket(String thumbnailBucket) {
+		this.thumbnailBucket = thumbnailBucket;
 	}
+
+	public String getThumbnailDatabase() {
+		return thumbnailDatabase;
+	}
+
+	public void setThumbnailDatabase(String thumbnailDatabase) {
+		this.thumbnailDatabase = thumbnailDatabase;
+	}
+
 
 	private String retrieveSessionUserNick() {
 	  //Get the current logged user's username
@@ -187,11 +157,6 @@ public class UserBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
 		return pb;
-	}
-	
-	public String getThumbPhoto(String index){		
-		int pos = Integer.valueOf(index);
-		return this.photoURLs.get(pos);		
-	}
+	}	
 	
 }

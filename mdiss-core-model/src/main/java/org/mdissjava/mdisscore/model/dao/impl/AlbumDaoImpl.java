@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.dao.BasicDAO;
@@ -84,5 +85,10 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 
 		ds.delete(album);
 
+	}
+
+	@Override
+	public int getTotalAlbums() {
+		return ((Long)ds.createQuery(Album.class).countAll()).intValue();
 	}
 }
