@@ -134,6 +134,26 @@
 		<view-id value="/faces/app/user/user-profile.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="photowers">
+		<pattern value="/u/#{user:paramsBean.userId}/photowers/" />
+		<view-id value="/faces/app/user/photowers.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photowers_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowers/#{page:paramsBean.page}" />
+		<view-id value="/faces/app/user/photowers.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photowing">
+		<pattern value="/u/#{user:paramsBean.userId}/photowing/" />
+		<view-id value="/faces/app/user/photowing.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="photowing_pag">
+		<pattern value="/u/#{user:paramsBean.userId}/photowing/#{page:paramsBean.page}"/>
+		<view-id value="/faces/app/user/photowing.jsf" />
+	</url-mapping>
+	
 	<url-mapping id="album-list">
 		<pattern value="/u/#{user:paramsBean.userId}/albums/" />
 		<view-id value="/faces/app/user/album-list.jsf" />
@@ -157,27 +177,7 @@
 	<url-mapping id="photo-size">
 		<pattern value="/u/#{user:paramsBean.userId}/photo/#{photo:paramsBean.photoId}/#{size:paramsBean.size}/" />
 		<view-id value="/faces/app/user/photo-size.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="photowers">
-		<pattern value="/u/#{user:paramsBean.userId}/photowers/" />
-		<view-id value="/faces/app/user/photowers.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="photowers_pag">
-		<pattern value="/u/#{user:paramsBean.userId}/photowers/#{page:paramsBean.page}" />
-		<view-id value="/faces/app/user/photowers.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="photowing">
-		<pattern value="/u/#{user:paramsBean.userId}/photowing/" />
-		<view-id value="/faces/app/user/photowing.jsf" />
-	</url-mapping>
-	
-	<url-mapping id="photowing_pag">
-		<pattern value="/u/#{user:paramsBean.userId}/photowing/#{page:paramsBean.page}"/>
-		<view-id value="/faces/app/user/photowing.jsf" />
-	</url-mapping>
+	</url-mapping>		
 
 	<url-mapping id="tag-detail">
 	    <pattern value="/l/tag/#{tag:paramsBean.tag}/user/#{user:paramsBean.userId}/" />
@@ -198,7 +198,7 @@
 
 	<!-- Admin -->
 	<url-mapping id="admin">
-		<pattern value="/admin/" />
+		<pattern value="/a/" />
 		<view-id value="/faces/admin/admin-index.jsf" />
 	</url-mapping>	
 </pretty-config>

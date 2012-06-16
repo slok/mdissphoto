@@ -1,17 +1,26 @@
 package org.mdissjava.mdisscore.view.user;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
+import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.google.code.morphia.Datastore;
 
 @RequestScoped
 @ManagedBean
@@ -22,14 +31,18 @@ public class UserBean {
 
 	private List<User> follows;
 	private List<User> followers;
+	private List<String> photoURLs;
 	
 	private UserManager userManager;	
+	private PhotoManager photoManager;
+	private final String GLOBAL_PROPS_KEY = "globals";
+	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+		
 	private User user;	
 	private int page;
 	
-
-	
-	
+	PropertiesFacade propertiesFacade;
+	String database;
 	
 	public UserBean() {
 		ParamsBean pb = getPrettyfacesParams();
@@ -40,7 +53,20 @@ public class UserBean {
 		this.userId = pb.getUserId();
 		this.userManager = new UserManagerImpl();			
 		this.userNickname = retrieveSessionUserNick();	
-		this.user = userManager.getUserByNick(this.userId);			
+		this.user = userManager.getUserByNick(this.userId);	
+		
+		try {
+			propertiesFacade = new PropertiesFacade();
+			database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);	
+			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+			photoManager = new PhotoManagerImpl(datastore);
+			database = propertiesFacade.getProperties("globals").getProperty("images.db");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+						
 	}
 		
 	public String getUserId() {
@@ -69,6 +95,25 @@ public class UserBean {
 
 	public List<User> getFollows() {
 		this.follows = userManager.findFollows(user.getNick(), page);
+		
+		try {
+				String bucketPropertyKey = "thumbnail.square.75px.bucket.name";
+				String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
+				photoURLs = new ArrayList<String>();
+				
+				for (User u:follows){
+					Photo photo = photoManager.searchPhotoUniqueUtil(u.getAvatar());					
+					photoURLs.add("/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+photo.getDataId());
+				}
+					
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		return this.follows;
 	}
 	
@@ -77,7 +122,25 @@ public class UserBean {
 	}
 	
 	public List<User> getFollowers() {
-		this.followers = userManager.findFollowers(user.getNick(), page);
+		this.followers = userManager.findFollowers(user.getNick(), page);		
+						
+		try {
+			String bucketPropertyKey = "thumbnail.square.75px.bucket.name";
+			String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
+			photoURLs = new ArrayList<String>();
+			
+			for (User u:followers){
+				Photo photo = photoManager.searchPhotoUniqueUtil(u.getAvatar());					
+				photoURLs.add("/dynamic/image?db="+database+"&amp;bucket="+bucket+"&amp;id="+photo.getDataId());
+			}
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
 		return this.followers;
 	}
 	
@@ -105,6 +168,15 @@ public class UserBean {
 		this.page = page;
 	}
 
+
+	public List<String> getPhotoURLs() {
+		return photoURLs;
+	}
+
+	public void setPhotoURLs(List<String> photoURLs) {
+		this.photoURLs = photoURLs;
+	}
+
 	private String retrieveSessionUserNick() {
 	  //Get the current logged user's username
 	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -117,5 +189,9 @@ public class UserBean {
 		return pb;
 	}
 	
+	public String getThumbPhoto(String index){		
+		int pos = Integer.valueOf(index);
+		return this.photoURLs.get(pos);		
+	}
 	
 }

@@ -22,29 +22,34 @@
 						<ul class="dropdown-menu">
 							<li>
 								<pretty:link mappingId="dashboard" >
+									<i class="icon-th-large"/>
 									Dashboard
 								</pretty:link>
 							</li>
 							<li>
 								<pretty:link mappingId="album-list" >
 									<f:param value="#{dashboardBean.user}" />
+									<i class="icon-folder-open"/>
 									Albums
 								</pretty:link>
 							</li>
 							<li>
 								<pretty:link mappingId="photowers" >
 									<f:param value="#{dashboardBean.user}" />
+									<i class="icon-random"/>
 									Connections
 								</pretty:link>
 							</li>
 							<li>
 								<pretty:link mappingId="messages-in" >
+									<i class="icon-envelope"/>
 									Messages <span class="badge badge-important"><h:outputText value="#{actualMessageReadBean.number}" /></span>
 								</pretty:link>
 							</li>
 							<li>
 								<pretty:link mappingId="user-profile" >
 									<f:param value="#{dashboardBean.user}" />
+									<i class="icon-user"/>
 									Profile
 								</pretty:link>
 							</li>
@@ -53,11 +58,13 @@
 					
 					<li>
 						<pretty:link mappingId="upload" >
+							<i class="icon-upload icon-white"/>
 							Upload
 						</pretty:link>
 					</li>
 					<li>
 						<pretty:link mappingId="search" >
+							<i class="icon-search icon-white"/>
 							Search
 						</pretty:link>
 					</li>
@@ -75,12 +82,14 @@
 						<ul class="dropdown-menu">
 							<li>
 								<pretty:link mappingId="settings" >
+									<i class="icon-wrench"/>
 									Settings
 								</pretty:link>
 							</li>
 							<li class="divider"></li>
 							<li>
 								<pretty:link mappingId="logout" >
+									<i class="icon-off"/>
 									Logout
 								</pretty:link>
 							</li>

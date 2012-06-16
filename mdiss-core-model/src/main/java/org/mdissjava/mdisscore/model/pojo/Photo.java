@@ -206,6 +206,24 @@ public class Photo {
 	public void setVote(List<Vote> votes) {
 		this.votes = votes;
 	}
+	/**
+	*
+	*@param mark
+	 *            the media
+	*/
+	public float getMark()
+	{
+		float puntos=0;
+		for(Vote voto : this.votes)
+		{puntos+=voto.getPoints();}
+		return puntos/this.votes.size();
+		
+	}
+	
+	public void addVote(Vote e)
+	{
+		this.votes.add(e);
+	}
 
 	/**
 	 * Gets the upload date.
