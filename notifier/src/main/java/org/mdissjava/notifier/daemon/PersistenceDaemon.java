@@ -101,6 +101,11 @@ public class PersistenceDaemon extends Daemon {
 		followerNotification.setRead(false);
 		followerNotification.setSelfUserName(event.getSelfUserName());
 		
+		//is for a private accept notification?
+		String token = event.getPrivateProfileAcceptToken();
+		if (token != null)
+			followerNotification.setPrivateProfileAcceptToken(token);
+		
 		notificationDao.insertMdissNotification(followerNotification);
 	}
 	

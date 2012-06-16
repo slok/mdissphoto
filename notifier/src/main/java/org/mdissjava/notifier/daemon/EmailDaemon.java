@@ -106,6 +106,8 @@ public class EmailDaemon extends Daemon{
 		User selfUser = userDao.getUserByNick(eventReceived.getSelfUserName());
 		String email = selfUser.getEmail();
 	
+		//TODO private profile accept notificacion
+		
 		//send follower email
 		try {
 			EmailUtils.sendFollowerEmail(email, username, followerUsername);

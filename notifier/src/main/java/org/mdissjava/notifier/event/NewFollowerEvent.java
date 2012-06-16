@@ -1,11 +1,11 @@
 package org.mdissjava.notifier.event;
 
-import java.util.Date;
 
 public class NewFollowerEvent extends MdissEvent {
 
 	private String followerUsername;
 	private String selfUserName;
+	private String privateProfileAcceptToken;
 
 	public NewFollowerEvent(String selfUsername, String followerUsername) {
 		super("newFollower");
@@ -31,5 +31,14 @@ public class NewFollowerEvent extends MdissEvent {
 		this.selfUserName = selfUserName;
 	}
 
+	public String getPrivateProfileAcceptToken() {
+		return privateProfileAcceptToken;
+	}
+
+	public void setPrivateProfileAcceptToken(String privateProfileAcceptToken) {
+		this.privateProfileAcceptToken = privateProfileAcceptToken;
+	}
+
+	
 
 }
