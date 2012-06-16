@@ -474,6 +474,7 @@ public class PhotoDetailsBean {
 		 voto.setIdUser(this.loggedUserNick);
 		 voto.setPoints(((Integer) rateEvent.getRating()).intValue());
 		 this.photo.addVote(voto);
+		 this.photoManager.updatePhoto(this.photo);
 	    }
 
 	public Integer getRating() {
