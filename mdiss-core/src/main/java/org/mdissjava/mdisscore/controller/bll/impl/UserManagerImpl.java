@@ -116,10 +116,15 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void addFollow(String userNickname, User follow) {
-		userDao.addFollow(userNickname, follow);
+		
 		NotificationManager notifier = NotificationManager.getInstance();
 		NewFollowerObservable nfo = notifier.getNewFollowerObservable();
-		nfo.newFollower(follow.getNick(), userNickname);
+		//if is not private then add the follow
+		if (!follow.getConfiguration().isIsPrivate()){
+			userDao.addFollow(userNickname, follow);
+			nfo.newFollower(follow.getNick(), userNickname);
+		}else
+			nfo.newPrivateFollower(follow.getNick(), userNickname);
 	}
 
 	@Override
