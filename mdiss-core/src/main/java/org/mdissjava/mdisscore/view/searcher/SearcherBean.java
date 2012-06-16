@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import org.mdissjava.mdisscore.solr.pojo.photo;
 import org.mdissjava.mdisscore.solr.pojo.users;
 import org.mdissjava.mdisscore.solr.searcher.CommonsHttpSolrDataMongo;
+import org.mdissjava.mdisscore.solr.searcher.CommonsHttpSolrDataMySQL;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMongo;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMySQL;
 
@@ -34,7 +35,7 @@ public class SearcherBean {
 	private final String OPTION_TITLEALBUM ="albums";
 	private final String OPTION_TAGS ="tags";
 	private final String OPTION_USERS ="users";
-	private final int MAXENTRIES_PHOTO = 5;
+//	private final int MAXENTRIES_PHOTO = 5;
 	private int currentPage;
 	
 	private ArrayList<photo> photos;
@@ -60,23 +61,23 @@ public class SearcherBean {
 		System.out.println("Search option: " + this.selectedOption);
 		
 		if(this.selectedOption.equals(OPTION_USERS)){
-			importarUsersMysql(SOLR_MYSQL_USERS, searchText);
+			importHttpSolrDataMysql(SOLR_MYSQL_USERS, searchText);
 			System.out.println(OPTION_USERS);			
 		}
 		
 		else if(this.selectedOption.equals(OPTION_TITLEFOTO)){
 			System.out.println("searching... " + SOLR_MONGO_TITLEFOTO);
-			importarFotosMongo(SOLR_MONGO_TITLEFOTO, searchText);
+			importHttpSolrDataMongo(SOLR_MONGO_TITLEFOTO, searchText);
 			System.out.println(OPTION_TITLEFOTO);
 		}
 		
 		else if (this.selectedOption.equals(OPTION_TITLEALBUM)){
-			importarFotosMongo(SOLR_MONGO_TITLEALBUM, searchText);
+			importHttpSolrDataMongo(SOLR_MONGO_TITLEALBUM, searchText);
 			System.out.println(OPTION_TITLEALBUM);
 		}
 		
 		else if (this.selectedOption.equals(OPTION_TAGS)){
-			importarFotosMongo(SOLR_MONGO_TAGS, searchText);
+			importHttpSolrDataMongo(SOLR_MONGO_TAGS, searchText);
 			System.out.println(OPTION_TAGS);
 		}
 			
@@ -84,7 +85,7 @@ public class SearcherBean {
 	}
 
 	/**
-	 * import data from table photos of Mysql
+	 * import data from table photos of Mongo
 	 * @param selectedOption
 	 * @param searchText
 	 */
@@ -187,6 +188,11 @@ public class SearcherBean {
 
 	}
 
+	/**
+	 * import data from table photos of Mongo connecting to the server
+	 * @param selectedOption
+	 * @param searchText
+	 */
 	public void importHttpSolrDataMongo(String selectedOption, String searchText){
 		System.out.println("SearcherBean.importHttpSolrDataMongo()");
 		if(!searchText.equals("")) {
@@ -229,6 +235,47 @@ public class SearcherBean {
 
 		
 	}
+	
+	/**
+	 *  import data from table users of Mysql connecting to the server
+	 * @param selectedOption
+	 * @param searchText
+	 */
+	public void importHttpSolrDataMysql(String selectedOption, String searchText) {
+		System.out.println("SearcherBean.importarHttpSolrDataMysql()");
+		if(!searchText.equals("")) {
+			//Invoke Load MySql data function
+			try {
+				new CommonsHttpSolrDataMySQL();
+				
+				//create query
+				List<String> Jarraysearch = CommonsHttpSolrDataMySQL.searchingByField(selectedOption, searchText);
+				System.out.println("tam lista coincidencias searchingByField: " + Jarraysearch.size());
+				
+				//Retrieve JSON data to parse to Pojo class called 'users'
+				JsonParser parser = new JsonParser();
+				this.users = new ArrayList<users>();			
+				for (String jstring : Jarraysearch) {
+					JsonObject jsonObject = parser.parse(jstring).getAsJsonObject();
+					users fromJson = new Gson().fromJson(jsonObject, users.class);
+	//			System.out.println("fromJson: " + fromJson.getTitleFoto());				
+					this.users.add(fromJson);
+				}	
+				int i= 0;
+				System.out.println("lista users: " + this.users.size());
+				for (users u : this.users) {
+					i += 1;
+					System.out.println("Ind " + i + ": " + "Username: " + u.getName() + " , surname: " + u.getSurname() + " , nick: " + u.getNick());				
+				}
+							
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+
 	
 
 	public List<String> getSearchOptions() {

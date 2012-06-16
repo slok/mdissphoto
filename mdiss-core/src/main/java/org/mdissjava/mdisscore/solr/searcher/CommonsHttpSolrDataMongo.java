@@ -55,6 +55,7 @@ public class CommonsHttpSolrDataMongo {
 					listaFotos.add(gson.toJson(photo));
 				}
 			    System.out.println("listaFotos: " + listaFotos.size());
+			    return listaFotos;
 				
 			} catch (SolrServerException e) {
 				// TODO Auto-generated catch block
