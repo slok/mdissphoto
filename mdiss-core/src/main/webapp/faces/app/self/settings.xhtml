@@ -23,17 +23,23 @@
 
 
 	<ui:define name="body">
-
-		<div class="tabbable tabs-left">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab">Personal info</a></li>
-				<li><a href="#tab2" data-toggle="tab">Privacy settings</a></li>
-				<li><a href="#tab3" data-toggle="tab">Geographical settings</a></li>
-				<li><a href="#tab4" data-toggle="tab">API settings</a></li>
+	<div class="container-fluid">
+	<div class="row-fluid">
+	<div class="span3">
+		<div class="well tabbable tabs-left">
+			<ul class="nav nav-list">
+				<li class="nav-header"> Settings </li>
+				<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-user"></i> Personal info </a></li>
+				<li><a href="#tab2" data-toggle="tab"><i class="icon-eye-close"></i> Privacy settings </a></li>
+				<li><a href="#tab3" data-toggle="tab"><i class="icon-globe"></i> Geographical settings </a></li>
+				<li><a href="#tab4" data-toggle="tab"><i class="icon-certificate"></i> API settings </a></li>
 			</ul>
+		</div>
+	</div>
+	<div class="span9">
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
-					<h2>Update your profile info</h2>
+					<h2 class="sTitle">Update your profile info</h2>
 					<ui:insert name="PerSettingContent" >
 						<ui:include src="/faces/app/self/settings/per-settings.xhtml"/>
 					</ui:insert>	
@@ -41,7 +47,7 @@
 				</div>
 				<div class="tab-pane" id="tab2">
 				
-					 <h2>Configure your privacy settings</h2>
+					 <h2 class="sTitle">Configure your privacy settings</h2>
 					 <ui:insert name="SecSettingContent" >
 						<ui:include src="/faces/app/self/settings/sec-settings.xhtml"/>
 					</ui:insert>
@@ -49,19 +55,21 @@
 				</div>
 				<div class="tab-pane" id="tab3">
 				
-					 <h2>Configure your geographical settings</h2>
+					 <h2 class="sTitle">Configure your geographical settings</h2>
 					<ui:insert name="GeoSettingContent" >
 						<ui:include src="/faces/app/self/settings/geo-settings.xhtml"/>
 					</ui:insert>
 				</div>
 				<div class="tab-pane" id="tab4">
 				
-					 <h2>Configure your APIs settings</h2>
+					 <h2 class="sTitle">Configure your APIs settings</h2>
 					<ui:insert name="ApiSettingContent" >
 						<ui:include src="/faces/app/self/settings/api-settings.xhtml"/>
 					</ui:insert>
 				</div>
 		</div>
+	</div>
+	</div>
 	</div>
 
 	</ui:define>

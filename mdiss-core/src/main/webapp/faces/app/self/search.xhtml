@@ -8,10 +8,128 @@
     
     <ui:composition template="/faces/app/self-space.xhtml">
       
-		<ui:define name="title">SEARCH</ui:define>
+		<ui:define name="head">
+     		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'/>     		
+     		<!-- for the album thumbnail slider -->
+     		<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery-1.7.1.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="http://ryrych.github.com/rcarousel/widget/lib/jquery.ui.rcarousel.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>		
+      	</ui:define>	
+		
+		<ui:define name="title">
+				Mdissphoto 
+			</ui:define>
+			
+		<ui:define name="header">	
+		</ui:define>
 		
 		<ui:define name="body">
-								
+			<h:form>
+				<!-- Search option -->
+				
+		    	<div class="row-fluid">
+					<div class="span3">				
+			      		<h1 class="photo-title"><h:outputLabel value="Search options: " /></h1>		 
+			      		<p:selectOneMenu value="#{searcherBean.selectedOption}">  			                 
+			               <f:selectItems value="#{searcherBean.searchOptions}"/>  			                 
+			            </p:selectOneMenu> 
+		       		</div>
+ 					<div class="span3" align="left">
+						<h1 class="photo-title"><h:outputLabel value="Search Text:"/></h1>						
+						<div class="span10">				
+			      			<p:inputText id="photoTitle" value="#{searcherBean.searchText}" label="searchText"/>
+			      		</div>	
+		       		</div>					
+	            </div>
+	            <div class="row-fluid">
+	            	<div class="span3" style="margin-right: 10px" />
+	            </div>	         
+	            
+	            <div class="row-fluid">
+					<!-- SEARCH -->
+					<div class="span6">
+						<h:commandButton styleClass="btn btn-primary" style="float:right; margin-right:40px;" value="Search" type="submit" actionListener="#{searcherBean.search}"/>
+					</div>								
+				</div>	           	            
+			</h:form>
+			
+			<!-- SEARCH LIST OF PHOTOS, ALBUM, TAGS -->
+			<h:form id="form" rendered="#{searcherBean.photos != null}">
+				<h:dataTable value="#{searcherBean.photos}" var="photo">
+					<div class="row-fluid">
+						<div class="span6">							
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Photo Title" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{photo.titleFoto}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Album Title" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{photo.titleAlbum}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Tags" />
+						         </f:facet>
+								<div class="span4" align="center">
+									<ui:repeat value="#{photo.tags}" var="tag">
+							 			<li id="listaTags">
+							 				#{tag}					 		 			 		
+							 			</li>
+						 			</ui:repeat>
+								</div>
+							</p:column>							
+						</div>
+					</div>
+					<br />
+				</h:dataTable>
+			</h:form>
+			
+			<!-- SEARCH LIST OF USERS -->
+			<h:form id="formMysql" rendered="#{searcherBean.users != null}">
+				<h:dataTable value="#{searcherBean.users}" var="user">
+					<div class="row-fluid">
+						<div class="span6">							
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Name" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.name}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Surname" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.surname}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Nick" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.nick}
+								</div>
+							</p:column>							
+						</div>
+					</div>
+					<br />
+				</h:dataTable>
+			</h:form>
+			
+											
 		</ui:define>
 				
     </ui:composition>

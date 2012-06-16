@@ -19,11 +19,14 @@ import org.jboss.resteasy.spi.interception.PreProcessInterceptor;
 import org.mdissjava.api.helpers.ApiHelper;
 import org.mdissjava.mdisscore.model.dao.AlbumDao;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.dao.impl.AlbumDaoImpl;
 import org.mdissjava.mdisscore.model.dao.impl.PhotoDaoImpl;
+import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +35,7 @@ import com.google.code.morphia.Datastore;
 
 @Provider
 @ServerInterceptor
-public class ModificationSecurityInterceptor implements PreProcessInterceptor {
+public class InfoAccessSecurityInterceptor implements PreProcessInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final String DATABASE =  "mdissphoto";
@@ -46,26 +49,14 @@ public class ModificationSecurityInterceptor implements PreProcessInterceptor {
 		//get neccesary data
 		Map<String, List<String>> headers = request.getHttpHeaders().getRequestHeaders();
 			
-		this.logger.info("Executing Modification Security Interceptor");
+		this.logger.info("Executing Info Access Security Interceptor");
 	
 		String method = request.getHttpMethod();
 		String user = headers.get(ApiHelper.HEADER_KEY_USER).get(0);
 		URI uri = request.getUri().getAbsolutePath();
 		
-		if (method.equals("PUT") || method.equals("DELETE"))
+		if (method.equals("GET"))
 		{
-
-			/*  The URLs follow a fixed pattern:
-			 * 
-			 * 			/mdissapi/api/{version}/keyword/{value}/[keyword2]/[{value}]/
-			 * 
-			 *  [ ] => Optional
-			 * 
-			 *  Therefore, we know that the values are in the 4th and 6th position of 
-			 *  the URL starting from the word /mdissapi/ (being this last 0 position). 
-			 *  
-			 */
-			
 			String path = uri.getPath().toString();
 			String[] uriData = path.substring(1, path.length()-1).split("/");
 			
@@ -76,14 +67,6 @@ public class ModificationSecurityInterceptor implements PreProcessInterceptor {
 			String value1 = uriData[4];
 			hm.put(keyword1, value1);
 			
-			if(uriData.length > 5)
-			{
-				//2nd set of keyword/value
-				String keyword2 = uriData[5];
-				String value2 = uriData[6];
-				hm.put(keyword2, value2);					
-			}
-			
 			Iterator it = hm.entrySet().iterator();
 
 			while (it.hasNext()) 
@@ -92,7 +75,27 @@ public class ModificationSecurityInterceptor implements PreProcessInterceptor {
 				
 				//TODO: Reflection instead of a simple "if else" to do this? 
 				
-				if (e.getKey().toString().toLowerCase().indexOf("album") != -1)
+				if (e.getKey().toString().toLowerCase().indexOf("user") != -1)
+				{
+					User requestedUser = new User();		
+					UserDao userDao = new UserDaoImpl();
+					
+					requestedUser = userDao.getUserByNick(e.getValue().toString());
+					boolean isFollowing = userDao.followsUser(user, requestedUser);
+					
+					if (requestedUser != null)
+					{
+						if(!requestedUser.getNick().equals(user))
+						{
+							if ((!isFollowing) && (requestedUser.getConfiguration().isIsPrivate()))
+									{
+								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
+								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();
+									}	
+						}
+					}
+				}
+				else if (e.getKey().toString().toLowerCase().indexOf("album") != -1)
 				{
 					Album album = new Album();
 					album.setAlbumId(e.getValue().toString());
@@ -102,12 +105,25 @@ public class ModificationSecurityInterceptor implements PreProcessInterceptor {
 					
 					if(albums.size() == 1)
 					{
-						if(!albums.get(0).getUserNick().equals(user))
+						Album requestedAlbum = new Album();
+						requestedAlbum = albums.get(0);
+						
+						UserDao userDao = new UserDaoImpl();
+						
+						User requestedAlbumOwner = new User();		
+						requestedAlbumOwner = userDao.getUserByNick(requestedAlbum.getUserNick());
+					
+						if(!requestedAlbumOwner.getNick().equals(user))
 						{
-							logger.error("[ERROR] " + method + " not allowed: Object " + e.getValue() + " is not " + user + " user's");
-							return (ServerResponse) Response.status(400).entity("Error:  Object " + e.getValue() + " is not " + user + " user's").build();
+							boolean isFollowing = userDao.followsUser(user, requestedAlbumOwner);
+							
+							if ((!isFollowing) && (requestedAlbumOwner.getConfiguration().isIsPrivate()))
+							{
+								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
+								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();
+							}	
 						}
-					}			
+					}
 				}
 				else if (e.getKey().toString().toLowerCase().indexOf("photo") != -1)
 				{
@@ -119,20 +135,30 @@ public class ModificationSecurityInterceptor implements PreProcessInterceptor {
 					
 					if(photos.size() == 1) 
 					{
-						if (!photos.get(0).getAlbum().getUserNick().equals(user))
+						Photo requestedPhoto = new Photo();
+						requestedPhoto = photos.get(0);
+						
+						UserDao userDao = new UserDaoImpl();
+						
+						User requestedPhotoOwner = new User();		
+						requestedPhotoOwner = userDao.getUserByNick(requestedPhoto.getAlbum().getUserNick());
+						if(!requestedPhotoOwner.getNick().equals(user))
 						{
-							logger.error("[ERROR] " + method + " not allowed: Object " + e.getValue() + " is not " + user + " user's");
-							return (ServerResponse) Response.status(400).entity("Error:  Object " + e.getValue() + " is not " + user + " user's").build();
-						}	
-					}
+							boolean isFollowing = userDao.followsUser(user, requestedPhotoOwner);
+							
+							if ((!isFollowing) && (requestedPhotoOwner.getConfiguration().isIsPrivate()))
+							{
+								this.logger.error("FORBIDDEN ACCESS EVENT: User {} tried to access restricted area.", user);
+								return (ServerResponse) Response.status(400).entity("Access error:  User " + user + " tried to access restricted area.").build();
+							}
+						}
+					}				
 				}
 				
 				return null;
-				
 			}
 		}
 		
 		return null;
 	}
-
 }

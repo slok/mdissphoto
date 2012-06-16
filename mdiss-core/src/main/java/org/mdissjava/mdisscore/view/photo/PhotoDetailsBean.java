@@ -187,7 +187,9 @@ public class PhotoDetailsBean {
 			e.printStackTrace();
 		}
 		
-		DisqusJsonReader djr=new DisqusJsonReader();
+		
+		//Disqus Data Code ,// Not Run in the deusto University
+	/*	DisqusJsonReader djr=new DisqusJsonReader();
 		try {
 			this.varAux+="/u/"+this.getPrettyfacesParams().getUserId()+"/photo/"+this.getPrettyfacesParams().getPhotoId()+"/";
 			ArrayList<Integer> arrayAux=djr.readLikesAndDislikes(this.varAux);
@@ -199,7 +201,7 @@ public class PhotoDetailsBean {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		

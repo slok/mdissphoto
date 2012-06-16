@@ -7,11 +7,17 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">  
       
 		<ui:define name="sec_body">
+		<br/>
 		<ui:composition>
-			    	<h:form>
-			    	
-						<div><p:growl id="Sec_growl" showDetail="true" sticky="true" redisplay="false" /></div>
-						<div>
+			<div class="well settings">
+		    	<h:form>    	
+					<div><p:growl id="Sec_growl" showDetail="true" sticky="true" redisplay="false" /></div>
+					<div>
+						<i class="icon-lock"/><h:outputText value=" Make account private: "/>
+						<p:selectBooleanCheckbox value="#{secConfiguration.user.configuration.isPrivate}" />  			  	
+					</div>
+					<p:separator />
+					<div>
 						<table>
 					  		<tr>
 					  			<td>
@@ -58,12 +64,12 @@
 								</td>
 					  		</tr>
 					   </table>
-					   </div>
-					   <p:separator />
-					   <h:commandButton styleClass="btn btn-primary btn-medium"
-									actionListener="#{secConfiguration.doSecuritySave}" value="Save" update="Sec_growl" />
-
-					</h:form>
+				   </div>
+				   <p:separator />
+				   <h:commandButton styleClass="btn btn-primary btn-large"
+								actionListener="#{secConfiguration.doSecuritySave}" value="Save" update="Sec_growl" />
+				</h:form>
+			</div>
 		</ui:composition>
 		</ui:define>
 </html>

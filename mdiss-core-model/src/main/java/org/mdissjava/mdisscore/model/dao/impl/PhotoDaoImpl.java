@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.PhotoDao;
+import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.pojo.User;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.dao.BasicDAO;
@@ -143,9 +145,12 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException{
 		
 		List<Photo> photos = new ArrayList<Photo>();
+		int i = 0;
+		int tries = quantity*2;
 		
 		//get randomly elements
-		for (int i=0; i<quantity; i++){
+		while ((i < quantity) && (tries > quantity)){
+		//for (int i=0; i<quantity; i++){
 			//create random token
 			double randomNumber = Math.random();
 			@SuppressWarnings("rawtypes")
@@ -167,8 +172,19 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 				throw new IllegalStateException("No photos in database!");
 			}
 			
-			//add the photo to the list
-			photos.add(photo);
+			User user = new User();
+			UserDao userDao = new UserDaoImpl();
+			
+			user = userDao.getUserByNick(photo.getAlbum().getUserNick());
+			
+			if (!(user.getConfiguration().isIsPrivate()))
+			{
+				//add the photo to the list
+				photos.add(photo);
+				i++;
+			}
+			
+			tries --;
 		}
 		
 		return photos;
