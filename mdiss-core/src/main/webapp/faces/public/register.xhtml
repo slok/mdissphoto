@@ -8,76 +8,86 @@
     
     <ui:composition template="/templates/public-space.xhtml">
      
-
 		<ui:define name="title">REGISTER</ui:define>
 		<ui:define name="bootstrap-jquery">
 		 <!-- Primefaces sets the javascript 1.7.1 automatically ¬¬ -->
 		</ui:define>
    
 		<ui:define name="body">
-			<div class="row-fluid">
-				<h2>Sign up to get all the fun!!</h2>
-			</div>
-			<br/>
-			<div  class="span4 offset1" style="width:100%">
-				<h:form id="form">		
-								<p:growl id="growl" sticky="true" showDetail="true"/>   			
-						 			<h:panelGrid id="grid" columns="3">
-						 			
-						 				<h:outputLabel value="Nick: *"/>
-										<p:inputText id="nick" value="#{registrationBean.nick}"  required="true" label="Nick">
-											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
-											<p:ajax update="growl"  /> 
-										</p:inputText>
-										<p:message id="nickoutput" for="nick" display="text" />
-						 			
-						 				<h:outputLabel value="Name: *"/>
-										<p:inputText id="nombre" value="#{registrationBean.name}" required="true" label="Name"/>
-										<p:message id="nombreoutput" for="nombre" display="text" />						
-										
-										<h:outputLabel value="Surname: *"/>
-										<p:inputText id="apellido" value="#{registrationBean.surname}" required="true" label="Surname"/>
-										<p:message id="apellidooutput" for="apellido" display="text" />
-										
-										<h:outputLabel for="bdate" value="Birthday:" />  
-							            <p:inputMask id="bdate" value="#{registrationBean.birthdate}" mask="99/99/9999" label="Birthday">  
-							                <f:convertDateTime pattern="dd/MM/yyyy" />
-							                <f:validator validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" /> 
-							                <p:ajax update="growl" />  
-							            </p:inputMask>  
-            							<h:message for="bdate" display="text"/>            						
-										
-										<h:outputLabel value="I am:"/>
-										<p:selectOneMenu id="checkSex" value="#{registrationBean.favGender}" label="I am">
-											 <f:selectItem itemValue="Male" itemLabel="Male" />
-											 <f:selectItem itemValue="Female" itemLabel="Female" />
-										</p:selectOneMenu>
-										<p:message id="Sexooutput" for="checkSex" display="text" />
-										
-										<h:outputLabel value="Email: *"/>
-										<p:inputText id="email" value="#{registrationBean.email}" required="true" label="email">
-											<f:validator validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
-											<p:ajax update="growl"  /> 
-										</p:inputText>
-										<h:message for="email" style="color:red" />	
-										
-										<h:outputLabel for="pwd1" value="Password: *"/>
-											<p:password id="pwd1"  value="#{registrationBean.password}" match="pwd2" label="Password 1" feedback="true" required="true"/>  
-											<p:message id="contraseñaoutput" for="pwd1" display="text" />
-													
-											<h:outputLabel for="pwd2" value="Re-enter password: *"/>
-											<p:password id="pwd2" value="#{registrationBean.password}" label="Password 2" required="true"/> 
-											<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
-																											
-									</h:panelGrid>
-									<!-- <div class="captcha">
-										<p:captcha label="Captcha" language="en" theme="white"/>
-									</div>-->
-									<div class="captcha">
-										<p:commandButton styleClass="btn btn-primary btn-large" update="growl" value="Sing Up" type="submit" actionListener="#{registrationBean.register}"/>	
-									</div>	    			    				    			    	
-		    					</h:form> 
-			</div>
+				<h:form id="form" styleClass="register-form-container ">		
+					
+					<p:growl id="growl" sticky="true" showDetail="true"/>  
+					 
+					<div class="register-form-title"><h2>Create your personal account</h2></div>
+					
+					<br/>							
+				
+		 			<h:panelGrid id="grid" columns="3">
+			 				<h:panelGroup>
+			 					<div class="register-user-info">
+					 				<h:outputLabel styleClass="register-form-title" value="Name: *"/>
+									<p:inputText id="nombre" value="#{registrationBean.name}" required="true" label="Name"/>
+									<p:message id="nombreoutput" for="nombre" display="text" />						
+									
+									<h:outputLabel styleClass="register-form-title" value="Surname: *"/>
+									<p:inputText id="apellido" value="#{registrationBean.surname}" required="true" label="Surname"/>
+									<p:message id="apellidooutput" for="apellido" display="text" />
+									
+									<h:outputLabel styleClass="register-form-title" for="bdate" value="Birthday:" />  
+						            <p:inputMask id="bdate" value="#{registrationBean.birthdate}" mask="99/99/9999" label="Birthday">  
+						                <f:convertDateTime pattern="dd/MM/yyyy" />
+						                <f:validator validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" /> 
+						                <p:ajax update="growl" />  
+						            </p:inputMask>  
+			        				<h:message for="bdate" display="text"/>            						
+									
+									<h:outputLabel styleClass="register-form-title" value="I am:"/>
+									<p:selectOneMenu id="checkSex" value="#{registrationBean.favGender}" label="I am">
+										 <f:selectItem itemValue="Male" itemLabel="Male" />
+										 <f:selectItem itemValue="Female" itemLabel="Female" />
+									</p:selectOneMenu>
+									<p:message id="Sexooutput" for="checkSex" display="text" />
+									
+									<h:outputLabel styleClass="register-form-title" value="Email: *"/>
+									<p:inputText id="email" value="#{registrationBean.email}" required="true" label="email">
+										<f:validator validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
+										<p:ajax update="growl"  /> 
+									</p:inputText>
+									<h:message for="email" style="color:red" />	
+								</div>
+							</h:panelGroup>
+							<h:panelGroup>
+								<div class="register-vertical-hr"></div>
+							</h:panelGroup>
+							<h:panelGroup>
+								<div class="register-user-account">
+									<h:outputLabel styleClass="register-form-title" value="Username: *"/>
+									<p:inputText id="nick" value="#{registrationBean.nick}"  required="true" label="Nick">
+										<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
+										<p:ajax update="growl"  /> 
+									</p:inputText>
+									<p:message id="nickoutput" for="nick" display="text" />
+									
+									<h:outputLabel styleClass="register-form-title" for="pwd1" value="Password: *"/>
+									<p:password id="pwd1"  value="#{registrationBean.password}" match="pwd2" label="Password 1" feedback="true" required="true"/>  
+									<p:message id="contraseñaoutput" for="pwd1" display="text" />
+											
+									<h:outputLabel styleClass="register-form-title" for="pwd2" value="Re-enter password: *"/>
+									<p:password id="pwd2" value="#{registrationBean.password}" label="Password 2" required="true"/> 
+									<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
+								</div>
+							</h:panelGroup>																
+					</h:panelGrid>
+					
+					<br/>
+					
+					<div class="captcha register-submit-container">
+						<p:commandButton styleClass="btn btn-inverse btn-large" update="growl" value="Sing Up" type="submit" actionListener="#{registrationBean.register}"/>	
+					</div>	   
+					
+					<h:outputLabel styleClass="register-form-title" value="* Required field"/>
+					 			    				    			    	
+	  			</h:form> 
 		</ui:define>
 		
     </ui:composition>
