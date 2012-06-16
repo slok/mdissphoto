@@ -32,9 +32,9 @@ public interface UserDao {
 	
 //		void modifyConfiguration(ObjectId id, Configuration conf);
 	
-	List<User> findFollows(String userId, int pageNumber);
+	List<User> findFollows(String userId, int pageNumber, int maxResults);
 	
-	List<User> findFollowers(String user, int pageNumber);
+	List<User> findFollowers(String user, int pageNumber, int maxResults);
 	
 	void addFollow(String userNickname, User follow);
 

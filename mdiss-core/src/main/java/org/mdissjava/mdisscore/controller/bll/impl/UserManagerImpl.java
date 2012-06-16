@@ -62,13 +62,13 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public List<User> findFollows(String user, int pageNumber) {
-		return userDao.findFollows(user, pageNumber);
+	public List<User> findFollows(String user, int pageNumber, int maxResults) {
+		return userDao.findFollows(user, pageNumber, maxResults);
 	}
 
 	@Override
-	public List<User> findFollowers(String user, int pageNumber) {
-		return userDao.findFollowers(user, pageNumber);
+	public List<User> findFollowers(String user, int pageNumber, int maxResults) {
+		return userDao.findFollowers(user, pageNumber, maxResults);
 	}
 
 	@Override

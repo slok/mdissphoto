@@ -14,8 +14,8 @@ public interface UserManager {
 	User getUserByNick(String userNickname);
 	//void modifyAddress(ObjectId id, Address address);
 	//void modifyConfiguration(ObjectId id, Configuration conf);
-	List<User> findFollows(String userNickname, int pageNumber);
-	List<User> findFollowers(String userNickname, int pageNumber);
+	List<User> findFollows(String userNickname, int pageNumber, int maxResults);
+	List<User> findFollowers(String userNickname, int pageNumber, int maxResults);
 	Photo  getPhoto(int IdPhoto);
 	boolean changePassword(User user,String oldPassword ,String newPassword);
 	boolean emailAlreadyExists(String email);
