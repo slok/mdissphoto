@@ -25,15 +25,15 @@
 		 			<h:panelGrid id="grid" columns="3">
 			 				<h:panelGroup>
 			 					<div class="register-user-info">
-					 				<h:outputLabel styleClass="register-form-title" value="Name: *"/>
+					 				<h:outputLabel styleClass="register-form-title" value="Name: "/>
 									<p:inputText id="nombre" value="#{registrationBean.name}" required="true" label="Name"/>
 									<p:message id="nombreoutput" for="nombre" display="text" />						
 									
-									<h:outputLabel styleClass="register-form-title" value="Surname: *"/>
+									<h:outputLabel styleClass="register-form-title" value="Surname: "/>
 									<p:inputText id="apellido" value="#{registrationBean.surname}" required="true" label="Surname"/>
 									<p:message id="apellidooutput" for="apellido" display="text" />
 									
-									<h:outputLabel styleClass="register-form-title" for="bdate" value="Birthday:" />  
+									<h:outputLabel styleClass="register-form-title" for="bdate" value="Birthday: " />  
 						            <p:inputMask id="bdate" value="#{registrationBean.birthdate}" mask="99/99/9999" label="Birthday">  
 						                <f:convertDateTime pattern="dd/MM/yyyy" />
 						                <f:validator validatorId="org.mdissjava.mdisscore.view.registration.BirthdateValidator" /> 
@@ -41,14 +41,14 @@
 						            </p:inputMask>  
 			        				<h:message for="bdate" display="text"/>            						
 									
-									<h:outputLabel styleClass="register-form-title" value="I am:"/>
+									<h:outputLabel styleClass="register-form-title" value="I am: "/>
 									<p:selectOneMenu id="checkSex" value="#{registrationBean.favGender}" label="I am">
 										 <f:selectItem itemValue="Male" itemLabel="Male" />
 										 <f:selectItem itemValue="Female" itemLabel="Female" />
 									</p:selectOneMenu>
 									<p:message id="Sexooutput" for="checkSex" display="text" />
 									
-									<h:outputLabel styleClass="register-form-title" value="Email: *"/>
+									<h:outputLabel styleClass="register-form-title" value="Email: "/>
 									<p:inputText id="email" value="#{registrationBean.email}" required="true" label="email">
 										<f:validator validatorId="org.mdissjava.mdisscore.view.registration.EmailValidator" />
 										<p:ajax update="growl"  /> 
@@ -61,18 +61,18 @@
 							</h:panelGroup>
 							<h:panelGroup>
 								<div class="register-user-account">
-									<h:outputLabel styleClass="register-form-title" value="Username: *"/>
+									<h:outputLabel styleClass="register-form-title" value="Username: "/>
 									<p:inputText id="nick" value="#{registrationBean.nick}"  required="true" label="Nick">
 										<f:validator validatorId="org.mdissjava.mdisscore.view.registration.NickValidator" />
 										<p:ajax update="growl"  /> 
 									</p:inputText>
 									<p:message id="nickoutput" for="nick" display="text" />
 									
-									<h:outputLabel styleClass="register-form-title" for="pwd1" value="Password: *"/>
+									<h:outputLabel styleClass="register-form-title" for="pwd1" value="Password: "/>
 									<p:password id="pwd1"  value="#{registrationBean.password}" match="pwd2" label="Password 1" feedback="true" required="true"/>  
 									<p:message id="contraseñaoutput" for="pwd1" display="text" />
 											
-									<h:outputLabel styleClass="register-form-title" for="pwd2" value="Re-enter password: *"/>
+									<h:outputLabel styleClass="register-form-title" for="pwd2" value="Re-enter password: "/>
 									<p:password id="pwd2" value="#{registrationBean.password}" label="Password 2" required="true"/> 
 									<p:message id="repetircontraseñaoutput" for="pwd2" display="text" />
 								</div>
@@ -85,7 +85,7 @@
 						<p:commandButton styleClass="btn btn-inverse btn-large" update="growl" value="Sing Up" type="submit" actionListener="#{registrationBean.register}"/>	
 					</div>	   
 					
-					<h:outputLabel styleClass="register-form-title" value="* Required field"/>
+					<h:outputLabel styleClass="register-form-title" value="* All of the fields are required"/>
 					 			    				    			    	
 	  			</h:form> 
 		</ui:define>
