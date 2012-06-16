@@ -534,6 +534,11 @@ public class AlbumManagerImpl implements AlbumManager{
 		}		
 		return albumTitles;
 	}
+
+	@Override
+	public int getTotalAlbums() {
+		return albumDao.getTotalAlbums();
+	}
 	
 	
 }
