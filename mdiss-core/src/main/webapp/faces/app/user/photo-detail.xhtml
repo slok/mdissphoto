@@ -92,15 +92,11 @@
 					);					
 			});
 		</script>
-		<script src="http://www.html5canvastutorials.com/libraries/kinetic-v3.9.8.js"></script>
-		<h:outputScript library="js" name="popularityGraphic.js" />
-		<script>
-		 window.onload = function() {
-        	var mark='${photoDetailsBean.mark}';
-        	showGraphic(mark);
-		 };
-		</script>
 			
+		</ui:define>
+		
+		<ui:define name="bootstrap-jquery">
+		 <!-- Primefaces sets the javascript 1.7.1 automatically ¬¬ -->
 		</ui:define>
 		
 		<ui:define name="body">
@@ -226,22 +222,24 @@
 										<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
 									</h:form>
 								</div>
+								<!-- Mark -->
+								<h:form>
+								<div style="float:right;">
+									 <h:panelGrid columns="2" cellpadding="1">  
+										 <h:outputText value="Photo Rate:" />  
+									        <p:rating value="#{photoDetailsBean.rating}" rating-cancel="false">  
+									            <p:ajax event="rate" listener="#{photoDetailsBean.onrate}" update="photoMark,photoVotes"/>  
+											</p:rating>
+									</h:panelGrid>		
+
+										<h4>Mark: <h:outputText style="font-size:17px" id="photoMark" value="#{photoDetailsBean.photo.mark}" /> / 5</h4>
+										<h6>Number of votes: <h:outputText id="photoVotes" value="#{photoDetailsBean.numberOfVotes}" /></h6>		
+								</div>
+								</h:form>
 							</div> <!-- Row fluid end -->
 						</div> <!-- span 12 end -->
 					</div> <!-- row end -->
 					
-					<!--Graphic marks-->
-				<!-- <div class="row-fluid">
-						<div style="float:left;">
-						<p></p>
-						<h4>Mark:</h4>
-						<h2><h:outputText id="PhotoMark" value="#{photoDetailsBean.mark}"/></h2>
-						</div>
-						<div style="float:right;">
-							<h4>Likes: #{photoDetailsBean.likes} / Dislikes: #{photoDetailsBean.dislikes}</h4>
-							<canvas  id="myCanvas" width="200" height="100"></canvas>
-						</div>
-					</div>-->
 					<!-- Public link -->
 					<div class="row-fluid">
 						<div class="span2">

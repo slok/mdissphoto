@@ -2,11 +2,13 @@ package org.mdissjava.mdisscore.view.photo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -23,9 +25,11 @@ import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.pojo.Vote;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.mdissjava.notifier.event.manager.NotificationManager;
 import org.mdissjava.notifier.event.observable.ReportPhotoObservable;
+import org.primefaces.event.RateEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -54,9 +58,9 @@ public class PhotoDetailsBean {
 	private List<String> metadataKeys;
 	
 	private Photo photo;
-	private int likes;
-	private int dislikes;
-	
+	//private int likes;
+	//private int dislikes;
+	private Integer rating; 
 	private String tweetMessage;
 	private String executeModal;
 	private String publicLink;
@@ -70,7 +74,7 @@ public class PhotoDetailsBean {
 
 	private PhotoManagerImpl photoManager;
 	private Album album;	
-	private String varAux;
+//	private String varAux;
 	private String description;
 	
 	public PhotoDetailsBean() {
@@ -99,7 +103,7 @@ public class PhotoDetailsBean {
 			//String app = request.getContextPath();
 			//System.out.println(host + String.valueOf(port) + app);
 			String url = Utils.getCurrentUrl(request);
-			this.varAux=url;
+	//		this.varAux=url;
 			this.publicLink = url + this.getPublicPrettyURL(this.photo.getPhotoId(), this.photo.getPublicToken());
 			this.tweetMessage = "Check out: "+this.publicLink+" @mdissphoto";
 			
@@ -393,7 +397,7 @@ public class PhotoDetailsBean {
 		this.publicLink = publicLink;
 	}
 		
-	public int getLikes() {
+/*	public int getLikes() {
 		return likes;
 	}
 
@@ -407,7 +411,7 @@ public class PhotoDetailsBean {
 
 	public void setDislikes(int dislikes) {
 		this.dislikes = dislikes;
-	}
+	}*/
 	
 	public String getDescription() {
 		return description;
@@ -417,7 +421,7 @@ public class PhotoDetailsBean {
 		this.description = description;
 	}
 
-	public float getMark() {
+/*	public float getMark() {
 		if(dislikes>0 || likes>0)
 			{
 			System.out.println("Mark: "+(likes/(dislikes+likes))*10);
@@ -433,7 +437,7 @@ public class PhotoDetailsBean {
 
 	public void setVarAux(String varAux) {
 		this.varAux = varAux;
-	}
+	}*/
 	
 	private ParamsBean getPrettyfacesParams()
 	{
@@ -463,8 +467,29 @@ public class PhotoDetailsBean {
 		
 	}
 
+	 public void onrate(RateEvent rateEvent) {  
+		 System.out.println("Evento****Puntuacion: "+((Integer) rateEvent.getRating()).intValue());
+		 Vote voto=new Vote();
+		 voto.setDate(new Date());
+		 voto.setIdUser(this.loggedUserNick);
+		 voto.setPoints(((Integer) rateEvent.getRating()).intValue());
+		 this.photo.addVote(voto);
+		 this.photoManager.updatePhoto(this.photo);
+	    }
 
+	public Integer getRating() {
+		return rating;
+	}
 
+	public void setRating(Integer rating) {
+		System.out.println("Setrating****"+rating);
+		this.rating = rating;
+	}
+	
+	public Integer getNumberOfVotes()
+	{
+		return this.photo.getVotes().size();
+	}
 
 	
 }

@@ -384,6 +384,11 @@ public class PhotoManagerImpl implements PhotoManager{
 		this.logger.debug("PhotoManagerImpl.getRandomPhotos");
 		return this.photoDao.getRandomPhotos(quantity);
 	}
+
+	@Override
+	public int getTotalPhotos() {
+		return photoDao.getTotalPhotos();
+	}
 	
 
 	

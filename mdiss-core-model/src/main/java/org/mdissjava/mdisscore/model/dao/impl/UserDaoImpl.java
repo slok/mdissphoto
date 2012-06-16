@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.hibernate.HibernateUtil;
 import org.mdissjava.mdisscore.model.pojo.User;
@@ -216,6 +218,13 @@ public class UserDaoImpl implements UserDao {
 		users = (List<User>) q.list();
 		
 		return users;
+	}
+
+	@Override
+	public int getTotalUsers() {
+		Criteria criteria = session.createCriteria(User.class);	 
+		criteria.setProjection(Projections.rowCount()); 
+		return ((Long)criteria.list().get(0)).intValue();
 	}
 
 }

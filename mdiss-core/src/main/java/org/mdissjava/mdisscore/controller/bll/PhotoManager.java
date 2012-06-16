@@ -17,4 +17,5 @@ public interface PhotoManager {
 	Photo searchPhotoUniqueUtil(String photoId) throws IOException;
 	int getTotalVotesFromPhoto(String photoId) throws IOException;
 	List<Photo> getRandomPhotos(int quantity) throws IllegalStateException;
+	int getTotalPhotos();
 }

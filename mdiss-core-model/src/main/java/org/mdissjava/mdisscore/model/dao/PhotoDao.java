@@ -14,5 +14,6 @@ public interface PhotoDao {
 	public List<Photo> getRandomPhotos(int quantity) throws IllegalStateException;
 	public List<Photo> getPhotos(Album album, int quantityNumberPhotos, int skipNumberPhotos);
 	public List<Photo> getPhotosFromTag(String tag);
+	int getTotalPhotos();
 
 }

@@ -38,8 +38,8 @@ public class SearcherBean {
 //	private final int MAXENTRIES_PHOTO = 5;
 	private int currentPage;
 	
-	private ArrayList<photo> photos;
-	private ArrayList<users> users;
+	private ArrayList<photo> photos = null;
+	private ArrayList<users> users = null;
 	
 	public SearcherBean()
 	{		
@@ -61,22 +61,26 @@ public class SearcherBean {
 		System.out.println("Search option: " + this.selectedOption);
 		
 		if(this.selectedOption.equals(OPTION_USERS)){
+			this.photos = null;
 			importHttpSolrDataMysql(SOLR_MYSQL_USERS, searchText);
 			System.out.println(OPTION_USERS);			
 		}
 		
 		else if(this.selectedOption.equals(OPTION_TITLEFOTO)){
 			System.out.println("searching... " + SOLR_MONGO_TITLEFOTO);
+			this.users = null;
 			importHttpSolrDataMongo(SOLR_MONGO_TITLEFOTO, searchText);
 			System.out.println(OPTION_TITLEFOTO);
 		}
 		
 		else if (this.selectedOption.equals(OPTION_TITLEALBUM)){
+			this.users = null;
 			importHttpSolrDataMongo(SOLR_MONGO_TITLEALBUM, searchText);
 			System.out.println(OPTION_TITLEALBUM);
 		}
 		
 		else if (this.selectedOption.equals(OPTION_TAGS)){
+			this.users = null;
 			importHttpSolrDataMongo(SOLR_MONGO_TAGS, searchText);
 			System.out.println(OPTION_TAGS);
 		}
