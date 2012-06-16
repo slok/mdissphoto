@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -467,6 +468,7 @@ public class PhotoDetailsBean {
 	}
 
 	 public void onrate(RateEvent rateEvent) {  
+		 System.out.println("Evento****Puntuacion: "+((Integer) rateEvent.getRating()).intValue());
 		 Vote voto=new Vote();
 		 voto.setDate(new Date());
 		 voto.setIdUser(this.loggedUserNick);
@@ -479,10 +481,9 @@ public class PhotoDetailsBean {
 	}
 
 	public void setRating(Integer rating) {
+		System.out.println("Setrating****"+rating);
 		this.rating = rating;
 	}
-
-
 
 	
 }

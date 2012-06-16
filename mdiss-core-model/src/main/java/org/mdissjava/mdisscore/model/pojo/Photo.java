@@ -219,9 +219,16 @@ public class Photo {
 			puntos+=voto.getPoints();
 		}
 		if(this.votes.size()>0)
-			return puntos/this.votes.size();
+			{	
+				System.out.println("Mark: ***"+puntos/this.votes.size());
+				return puntos/this.votes.size();
+			}
+		
 		else
+		{
+			System.out.println("Mark: ***"+puntos);
 			return puntos;
+		}
 		
 	}
 	
@@ -234,11 +241,15 @@ public class Photo {
 			{
 				this.votes.get(i).setDate(e.getDate());
 				this.votes.get(i).setPoints(e.getPoints());
+				System.out.println("Update vote");
 				New=false;
 			}
 		}
 		if(New)
+		{
 			this.votes.add(e);
+			System.out.println("Added vote");
+		}
 	}
 
 	/**

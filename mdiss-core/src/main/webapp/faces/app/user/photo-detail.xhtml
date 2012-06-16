@@ -226,14 +226,19 @@
 						</div> <!-- span 12 end -->
 					</div> <!-- row end -->
 					<!-- Mark -->
+					<h:form>
 					<div class="row-fluid">
-					 <h:panelGrid columns="2" cellpadding="1">  
-						 <h:outputText value="Photo Rate:" />  
-					        <p:rating value="#{photoDetailsBean.rating}" cancel="false">  
-					            <p:ajax event="rate" listener="#{photoDetailsBean.onrate}" />  
-							</p:rating>
-					</h:panelGrid>		
-					</div>
+						 <h:panelGrid columns="2" cellpadding="1">  
+							 <h:outputText value="Photo Rate:" />  
+						        <p:rating value="#{photoDetailsBean.rating}" cancel="false">  
+						            <p:ajax event="rate" listener="#{photoDetailsBean.onrate}" update="photoMark"/>  
+								</p:rating>
+						</h:panelGrid>		
+						</div>
+						<div>
+							<h4>Mark: <h:outputText id="photoMark" value="#{photoDetailsBean.photo.mark}" /> / 5</h4>
+						</div>
+					</h:form>
 					<!-- Public link -->
 					<div class="row-fluid">
 						<div class="span2">
