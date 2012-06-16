@@ -8,7 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.mdissjava.mdisscore.solr.pojo.photo;
+import org.mdissjava.mdisscore.solr.pojo.users;
 import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMongo;
+import org.mdissjava.mdisscore.solr.searcher.SolrImportDataMySQL;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -26,12 +28,14 @@ public class SearcherBean {
 	private final String SOLR_MONGO_TITLEFOTO ="titleFoto";
 	private final String SOLR_MONGO_TITLEALBUM ="titleAlbum";
 	private final String SOLR_MONGO_TAGS ="tags";
+	private final String SOLR_MYSQL_USERS ="nick";
 	private final String OPTION_TITLEFOTO ="photos";
 	private final String OPTION_TITLEALBUM ="albums";
 	private final String OPTION_TAGS ="tags";
 	private final String OPTION_USERS ="users";
 	
 	private ArrayList<photo> photos;
+	private ArrayList<users> users;
 	
 	public SearcherBean()
 	{		
@@ -53,11 +57,10 @@ public class SearcherBean {
 		System.out.println("Search option: " + this.selectedOption);
 		
 		if(this.selectedOption.equals(OPTION_USERS)){
-			System.out.println("users");
-			//TODO MYSQL query
+			importarUsersMysql(SOLR_MYSQL_USERS, searchText);
+			System.out.println(OPTION_USERS);			
 		}
 		
-			//TODO MONGO query
 		else if(this.selectedOption.equals(OPTION_TITLEFOTO)){
 			System.out.println("searching... " + SOLR_MONGO_TITLEFOTO);
 			importarFotosMongo(SOLR_MONGO_TITLEFOTO, searchText);
@@ -116,9 +119,42 @@ public class SearcherBean {
 			
 			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void importarUsersMysql(String selectedOption, String searchText) {
+		System.out.println("SearcherBean.importarUsersMysql()");
+		//Invoke Load MySql data function
+		try {
+			new SolrImportDataMySQL();
+			
+			//create query
+			List<String> Jarraysearch = SolrImportDataMySQL.searchingByField(selectedOption, searchText);
+			System.out.println("tam lista coincidencias searchingByField: " + Jarraysearch.size());
+			
+			//Retrieve JSON data to parse to Pojo class called 'users'
+			JsonParser parser = new JsonParser();
+			this.users = new ArrayList<users>();			
+			for (String jstring : Jarraysearch) {
+				JsonObject jsonObject = parser.parse(jstring).getAsJsonObject();
+				users fromJson = new Gson().fromJson(jsonObject, users.class);
+//			System.out.println("fromJson: " + fromJson.getTitleFoto());				
+				this.users.add(fromJson);
+			}	
+			int i= 0;
+			System.out.println("lista users: " + this.users.size());
+			for (users u : this.users) {
+				i += 1;
+				System.out.println("Ind " + i + ": " + "Username: " + u.getName() + " , surname: " + u.getSurname() + " , nick: " + u.getNick());				
+			}
+			
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	
@@ -171,6 +207,15 @@ public class SearcherBean {
 		this.photos = photos;
 	}
 
+	public ArrayList<users> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<users> users) {
+		this.users = users;
+	}
+
+	
 		
 	
 }

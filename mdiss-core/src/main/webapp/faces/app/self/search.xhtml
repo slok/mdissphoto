@@ -55,7 +55,7 @@
 				</div>	           	            
 			</h:form>
 			
-			<!-- LISTADO DE BUSQUEDA -->
+			<!-- SEARCH LIST OF PHOTOS, ALBUM, TAGS -->
 			<h:form id="form" rendered="#{searcherBean.photos != null}">
 				<h:dataTable value="#{searcherBean.photos}" var="photo">
 					<div class="row-fluid">
@@ -86,6 +86,41 @@
 							 				#{tag}					 		 			 		
 							 			</li>
 						 			</ui:repeat>
+								</div>
+							</p:column>							
+						</div>
+					</div>
+					<br />
+				</h:dataTable>
+			</h:form>
+			
+			<!-- SEARCH LIST OF USERS -->
+			<h:form id="formMysql" rendered="#{searcherBean.users != null}">
+				<h:dataTable value="#{searcherBean.users}" var="user">
+					<div class="row-fluid">
+						<div class="span6">							
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Name" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.name}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Surname" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.surname}
+								</div>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+						             <h:outputText class="photo-title" value="Nick" />
+						         </f:facet>
+								<div class="span4" align="center">
+									#{user.nick}
 								</div>
 							</p:column>							
 						</div>
