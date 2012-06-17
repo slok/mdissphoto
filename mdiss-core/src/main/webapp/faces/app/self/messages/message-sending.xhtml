@@ -55,7 +55,7 @@
 			  		</ul>
 			  	</div>
 			  </div>
-			  <div class="span9">	
+			  <div class="well span9">	
 			  	<div>
 			  		<h3>New Message</h3>
 			  		<br />
@@ -67,12 +67,11 @@
 			       		<br/>
 			       		<h:outputLabel value="Message: "/>  
 			       		<p>
-			       			<p:inputTextarea style="width:70%" rows="6" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
+			       			<p:inputTextarea style="width:99%" rows="8" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
 			            </p>
-			            <p> 
-					    	<h:commandButton styleClass="btn btn-primary btn-large"
-									actionListener="#{messageBean.sendMessage}" value="Send" update="growl" />  
-					    </p>            
+			            <br />
+					    	<h:commandButton styleClass="btn btn-primary btn-large alignRight"
+									actionListener="#{messageBean.sendMessage}" value="Send" update="growl" />           
 					</h:form>  
 			  		
 			  	</div>	    		

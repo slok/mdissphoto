@@ -168,4 +168,9 @@ public class UserManagerImpl implements UserManager {
 		return userDao.findAllUsers(pageNumber, maxResults);
 	}
 
+	@Override
+	public void deactivateUser(int userId) {
+		userDao.deactivateUser(userId);	
+	}
+
 }
