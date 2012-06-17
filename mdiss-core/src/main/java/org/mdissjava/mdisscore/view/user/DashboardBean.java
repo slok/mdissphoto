@@ -95,6 +95,11 @@ public class DashboardBean {
 		userManager.addFollow(this.user, follow);
 	}
 	
+	public void addPrivateFollow(User follow) {
+		//we are accepting is inverse from the original :D
+		userManager.addPrivateFollow(follow.getNick(), this.userObject);
+	}
+	
 	public void deleteFollow(User follow) {		
 		userManager.deleteFollow(this.user, follow);
 	}

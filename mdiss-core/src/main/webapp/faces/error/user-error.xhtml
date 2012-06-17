@@ -13,6 +13,13 @@
 		
 		<ui:define name="body">
 		
+			<h1>Restricted profile</h1>
+			<h:form>
+				<h:commandButton styleClass="btn btn-success"
+					actionListener="#{userBean.addFollow(userBean.user)}"
+					value="Follow"/>
+			</h:form>
+			<br/><br/>
 			<pretty:link mappingId="dashboard" >
 				<h:graphicImage library="img" name="RestrictedError.png" />
 			</pretty:link>

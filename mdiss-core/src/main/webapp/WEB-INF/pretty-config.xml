@@ -60,7 +60,7 @@
 	</url-mapping>	
 	
 	<url-mapping id="restricted-error">
-		<pattern value="/e/user/" />
+		<pattern value="/e/user/#{user:paramsBean.userId}/" />
 		<view-id value="/faces/error/user-error.jsf" />
 	</url-mapping>
 	
@@ -115,18 +115,27 @@
 		<pattern value="/s/messages/in/" />
 		<view-id value="/faces/app/self/messages/message-received.jsf" />
 	</url-mapping>
+	
 	<url-mapping id="messages-out">
 		<pattern value="/s/messages/out/" />
 		<view-id value="/faces/app/self/messages/message-sent.jsf" />
 	</url-mapping>
+	
 	<url-mapping id="messages-send">
 		<pattern value="/s/messages/send/" />
 		<view-id value="/faces/app/self/messages/message-sending.jsf" />
 	</url-mapping>
+	
 	<url-mapping id="messages-send-confirmation">
 		<pattern value="/s/messages/send/ok/" />
 		<view-id value="/faces/app/self/messages/message-sending-confirmation.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="private-following-accept">
+		<pattern value="/s/following/accept/#{follower:paramsBean.userId}/#{token:paramsBean.token}/" />
+		<view-id value="/faces/app/self/follow-accept.jsf" />
+	</url-mapping>
+	
 	<!-- user -->
 	
 	<url-mapping id="user-profile">
