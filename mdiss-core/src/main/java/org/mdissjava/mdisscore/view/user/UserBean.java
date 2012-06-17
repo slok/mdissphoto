@@ -3,6 +3,7 @@ package org.mdissjava.mdisscore.view.user;
 import java.io.IOException;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -31,6 +32,7 @@ public class UserBean {
 	private UserManager userManager;	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
+	private int MAX_NUMBER_CONNECTIONS = 10;
 	
 	private String thumbnailBucket = "square.75";
 	private String thumbnailDatabase = "images";
@@ -60,11 +62,8 @@ public class UserBean {
 			datastore = MorphiaDatastoreFactory.getDatastore(database);
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-						
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Error while retrieveing connections from the database", "Connections"));
+		}					
 	}
 		
 	public String getUserId() {
@@ -92,7 +91,7 @@ public class UserBean {
 	}
 
 	public List<User> getFollows() {
-		this.follows = userManager.findFollows(user.getNick(), page);		
+		this.follows = userManager.findFollows(user.getNick(), page, MAX_NUMBER_CONNECTIONS);		
 		return this.follows;
 	}
 	
@@ -101,7 +100,7 @@ public class UserBean {
 	}
 	
 	public List<User> getFollowers() {
-		this.followers = userManager.findFollowers(user.getNick(), page);														
+		this.followers = userManager.findFollowers(user.getNick(), page, MAX_NUMBER_CONNECTIONS);														
 		return this.followers;
 	}
 	
@@ -122,16 +121,23 @@ public class UserBean {
 	}
 			
 	public int getPage() {
-		return page;
+		return this.page;
 	}
 
 	public void setPage(int page) {
 		this.page = page;
 	}
 
+	public int getMaxNumberConnections(){
+		return this.MAX_NUMBER_CONNECTIONS;
+	}
+	
+	public void setMaxNumberConnections(int max){
+		this.MAX_NUMBER_CONNECTIONS = max;
+	}
 
 	public String getThumbnailBucket() {
-		return thumbnailBucket;
+		return this.thumbnailBucket;
 	}
 
 	public void setThumbnailBucket(String thumbnailBucket) {
@@ -139,13 +145,12 @@ public class UserBean {
 	}
 
 	public String getThumbnailDatabase() {
-		return thumbnailDatabase;
+		return this.thumbnailDatabase;
 	}
 
 	public void setThumbnailDatabase(String thumbnailDatabase) {
 		this.thumbnailDatabase = thumbnailDatabase;
 	}
-
 
 	private String retrieveSessionUserNick() {
 	  //Get the current logged user's username
