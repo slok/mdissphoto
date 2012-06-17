@@ -3,14 +3,11 @@ package org.mdissjava.mdisscore.controller.bll.impl;
 import java.io.IOException;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.model.dao.UserDao;
 import org.mdissjava.mdisscore.model.dao.impl.UserDaoImpl;
-import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.notifier.event.manager.NotificationManager;
 import org.mdissjava.notifier.event.observable.NewFollowerObservable;
