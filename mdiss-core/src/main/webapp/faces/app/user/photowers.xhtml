@@ -55,7 +55,7 @@
 
 		<div class="offset2 table table-condensed">
 			<h:form id="form">
-				<h:dataTable rowIndexVar="row" value="#{userBean.followers}" var="follower">
+				<h:dataTable rowIndexVar="row" value="#{userBean.followers}" var="follower" id="followerDatatable">
 					<div class="row-fluid" id="separator">
 						<div class="span6">
 							<p:column>
@@ -76,14 +76,16 @@
 								</div>
 							</p:column>
 							<p:column>
-								<h:commandButton styleClass="btn btn-success"
+								<h:commandButton styleClass="btn btn-success" id="btnFollow"
 									rendered="#{userBean.followsUser(follower) == false}"
-									actionListener="#{userBean.addFollow(follower)}" value="Follow"
-									update="growl" />
-								<h:commandButton styleClass="btn btn-warning"
+									actionListener="#{userBean.addFollow(follower)}" 
+									value="Follow"
+									update="btnFollow" />
+								<h:commandButton styleClass="btn btn-warning" id="btnUnfollow"
 									rendered="#{userBean.followsUser(follower) != false}"
-									actionListener="#{userBean.deleteFollow(follower)}"
-									value="Unfollow" update="growl" />
+									actionListener="#{userBean.deleteFollow(follower)}" 
+									value="Unfollow"
+								    update="btnUnfollow" />
 							</p:column>
 						</div>
 					</div>
