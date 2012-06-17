@@ -15,7 +15,6 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 public class UserManagerImpl implements UserManager {
-	// MorphiaDatastoreFactory.getDatastore("test")
 
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String DEFAULT_ALBUM_NAME = "default_album_name.var";
@@ -24,28 +23,23 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void saveUser(User user) {
-		// si es nuevo usuario poner fecha del registro, y guardar
-		if (user.getId() == 0) {// alta de nuevo usuario
-			System.out.println("UserManagerImpl//Nuevo Usuario**********");
+		if (user.getId() == 0) {
 			user.setPass(PEncoder(user.getPass()));
 			userDao.addUser(user);
-
 			String albumName = "Master";
 			try {
-				albumName = new PropertiesFacade().getProperties(
-						GLOBAL_PROPS_KEY).getProperty(DEFAULT_ALBUM_NAME);
+				albumName = new PropertiesFacade().getProperties(GLOBAL_PROPS_KEY).getProperty(DEFAULT_ALBUM_NAME);
 				albumbll.insertAlbum(albumName, user.getNick());
-			} catch (IllegalArgumentException e) {
+			} 
+			catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
+			} 
+			catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {// salvar una modificación
-
+		} else {
 			userDao.updateUser(user);
-
 		}
-
 	}
 
 	@Override
@@ -70,8 +64,7 @@ public class UserManagerImpl implements UserManager {
 
 
 	@Override
-	public boolean changePassword(User user, String oldPassword,
-			String newPassword) {
+	public boolean changePassword(User user, String oldPassword, String newPassword) {
 		if (user.getPass().equals(PEncoder(oldPassword))) {
 			user.setPass(PEncoder(newPassword));
 			userDao.updateUser(user);
@@ -117,11 +110,12 @@ public class UserManagerImpl implements UserManager {
 		
 		NotificationManager notifier = NotificationManager.getInstance();
 		NewFollowerObservable nfo = notifier.getNewFollowerObservable();
-		//if is not private then add the follow
+		//if it is not private then add the follow
 		if (!follow.getConfiguration().isIsPrivate()){
 			userDao.addFollow(userNickname, follow);
 			nfo.newFollower(follow.getNick(), userNickname);
-		}else
+		}
+		else
 			nfo.newPrivateFollower(follow.getNick(), userNickname);
 	}
 
@@ -132,7 +126,6 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void activateUser(int idUser) {
-		// TODO activate user business layer function
 		userDao.activateUser(idUser);
 	}
 
