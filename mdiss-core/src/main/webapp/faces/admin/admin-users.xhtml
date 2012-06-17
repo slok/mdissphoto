@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="/faces/app/user-space.xhtml">
+
+	<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+
+	<ui:define name="head">
+
+		<script type="text/javascript"
+			src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+     		
+     		$(document).ready(function() { 
+     			
+     			var show_per_page = #{adminManagerBean.maxNumberConnections};
+     			var number_of_items = 8;
+     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
+
+     			var navigation_html = '<ul>';
+     			var current_link = 0;
+     		      	     			  
+     			 while(number_of_pages != current_link ) {
+     				current_link++;
+     			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
+       			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
+     			    navigation_html += '</li>';     			  
+     			 }
+     			  
+     			  navigation_html += '</ul>';
+     			  
+     			 $('#page_navigation').html(navigation_html);
+     			 
+     			 
+     			 var page_num = #{userBean.page}
+     			 var get_box = document.getElementById('id'+page_num);
+     			 $('#page_navigation').find('li.active').removeClass('active');
+     			 $(get_box).addClass('active');
+     			      			      		     		
+     		});
+     		
+     		
+     		</script>
+
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="offset2 table table-condensed">
+			<h:form id="form">
+				<h:dataTable rowIndexVar="row" value="#{adminManagerBean.users}" var="user" >
+					<div class="row-fluid" id="separator">
+						<div class="span6">
+							<p:column>
+								<div class="span2">
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{user.nick}" />					
+									    <h:graphicImage value="/dynamic/image?db=#{userBean.thumbnailDatabase}&amp;bucket=#{adminManagerBean.thumbnailBucket}&amp;id=#{user.avatar}"/>
+									</pretty:link>
+								</div>
+							</p:column>
+							<p:column>
+								<div class="span4 offset1">
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{user.nick}" />
+										<div class="row-fluid">#{user.nick} </div>
+									</pretty:link>
+									<div class="row-fluid">#{user.email}</div>
+								</div>
+							</p:column>
+							<p:column>
+								<div class="row-fluid">
+									Followers: #{fn:length(user.followers)} 
+									Following: #{fn:length(user.follows)}
+								</div>
+								<div class="row-fluid">
+									<h:commandButton styleClass="btn btn-small"
+										actionListener="#{adminManagerBean.deleteUser(user)}"
+										value="Delete user" />
+								</div>
+							</p:column>
+						</div>
+					</div>
+
+					<br />
+				</h:dataTable>
+			</h:form>
+			
+			
+		</div>
+
+		<div id="page_navigation" class="pagination offset3"></div>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>
