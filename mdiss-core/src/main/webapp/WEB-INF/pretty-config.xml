@@ -60,7 +60,7 @@
 	</url-mapping>	
 	
 	<url-mapping id="restricted-error">
-		<pattern value="/e/user/" />
+		<pattern value="/e/user/#{user:paramsBean.userId}/" />
 		<view-id value="/faces/error/user-error.jsf" />
 	</url-mapping>
 	

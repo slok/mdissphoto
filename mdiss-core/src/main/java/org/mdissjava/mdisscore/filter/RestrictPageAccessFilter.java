@@ -70,8 +70,8 @@ public class RestrictPageAccessFilter implements Filter {
 
 				UrlMapping mapping = context.getConfig().getMappingById(
 						"restricted-error");
-				String targetURL = builder.build(mapping, true,
-						new HashMap<String, String[]>());
+				Object[] objs = {requestedUser.getNick()};
+				String targetURL = builder.build(mapping, true, objs);
 
 				HttpServletResponse httpResponse = (HttpServletResponse) response;
 				httpResponse.sendRedirect("/mdissphoto" + targetURL);
