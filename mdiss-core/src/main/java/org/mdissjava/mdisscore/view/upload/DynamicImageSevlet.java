@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +19,6 @@ import org.mdissjava.commonutils.memcached.MemcachedConnection;
 import org.mdissjava.commonutils.mongo.gridfs.GridfsDataStorer;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
-
-import com.sun.mail.iap.ByteArray;
 
 public class DynamicImageSevlet extends HttpServlet
 {
@@ -34,10 +33,10 @@ public class DynamicImageSevlet extends HttpServlet
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
     private static final String MORPHIA_DATABASE = "mdissphoto"; 
 	private static String IMAGE_NOT_FOUND;
-	private static final String MEMCACHED_HOST = "127.0.0.1";
-	private static final int MEMCACHED_PORT = 11211;
-	private static final int MEMCACHED_PERSISTENCE_SECONDS = 3600; //60 mins
-	
+	private static final String MEMCACHED_ACTIVE_KEY = "memcached.active";
+	private static final String MEMCACHED_HOST_KEY = "memcached.host";
+	private static final String MEMCACHED_PORT_KEY = "memcached.port";
+	private static final String MEMCACHED_PERSISTENCE_SECONDS_KEY = "memcached.expire";
 
     // Actions ------------------------------------------------------------------------------------
 
@@ -71,6 +70,14 @@ public class DynamicImageSevlet extends HttpServlet
         boolean isFollowing = false; //userManager.followsUser(loggedUser, photoOwner);
         boolean same = false; //photoOwnerUsername.equals(loggedUser);
         
+        //memcached data
+        Properties p = new PropertiesFacade().getProperties("globals");
+        String memcachedActive = p.getProperty(MEMCACHED_ACTIVE_KEY);
+        String memcachedHost = p.getProperty(MEMCACHED_HOST_KEY);
+        String memcachedPort = p.getProperty(MEMCACHED_PORT_KEY);
+        String memcachedExpire = p.getProperty(MEMCACHED_PERSISTENCE_SECONDS_KEY);
+        
+        
         if(isPrivate && !isFollowing && !same){
         	baos = null;
         }else{
@@ -83,11 +90,16 @@ public class DynamicImageSevlet extends HttpServlet
         		return;
         	}
 
-        	//memcached to the action!
-        	MemcachedConnection.connect(MEMCACHED_HOST, MEMCACHED_PORT);
-        	MemcachedClient client = MemcachedConnection.getConnection();
-        	String key = db + "_" + bucket + "_" + imageId;
-        	imageBytes = (byte[])client.get(key);
+        	//memcached to the action! (maybe)
+        	MemcachedClient client = null;
+        	String key = null;
+        	if (memcachedActive.equals("true"))
+        	{
+	        	MemcachedConnection.connect(memcachedHost,Integer.valueOf(memcachedPort));
+	        	client = MemcachedConnection.getConnection();
+	        	key = db + "_" + bucket + "_" + imageId;
+	        	imageBytes = (byte[])client.get(key);
+        	}
         	
         	//is in memcached?
         	if (imageBytes == null){
@@ -96,7 +108,8 @@ public class DynamicImageSevlet extends HttpServlet
         		try
         		{
         			baos = (ByteArrayOutputStream)imageDAO.getData(imageId);
-        			client.set(key, MEMCACHED_PERSISTENCE_SECONDS, baos.toByteArray());
+        			if (memcachedActive.equals("true"))
+        				client.set(key, Integer.valueOf(memcachedExpire), baos.toByteArray());
         		}catch(IOException e){
         			//TODO: Memcache this!
         			IMAGE_NOT_FOUND =  new PropertiesFacade().getProperties("globals").getProperty("no.image.available");
@@ -109,7 +122,7 @@ public class DynamicImageSevlet extends HttpServlet
         	}else
         	{
         		bais = new ByteArrayInputStream(imageBytes);
-        		System.out.println("Cacheeeeeeeeeeeed: " + key);
+        		System.out.println("Cached: " + key);
         	}
         }
         
