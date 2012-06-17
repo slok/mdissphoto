@@ -1,19 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pretty="http://ocpsoft.com/prettyfaces"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
-    <ui:composition template="/faces/app/user-space.xhtml">
-      
-		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
-		
-		<ui:define name="body">
-		
-	<div class="row-fluid">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"> 
+	
+
+<ui:composition template="/faces/app/user-space.xhtml">
+
+	<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+
+	<ui:define name="body">
+
+		<div class="row-fluid">
 
 
 			<div class="span12">
@@ -65,8 +67,68 @@
 				</div>
 			</div>
 		</div>
-								
-		</ui:define>
-				
-    </ui:composition>
+
+
+		<div class="row-fluid">
+			<div class="span12">
+
+				<div class="span5 offset5">
+					<h3>Personal info</h3>
+					<div class="well">
+						<h:panelGrid columns="2" cellpadding="3">
+							<h:outputText value="Nick:" rendered="#{configuration.showNick != false}"/>
+							<h:outputText value="#{profileBean.user.nick}" rendered="#{configuration.showNick != false}"/>
+							<h:outputText value="Name:" rendered="#{configuration.showName  != false}"/>
+							<h:outputText value="#{profileBean.user.name} #{profileBean.user.surname}" rendered="#{configuration.showName  != false}"/>
+							<h:outputText value="Birthdate:" rendered="#{configuration.showName  != false}"/>
+							<h:outputText value="#{profileBean.user.birthdate}" rendered="#{configuration.showBirthdate != false}"/>
+							<h:outputText value="Gender:" rendered="#{configuration.showName  != false}"/>
+							<h:outputText value="#{profileBean.user.gender}" rendered="#{configuration.showBirthdate != false}"/>
+							<h:outputText value="Email:" rendered="#{configuration.showEmail  != false}"/>
+							<h:outputText value="#{profileBean.user.email}" rendered="#{configuration.showEmail != false}"/>
+							<h:outputText value="Phone:" rendered="#{configuration.showPhone  != false}"/>
+							<h:outputText value="#{profileBean.user.phone}" rendered="#{configuration.showPhone != false}"/>
+						</h:panelGrid>
+					</div>
+
+
+
+					<h3>Address</h3>
+					<div class="well">
+						<h:panelGrid columns="2" cellpadding="3">
+							<h:outputText value="Country:"  rendered="#{configuration.showCountry != false}"/>
+							<h:outputText value="#{profileBean.user.address.country}" rendered="#{configuration.showCountry != false}"/>
+							<h:outputText value="State:"  rendered="#{configuration.showState != false}"/>
+							<h:outputText value="#{profileBean.user.address.state}" rendered="#{configuration.showState != false}"/>
+							<h:outputText value="City:" rendered="#{configuration.showCity != false}"/>
+							<h:outputText value="#{profileBean.user.address.city}" rendered="#{configuration.showCity != false}"/>
+							<h:outputText value="Street:" rendered="#{configuration.showStreet != false}"/>
+							<h:outputText value="#{profileBean.user.address.street}" rendered="#{configuration.showStreet != false}"/>
+							<h:outputText value="Zip:" rendered="#{configuration.showZip != false}"/>
+							<h:outputText value="#{profileBean.user.address.zip}" rendered="#{configuration.showZip != false}"/>
+						</h:panelGrid>
+
+					</div>
+
+
+					<h3>Statistics</h3>
+					<div class="well">
+						<h:panelGrid columns="2" cellpadding="3">
+							<h:outputText value="Followers:" />
+							<h:outputText value="#{fn:length(userBean.user.followers)}" />
+							<h:outputText value="Following:" />
+							<h:outputText value="#{fn:length(userBean.user.follows)}" />
+							<h:outputText value="Total number of albums:" />
+							<h:outputText value="#{fn:length(dashboardBean.albums)}" />
+						</h:panelGrid>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
 </html>
