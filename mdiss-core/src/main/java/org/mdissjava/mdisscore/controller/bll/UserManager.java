@@ -25,5 +25,7 @@ public interface UserManager {
 	void deleteFollow (String userNickname, User follow);
 	void deleteFollower(String userNickname, User follower);
 	int getTotalUsers();
+	String getAvatar(String userId);
+	List<User> findAllUsers(int pageNumber, int maxResults);
 }
 	

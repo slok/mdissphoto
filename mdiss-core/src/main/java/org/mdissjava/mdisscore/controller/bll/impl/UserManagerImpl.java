@@ -148,4 +148,14 @@ public class UserManagerImpl implements UserManager {
 		return userDao.getTotalUsers();
 	}
 
+	@Override
+	public String getAvatar(String userId) {
+		return userDao.getAvatar(userId);
+	}
+
+	@Override
+	public List<User> findAllUsers(int pageNumber, int maxResults) {
+		return userDao.findAllUsers(pageNumber, maxResults);
+	}
+
 }

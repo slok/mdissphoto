@@ -53,4 +53,8 @@ public interface UserDao {
 	List<User> getUserByRole(String role);
 
 	int getTotalUsers();
+
+	String getAvatar(String userId);
+
+	List<User> findAllUsers(int pageNumber, int maxResults);
 }

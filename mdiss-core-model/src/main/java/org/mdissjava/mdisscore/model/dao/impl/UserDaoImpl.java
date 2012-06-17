@@ -227,4 +227,22 @@ public class UserDaoImpl implements UserDao {
 		return ((Long)criteria.list().get(0)).intValue();
 	}
 
+	@Override
+	public String getAvatar(String userId) {
+		session = HibernateUtil.getSession();
+		Query q = session.createQuery("Select avatar from User as user "
+				+ " where user.nick = '" + userId + "'");
+		return q.uniqueResult().toString();
+		
+	}
+
+	@Override
+	public List<User> findAllUsers(int pageNumber, int maxResults) {
+		session = HibernateUtil.getSession();
+		Query q = session.createQuery("from User"); 
+		q = q.setFirstResult(maxResults * (pageNumber - 1));		
+	    q.setMaxResults(maxResults);
+		return q.list();
+	}
+
 }
