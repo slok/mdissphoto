@@ -141,6 +141,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> findFollowers(String userId, int pageNumber, int maxResults) {
 		List<User> users = new ArrayList<User>();
@@ -172,7 +173,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void activateUser(int userid) {
-		// TODO activate User by id
 		User usuario=this.getUserById(userid);
 		if(usuario!=null)
 		{
@@ -195,7 +195,6 @@ public class UserDaoImpl implements UserDao {
 	public boolean followsUser(String userNickname, User follower){
 		session = HibernateUtil.getSession();
 		User user = getUserByNick(userNickname);
-
 		if (user.getFollows().contains(follower)){
 			return true;
 		}
@@ -211,11 +210,11 @@ public class UserDaoImpl implements UserDao {
 		session = HibernateUtil.getSession();
 		Query q = session.createQuery("" + "from User as user "
 				+ "where user.email ='" + email + "'");
-		user = (User) q.uniqueResult();
-	//	session.close();		
+		user = (User) q.uniqueResult();	
 		return user;	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUserByRole(String role) {
 		List<User> users = new ArrayList<User>();
@@ -246,13 +245,14 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> findAllUsers(int pageNumber, int maxResults) {
 		session = HibernateUtil.getSession();
 		Query q = session.createQuery("from User"); 
 		q = q.setFirstResult(maxResults * (pageNumber - 1));		
 	    q.setMaxResults(maxResults);
-		return q.list();
+		return (List<User>)  q.list();
 	}
 
 
