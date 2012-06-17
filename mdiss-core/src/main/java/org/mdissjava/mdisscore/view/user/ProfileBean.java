@@ -12,6 +12,7 @@ import org.mdissjava.mdisscore.controller.bll.UserManager;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Configuration;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
@@ -30,6 +31,7 @@ public class ProfileBean {
 	private String userNick;
 	private User user;
 	private String profileAvatar;
+	private Configuration configuration;
 	
 	public ProfileBean(){
 		ParamsBean pb = getPrettyfacesParams();
@@ -90,9 +92,19 @@ public class ProfileBean {
 		this.profileAvatar = profileAvatar;
 	}
 
+	public Configuration getConfiguration() {
+		this.configuration = this.user.getConfiguration(); 
+		return this.configuration;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
 	private ParamsBean getPrettyfacesParams() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
 		return pb;
 	}
+	
 }

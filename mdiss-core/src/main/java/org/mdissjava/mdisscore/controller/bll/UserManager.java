@@ -2,7 +2,6 @@ package org.mdissjava.mdisscore.controller.bll;
 
 import java.util.List;
 
-import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 
 public interface UserManager {
