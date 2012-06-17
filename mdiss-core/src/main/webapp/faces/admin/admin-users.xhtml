@@ -76,12 +76,16 @@
 								</div>
 							</p:column>
 							<p:column>
+								<div class="row-fluid">								
+									Followers:<strong> #{fn:length(user.followers)}</strong>
+								</div> 
 								<div class="row-fluid">
-									Followers: #{fn:length(user.followers)} 
-									Following: #{fn:length(user.follows)}
+									Following:<strong> #{fn:length(user.follows)}</strong>
 								</div>
+							</p:column>	
+							<p:column>	
 								<div class="row-fluid">
-									<h:commandButton styleClass="btn btn-small"
+									<h:commandButton styleClass="btn btn-danger"
 										actionListener="#{adminManagerBean.deleteUser(user)}"
 										value="Delete user" />
 								</div>
