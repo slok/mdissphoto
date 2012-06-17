@@ -94,21 +94,22 @@
 			<div class="row-fluid">
 				<div class="span12">			  	
 					<div class="box centered">	
-		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
-		   				<div class="thumb">
-		   					<div class="span3">		
-		   					<pretty:link mappingId="photo-detail" >
-		    					<f:param value="#{albumDetailsBean.userNick}" />
-								<f:param value="#{albumDetailsBean.photoIDs[status.index]}" />	
-		   						<h:graphicImage  value="#{photoURL}" />																							 																								
-								<div class="textBox">
-									<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
-								</div> 
-							</pretty:link>
-						</div>								
-		    		</ui:repeat>
-		    	</div>	    		
-			  </div> 		
+		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">
+			  				<div class="span3">
+			  					<div class="thumb"> 		 					   				
+			   					<pretty:link mappingId="photo-detail" >
+			    					<f:param value="#{albumDetailsBean.userNick}" />
+									<f:param value="#{albumDetailsBean.photoIDs[status.index]}" />	
+			   						<h:graphicImage  value="#{photoURL}" />																							 																								
+									<div class="textBox">
+										<div class="text">#{albumDetailsBean.photoTitles[status.index]}</div>	
+									</div> 
+								</pretty:link>		
+								</div>							
+							</div> 							
+		    			</ui:repeat>
+		    		</div>	    		
+			 	</div> 		
 			</div>	
 			
 			<h:panelGroup layout="block" rendered="#{albumDetailsBean.showMenu}">
@@ -132,9 +133,11 @@
 				</div>
 			</h:panelGroup>
 			
-			
-			<div id="page_navigation" class="pagination offset3"></div>
-			
+			<div class="row-fluid">
+				<div class="span12">
+					<div id="page_navigation" class="pagination offset5"></div>
+				</div>
+			</div>				
 							
 		</ui:define>
 				
