@@ -88,8 +88,14 @@
 							<p:column>	
 								<div class="row-fluid">
 									<h:commandButton styleClass="btn btn-danger"
-										actionListener="#{adminManagerBean.deleteUser(user)}"
-										value="Delete user" />
+										rendered="#{user.active == true}"
+										actionListener="#{adminManagerBean.deactivateUser(user.id)}"
+										value="Deactivate account" />
+
+									<h:commandButton styleClass="btn btn-success"
+										rendered="#{user.active == false}"
+										actionListener="#{adminManagerBean.activateUser(user.id)}"
+										value="Activate account" />										
 								</div>
 							</p:column>
 						</div>

@@ -62,9 +62,14 @@ public class AdminManagerBean {
 		}					
 	}
 	
-	public void deleteUser(User user){
-		this.userManager.deleteUser(user);
+	public void deactivateUser(int userId){		
+		this.userManager.deactivateUser(userId);
 	}
+	
+	public void activateUser(int userId){
+		this.userManager.activateUser(userId);
+	}
+		
 				
 	public int getPage() {
 		return this.page;
@@ -113,9 +118,7 @@ public class AdminManagerBean {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-	
-
-	
+		
 	private ParamsBean getPrettyfacesParams() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
