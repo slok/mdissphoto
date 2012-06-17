@@ -13,5 +13,6 @@ public interface MdissNotificationDao {
 	void deleteMdissNotification(MdissNotification mdissNotification);
 	public List<MdissNotification> findUsersMdissNotifications(String userName, int limit) throws IllegalArgumentException;
 	public PhotoUploadedNotification findPhotoUploadedNotifications(String userName, String photoId) throws IllegalStateException, IllegalArgumentException;
-
+	void deleteSameMdissReportNotifications(MdissNotification mdissNotification);
+	List<MdissNotification> findAllNotifications(int limit);
 }

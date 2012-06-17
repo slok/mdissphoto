@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
 import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.model.pojo.notifications.ReportPhotoNotification;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.dao.BasicDAO;
@@ -109,10 +110,22 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 	
 	
 	@Override
-	public void deleteMdissNotification(MdissNotification mdissNotification) {
-		
+	public void deleteMdissNotification(MdissNotification mdissNotification) {		
 		ds.delete(mdissNotification);
+	}
 
+	@Override
+	public List<MdissNotification> findAllNotifications(int limit) {
+		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).limit(limit);				
+		List<MdissNotification> mdissNotifications = query.asList();
+		return mdissNotifications;
+	}
+	
+	@Override
+	public void deleteSameMdissReportNotifications(MdissNotification mdissNotification){
+		ReportPhotoNotification n = (ReportPhotoNotification) mdissNotification;
+		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).disableValidation().filter("className","org.mdissjava.mdisscore.model.pojo.notifications.ReportPhotoNotification").filter("photoId", n.getPhotoId());				
+		ds.delete(query);
 	}
 
 }
