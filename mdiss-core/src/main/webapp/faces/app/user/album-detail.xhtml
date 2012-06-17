@@ -5,7 +5,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pretty="http://ocpsoft.com/prettyfaces"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">  
     
     <ui:composition template="/faces/app/user-space.xhtml">
     
@@ -15,8 +16,45 @@
 			
 	     	<h:outputScript library="js" name="jquery.masonry.min.js" />
 	     	<h:outputScript library="js" name="albumContent.js" />	 
-	     	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script> 
-	     	    		
+		    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+	
+	
+			<script type="text/javascript"
+				src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+			<script type="text/javascript">
+	     		
+	     		$(document).ready(function() { 
+	     			
+	     			var show_per_page = #{albumDetailsBean.maxNumberPhotos};
+	     			var number_of_items = #{albumDetailsBean.totalPhotosAlbum}
+	     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
+	
+	     			var navigation_html = '<ul>';
+	     			var current_link = 0;
+	     		      	     			  
+	     			 while(number_of_pages != current_link ) {
+	     				current_link++;
+	     			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
+	       			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
+	     			    navigation_html += '</li>';     			  
+	     			 }
+	     			  
+	     			  navigation_html += '</ul>';
+	     			  
+	     			 $('#page_navigation').html(navigation_html);
+	     			 
+	     			 
+	     			 var page_num = #{userBean.page}
+	     			 var get_box = document.getElementById('id'+page_num);
+	     			 $('#page_navigation').find('li.active').removeClass('active');
+	     			 $(get_box).addClass('active');
+	     			      			      		     		
+	     		});
+	     		
+	     		
+	     		</script>
+	
+	
 		</ui:define>
       
 		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
@@ -57,7 +95,8 @@
 				<div class="span12">			  	
 					<div class="box centered">	
 		  				<ui:repeat value="#{albumDetailsBean.photoURLs}" var="photoURL" varStatus="status">	
-		   				<div class="thumb">	
+		   				<div class="thumb">
+		   					<div class="span3">		
 		   					<pretty:link mappingId="photo-detail" >
 		    					<f:param value="#{albumDetailsBean.userNick}" />
 								<f:param value="#{albumDetailsBean.photoIDs[status.index]}" />	
@@ -92,6 +131,10 @@
 	                 </h:form>
 				</div>
 			</h:panelGroup>
+			
+			
+			<div id="page_navigation" class="pagination offset3"></div>
+			
 							
 		</ui:define>
 				

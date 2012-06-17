@@ -10,7 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
+import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
+import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
@@ -35,15 +37,33 @@ public class AlbumDetailsBean {
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	
+	private int MAX_NUMBER_PHOTOS = 5;
+	
 	private List<String> photoURLs;
 	private List<String> photoTitles;
 	private List<String> photoIDs;
+	public List<Photo> getPhotoList() {
+		return photoList;
+	}
+
+	public void setPhotoList(List<Photo> photoList) {
+		this.photoList = photoList;
+	}
+
 	private List<Photo> photoList;
+
+	private int totalPhotosAlbum;
+	private PhotoManager photoManager;	
+	private int page;
 	
 	public AlbumDetailsBean()
 	{			
 		//Depending on the logged user that is checking the albums, modifyAlbum button is shown or not.	
 		ParamsBean pb = getPrettyfacesParams();
+		this.page = pb.getPage();
+		if (this.page == 0){
+			this.page = 1;
+		}
 		this.userNick = pb.getUserId();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,6 +80,7 @@ public class AlbumDetailsBean {
 		
 		this.message = "";
 		this.showMessage = false;
+		System.out.println("ENTRa");
 		
 		//get morphia database from properties and load the albums by its ids
 		try {
@@ -76,11 +97,15 @@ public class AlbumDetailsBean {
 		
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
+			photoManager = new PhotoManagerImpl(datastore);
 			
 			Album a = albumManager.searchAlbumUniqueUtil(this.albumID, this.userNick);
 			
+			
 			this.albumTitle = a.getTitle();	
-			this.photoList = albumManager.getPhotosFromAlbum(this.albumID, this.userNick);
+//			this.photoList = albumManager.getPhotosFromAlbum(this.albumID, this.userNick);	
+			totalPhotosAlbum = photoManager.getTotalPhotosAlbum(a);
+			this.photoList = photoManager.getPhotosAlbumOffset(a, MAX_NUMBER_PHOTOS, (page-1) * MAX_NUMBER_PHOTOS);
 			
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
 			String bucketPropertyKey = "thumbnail.square.260px.bucket.name";
@@ -144,6 +169,31 @@ public class AlbumDetailsBean {
 		
 	}
 	
+	
+	public int getTotalPhotosAlbum() {		
+		return this.totalPhotosAlbum;
+	}
+
+	public void setTotalPhotosAlbum(int totalPhotosAlbum) {
+		this.totalPhotosAlbum = totalPhotosAlbum;
+	}
+
+	public int getMaxNumberPhotos() {
+		return MAX_NUMBER_PHOTOS;
+	}
+
+	public void setMaxNumberPhotos(int maxNumberPhotos) {
+		this.MAX_NUMBER_PHOTOS = maxNumberPhotos;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
 	public List<String> getPhotoIDs() {
 		return photoIDs;
 	}
