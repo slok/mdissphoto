@@ -10,12 +10,15 @@ import javax.faces.context.FacesContext;
 
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
+import org.mdissjava.mdisscore.controller.bll.PhotoManager;
 import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.code.morphia.Datastore;
 
@@ -179,6 +182,39 @@ public class PhotoDetailsSettingsBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
 		return pb;
+	}
+	
+	public String deleteAlbum() {
+		
+		ParamsBean pb = getPrettyfacesParams();
+		pb.setAlbumId(this.photo.getAlbum().getAlbumId());
+		
+		//Security check just to ensure that the one erasing the photo is the owner of the album 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
+		
+		if(loggedUser.equals(this.userNick)) {
+					
+			 try {
+					String database;
+					
+					PropertiesFacade propertiesFacade = new PropertiesFacade();
+					database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
+				
+					Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
+					PhotoManager photoManager = new PhotoManagerImpl(datastore);
+					
+					photoManager.deletePhoto(this.photoId);
+					
+			 } catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			 } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			 }   
+		}
+		return "pretty:album-detail";
 	}
 		
 	public void saveSettings()
