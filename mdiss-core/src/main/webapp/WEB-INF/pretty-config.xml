@@ -199,7 +199,7 @@
 	<!-- Admin -->
 	<url-mapping id="admin">
 		<pattern value="/a/" />
-		<view-id value="/faces/admin/admin-index.jsf" />
+		<view-id value="/faces/admin/admin-dashboard.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="admin-users">
