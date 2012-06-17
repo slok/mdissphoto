@@ -200,5 +200,15 @@
 	<url-mapping id="admin">
 		<pattern value="/a/" />
 		<view-id value="/faces/admin/admin-index.jsf" />
-	</url-mapping>	
+	</url-mapping>
+	
+	<url-mapping id="admin-users">
+		<pattern value="/a/users/" />
+		<view-id value="/faces/admin/admin-users.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="admin-users-pag">
+		<pattern value="/a/users/#{page:paramsBean.page}" />
+		<view-id value="/faces/admin/admin-users.jsf" />
+	</url-mapping>			
 </pretty-config>
