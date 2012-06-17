@@ -71,10 +71,6 @@ public class UserManagerImpl implements UserManager {
 		return userDao.findFollowers(user, pageNumber, maxResults);
 	}
 
-	@Override
-	public Photo getPhoto(int PhotoId) {
-		return null;// new PhotoBo();
-	}
 
 	@Override
 	public boolean changePassword(User user, String oldPassword,
