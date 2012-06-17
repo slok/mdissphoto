@@ -818,3 +818,31 @@ div.captcha
 	width:1px;
 	height:200px;
 	}
+	
+/* PHOTO SETTINGS */
+
+.photo-settings-container{
+	margin-left: auto;   
+    margin-right: auto; 
+    width: 500px;
+}
+.photo-settings-title{
+	margin-left: auto;   
+  	margin-right: auto; 
+  	text-align:center;
+}
+.photo-settings-label{
+	margin-top: 10px;   
+	margin-bottom: 6px;   
+}
+.photo-settings-text{  
+	font-weight:bold;
+	font-size:14px;
+}
+.photo-settings-submit-container{
+   margin:8px 0;
+   text-align:center;
+   }
+.marginLeft{
+	margin-left:10px;
+}

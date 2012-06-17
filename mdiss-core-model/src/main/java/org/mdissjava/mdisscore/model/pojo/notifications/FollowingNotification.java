@@ -3,7 +3,8 @@ package org.mdissjava.mdisscore.model.pojo.notifications;
 
 public final class FollowingNotification extends MdissNotification{
 
-	private String followerUserName;	
+	private String followerUserName;
+	private String privateProfileAcceptToken;	
 	
 	//this constructor shound't exists, Morphia needs it :/
 	public FollowingNotification() {
@@ -24,6 +25,14 @@ public final class FollowingNotification extends MdissNotification{
 		this.followerUserName = followerUserName;
 	}
 	
+	public String getPrivateProfileAcceptToken() {
+		return privateProfileAcceptToken;
+	}
+
+	public void setPrivateProfileAcceptToken(String privateProfileAcceptToken) {
+		this.privateProfileAcceptToken = privateProfileAcceptToken;
+	}
+
 	@Override
 	public String toString() {
 		
