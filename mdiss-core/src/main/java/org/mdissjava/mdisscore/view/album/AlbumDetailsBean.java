@@ -37,7 +37,7 @@ public class AlbumDetailsBean {
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	
-	private int MAX_NUMBER_PHOTOS = 5;
+	private int MAX_NUMBER_PHOTOS = 4;
 	
 	private List<String> photoURLs;
 	private List<String> photoTitles;
