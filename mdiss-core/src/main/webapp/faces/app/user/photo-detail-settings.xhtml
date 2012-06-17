@@ -104,21 +104,22 @@
 								 </ul>																																							   										
 							</div>				
 						</div>
-						<hr class="style-one"/>
-						<a class="btn btn-danger" data-toggle="modal" href="#deleteModal" >Delete photo <i class="icon-trash icon-white"/></a>		
-						<hr class="style-one"/>
+						<br/>
+						<p:separator />
 						<div class="row-fluid">
 							<div class="span12">  
 								<!-- CANCELAR -->
 								<pretty:link mappingId="photo-detail" >
 									<f:param value="#{photoDetailsSettingsBean.userNick}" />
 									<f:param value="#{photoDetailsSettingsBean.photoId}" />
-									<button class="btn" type="submit">
+									<button class="btn alignLeft" type="submit">
 										Cancel
 									</button>
 								</pretty:link> 
 								<!-- MODIFICAR -->
-								<h:commandButton styleClass="btn btn-primary btn-large" value="Modify" type="submit" action="#{photoDetailsSettingsBean.saveSettings}" onclick="getAllTags();"><i class="icon-pencil icon-white"/></h:commandButton>				
+								<h:commandButton styleClass="btn btn-primary btn-large alignLeft marginLeft" value="Modify" type="submit" action="#{photoDetailsSettingsBean.saveSettings}" onclick="getAllTags();"/>				
+								<!-- BORRAR -->
+								<a class="btn btn-danger alignRight" data-toggle="modal" href="#deleteModal" >Delete photo <i class="icon-trash icon-white"/></a>					
 							</div>
 						</div>
 					</h:form>	
