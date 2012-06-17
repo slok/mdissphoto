@@ -18,7 +18,6 @@ import org.mdissjava.mdisscore.model.pojo.User;
 public class UserDaoImpl implements UserDao {
 
 	private Session session;	
-	private static int pageSize = 2;	
 	
 	public UserDaoImpl() {
 		
@@ -107,15 +106,15 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> findFollows(String userId, int pageNumber) {
+	public List<User> findFollows(String userId, int pageNumber, int maxResults) {
 		List<User> users = new ArrayList<User>();
 		Session session = HibernateUtil.getSession();
 
 		Query q = session.createQuery("Select follows from User as user "
 				+ " where user.nick = '" + userId + "'");
-		q = q.setFirstResult(pageSize * (pageNumber - 1));		
-	    q.setMaxResults(pageSize);						
-		users =  q.list();
+		q = q.setFirstResult(maxResults * (pageNumber - 1));		
+	    q.setMaxResults(maxResults);						
+		users =  (List<User>) q.list();
 		return users;
 	}
 
@@ -143,15 +142,15 @@ public class UserDaoImpl implements UserDao {
 
 
 	@Override
-	public List<User> findFollowers(String userId, int pageNumber) {
+	public List<User> findFollowers(String userId, int pageNumber, int maxResults) {
 		List<User> users = new ArrayList<User>();
 		Session session = HibernateUtil.getSession();
 
 		Query q = session.createQuery("Select followers from User as user "
 				+ " where user.nick = '" + userId + "'");
-		q = q.setFirstResult(pageSize * (pageNumber - 1));		
-	    q.setMaxResults(pageSize);
-		users =  q.list();
+		q = q.setFirstResult(maxResults * (pageNumber - 1));		
+	    q.setMaxResults(maxResults);
+		users =  (List<User>) q.list();
 		return users;
 	}
 
@@ -222,6 +221,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int getTotalUsers() {
+		session = HibernateUtil.getSession();
 		Criteria criteria = session.createCriteria(User.class);	 
 		criteria.setProjection(Projections.rowCount()); 
 		return ((Long)criteria.list().get(0)).intValue();
