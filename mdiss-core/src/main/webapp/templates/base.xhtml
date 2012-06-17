@@ -32,7 +32,13 @@
 
         <h:body>    	    
         		<ui:insert name="nav-menu">
-        		
+	        		<!-- navbar -->
+				  	<h:panelGroup layout="block" rendered="#{dashboardBean.user == 'anonymousUser'}"> 
+		        		<ui:include src="/templates/include/public-navbar.xhtml"/>
+		        	</h:panelGroup>
+		     		<h:panelGroup layout="block" rendered="#{dashboardBean.user != 'anonymousUser'}">
+		        		<ui:include  src="/templates/include/app-navbar.xhtml"/>
+		        	</h:panelGroup>
        			</ui:insert>
 
         	
