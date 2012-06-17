@@ -212,26 +212,17 @@ public class PhotoDetailsBean {
 	}
 
 	public void startTweeterBirdOauthAuthProcess() throws TwitterException, IOException{
-		//check if we have the credentials id not redirect
-		OauthAccessToken accessToken = null;
+		//check if we have the credentials id not redirect;
 		try
 		{
-			accessToken = new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
-		}catch(Exception e)
+			new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
+			this.executeModal = "$('#myModal').modal('show')";
+		}catch(IllegalAccessError e)
 		{
-			//if there was an illegal access then we need to create the user, so we redirect to the twitter oauth page
-			//so we don't do anything because will enter in the null block
-		}
-		
-		if (accessToken == null)
-		{	
 			TwitterApiManager twitterApi = new TwitterApiManager();
 			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect(url);
-		}else
-		{
-			this.executeModal = "$('#myModal').modal('show')";
 		}
 	}
 	
