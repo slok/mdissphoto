@@ -19,6 +19,7 @@
 				outcome="pretty:dashboard" />
 			<div class="nav-collapse">
 				<ul class="nav">
+					<li class="divider-vertical"></li>
 					<li class="dropdown active"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown">My <b
 							class="caret"></b></a>
@@ -84,18 +85,18 @@
 
 
 						</ul></li>
-
 					<li>
 						<pretty:link mappingId="upload" rendered="#{dashboardBean.userObject.role != 'admin'}">
 							<i class="icon-upload icon-white" />
 							Upload
 						</pretty:link>
 					</li>
-					<li><pretty:link mappingId="search" rendered="#{dashboardBean.userObject.role != 'admin'}">
+					<li>
+						<pretty:link mappingId="search" rendered="#{dashboardBean.userObject.role != 'admin'}">
 							<i class="icon-search icon-white" />
 							Search
-						</pretty:link></li>						
-						
+						</pretty:link>
+					</li>						
 				</ul>
 				
 				
