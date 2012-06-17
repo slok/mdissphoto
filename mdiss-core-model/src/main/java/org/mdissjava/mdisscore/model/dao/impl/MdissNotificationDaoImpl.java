@@ -82,6 +82,9 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 		}else
 			throw new IllegalArgumentException("Need username to search users notifications");
 		
+		//sort by date
+		query.order("-date");
+		
 		List<MdissNotification> mdissNotifications = query.asList();
 
 		return mdissNotifications;
