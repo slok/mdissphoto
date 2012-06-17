@@ -20,9 +20,10 @@ public interface UserManager {
 	boolean changePassword(User user,String oldPassword ,String newPassword);
 	boolean emailAlreadyExists(String email);
 	boolean nickAlreadyExists(String userNickname);
-	public void addFollow(String userNickname, User follow);
-	public void addFollower(String userNickname, User follower);
-	public void activateUser(int idUser);
+	void addFollow(String userNickname, User follow);
+	void addPrivateFollow(String userNickname, User follow);
+	void addFollower(String userNickname, User follower);
+	void activateUser(int idUser);
 	boolean followsUser(String userNickname, User follow);
 	void deleteFollow (String userNickname, User follow);
 	void deleteFollower(String userNickname, User follower);

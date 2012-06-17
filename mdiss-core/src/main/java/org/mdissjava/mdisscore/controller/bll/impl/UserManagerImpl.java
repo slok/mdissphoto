@@ -115,6 +115,11 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
+	public void addPrivateFollow(String userNickname, User follow) {
+		userDao.addFollow(userNickname, follow);
+	}
+	
+	@Override
 	public void addFollow(String userNickname, User follow) {
 		
 		NotificationManager notifier = NotificationManager.getInstance();

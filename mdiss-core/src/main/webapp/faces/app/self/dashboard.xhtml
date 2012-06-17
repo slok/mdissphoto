@@ -63,11 +63,25 @@
 											</div>
 											<div class="row-fluid">
 												<div class="span9">
-													<h3>
-														<pretty:link mappingId="user-profile" >
-															<f:param value="#{notification.followerUserName}" /><strong>#{notification.followerUserName}</strong>
-														</pretty:link> is now following you!
-													</h3>
+													<h:panelGroup layout="block" rendered="#{notification.privateProfileAcceptToken == null}">
+														<h3>
+															<pretty:link mappingId="user-profile" >
+																<f:param value="#{notification.followerUserName}" /><strong>#{notification.followerUserName}</strong>
+															</pretty:link> is now following you!
+														</h3>
+													</h:panelGroup>
+													<h:panelGroup layout="block" rendered="#{notification.privateProfileAcceptToken != null }">
+														<h3>
+															<pretty:link mappingId="user-profile" >
+																<f:param value="#{notification.followerUserName}" /><strong>#{notification.followerUserName}</strong>
+															</pretty:link> wants to follow you
+														</h3>
+														<h:form>
+															<h:commandButton styleClass="btn btn-info"
+																	actionListener="#{dashboardBean.addPrivateFollow(dashboardBean.users[notification.followerUserName])}" value="Accept"
+																	update="growl" />
+														</h:form>
+													</h:panelGroup>
 												</div>
 												<div class="span1">
 													<h:form>
