@@ -61,7 +61,19 @@
 							<h:outputLabel class="bold" value="Phone number: " />
 								<p:inputText id="phone" value="#{perConfiguration.phone}"
 									label="Phone"/>
-								<h:message for="phone" />	
+								<h:message for="phone" />
+								
+							<h:outputLabel class="bold" value="Avatar: " />
+							<p:selectOneMenu value="#{perConfiguration.avatarPhoto}" var="p" converter="#{perConfiguration.photoConverter}">   
+					            <f:selectItems value="#{perConfiguration.photos}" var="photo" itemLabel="#{photo.title}" itemValue="#{photo}"/>
+					            <p:column>  
+					            	<p:graphicImage value="/dynamic/image?db=#{perConfiguration.thumbnailDatabase}&amp;bucket=square.75&amp;id=#{p.photoId}"/>
+					            </p:column>
+					            <p:column>  
+					                #{p.title}  
+					            </p:column>  
+       						 </p:selectOneMenu>  	
+							
 						
 						</h:panelGrid>
 					</div>

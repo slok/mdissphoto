@@ -1,20 +1,31 @@
 package org.mdissjava.mdisscore.view.configuration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.servlet.ServletException;
 
+import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
+import org.mdissjava.mdisscore.controller.bll.impl.AlbumManagerImpl;
 import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
+import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
+import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.User.Gender;
+import org.mdissjava.mdisscore.view.converter.PhotoConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.google.code.morphia.Datastore;
 
 
 @RequestScoped
@@ -37,11 +48,16 @@ public class PerConfiguration {
 	private User user;
 	private UserManager userManager;
 	
+	private List<Photo> photos;
+	private final String db = "mdissphoto";
+	private Photo avatarPhoto = null;
+	private String thumbnailDatabase = "images";
+	private Converter photoConverter = null;
 	
 	public PerConfiguration()
 	{
 		this.userNick = retrieveSessionUserNick();
-		
+		this.photoConverter = new PhotoConverter();
 		userManager = new UserManagerImpl();		
 		this.user = userManager.getUserByNick(this.userNick);
 		this.nick=this.userNick ;
@@ -51,6 +67,16 @@ public class PerConfiguration {
 		this.setPhone(this.user.getPhone());
 		this.setSurname(this.user.getSurname());
 		this.setBirthdate(this.user.getBirthdate());
+		
+		//add photos for the avatar selection
+		Datastore datastore = MorphiaDatastoreFactory.getDatastore(db);
+		AlbumManager albumManager = new AlbumManagerImpl(datastore);
+		List<Album> albums = albumManager.findUserAlbums(userNick);
+		this.photos = new ArrayList<Photo>();
+		
+		for (Album a: albums){
+			this.photos.addAll(a.getPhotos());
+		}
 		
 	}
 	
@@ -111,6 +137,43 @@ public class PerConfiguration {
 	}
 
 	
+	public List<Photo> getPhotos() {
+		return photos;
+	}
+
+
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
+	}
+
+	public String getThumbnailDatabase() {
+		return thumbnailDatabase;
+	}
+
+
+	public void setThumbnailDatabase(String thumbnailDatabase) {
+		this.thumbnailDatabase = thumbnailDatabase;
+	}
+
+	public Photo getAvatarPhoto() {
+		return avatarPhoto;
+	}
+
+	public void setAvatarPhoto(Photo avatarPhoto) {
+		this.avatarPhoto = avatarPhoto;
+	}
+	
+	
+	public Converter getPhotoConverter() {
+		return photoConverter;
+	}
+
+
+	public void setPhotoConverter(Converter photoConverter) {
+		this.photoConverter = photoConverter;
+	}
+
+
 	private String retrieveSessionUserNick() {
 		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		  return auth.getName();   
@@ -118,13 +181,13 @@ public class PerConfiguration {
 	
 	public String doPerSave() throws ServletException, IOException
 	{
-		//System.out.println("Save clicked....");
+		System.out.println("Save clicked....");
 		this.user.setName(this.getName());
 		this.user.setSurname(this.getSurname());
 		this.user.setBirthdate(this.getBirthdate());
 		this.user.setPhone(this.getPhone());
 		this.user.setGender(this.getGender());
-		
+		this.user.setAvatar(this.avatarPhoto.getPhotoId());
 		userManager.saveUser(this.user);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Personal settings updated"));
 		return null;

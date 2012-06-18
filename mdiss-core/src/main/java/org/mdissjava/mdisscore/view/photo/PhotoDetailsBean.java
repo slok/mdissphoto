@@ -20,11 +20,13 @@ import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
 import org.mdissjava.mdisscore.controller.bll.impl.PhotoManagerImpl;
+import org.mdissjava.mdisscore.controller.bll.impl.UserManagerImpl;
 import org.mdissjava.mdisscore.metadata.impl.MetadataExtractorImpl;
 import org.mdissjava.mdisscore.model.dao.factory.MorphiaDatastoreFactory;
 import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.OauthAccessToken;
 import org.mdissjava.mdisscore.model.pojo.Photo;
+import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.Vote;
 import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.mdissjava.notifier.event.manager.NotificationManager;
@@ -47,6 +49,7 @@ public class PhotoDetailsBean {
 	private String photoId;
 	private String userNick;
 	private String loggedUserNick;
+	private User ownerUser;
 	
 	private List<String> defaultPhotoSizes;
 	private List<String> thumbnailIds;
@@ -81,6 +84,7 @@ public class PhotoDetailsBean {
 		ParamsBean pb = getPrettyfacesParams();
 		this.userNick = pb.getUserId();
 		this.photoId = pb.getPhotoId();
+		this.ownerUser = new UserManagerImpl().getUserByNick(this.userNick);
 		this.loggedUserNick = this.retrieveSessionUserNick();
 		
 		//TODO: check if isn't detailed to redirect to /user/xxx/upload/details/yyy-yyyyyy-yyyy-yyy
@@ -387,7 +391,9 @@ public class PhotoDetailsBean {
 	public void setPublicLink(String publicLink) {
 		this.publicLink = publicLink;
 	}
-		
+	
+	
+	
 /*	public int getLikes() {
 		return likes;
 	}
@@ -404,6 +410,14 @@ public class PhotoDetailsBean {
 		this.dislikes = dislikes;
 	}*/
 	
+	public User getOwnerUser() {
+		return ownerUser;
+	}
+
+	public void setOwnerUser(User ownerUser) {
+		this.ownerUser = ownerUser;
+	}
+
 	public String getDescription() {
 		return description;
 	}

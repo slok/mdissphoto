@@ -14,14 +14,17 @@
 		<div class="row" id="notifications">
 			<div class="span8">
 				<h1>Notifications</h1>
-				<div class=" alert-normal alert alert-padding">
+				<h:panelGroup rendered="#{fn:length(dashboardBean.notifications) == 0}" layout="block" >
+							<h2>There are no notifications</h2>
+						</h:panelGroup>
+				<h:panelGroup rendered="#{fn:length(dashboardBean.notifications) > 0}" layout="block" styleClass="alert-normal alert alert-padding">
 					<ui:repeat value="#{dashboardBean.notifications}" var="notification">
 					  	<h:panelGroup layout="block" rendered="#{notification['class'].simpleName == 'PhotoUploadedNotification'}" 
 					  					styleClass="alert alert-info notification-alert">
 					  	
 					  		<div class="row-fluid">
 					  			<div class="span3">
-									<img src="http://www.dummyimage.com/100x100"></img>
+									<h:graphicImage width="100" height="100" value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=square.150&amp;id=#{dashboardBean.users[notification.uploaderUsername].avatar}"/>
 								</div>
 					  			<div class="span9">
 						  			<div class="row-fluid">
@@ -53,7 +56,7 @@
 					  	
 						  	<div class="row-fluid">
 							  	<div class="span3">
-									<img src="http://www.dummyimage.com/100x100"></img>
+									<h:graphicImage width="100" height="100" value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=square.150&amp;id=#{dashboardBean.users[notification.followerUserName].avatar}"/>
 								</div>
 								<div class="span9">
 									<div class="row-fluid">
@@ -100,7 +103,7 @@
 						  	</div>
 					  	</h:panelGroup>
 					</ui:repeat>
-				</div>
+				</h:panelGroup>
 			</div>
 			<div class="span4">
 				<div class="row-fluid alert alert-normal">
@@ -120,7 +123,10 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h1>Albums</h1>
-						<div class="alert-normal alert alert-padding">
+						<h:panelGroup rendered="#{fn:length(dashboardBean.albums) == 0}" layout="block">
+							<h2>There are no albums</h2>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{fn:length(dashboardBean.albums) > 0}" layout="block" styleClass="alert-normal alert alert-padding">
 							<ul class="album-list">
 								<ui:repeat value="#{dashboardBean.albums}" var="album">
 									<li> 
@@ -133,7 +139,7 @@
 									</li>
 								</ui:repeat>
 							</ul>
-						</div>
+						</h:panelGroup>
 					</div>
 				</div>
 			</div>

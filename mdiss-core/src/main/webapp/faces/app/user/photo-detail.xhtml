@@ -276,7 +276,7 @@
 				<!-- User profile -->					
 					<div class="row-fluid alert alert-normal">
 						<div class="span3">
-							<img src="http://static.venetubo.com/images/avatar_missing.jpg"></img>
+							<h:graphicImage width="100" height="100" value="/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=square.150&amp;id=#{photoDetailsBean.ownerUser.avatar}"/>
 						</div>
 						<div class="span8">
 							<pretty:link mappingId="user-profile" >
