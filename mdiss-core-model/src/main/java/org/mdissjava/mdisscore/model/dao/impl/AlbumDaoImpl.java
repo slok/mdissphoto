@@ -82,13 +82,31 @@ public class AlbumDaoImpl extends BasicDAO<Album, ObjectId> implements
 
 	@Override
 	public void deleteAlbum(Album album) {
-
 		ds.delete(album);
-
 	}
 
 	@Override
 	public int getTotalAlbums() {
 		return ((Long)ds.createQuery(Album.class).countAll()).intValue();
 	}
+
+	@Override
+	public List<Album> findUserAlbumsOffset(String userNick, int quantityNumberAlbums, int skipNumberAlbums) {
+		List<Album> albums;
+		Query<Album> query = ds.createQuery(Album.class);
+		query.filter("userNick", userNick);
+		query.offset(skipNumberAlbums); //skip the first X
+		if (quantityNumberAlbums > 0) //If 0 then get all 
+			query.limit(quantityNumberAlbums); //limit the number
+		
+		albums = query.asList();
+		return albums;
+	}
+
+	@Override
+	public int getTotalAlbumsUser(String userNick) {
+		return ((Long)ds.createQuery(Album.class).disableValidation().filter("userNick", userNick).countAll()).intValue();
+	}
+
+
 }
