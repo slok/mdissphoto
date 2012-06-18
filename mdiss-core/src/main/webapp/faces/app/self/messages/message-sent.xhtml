@@ -93,7 +93,7 @@
 				                        columnClasses="label, value">  
 				  
 				                <f:facet name="header">  
-				                    <img src="http://www.dummyimage.com/100x100"></img> 
+				                    <h:graphicImage width="100" height="100" value="/dynamic/image?db=#{messageBean.thumbnailDatabase}&amp;bucket=square.150&amp;id=#{messageBean.users[message.toUserName].avatar}"/> 
 				                </f:facet>  
 				  
 				                <h:outputText value="To:" />  

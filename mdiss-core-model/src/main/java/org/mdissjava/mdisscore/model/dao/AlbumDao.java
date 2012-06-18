@@ -14,4 +14,8 @@ public interface AlbumDao {
 	void deleteAlbum(Album album);
 
 	int getTotalAlbums();
+
+	List<Album> findUserAlbumsOffset(String userNick, int quantityNumberAlbums, int skipNumberAlbums);
+
+	int getTotalAlbumsUser(String userNick);
 }

@@ -25,8 +25,33 @@
      		<script>
      			$(document).ready(function() { 
      				initCarousel(#{fn:length(albumBean.albumPhotosURLs)});
+     				
+     				
+     				var show_per_page = #{albumBean.maxNumberAlbums};
+	     			var number_of_items = #{albumBean.totalAlbums}
+	     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
+	
+	     			var navigation_html = '<ul>';
+	     			var current_link = 0;
+	     		      	     			  
+	     			 while(number_of_pages != current_link ) {
+	     				current_link++;
+	     			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
+	       			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
+	     			    navigation_html += '</li>';     			  
+	     			 }
+	     			  
+	     			  navigation_html += '</ul>';
+	     			  
+	     			 $('#page_navigation').html(navigation_html);
+	     			 	     			 
+	     			 var page_num = #{userBean.page}
+	     			 var get_box = document.getElementById('id'+page_num);
+	     			 $('#page_navigation').find('li.active').removeClass('active');
+	     			 $(get_box).addClass('active');
      			});
      		</script>
+     		     	     		
      		
 		</ui:define>
 		
@@ -101,6 +126,12 @@
 	                 </h:form>
 				</div>
 			</h:panelGroup>
+			
+			<div class="row-fluid">
+				<div class="span12">
+					<div id="page_navigation" class="pagination offset5"></div>
+				</div>
+			</div>
 									
 		</ui:define>
 				

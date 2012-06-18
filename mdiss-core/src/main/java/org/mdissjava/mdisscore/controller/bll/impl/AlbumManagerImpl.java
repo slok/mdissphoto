@@ -539,6 +539,14 @@ public class AlbumManagerImpl implements AlbumManager{
 	public int getTotalAlbums() {
 		return albumDao.getTotalAlbums();
 	}
+
+	public List<Album> findUserAlbumsOffset(String userNick, int quantityNumberAlbums, int skipNumberAlbums){
+		return this.albumDao.findUserAlbumsOffset(userNick, quantityNumberAlbums, skipNumberAlbums);
+	}
+
+	public int getTotalAlbumsUser(String userNick) {
+		return this.albumDao.getTotalAlbumsUser(userNick);
+	}
 	
 	
 }
