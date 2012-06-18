@@ -21,7 +21,7 @@
      		$(document).ready(function() { 
      			
      			var show_per_page = #{adminManagerBean.maxNumberConnections};
-     			var number_of_items = 8;
+     			var number_of_items = #{adminManagerBean.totalUsers};
      			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
 
      			var navigation_html = '<ul>';

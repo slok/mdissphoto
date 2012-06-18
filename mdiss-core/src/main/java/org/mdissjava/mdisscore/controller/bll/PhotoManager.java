@@ -3,6 +3,7 @@ package org.mdissjava.mdisscore.controller.bll;
 import java.io.IOException;
 import java.util.List;
 
+import org.mdissjava.mdisscore.model.pojo.Album;
 import org.mdissjava.mdisscore.model.pojo.Photo;
 
 public interface PhotoManager {
@@ -17,5 +18,7 @@ public interface PhotoManager {
 	Photo searchPhotoUniqueUtil(String photoId) throws IOException;
 	int getTotalVotesFromPhoto(String photoId) throws IOException;
 	List<Photo> getRandomPhotos(int quantity) throws IllegalStateException;
+	List<Photo> getPhotosAlbumOffset(Album album, int quantityNumberPhotos, int skipNumberPhotos);
 	int getTotalPhotos();
+	int getTotalPhotosAlbum(Album album);
 }

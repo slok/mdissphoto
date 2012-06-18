@@ -214,14 +214,17 @@ public class PhotoDaoImpl extends BasicDAO<Photo, ObjectId> implements PhotoDao 
 	
 	@Override
 	public void deletePhoto(Photo photo) {
-
 		ds.delete(photo);
-
 	}
 
 	@Override
 	public int getTotalPhotos() {
 		return ((Long)ds.createQuery(Photo.class).countAll()).intValue();
+	}
+	
+	@Override
+	public int getTotalPhotosAlbum(Album album) {		
+		return ((Long)ds.createQuery(Photo.class).disableValidation().filter("album", album).countAll()).intValue();
 	}
 	
 	

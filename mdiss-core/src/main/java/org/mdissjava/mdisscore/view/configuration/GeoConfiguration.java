@@ -37,66 +37,60 @@ public class GeoConfiguration implements Serializable {
 	private static final long serialVersionUID = -5109311454226408843L;
 
 	private AddressDao adBll = new AddressDaoImpl();
-
 	private UserManager userManager;
-
 	private String userNick;
-
 	private User user;
 
 	private String country = "0";
-
 	private String state = "0";
-
 	private String city = "0";
 
 	private String zip;
-
 	private String street;
 
 	private float coordx = (float) 39.095963;
-
 	private float coordy = (float) -99.067385;
 
 	private int zoom = 5;
 
 	private SortedMap<String, String> countries = new TreeMap<String, String>();
-
 	private SortedMap<String, String> states = new TreeMap<String, String>();
-
 	private SortedMap<String, String> cities = new TreeMap<String, String>();
 
 	public GeoConfiguration() {
 
 		this.userNick = retrieveSessionUserNick();
-
 		userManager = new UserManagerImpl();
 		this.user = userManager.getUserByNick(this.userNick);
 
 		List<Country> Lpaises = adBll.getCountries();
-		for (int i = 0; i < Lpaises.size(); i++)
-			countries.put(Lpaises.get(i).getNombre(),
-					Short.toString(Lpaises.get(i).getId()));
+		for (int i = 0; i < Lpaises.size(); i++){
+			countries.put(Lpaises.get(i).getNombre(), Short.toString(Lpaises.get(i).getId()));
+		}
 
 		if (user.getAddress().getCountryId() != 0) {
+			
 			this.setCountry(String.valueOf(user.getAddress().getCountryId()));
-			List<State> Lstate = adBll.getStates(user.getAddress()
-					.getCountryId());
-			for (int i = 0; i < Lstate.size(); i++)
-				states.put(Lstate.get(i).getNombre(),
-						Short.toString(Lstate.get(i).getId()));
-			List<City> Lcities = adBll.getCities(user.getAddress()
-					.getCountryId(), user.getAddress().getState().getId());
-			for (int i = 0; i < Lcities.size(); i++)
-				cities.put(Lcities.get(i).getNombre(),
-						Integer.toString(Lcities.get(i).getId()));
+			
+			List<State> Lstate = adBll.getStates(user.getAddress() .getCountryId());			
+			for (int i = 0; i < Lstate.size(); i++){
+				states.put(Lstate.get(i).getNombre(), Short.toString(Lstate.get(i).getId()));
+			}
+			
+			List<City> Lcities = adBll.getCities(user.getAddress().getCountryId(), user.getAddress().getState().getId());			
+			for (int i = 0; i < Lcities.size(); i++){
+				cities.put(Lcities.get(i).getNombre(), Integer.toString(Lcities.get(i).getId()));
+			}
+			
 			this.setState(String.valueOf(user.getAddress().getState().getId()));
 			this.setCity(String.valueOf(user.getAddress().getCity().getId()));
 			this.setStreet(user.getAddress().getStreet());
 			this.setZip(user.getAddress().getZip());
-			this.setCoordenadasXY(user.getAddress().getCity().getX(), user
-					.getAddress().getCity().getY());
+			this.setCoordenadasXY(user.getAddress().getCity().getX(), user.getAddress().getCity().getY());
 			this.zoom = 13;
+			
+			this.street = this.user.getAddress().getStreet();
+			this.zip = this.user.getAddress().getZip();
 		}
 
 	}
@@ -173,21 +167,20 @@ public class GeoConfiguration implements Serializable {
 	public void AjaxStateChange() {
 		if (state != null && !state.equals("")) {
 			System.out.println("State clicked..." + state);
-			// Introduzco las coordenadas seleccionadas
-			State s = this.getStateObject();
-			if (s != null)
+			State s = this.getStateObject(); // Introduzco las coordenadas seleccionadas
+			
+			if (s != null){
 				this.setCoordenadasXY(s.getX(), s.getY());
+			}
 			zoom = 10;
 			cities = new TreeMap<String, String>();
-			List<City> Lciudades = adBll.getCities(Short.parseShort(country),
-					Short.parseShort(state));
+			List<City> Lciudades = adBll.getCities(Short.parseShort(country),Short.parseShort(state));
+			
 			for (int i = 0; i < Lciudades.size(); i++) {
-				System.out.println("Added to the List: "
-						+ Lciudades.get(i).getNombre());
-				cities.put(Lciudades.get(i).getNombre(),
-						Integer.toString(Lciudades.get(i).getId()));
+				System.out.println("Added to the List: " + Lciudades.get(i).getNombre()); cities.put(Lciudades.get(i).getNombre(), Integer.toString(Lciudades.get(i).getId()));
 			}
-		} else {
+		} 
+		else {
 			cities = new TreeMap<String, String>();
 			this.setCity("0");
 		}
