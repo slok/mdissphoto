@@ -101,11 +101,11 @@
 					<p:separator />
 					<h:panelGrid columns="2" cellpadding="3">
 						<h:outputText styleClass="profile-user-info-label" value="Country:  "  rendered="#{configuration.showCountry != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.country}" rendered="#{configuration.showCountry != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.country.nombre}" rendered="#{configuration.showCountry != false}"/>
 						<h:outputText styleClass="profile-user-info-label" value="State:  "  rendered="#{configuration.showState != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.state}" rendered="#{configuration.showState != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.state.nombre}" rendered="#{configuration.showState != false}"/>
 						<h:outputText styleClass="profile-user-info-label" value="City:  " rendered="#{configuration.showCity != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.city}" rendered="#{configuration.showCity != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.city.nombre}" rendered="#{configuration.showCity != false}"/>
 						<h:outputText styleClass="profile-user-info-label" value="Street:  " rendered="#{configuration.showStreet != false}"/>
 						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.street}" rendered="#{configuration.showStreet != false}"/>
 						<h:outputText styleClass="profile-user-info-label" value="Zip:  " rendered="#{configuration.showZip != false}"/>
