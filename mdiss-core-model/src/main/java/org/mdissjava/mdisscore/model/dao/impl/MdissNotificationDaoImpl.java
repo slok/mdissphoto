@@ -119,7 +119,7 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 
 	@Override
 	public List<MdissNotification> findAllNotifications(int limit) {
-		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).limit(limit);				
+		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).limit(limit).order("-date");				
 		List<MdissNotification> mdissNotifications = query.asList();
 		return mdissNotifications;
 	}

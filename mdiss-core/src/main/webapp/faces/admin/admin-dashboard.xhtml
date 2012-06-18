@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="/faces/app/self-space.xhtml">
+
+	<ui:define name="title">Admin Dashboard</ui:define>
+	
+	<ui:define name="body">
+		<div class="span12">
+
+			<div class="span8">
+				<div class="tabbable tabs-left">
+
+					<ul class="nav nav-tabs">
+						<li class="nav-header">Reports</li>
+						<li class="active"><a href="#tab1" data-toggle="tab"> <i
+								class="icon-eye-open" /> Photo Report Notifications
+						</a></li>
+						<li><a href="#tab2" data-toggle="tab"> <i
+								class="icon-upload" /> Photo Uploaded Notifications
+						</a></li>
+						<li><a href="#tab3" data-toggle="tab"> <i
+								class="icon-random" /> Connections Notifications
+						</a></li>
+					</ul>
+
+
+					<div class="tab-content">
+
+						<div class="tab-pane active" id="tab1">
+							<h2 class="sTitle">Photo Report Notifications</h2>
+							<div class=" alert-normal alert alert-padding" id="div_panel">
+								<ui:repeat value="#{adminDashboardBean.reportNotifications}"
+									var="notification">
+
+									<h:panelGroup layout="block"
+										rendered="#{notification['class'].simpleName == 'ReportPhotoNotification'}"
+										id="report_panel"
+										styleClass="alert alert-error notification-alert">
+
+										<div class="row-fluid">
+											<div class="row-fluid">
+												<div class="span12 notification-date">
+													<em class="">#{notification.date}</em>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span12">
+													<div class="span2 offset1">
+														<pretty:link mappingId="photo-detail-a">
+															<p:lightBox styleClass="imagebox">
+																<h:graphicImage
+																	value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=#{dashboardBean.thumbnailBucket}&amp;id=#{notification.photoId}" />
+															</p:lightBox>
+														</pretty:link>
+													</div>
+
+													<div class="span9">
+														<h3>
+															A
+															<pretty:link mappingId="photo-detail-a">
+																<f:param value="#{notification.username}" />
+																<f:param value="#{notification.photoId}" />	
+															photo 
+															</pretty:link>
+															by<strong>#{notification.username}</strong> has been
+															reported.
+														</h3>
+														<div class="row-fluid">Reporting message:
+															#{notification.description}</div>
+													</div>
+												</div>
+											</div>
+											<div class="span4 offset3">
+												<div class="row-fluid">
+													<h:form>
+														<h:commandButton styleClass="btn btn-small"
+															partialSubmit="false"
+															actionListener="#{adminDashboardBean.deleteMdissNotification(notification)}"
+															value="Ignore" update="div_panel" />
+														<h:commandButton styleClass="btn btn-small"
+															partialSubmit="false"
+															actionListener="#{adminDashboardBean.deletePhoto(notification)}"
+															value="Delete photo" update="div_panel" />
+													</h:form>
+												</div>
+											</div>
+										</div>
+									</h:panelGroup>
+								</ui:repeat>
+							</div>
+						</div>
+
+
+
+						<div class="tab-pane" id="tab2">
+							<h2 class="sTitle">Photo Uploaded Notifications</h2>
+
+							<div class=" alert-normal alert alert-padding">
+								<ui:repeat value="#{dashboardBean.notifications}" var="notification">
+									<h:panelGroup layout="block"
+										rendered="#{notification['class'].simpleName == 'PhotoUploadedNotification'}"
+										styleClass="alert alert-info notification-alert">
+										
+										<div class="row-fluid">
+											<div class="row-fluid">
+												<div class="span12 notification-date">
+													<em class="">#{notification.date}</em>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span12">
+													<div class="span2 offset1">
+														<pretty:link mappingId="photo-detail-a">
+															<p:lightBox styleClass="imagebox">
+																<h:graphicImage
+																	value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=#{dashboardBean.thumbnailBucket}&amp;id=#{notification.photoId}" />
+															</p:lightBox>
+														</pretty:link>
+													</div>
+
+													<div class="span9">
+														<h3>
+															<pretty:link mappingId="user-profile-a">
+																<f:param value="#{notification.uploaderUsername}" />
+																<strong>#{notification.uploaderUsername}</strong>
+															</pretty:link>
+															uploaded a new
+															<pretty:link mappingId="photo-detail-a">
+																<f:param value="#{notification.uploaderUsername}" />
+																<f:param value="#{notification.photoId}" />
+																<strong>photo</strong>
+															</pretty:link> !
+														</h3>
+														<div class="row-fluid">Reporting message:
+															#{notification.description}</div>
+													</div>
+												</div>
+											</div>
+											
+										</div>										
+									</h:panelGroup>
+								</ui:repeat>
+							</div>
+						</div>
+
+						<div class="tab-pane" id="tab3">
+							<h2 class="sTitle">Connections Notifications</h2>
+
+							<div class=" alert-normal alert alert-padding" id="div_panel">
+								<ui:repeat value="#{adminDashboardBean.followingNotifications}"
+									var="notification">
+
+									<h:panelGroup layout="block"
+										rendered="#{notification['class'].simpleName == 'FollowingNotification'}"
+										styleClass="alert alert-success notification-alert">
+
+										<div class="row-fluid">
+											<div class="row-fluid">
+												<div class="span12 notification-date">
+													<em class="">#{notification.date}</em>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span12">
+
+													<div class="span3">
+														<h:graphicImage
+															value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=#{dashboardBean.thumbnailBucket}&amp;id=#{adminDashboardBean.findAvatar(notification.followerUserName)}" />
+													</div>
+
+													<div class="span6">
+														<h3>
+															<pretty:link mappingId="user-profile">
+																<f:param value="#{notification.followerUserName}" />
+																<strong>#{notification.followerUserName}</strong>
+															</pretty:link>
+															is now following
+															<pretty:link mappingId="user-profile">
+																<f:param value="#{notification.selfUserName}" />
+																<strong>#{notification.selfUserName}</strong>
+															</pretty:link>
+														</h3>
+													</div>
+
+													<div class="span2">
+														<h:graphicImage
+															value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=#{dashboardBean.thumbnailBucket}&amp;id=#{adminDashboardBean.findAvatar(notification.selfUserName)}" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</h:panelGroup>
+								</ui:repeat>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="span4 offset8">
+			<h1>Site statistics</h1>
+			<div class="alert-normal alert alert-padding">
+				<div>
+					<i class="icon-user" /> Total number of users:
+					#{adminDashboardBean.totalUsers}
+				</div>
+				<div>
+					<i class="icon-folder-open" /> Total number of albums:
+					#{adminDashboardBean.totalAlbums}
+				</div>
+				<div>
+					<i class="icon-th-large" /> Total number of photos uploaded:
+					#{adminDashboardBean.totalPhotos}
+				</div>
+			</div>
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

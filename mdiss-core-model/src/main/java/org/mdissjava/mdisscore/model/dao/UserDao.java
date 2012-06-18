@@ -9,9 +9,6 @@ import org.mdissjava.mdisscore.model.pojo.User;
 
 public interface UserDao {
 
-
-	Object getTotalUsers = null;
-
 	void addUser(User user); 
 	
 	void updateUser(User user);
@@ -45,6 +42,8 @@ public interface UserDao {
 	void deleteFollower(String userNickname, User follower);
 	
 	void activateUser(int userid);
+	
+	void deactivateUser(int userid);	
 
 	boolean followsUser(String userNickname, User follower);
 	
@@ -53,4 +52,8 @@ public interface UserDao {
 	List<User> getUserByRole(String role);
 
 	int getTotalUsers();
+
+	String getAvatar(String userId);
+
+	List<User> findAllUsers(int pageNumber, int maxResults);
 }

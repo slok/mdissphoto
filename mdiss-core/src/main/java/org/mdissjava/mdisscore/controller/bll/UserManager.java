@@ -22,9 +22,13 @@ public interface UserManager {
 	void addPrivateFollow(String userNickname, User follow);
 	void addFollower(String userNickname, User follower);
 	void activateUser(int idUser);
+	void deactivateUser(int userId);
 	boolean followsUser(String userNickname, User follow);
 	void deleteFollow (String userNickname, User follow);
 	void deleteFollower(String userNickname, User follower);
 	int getTotalUsers();
+	String getAvatar(String userId);
+	List<User> findAllUsers(int pageNumber, int maxResults);
+
 }
 	

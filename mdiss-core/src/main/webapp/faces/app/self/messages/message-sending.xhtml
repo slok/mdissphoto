@@ -23,7 +23,7 @@
 		
 			<div class="row">
 				<div class="span9">
-					<h1>Output Messages</h1>
+					<h1>Send New Message </h1>
 				</div>
 			</div>
 			<br/>
@@ -33,15 +33,15 @@
 			  	<div class="well sidebar-nav">
 			  		<ul class="nav nav-list">
 			  			<li class="nav-header">Messages Menu</li>
-						<li class="active">
+						<li>
 							<pretty:link mappingId="messages-in" >
-								<i class="icon-list"></i>
+								<i class="icon-inbox"></i>
 									Received Messages
 							</pretty:link>
 						</li>
-						<li class="active">
+						<li>
 							<pretty:link mappingId="messages-out" >
-								<i class="icon-list"></i>
+								<i class="icon-share-alt"></i>
 								Sent Messages
 							</pretty:link>
 						</li>
@@ -55,22 +55,23 @@
 			  		</ul>
 			  	</div>
 			  </div>
-			  <div class="span9">	
+			  <div class="well span9">	
 			  	<div>
 			  		<h3>New Message</h3>
+			  		<br />
 			  		<h:form id="form">  
 					    <p:growl id="growl" showDetail="true" sticky="true" redisplay="false" />
-			            <h:outputLabel value="To :" for="to" />  
+			            <h:outputLabel value="To: " for="to" />  
 			            <p:inputText id="to" value="#{messageBean.sendingUserTo}" required="true" label="Name"/>
 			       		<br/>
 			       		<br/>
+			       		<h:outputLabel value="Message: "/>  
 			       		<p>
-			       			<p:inputTextarea style="width:70%" rows="6" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
+			       			<p:inputTextarea style="width:99%" rows="8" cols="100" value="#{messageBean.sendingText}" required="true" label="Text"/>  
 			            </p>
-			            <p> 
-					    	<h:commandButton styleClass="btn btn-primary btn-medium"
-									actionListener="#{messageBean.sendMessage}" value="Send" update="growl" />  
-					    </p>            
+			            <br />
+					    	<h:commandButton styleClass="btn btn-primary btn-large alignRight"
+									actionListener="#{messageBean.sendMessage}" value="Send" update="growl" />           
 					</h:form>  
 			  		
 			  	</div>	    		

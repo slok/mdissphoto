@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pretty="http://ocpsoft.com/prettyfaces">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces">
 
 
 <div class="navbar navbar-fixed-top">
@@ -14,88 +14,116 @@
 			<a class="btn btn-navbar" data-toggle="collapse"
 				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 				class="icon-bar"></span> <span class="icon-bar"></span>
-			</a> <h:link styleClass="brand" outcome="pretty:index"><h:graphicImage library="img" name="barlogo.png" /></h:link>
+			</a> <h:link styleClass="brand" outcome="pretty:dashboard"><h:graphicImage library="img" name="barlogo.png" /></h:link>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="dropdown active"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">My <b class="caret"></b></a>
+					<li class="divider-vertical"></li>
+					<li class="dropdown active"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown">My <b
+							class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li>
-								<pretty:link mappingId="dashboard" >
-									<i class="icon-th-large"/>
-									Dashboard
-								</pretty:link>
-							</li>
-							<li>
-								<pretty:link mappingId="album-list" >
-									<f:param value="#{dashboardBean.user}" />
-									<i class="icon-folder-open"/>
-									Albums
-								</pretty:link>
-							</li>
-							<li>
-								<pretty:link mappingId="photowers" >
-									<f:param value="#{dashboardBean.user}" />
-									<i class="icon-random"/>
-									Connections
-								</pretty:link>
-							</li>
-							<li>
-								<pretty:link mappingId="messages-in" >
-									<i class="icon-envelope"/>
-									Messages <span class="badge badge-important"><h:outputText value="#{actualMessageReadBean.number}" /></span>
-								</pretty:link>
-							</li>
-							<li>
-								<pretty:link mappingId="user-profile" >
-									<f:param value="#{dashboardBean.user}" />
-									<i class="icon-user"/>
+
+							<h:panelGrid columns="1"
+								rendered="#{dashboardBean.userObject.role != 'admin'}">
+
+								<li>
+									<pretty:link mappingId="dashboard">
+										<i class="icon-th-large" />
+										Dashboard
+									</pretty:link>
+								</li>
+								
+								<li>
+									<pretty:link mappingId="album-list">
+										<f:param value="#{dashboardBean.user}" />
+										<i class="icon-folder-open" />
+										Albums
+									</pretty:link>
+								</li>
+								
+								<li>
+									<pretty:link mappingId="photowers">
+										<f:param value="#{dashboardBean.user}" />
+										<i class="icon-random" />
+										Connections
+									</pretty:link>
+								</li>
+								
+								<li>
+									<pretty:link mappingId="messages-in">
+										<i class="icon-envelope" />
+										Messages <span class="badge badge-important"><h:outputText
+												value="#{actualMessageReadBean.number}" /></span>
+									</pretty:link>
+								</li>
+								
+								<li>
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{dashboardBean.user}" />
+										<i class="icon-user" />
 									Profile
 								</pretty:link>
-							</li>
-						</ul>
-					</li>
-					
+								</li>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1" rendered="#{dashboardBean.userObject.role != 'user'}">
+								<li>
+									<pretty:link mappingId="admin">
+										<i class="icon-th-large" />
+										Dashboard
+									</pretty:link>
+								</li>
+								<li>
+									<pretty:link mappingId="admin-users">
+										<i class="icon-user" />
+										Manage users
+									</pretty:link>
+								</li>
+							</h:panelGrid>
+
+
+						</ul></li>
 					<li>
-						<pretty:link mappingId="upload" >
-							<i class="icon-upload icon-white"/>
+						<pretty:link mappingId="upload" rendered="#{dashboardBean.userObject.role != 'admin'}">
+							<i class="icon-upload icon-white" />
 							Upload
 						</pretty:link>
 					</li>
 					<li>
-						<pretty:link mappingId="search" >
-							<i class="icon-search icon-white"/>
+						<pretty:link mappingId="search" rendered="#{dashboardBean.userObject.role != 'admin'}">
+							<i class="icon-search icon-white" />
 							Search
 						</pretty:link>
-					</li>
-					
+					</li>						
 				</ul>
+				
+				
 				<ul class="nav pull-right">
-					<li>
-					 <h:outputText styleClass="navbar-text" value="Logged in as " rendered="#{dashboardBean.user != 'anonymousUser'}"/>
-					 <h:outputText id="navUsername" styleClass="navbar-text" value="#{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}"/>
-					 <h:outputText styleClass="navbar-text" value="Login" rendered="#{dashboardBean.user == 'anonymousUser'}" /> 
+					<li><h:outputText styleClass="navbar-text" 	value="Logged in as " rendered="#{dashboardBean.user != 'anonymousUser'}" /> <h:outputText 
+					   				  id="navUsername" styleClass="navbar-text" value="#{dashboardBean.user}" rendered="#{dashboardBean.user != 'anonymousUser'}" /> 
+					   	<h:outputText styleClass="navbar-text" value="Login" rendered="#{dashboardBean.user == 'anonymousUser'}" /></li>
 					
-					</li>
 					<li class="divider-vertical"></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <h:graphicImage library="img" name="cog-menu.png" /> <b class="caret"></b></a>
+					
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <h:graphicImage library="img" name="cog-menu.png" />
+					   <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-								<pretty:link mappingId="settings" >
-									<i class="icon-wrench"/>
-									Settings
+							    <pretty:link mappingId="settings" rendered="#{dashboardBean.userObject.role != 'admin'}">
+							      <i class="icon-wrench" />
+									  Settings
 								</pretty:link>
 							</li>
+							
 							<li class="divider"></li>
-							<li>
-								<pretty:link mappingId="logout" >
-									<i class="icon-off"/>
+							
+							<li><pretty:link mappingId="logout">
+								<i class="icon-off" />
 									Logout
 								</pretty:link>
 							</li>
-						</ul
-					></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 			<!-- /.nav-collapse -->
