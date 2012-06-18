@@ -97,11 +97,11 @@
 					<div class="well">
 						<h:panelGrid columns="2" cellpadding="3">
 							<h:outputText value="Country:"  rendered="#{configuration.showCountry != false}"/>
-							<h:outputText value="#{profileBean.user.address.country}" rendered="#{configuration.showCountry != false}"/>
+							<h:outputText value="#{profileBean.user.address.country.nombre}" rendered="#{configuration.showCountry != false}"/>
 							<h:outputText value="State:"  rendered="#{configuration.showState != false}"/>
-							<h:outputText value="#{profileBean.user.address.state}" rendered="#{configuration.showState != false}"/>
+							<h:outputText value="#{profileBean.user.address.state.nombre}" rendered="#{configuration.showState != false}"/>
 							<h:outputText value="City:" rendered="#{configuration.showCity != false}"/>
-							<h:outputText value="#{profileBean.user.address.city}" rendered="#{configuration.showCity != false}"/>
+							<h:outputText value="#{profileBean.user.address.city.nombre}" rendered="#{configuration.showCity != false}"/>
 							<h:outputText value="Street:" rendered="#{configuration.showStreet != false}"/>
 							<h:outputText value="#{profileBean.user.address.street}" rendered="#{configuration.showStreet != false}"/>
 							<h:outputText value="Zip:" rendered="#{configuration.showZip != false}"/>

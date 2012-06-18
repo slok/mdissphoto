@@ -167,6 +167,11 @@
 		<pattern value="/u/#{user:paramsBean.userId}/albums/" />
 		<view-id value="/faces/app/user/album-list.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="album-list-pag">
+		<pattern value="/u/#{user:paramsBean.userId}/albums/#{page:paramsBean.page}" />
+		<view-id value="/faces/app/user/album-list.jsf" />
+	</url-mapping>
 
 	<url-mapping id="album-detail">
 		<pattern value="/u/#{user:paramsBean.userId}/#{album:paramsBean.albumId}/" />
