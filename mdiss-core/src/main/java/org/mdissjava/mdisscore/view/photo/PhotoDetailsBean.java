@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONException;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.commonutils.utils.Utils;
 import org.mdissjava.mdisscore.controller.api.third.TwitterApiManager;
@@ -50,6 +48,7 @@ public class PhotoDetailsBean {
 	private String userNick;
 	private String loggedUserNick;
 	private User ownerUser;
+	private boolean showEdit;
 	
 	private List<String> defaultPhotoSizes;
 	private List<String> thumbnailIds;
@@ -86,6 +85,18 @@ public class PhotoDetailsBean {
 		this.photoId = pb.getPhotoId();
 		this.ownerUser = new UserManagerImpl().getUserByNick(this.userNick);
 		this.loggedUserNick = this.retrieveSessionUserNick();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUser = auth.getName();
+		
+		if(loggedUser.equals(this.userNick))
+		{
+			this.showEdit = true;
+		}
+		else
+		{
+			this.showEdit = false;
+		}
 		
 		//TODO: check if isn't detailed to redirect to /user/xxx/upload/details/yyy-yyyyyy-yyyy-yyy
 		
@@ -496,5 +507,12 @@ public class PhotoDetailsBean {
 		return this.photo.getVotes().size();
 	}
 
-	
+	public boolean isShowEdit() {
+		return showEdit;
+	}
+
+	public void setShowEdit(boolean showEdit) {
+		this.showEdit = showEdit;
+	}
+
 }

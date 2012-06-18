@@ -42,7 +42,7 @@
 					overflow: auto;
 					padding: 0;
 					position: relative; /*for ie7 to work e.g in html carousels*/
-					width: 300px
+					width: auto;
 				}
 				
 				.ui-carousel > .wrapper {
@@ -147,13 +147,34 @@
 			<br/>
 			<div class="row-fluid">
 				<div class="span12">
-					<div class="span4">
-		      			<h1 class="photo-title">#{photoDetailsBean.photo.title}</h1>
+					<div class="span7">
+				  		<div class="ribbon-container-photo">
+				  			<div class="ribbon-photo">
+				  				<div class="ribbon-stitches-top-photo"></div>
+				  				<strong class="ribbon-content-photo"> 
+				  					<h1 class="conections-container photo-title">#{photoDetailsBean.photo.title}</h1>
+				  				</strong>
+				  				<div class="ribbon-stitches-bottom-photo"></div>
+				  			</div> 
+				  		</div>
 		      		</div>
 		      		<!-- Edit Settings -->
-		      		<div class="span8" align="right">
-		      			<div class="span7"/>
-		      			<div class="span3">
+		      		<div class="span5" align="right">
+		      			<div class="span2"/>
+		      			<!-- BOTON EDIT SETTINGS -->
+						<div class="span5">		
+							<h:panelGroup layout="block" rendered="#{photoDetailsBean.showEdit}">      		
+								<pretty:link mappingId="photo-detail-settings" >
+									<f:param value="#{photoDetailsBean.userNick}" />
+									<f:param value="#{photoDetailsBean.photoId}" />
+									<button class="btn btn-primary alignRight" type="submit">
+										<i class="icon-pencil icon-white"/>	
+										Edit photo settings
+									</button>
+								</pretty:link>
+							</h:panelGroup>
+						</div>
+		      			<div class="span5">
 		      			<!-- BOTON BACK TO ALBUM DETAIL -->
 					  		<pretty:link mappingId="album-detail" >
 					  			<f:param value="#{photoDetailsBean.userNick}" />
@@ -161,16 +182,6 @@
 					  			<button class="btn btn-inverse alignLeft" type="submit">
 								  	<i class="icon-arrow-left icon-white"/>						  																		
 									Back to Album Detail
-								</button>
-							</pretty:link>
-						</div>
-						<!-- BOTON EDIT SETTINGS -->
-						<div class="span2">		      		
-							<pretty:link mappingId="photo-detail-settings" >
-								<f:param value="#{photoDetailsBean.userNick}" />
-								<f:param value="#{photoDetailsBean.photoId}" />
-								<button class="btn btn-primary alignRight" type="submit">
-									Edit Settings
 								</button>
 							</pretty:link>
 						</div>
@@ -192,81 +203,84 @@
 					</div>
 					<br/>
 					<!-- Photo buttons -->
-					<div class="row-fluid">
-						<!-- size button -->
-						<div class="span12">
-							<div class="row-fluid">
-								<div class="span2">
-									<a class="btn btn-danger" data-toggle="modal" href="#myModalReport"> <i class="icon-warning-sign icon-white"></i> Report</a>
-								</div>
-								<div class="span2">
-									<div class="btn-group">   
-										<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-resize-full icon-white"></i> Size<span class="caret"></span></a>
-										<ul class="dropdown-menu">
-											<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
-														<li>
-															<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=scale.#{size}&amp;id=#{photoDetailsBean.photoId}">#{size}px</a>
-														</li>
-												</ui:repeat>
-										
-											<li class="divider"></li>
-											<li>
-												<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=original&amp;id=#{photoDetailsBean.photoId}">Original</a>
-											</li>
-										</ul>
+					<div class="well">
+						<div class="row-fluid">
+							<!-- size button -->
+							<div class="span12">
+								<div class="row-fluid">
+									<div class="span2">
+										<a class="btn btn-danger" data-toggle="modal" href="#myModalReport"> <i class="icon-warning-sign icon-white"></i> Report</a>
 									</div>
-								</div>
-								<div class="span2">
-									<!-- Tweet button -->
+									<div class="span2">
+										<div class="btn-group">   
+											<a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-resize-full icon-white"></i> Size<span class="caret"></span></a>
+											<ul class="dropdown-menu">
+												<ui:repeat value="#{photoDetailsBean.defaultPhotoSizes}" var="size">
+															<li>
+																<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=scale.#{size}&amp;id=#{photoDetailsBean.photoId}">#{size}px</a>
+															</li>
+													</ui:repeat>
+											
+												<li class="divider"></li>
+												<li>
+													<a href="/mdissphoto/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=original&amp;id=#{photoDetailsBean.photoId}">Original</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="span2">
+										<!-- Tweet button -->
+										<h:form>
+											<h:commandButton class="btn btn-info" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
+										</h:form>
+									</div>
+									<!-- Mark -->
 									<h:form>
-										<h:commandButton class="btn btn-primary" id="tweet-button" value="Tweet!" action="#{photoDetailsBean.startTweeterBirdOauthAuthProcess}" />
+									<div style="float:right;">
+										 <h:panelGrid columns="2" cellpadding="1">  
+											 <h:outputText value="Photo Rate:" />  
+										        <p:rating value="#{photoDetailsBean.rating}" rating-cancel="false">  
+										            <p:ajax event="rate" listener="#{photoDetailsBean.onrate}" update="photoMark,photoVotes"/>  
+												</p:rating>
+										</h:panelGrid>		
+	
+											<h4>Mark: <h:outputText style="font-size:17px" id="photoMark" value="#{photoDetailsBean.photo.mark}" /> / 5</h4>
+											<h6>Number of votes: <h:outputText id="photoVotes" value="#{photoDetailsBean.numberOfVotes}" /></h6>		
+									</div>
 									</h:form>
-								</div>
-								<!-- Mark -->
-								<h:form>
-								<div style="float:right;">
-									 <h:panelGrid columns="2" cellpadding="1">  
-										 <h:outputText value="Photo Rate:" />  
-									        <p:rating value="#{photoDetailsBean.rating}" rating-cancel="false">  
-									            <p:ajax event="rate" listener="#{photoDetailsBean.onrate}" update="photoMark,photoVotes"/>  
-											</p:rating>
-									</h:panelGrid>		
-
-										<h4>Mark: <h:outputText style="font-size:17px" id="photoMark" value="#{photoDetailsBean.photo.mark}" /> / 5</h4>
-										<h6>Number of votes: <h:outputText id="photoVotes" value="#{photoDetailsBean.numberOfVotes}" /></h6>		
-								</div>
-								</h:form>
-							</div> <!-- Row fluid end -->
-						</div> <!-- span 12 end -->
-					</div> <!-- row end -->
-					
-					<!-- Public link -->
-					<div class="row-fluid">
-						<div class="span2">
-							<div class="h3">Public Link: </div>
-						</div>
-						<div class="span10">
-							<pre>#{photoDetailsBean.publicLink}</pre>
+								</div> <!-- Row fluid end -->
+							</div> <!-- span 12 end -->
+						</div> <!-- row end -->
+						<p:separator />
+						<!-- Public link -->
+						<div class="row-fluid">
+							<div class="span2">
+								<h4>Public Link: </h4>
+							</div>
+							<div class="span10">
+								<pre class="pre-whitebg">#{photoDetailsBean.publicLink}</pre>
+							</div>
 						</div>
 					</div>
-					
 					<!-- DISQUS -->
-					<div class="row-fluid">
-						<div id="disqus_thread"></div>
-						<script type="text/javascript">
-						    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-						    var disqus_shortname = 'mdissphoto'; // required: replace example with your forum shortname
-							//var disqus_identifier = '#{photoDetailsBean.publicLink}';
-							var disqus_developer = 0; // developer mode is off
-						    /* * * DON'T EDIT BELOW THIS LINE * * */
-						    (function() {
-						        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-						        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-						        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-						    })();
-						</script>
-						<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-						<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+					<div class="well">
+						<div class="row-fluid">
+							<div id="disqus_thread"></div>
+							<script type="text/javascript">
+							    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+							    var disqus_shortname = 'mdissphoto'; // required: replace example with your forum shortname
+								//var disqus_identifier = '#{photoDetailsBean.publicLink}';
+								var disqus_developer = 0; // developer mode is off
+							    /* * * DON'T EDIT BELOW THIS LINE * * */
+							    (function() {
+							        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+							        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+							        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+							    })();
+							</script>
+							<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+							<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+						</div>
 					</div>
 				</div>
 				
@@ -274,7 +288,7 @@
 				<div class="span5">
 				
 				<!-- User profile -->					
-					<div class="row-fluid alert alert-normal">
+					<div class="user-container row-fluid">
 						<div class="span3">
 							<h:graphicImage width="100" height="100" value="/dynamic/image?db=#{photoDetailsBean.thumbnailDatabase}&amp;bucket=square.150&amp;id=#{photoDetailsBean.ownerUser.avatar}"/>
 						</div>
@@ -301,20 +315,21 @@
 					<br/>
 					
 					<!-- Metadata -->
-					<div class="row-fluid alert alert-normal">
-						<div class="span12">
-							<table class="table table-condensed">
-								<tbody>
-									<ui:repeat value="#{photoDetailsBean.metadataKeys}" var="key">
-									<tr>
-										<td>#{key}</td>
-										<td><b>#{photoDetailsBean.metadataMap[key]}</b></td>
-									</tr>
-									</ui:repeat>
-								</tbody>
-							</table>
+					<div class="photo-info-container">
+						<div class="row-fluid alert alert-normal">
+							<div class="span12">
+								<table class="table table-condensed">
+									<tbody>
+										<ui:repeat value="#{photoDetailsBean.metadataKeys}" var="key">
+										<tr>
+											<td>#{key}</td>
+											<td><b>#{photoDetailsBean.metadataMap[key]}</b></td>
+										</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+							</div>
 						</div>
-					</div>
 
 					<!-- Tags -->
 					<div class="row-fluid alert alert-normal">
@@ -333,13 +348,18 @@
 							</ul>
 						</div>
 					</div>
-					
+				</div>
+				<br />
 					<!-- Album thumbnails -->
-					<div class="row-fluid alert alert-normal">
-						<div class="span1">
-							<a class="arrow-left" href="#"  id="ui-carousel-prev"></a>
+				<div class="more-photos-container">
+					<h6 class="more-photos-title">More photos from this album</h6>
+
+					<div class="row-fluid">
+						<div class="span1 buttons">
+							<button id="ui-carousel-prev" class="btn"><i class="icon-chevron-left"></i></button>						
+							<button id="ui-carousel-next" class="btn"><i class="icon-chevron-right"></i></button>
 						</div>
-						<div class="span10">
+						<div class="span11 alert alert-normal">
 							<div id="carousel">
 								<ui:repeat value="#{photoDetailsBean.thumbnailIds}" var="thumbnailId">
 									<div>
@@ -352,10 +372,8 @@
 							  	</ui:repeat>
 							</div>
 						</div>
-						<div class="span1">
-							<a class="arrow-right" href="#"  id="ui-carousel-next"></a>
-						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 			
