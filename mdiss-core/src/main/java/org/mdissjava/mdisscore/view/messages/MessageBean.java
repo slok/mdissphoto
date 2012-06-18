@@ -1,7 +1,9 @@
 package org.mdissjava.mdisscore.view.messages;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
@@ -36,7 +38,9 @@ public class MessageBean {
 	private String sendingText;
 	private String sendingUserTo;
 	private String sendingSubject;
-
+	private Map<String, User> users;
+	private String thumbnailDatabase;
+	
 	private static Logger logger = Logger
 			.getLogger(MessageBean.class.getName());
 
@@ -54,6 +58,16 @@ public class MessageBean {
 		DirectMessage filter = new DirectMessage();
 		filter.setToUserId(user.getId());
 		messages = directMessageDao.findDirectMessage(filter, true);
+		
+		this.thumbnailDatabase = "images";
+		
+		//get all the users
+		UserManager userManager = new UserManagerImpl();
+		this.users = new HashMap<String, User>();
+		for (DirectMessage message: messages){
+			String nick = message.getFromUserName();
+			this.users.put(nick, userManager.getUserByNick(nick));
+		}
 
 	}
 
@@ -202,5 +216,22 @@ public class MessageBean {
 	public void setSendingSubject(String sendingSubject) {
 		this.sendingSubject = sendingSubject;
 	}
+
+	public Map<String, User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Map<String, User> users) {
+		this.users = users;
+	}
+
+	public String getThumbnailDatabase() {
+		return thumbnailDatabase;
+	}
+
+	public void setThumbnailDatabase(String thumbnailDatabase) {
+		this.thumbnailDatabase = thumbnailDatabase;
+	}
+	
 
 }
