@@ -41,13 +41,21 @@ public class AlbumBean {
 	
 	private List<Album> albumList;
 	
+	private int page;
+	private int MAX_NUMBER_ALBUMS = 4;
+	private int totalAlbums;
+	
 	public AlbumBean()
 	{		
 		// Depending on the logged user that is checking the albums, a different title 
 		// is displayed and deleteAlbum menu is shown or not.	
 		ParamsBean pb = getPrettyfacesParams();
+		this.page = pb.getPage();
+		if (this.page == 0){
+			this.page = 1;
+		}
 		this.userNick = pb.getUserId();
-		
+				
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedUser = auth.getName();
 		
@@ -74,9 +82,11 @@ public class AlbumBean {
 		
 			Datastore datastore = MorphiaDatastoreFactory.getDatastore(database);
 			AlbumManagerImpl albumManager = new AlbumManagerImpl(datastore);
-			
-			this.albumList = albumManager.findUserAlbums(this.userNick);
-			
+			this.totalAlbums = albumManager.getTotalAlbumsUser(userNick);
+
+//			this.albumList = albumManager.findUserAlbums(this.userNick);
+			this.albumList = albumManager.findUserAlbumsOffset(userNick, MAX_NUMBER_ALBUMS, (page-1) * MAX_NUMBER_ALBUMS);
+						
 			database = propertiesFacade.getProperties("globals").getProperty("images.db");
 			String bucketPropertyKey = "thumbnail.square.260px.bucket.name";
 			String bucket = propertiesFacade.getProperties("thumbnails").getProperty(bucketPropertyKey);
@@ -216,6 +226,30 @@ public class AlbumBean {
 
 	public void setAlbumTitles(List<String> albumTitles) {
 		this.albumTitles = albumTitles;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getMaxNumberAlbums() {
+		return MAX_NUMBER_ALBUMS;
+	}
+
+	public void setMaxNumberAlbums(int maxNumberPhotos) {
+		MAX_NUMBER_ALBUMS = maxNumberPhotos;
+	}
+
+	public int getTotalAlbums() {
+		return totalAlbums;
+	}
+
+	public void setTotalAlbums(int totalAlbums) {
+		this.totalAlbums = totalAlbums;
 	}
 
 	public String getUserNick() {
