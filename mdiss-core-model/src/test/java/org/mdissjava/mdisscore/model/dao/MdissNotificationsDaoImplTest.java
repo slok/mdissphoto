@@ -61,7 +61,8 @@ public class MdissNotificationsDaoImplTest {
 		this.mdissNotification.insertMdissNotification(notification2);
 		
 		//get both notification types and check the data
-		List<MdissNotification> notifications = this.mdissNotification.findUsersMdissNotifications("cerealguy", 5);
+//		List<MdissNotification> notifications = this.mdissNotification.findUsersMdissNotifications("cerealguy", 5);
+		List<MdissNotification> notifications = this.mdissNotification.findUsersMdissNotifications("cerealguy", 0, 5);
 		
 		for (MdissNotification i: notifications)
 		{
