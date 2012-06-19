@@ -1076,4 +1076,8 @@ div.captcha
 .conections-container {
    margin-left: auto;   
    margin-right: auto; 
-   }
+}
+
+.connections-top{
+	padding-top: 100px;
+}
