@@ -60,6 +60,10 @@ public abstract class MdissNotification {
 		this.date = date;
 	}
 
+	public Boolean getRead() {
+		return read;
+	}
+	
 	public Boolean isRead() {
 		return read;
 	}
