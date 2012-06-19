@@ -102,7 +102,11 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void addPrivateFollow(String userNickname, User follow) {
-		userDao.addFollow(userNickname, follow);
+		
+		if (!this.followsUser(userNickname, follow))
+			userDao.addFollow(userNickname, follow);
+		else
+			throw new IllegalStateException("You already follow this user");
 	}
 	
 	@Override
@@ -112,7 +116,7 @@ public class UserManagerImpl implements UserManager {
 		NewFollowerObservable nfo = notifier.getNewFollowerObservable();
 		//if it is not private then add the follow
 		if (!follow.getConfiguration().isIsPrivate()){
-			userDao.addFollow(userNickname, follow);
+			this.addPrivateFollow(userNickname, follow);
 			nfo.newFollower(follow.getNick(), userNickname);
 		}
 		else
