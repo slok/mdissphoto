@@ -26,9 +26,7 @@
 						<div class="profile-user-container">
 							<h1>#{profileBean.user.name} #{profileBean.user.surname}
 									(#{profileBean.user.nick})</h1>
-							
-							<div class="row-fluid">#{profileBean.user.gender}</div>
-							<div class="row-fluid">#{profileBean.user.email}</div>
+
 							<h:form>
 								<h:commandButton styleClass="btn btn-success"
 									rendered="#{userBean.followsUser(userBean.user) == false
