@@ -1,21 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:pretty="http://ocpsoft.com/prettyfaces"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions">    
-    
-    <ui:composition template="/faces/app/user-space.xhtml">
-      
-		<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
-		
-			<ui:define name="head">
-		     	
-		    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script> 	
-     		<script type="text/javascript">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="/faces/app/user-space.xhtml">
+
+	<!--  <ui:define name="title">MDISSPHOTO</ui:define>-->
+
+	<ui:define name="head">
+
+		<script type="text/javascript"
+			src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
      		
      		$(document).ready(function() { 
      			
@@ -46,51 +47,64 @@
      		});
      		
      		</script>
-     		
-		</ui:define>
-		
-		<ui:define name="body">			
 
-	<div class="offset2 table table-condensed">	
-		<h:form id="form">				
-			<h:dataTable value="#{userBean.follows}" var="follow" >				
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="ribbon-container">
+					<div class="ribbon">
+						<div class="ribbon-stitches-top"></div>
+						<strong class="ribbon-content">
+							<h1>#{userBean.user.name}'s photowings</h1>
+						</strong>
+						<div class="ribbon-stitches-bottom"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="offset3 table table-condensed connections-top">
+			<h:form id="form">
+				<h:dataTable value="#{userBean.follows}" var="follow">
 					<div class="row-fluid">
 						<div class="span6">
 							<p:column>
 								<div class="span2">
 									<pretty:link mappingId="user-profile">
-										<f:param value="#{follow.nick}" />										
-											<h:graphicImage value="/dynamic/image?db=#{userBean.thumbnailDatabase}&amp;bucket=#{userBean.thumbnailBucket}&amp;id=#{follow.avatar}"/>
-									</pretty:link>	
+										<f:param value="#{follow.nick}" />
+										<h:graphicImage
+											value="/dynamic/image?db=#{userBean.thumbnailDatabase}&amp;bucket=#{userBean.thumbnailBucket}&amp;id=#{follow.avatar}" />
+									</pretty:link>
 								</div>
 							</p:column>
 							<p:column>
-								<div class="span4 offset1" >
-										<pretty:link mappingId="user-profile">
-											<f:param value="#{follow.nick}" />
-												<div class="row-fluid">	#{follow.nick}</div>
-										</pretty:link>										
+								<div class="span4 offset1">
+									<pretty:link mappingId="user-profile">
+										<f:param value="#{follow.nick}" />
+										<div class="row-fluid">#{follow.nick}</div>
+									</pretty:link>
 									<div class="row-fluid">#{follow.email}</div>
 								</div>
 							</p:column>
 							<p:column>
-								<h:commandButton styleClass="btn btn-warning"									
+								<h:commandButton styleClass="btn btn-warning"
 									actionListener="#{userBean.deleteFollow(follow)}"
 									value="Unfollow" update="growl" />
 							</p:column>
 						</div>
 					</div>
-				
-				<br/>
-			</h:dataTable>
-		</h:form>		
-		</div>
-		
-		<div id="page_navigation" class="pagination offset3" >
 
+					<br />
+				</h:dataTable>
+			</h:form>
 		</div>
+
+		<div id="page_navigation" class="pagination offset5"></div>
 
 	</ui:define>
-				
-    </ui:composition>
-</html>			
+
+</ui:composition>
+</html>

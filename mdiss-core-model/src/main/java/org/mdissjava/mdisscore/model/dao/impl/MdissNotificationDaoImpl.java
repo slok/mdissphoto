@@ -76,7 +76,7 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 	}
 
 	
-	public List<MdissNotification> findUsersMdissNotifications(String userName, int skipNumberPhotos, int quantityNumberPhotos) throws IllegalArgumentException{
+	public List<MdissNotification> findUsersMdissNotifications(String userName, int quantityNumberPhotos, int skipNumberPhotos) throws IllegalArgumentException{
 		
 		Query<MdissNotification> query = ds.createQuery(MdissNotification.class);
 		
@@ -92,9 +92,15 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 			query.limit(quantityNumberPhotos); 
 		
 		List<MdissNotification> mdissNotifications = query.asList();
-
+	
 		return mdissNotifications;				
 	}
+	
+	@Override
+	public int findTotalNotificationsUser(String userName) {		
+		return ((Long)ds.createQuery(MdissNotification.class).filter("selfUserName", userName).countAll()).intValue();
+	}
+	
 	
 	public PhotoUploadedNotification findPhotoUploadedNotifications(String userName, String photoId) throws IllegalStateException, IllegalArgumentException{
 		

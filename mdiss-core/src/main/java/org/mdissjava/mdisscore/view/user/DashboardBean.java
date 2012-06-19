@@ -24,6 +24,7 @@ import org.mdissjava.mdisscore.model.pojo.User;
 import org.mdissjava.mdisscore.model.pojo.notifications.FollowingNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
+import org.mdissjava.mdisscore.view.params.ParamsBean;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.google.code.morphia.Datastore;
@@ -51,12 +52,19 @@ public class DashboardBean {
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
 	
 	private int NOTIFICATION_BATCH_NUMBER = 10;
+	private int totalNotifications;
 	private int page;
 	
 	private boolean more; 
 	
 	public DashboardBean() throws IOException {
 		this.user = getUser();
+		ParamsBean pb = getPrettyfacesParams();
+		this.page = pb.getPage();
+		if (this.page == 0){
+			this.page = 1;
+		}
+		
 		//get properties
 		PropertiesFacade propertiesFacade = new PropertiesFacade();
 		String database = propertiesFacade.getProperties(GLOBAL_PROPS_KEY).getProperty(MORPHIA_DATABASE_KEY);
@@ -71,6 +79,7 @@ public class DashboardBean {
 		this.userObject = userManager.getUserByNick(this.user);
 		
 		//get all the notifications
+		totalNotifications = mdissNotificationsDao.findTotalNotificationsUser(this.user);
 		notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER, (page-1) * NOTIFICATION_BATCH_NUMBER);
 		this.users = new HashMap<String, User>();
 		
@@ -124,9 +133,17 @@ public class DashboardBean {
 	public void setNotifications(List<MdissNotification> notifications) {
 		this.notifications = notifications;
 	}
+		
+	public int getTotalNotifications() {
+		return totalNotifications;
+	}
 
-	
-	
+
+	public void setTotalNotifications(int totalNotifications) {
+		this.totalNotifications = totalNotifications;
+	}
+
+
 	public String getThumbnailBucket() {
 		return thumbnailBucket;
 	}
@@ -209,6 +226,12 @@ public class DashboardBean {
 	public String getUser() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
+	
+	private ParamsBean getPrettyfacesParams() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ParamsBean pb = (ParamsBean) context.getApplication().evaluateExpressionGet(context, "#{paramsBean}", ParamsBean.class);
+		return pb;
+	}	
 	
 	//method 2 for getting the user grom the session
 	/*public String getUser2() {

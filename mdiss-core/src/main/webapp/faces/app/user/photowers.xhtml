@@ -14,8 +14,7 @@
 
 	<ui:define name="head">
 
-		<script type="text/javascript"
-			src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript">
      		
      		$(document).ready(function() { 
@@ -52,8 +51,23 @@
 	</ui:define>
 
 	<ui:define name="body">
+	
+		<div class="row-fluid">
+		 	<div class="span12">	
+		  		<div class="ribbon-container">
+		  			<div class="ribbon">
+		  				<div class="ribbon-stitches-top"></div>
+		  				<strong class="ribbon-content"> 
+		  					<h1>#{userBean.user.name}'s photowers</h1>
+		  				</strong>
+		  				<div class="ribbon-stitches-bottom"></div>
+		  			</div> 
+		  		</div>
+			</div>
+		</div>
 
-		<div class="offset2 table table-condensed">
+
+		<div class="offset3 table table-condensed connections-top">
 			<h:form id="form">
 				<h:dataTable rowIndexVar="row" value="#{userBean.followers}" var="follower" id="followerDatatable">
 					<div class="row-fluid" id="separator">
@@ -97,7 +111,7 @@
 			
 		</div>
 
-		<div id="page_navigation" class="pagination offset3"></div>
+		<div id="page_navigation" class="pagination offset5"></div>
 
 
 	</ui:define>

@@ -81,18 +81,20 @@
 					<h2>Personal info</h2>
 				    <p:separator />
 					<h:panelGrid columns="2" cellpadding="3">
-						<h:outputText styleClass="profile-user-info-label" value="Nick:  " rendered="#{configuration.showNick != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.nick}" rendered="#{configuration.showNick != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Name:  " rendered="#{configuration.showName  != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.name} #{profileBean.user.surname}" rendered="#{configuration.showName  != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Birthdate:  " rendered="#{configuration.showName  != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.birthdate}" rendered="#{configuration.showBirthdate != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Gender:  " rendered="#{configuration.showName  != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.gender}" rendered="#{configuration.showBirthdate != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Email:  " rendered="#{configuration.showEmail  != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.email}" rendered="#{configuration.showEmail != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Phone:  " rendered="#{configuration.showPhone  != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.phone}" rendered="#{configuration.showPhone != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Nick:  " rendered="#{profileBean.user.configuration.showNick != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.nick}" rendered="#{profileBean.user.configuration.showNick != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Name:  " rendered="#{profileBean.user.configuration.showName  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.name}" rendered="#{profileBean.user.configuration.showName  != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Surname:  " rendered="#{profileBean.user.configuration.showSurname  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.surname}" rendered="#{profileBean.user.configuration.showSurname  != false}"/>		
+						<h:outputText styleClass="profile-user-info-label" value="Birthdate:  " rendered="#{profileBean.user.configuration.showBirthdate  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.birthdate}" rendered="#{profileBean.user.configuration.showBirthdate != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Gender:  " rendered="#{profileBean.user.configuration.showGender  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.gender}" rendered="#{profileBean.user.configuration.showGender != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Email:  " rendered="#{profileBean.user.configuration.showEmail  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.email}" rendered="#{profileBean.user.configuration.showEmail != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Phone:  " rendered="#{profileBean.user.configuration.showPhone  != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.phone}" rendered="#{profileBean.user.configuration.showPhone != false}"/>
 					</h:panelGrid>
 				</div>
 
@@ -100,16 +102,16 @@
 					<h2>Address</h2>
 					<p:separator />
 					<h:panelGrid columns="2" cellpadding="3">
-						<h:outputText styleClass="profile-user-info-label" value="Country:  "  rendered="#{configuration.showCountry != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.country.nombre}" rendered="#{configuration.showCountry != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="State:  "  rendered="#{configuration.showState != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.state.nombre}" rendered="#{configuration.showState != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="City:  " rendered="#{configuration.showCity != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.city.nombre}" rendered="#{configuration.showCity != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Street:  " rendered="#{configuration.showStreet != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.street}" rendered="#{configuration.showStreet != false}"/>
-						<h:outputText styleClass="profile-user-info-label" value="Zip:  " rendered="#{configuration.showZip != false}"/>
-						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.zip}" rendered="#{configuration.showZip != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Country:  "  rendered="#{profileBean.user.configuration.showCountry != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.country.nombre}" rendered="#{profileBean.user.configuration.showCountry != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="State:  "  rendered="#{profileBean.user.configuration.showCountry != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.state.nombre}" rendered="#{profileBean.user.configuration.showCountry != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="City:  " rendered="#{profileBean.user.configuration.showCity != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.city.nombre}" rendered="#{profileBean.user.configuration.showCity != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Address:  " rendered="#{profileBean.user.configuration.showAddress != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.street}" rendered="#{profileBean.user.configuration.showAddress != false}"/>
+						<h:outputText styleClass="profile-user-info-label" value="Zip:  " rendered="#{profileBean.user.configuration.showZip != false}"/>
+						<h:outputText styleClass="profile-user-info-text" value="#{profileBean.user.address.zip}" rendered="#{profileBean.user.configuration.showZip != false}"/>
 					</h:panelGrid>
 
 				</div>

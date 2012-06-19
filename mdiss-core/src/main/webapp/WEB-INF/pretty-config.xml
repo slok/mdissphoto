@@ -81,6 +81,11 @@
 		<view-id value="/faces/app/self/dashboard.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="dashboard-pag">
+		<pattern value="/s/dashboard/#{page:paramsBean.page}" />
+		<view-id value="/faces/app/self/dashboard.jsf" />
+	</url-mapping>
+	
 	<url-mapping id="settings">
 		<pattern value="/s/settings/" />
 		<view-id value="/faces/app/self/settings.jsf" />

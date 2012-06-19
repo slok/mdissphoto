@@ -1077,8 +1077,11 @@ div.captcha
    margin-left: auto;   
    margin-right: auto; 
    }
-   
 .errorText{
    font-size:16px;
    color: #000000;
+}
+
+.connections-top{
+	padding-top: 100px;
 }
