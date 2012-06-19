@@ -17,8 +17,8 @@
 	     		
 	     		$(document).ready(function() { 
 	     			
-	     			var show_per_page = #{dashboarBean.notificationBatchNumber}; 
-	     			var number_of_items = #{fn:length(dashboarBean.notifications)}
+	     			var show_per_page = #{dashboardBean.notificationBatchNumber}; 
+	     			var number_of_items = #{dashboardBean.totalNotifications}
 	     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
 	
 	     			var navigation_html = '<ul>';
@@ -31,7 +31,7 @@
 	     			    navigation_html += '</li>';     			  
 	     			 }
 	     			  
-	     			  navigation_html += '</ul>';
+	     			  navigation_html += '</ul>' ;
 	     			  
 	     			 $('#page_navigation').html(navigation_html);
 	     			 
@@ -141,13 +141,7 @@
 								</div>
 						  	</div>
 					  	</h:panelGroup>
-					</ui:repeat>
-					
-								<div class="row-fluid">
-				<div class="span12">
-					<div id="page_navigation" class="pagination offset5"></div>
-				</div>
-			</div>
+					</ui:repeat>					
 				</h:panelGroup>
 			</div>
 			<div class="span4">
@@ -187,6 +181,12 @@
 						</h:panelGroup>
 					</div>
 				</div>
+			</div>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="span12">
+				<div id="page_navigation" class="pagination offset5"></div>
 			</div>
 		</div>
 	</ui:define>
