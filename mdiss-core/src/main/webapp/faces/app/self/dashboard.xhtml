@@ -12,34 +12,39 @@
     
     <ui:define name="head">
     
-         <script>
-   			$(document).ready(function() {    				
-   				
-   				var show_per_page = #{dashboardBean.notificationBatchNumber};
-    			var number_of_items = #{#{fn:length(dashboardBean.notifications)}
-    			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
-
-    			var navigation_html = '<ul>';
-    			var current_link = 0;
-    		      	     			  
-    			 while(number_of_pages != current_link ) {
-    				current_link++;
-    			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
-      			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
-    			    navigation_html += '</li>';     			  
-    			 }
-    			  
-    			  navigation_html += '</ul>';
-    			  
-    			 $('#page_navigation').html(navigation_html);
-    			 	     			 
-    			 var page_num = #{userBean.page}
-    			 var get_box = document.getElementById('id'+page_num);
-    			 $('#page_navigation').find('li.active').removeClass('active');
-    			 $(get_box).addClass('active');
-   			});
-   		</script>
-    
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	    <script type="text/javascript">
+	     		
+	     		$(document).ready(function() { 
+	     			
+	     			var show_per_page = #{dashboarBean.notificationBatchNumber}; 
+	     			var number_of_items = #{fn:length(dashboarBean.notifications)}
+	     			var number_of_pages = Math.ceil(number_of_items/show_per_page);	
+	
+	     			var navigation_html = '<ul>';
+	     			var current_link = 0;
+	     		      	     			  
+	     			 while(number_of_pages != current_link ) {
+	     				current_link++;
+	     			    navigation_html += '<li class="page_link" id="id' + current_link +'">';
+	       			 	navigation_html += '<a href="'+ current_link + '">' + current_link + '</a>';
+	     			    navigation_html += '</li>';     			  
+	     			 }
+	     			  
+	     			  navigation_html += '</ul>';
+	     			  
+	     			 $('#page_navigation').html(navigation_html);
+	     			 
+	     			 
+	     			 var page_num = #{userBean.page}
+	     			 var get_box = document.getElementById('id'+page_num);
+	     			 $('#page_navigation').find('li.active').removeClass('active');
+	     			 $(get_box).addClass('active');
+	     			      			      		     		
+	     		});
+	     		
+	     		
+	     		</script>
     
     
     </ui:define>
