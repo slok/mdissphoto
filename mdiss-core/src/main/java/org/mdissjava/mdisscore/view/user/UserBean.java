@@ -112,6 +112,14 @@ public class UserBean {
 		userManager.addFollow(this.userNickname, follow);
 	}
 	
+	public void addFollowFromPrivate(User follow) {
+		userManager.addFollow(this.userNickname, follow);
+		String outcome = "pretty:dashboard";
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler()
+		.handleNavigation(facesContext, null, outcome);
+	}
+	
 	public void deleteFollow(User follow) {		
 		userManager.deleteFollow(this.userNickname, follow);
 	}

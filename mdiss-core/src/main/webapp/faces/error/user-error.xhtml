@@ -12,17 +12,48 @@
 		<ui:define name="title">PRIVATE USER</ui:define>
 		
 		<ui:define name="body">
-		
-			<h1>Restricted profile</h1>
-			<h:form>
-				<h:commandButton styleClass="btn btn-success"
-					actionListener="#{userBean.addFollow(userBean.user)}"
-					value="Follow"/>
-			</h:form>
-			<br/><br/>
+			
 			<pretty:link mappingId="dashboard" >
 				<h:graphicImage library="img" name="RestrictedError.png" />
 			</pretty:link>
+			<br/>
+			<div class="well">
+				<div class="register-submit-container">
+					<h:outputText styleClass="errorText" value="If you want to see this user's profile first follow him or her!   " />
+					<br /><br />
+						<a class="btn btn-large btn-success" data-toggle="modal" href="#followedModal" > Follow #{userBean.user.nick}</a>
+						<h:outputText styleClass="errorText" value=" OR " />
+						<pretty:link mappingId="dashboard" >	
+							<button class="btn btn-large" type="submit">				  																		
+								Go back to Dashboard
+							</button>
+						</pretty:link>
+				</div>
+			</div>
+			
+			<div class="modal hide fade" id="followedModal">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">×</button>
+					<h3>Are you sure you want to follow this user?</h3>
+				</div>
+				<h:form>	             
+					<div class="modal-body"> 
+						After you hit the <span class="label label-success">Follow</span> button a following request will be sent to this user.
+						Afterwards, this user will have to confirm this request in order to accept you as his or her follower, 
+						<br />
+						<p>So please, <b>be patient until the other user confirms the request</b>.</p> 
+						<p>Thank you. :)</p> 
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn" data-dismiss="modal"> Nah, I'll pass</a>
+						<h:form>
+							<h:commandButton styleClass="btn btn-success"
+								actionListener="#{userBean.addFollowFromPrivate(userBean.user)}"
+								value="Follow"/>
+						</h:form>						
+                    </div>
+                </h:form>
+			</div>
 		
 		</ui:define>
 		                                                
