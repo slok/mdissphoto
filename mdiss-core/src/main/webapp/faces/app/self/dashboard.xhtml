@@ -119,8 +119,13 @@
 													</pretty:link> wants to follow you
 												</h3>
 												<h:form>
-													<h:commandButton styleClass="btn btn-info"
-															actionListener="#{dashboardBean.addPrivateFollow(dashboardBean.users[notification.followerUserName])}" value="Accept"
+													<h:commandButton rendered="#{!notification.read}"
+															styleClass="btn btn-info"
+															actionListener="#{dashboardBean.addPrivateFollow(dashboardBean.users[notification.followerUserName],notification.id)}" value="Accept"
+															update="growl" />
+													<h:commandButton rendered="#{notification.read}"
+															styleClass="btn btn-inverse disabled"
+															value="Accepted"
 															update="growl" />
 												</h:form>
 											</h:panelGroup>

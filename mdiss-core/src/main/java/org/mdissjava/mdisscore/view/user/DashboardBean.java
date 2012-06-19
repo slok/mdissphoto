@@ -11,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.bson.types.ObjectId;
 import org.mdissjava.commonutils.properties.PropertiesFacade;
 import org.mdissjava.mdisscore.controller.bll.AlbumManager;
 import org.mdissjava.mdisscore.controller.bll.UserManager;
@@ -107,7 +108,14 @@ public class DashboardBean {
 		userManager.addFollow(this.user, follow);
 	}
 	
-	public void addPrivateFollow(User follow) {
+	public void addPrivateFollow(User follow, ObjectId objectId) {
+		
+		//updateState
+		FollowingNotification notification = new FollowingNotification();
+		notification.setId(objectId);
+		notification =  (FollowingNotification)mdissNotificationsDao.findMdissNotification(notification).get(0);
+		notification.setRead(true);
+		mdissNotificationsDao.updateMdissNotification((MdissNotification)notification);
 		//we are accepting is inverse from the original :D
 		userManager.addPrivateFollow(follow.getNick(), this.userObject);
 	}
