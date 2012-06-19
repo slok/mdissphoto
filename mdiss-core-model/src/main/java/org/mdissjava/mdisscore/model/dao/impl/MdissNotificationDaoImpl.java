@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.mdissjava.mdisscore.model.dao.MdissNotificationDao;
+import org.mdissjava.mdisscore.model.pojo.Album;
+import org.mdissjava.mdisscore.model.pojo.Photo;
 import org.mdissjava.mdisscore.model.pojo.notifications.MdissNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.PhotoUploadedNotification;
 import org.mdissjava.mdisscore.model.pojo.notifications.ReportPhotoNotification;
@@ -74,21 +76,24 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 	}
 
 	
-	public List<MdissNotification> findUsersMdissNotifications(String userName, int limit) throws IllegalArgumentException{
+	public List<MdissNotification> findUsersMdissNotifications(String userName, int skipNumberPhotos, int quantityNumberPhotos) throws IllegalArgumentException{
 		
-		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).limit(limit);
+		Query<MdissNotification> query = ds.createQuery(MdissNotification.class);
 		
 		if (userName != null) {
 			query.field("selfUserName").equal(userName);
 		}else
 			throw new IllegalArgumentException("Need username to search users notifications");
 		
+		query.offset(skipNumberPhotos);
 		//sort by date
 		query.order("-date");
+		if (quantityNumberPhotos > 0) 
+			query.limit(quantityNumberPhotos); 
 		
 		List<MdissNotification> mdissNotifications = query.asList();
 
-		return mdissNotifications;
+		return mdissNotifications;				
 	}
 	
 	public PhotoUploadedNotification findPhotoUploadedNotifications(String userName, String photoId) throws IllegalStateException, IllegalArgumentException{
@@ -130,5 +135,6 @@ public class MdissNotificationDaoImpl extends BasicDAO<MdissNotification, Object
 		Query<MdissNotification> query = ds.createQuery(MdissNotification.class).disableValidation().filter("className","org.mdissjava.mdisscore.model.pojo.notifications.ReportPhotoNotification").filter("photoId", n.getPhotoId());				
 		ds.delete(query);
 	}
+	
 
 }

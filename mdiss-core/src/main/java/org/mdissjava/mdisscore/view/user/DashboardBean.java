@@ -49,7 +49,10 @@ public class DashboardBean {
 	
 	private final String GLOBAL_PROPS_KEY = "globals";
 	private final String MORPHIA_DATABASE_KEY = "morphia.db";
-	private int NOTIFICATION_BATCH_NUMBER = 10; 
+	
+	private int NOTIFICATION_BATCH_NUMBER = 10;
+	private int page;
+	
 	private boolean more; 
 	
 	public DashboardBean() throws IOException {
@@ -68,7 +71,7 @@ public class DashboardBean {
 		this.userObject = userManager.getUserByNick(this.user);
 		
 		//get all the notifications
-		notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER);
+		notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER, (page-1) * NOTIFICATION_BATCH_NUMBER);
 		this.users = new HashMap<String, User>();
 		
 		for (MdissNotification n: notifications){
@@ -104,15 +107,15 @@ public class DashboardBean {
 		userManager.deleteFollow(this.user, follow);
 	}
 	
-	public void infiniteScroll(AjaxBehaviorEvent event){
-		this.knowMoreTimes++;
-		this.notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER * knowMoreTimes);
-		if (this.notifications.size() != (NOTIFICATION_BATCH_NUMBER * knowMoreTimes)){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No notifications remaining", "No more Notifications"));
-			this.more = false;
-		}else
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Loaded " + NOTIFICATION_BATCH_NUMBER*knowMoreTimes + " more", null));
-	}
+//	public void infiniteScroll(AjaxBehaviorEvent event){
+//		this.knowMoreTimes++;
+//		this.notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER * knowMoreTimes);
+//		if (this.notifications.size() != (NOTIFICATION_BATCH_NUMBER * knowMoreTimes)){
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No notifications remaining", "No more Notifications"));
+//			this.more = false;
+//		}else
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Loaded " + NOTIFICATION_BATCH_NUMBER*knowMoreTimes + " more", null));
+//	}
 	
 	public List<MdissNotification> getNotifications() {
 		return notifications;
@@ -140,6 +143,26 @@ public class DashboardBean {
 		this.thumbnailDatabase = thumbnailDatabase;
 	}
 	
+	public int getNotificationBatchNumber() {
+		return NOTIFICATION_BATCH_NUMBER;
+	}
+
+
+	public void setNotificationBatchNumber(int notificationBatchNumber) {
+		this.NOTIFICATION_BATCH_NUMBER = notificationBatchNumber;
+	}
+
+
+	public int getPage() {
+		return page;
+	}
+
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+
 	public boolean isMore() {
 		return more;
 	}
