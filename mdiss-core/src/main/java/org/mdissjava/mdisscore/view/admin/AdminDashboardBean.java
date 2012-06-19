@@ -107,15 +107,15 @@ public class AdminDashboardBean {
 	}
 
 	
-	public void infiniteScroll(AjaxBehaviorEvent event){
-		this.knowMoreTimes++;
-		this.notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER * knowMoreTimes);
-		if (this.notifications.size() != (NOTIFICATION_BATCH_NUMBER * knowMoreTimes)){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No notifications remaining", "No more Notifications"));
-			this.more = false;
-		}else
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Loaded " + NOTIFICATION_BATCH_NUMBER*knowMoreTimes + " more", null));
-	}
+//	public void infiniteScroll(AjaxBehaviorEvent event){
+//		this.knowMoreTimes++;
+//		this.notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER * knowMoreTimes);
+//		if (this.notifications.size() != (NOTIFICATION_BATCH_NUMBER * knowMoreTimes)){
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No notifications remaining", "No more Notifications"));
+//			this.more = false;
+//		}else
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Loaded " + NOTIFICATION_BATCH_NUMBER*knowMoreTimes + " more", null));
+//	}
 		
 	public void deletePhoto(MdissNotification n){
 		//	try {
