@@ -134,12 +134,16 @@ public class PhotoDetailsBean {
 			//search the available sizes for this photo
 			//int sizes[] = {100, 240, 320, 500, 640, 800, 1024}; //our different sizes
 			Properties allResolutions = propertiesFacade.getProperties(RESOLUTIONS_PROPS_KEY);
-			
-			this.defaultPhotoSizes = new ArrayList<String>();
-			//set the size
-			int height = this.photo.getMetadata().getResolutionREAL().getHeight();
-			int width = this.photo.getMetadata().getResolutionREAL().getWidth();
-			int photoSize = height > width ? height: width;
+			int photoSize;
+			try{
+				this.defaultPhotoSizes = new ArrayList<String>();
+				//set the size
+				int height = this.photo.getMetadata().getResolutionREAL().getHeight();
+				int width = this.photo.getMetadata().getResolutionREAL().getWidth();
+				photoSize = height > width ? height: width;
+			}catch(Exception e){
+				photoSize = 700;
+			}
 			
 			// we get all the available resolutions
 			@SuppressWarnings("rawtypes")

@@ -1,22 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pretty="http://ocpsoft.com/prettyfaces"
-      xmlns:ui="http://java.sun.com/jsf/facelets">  
-    
-    <ui:composition template="/templates/app-space.xhtml">
-      
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/app-space.xhtml">
+
 	<ui:define name="title">USER</ui:define>
 
-	<ui:define name="body">			
-
-			<ui:insert name="body">
+	<ui:define name="body">
 
 
-			</ui:insert>
+	<h:panelGroup rendered="#{profileBean.user.nick != dashboardBean.user}">
+		<div class="navbar">
+		
+			<div class="navbar-inner">
+				<div class="container">
+					<ul class="nav">
+						<li><pretty:link mappingId="album-list">
+								<f:param value="#{profileBean.user.nick}" />
+								<i class="icon-folder-open icon-white" />
+										Albums
+									</pretty:link></li>
+
+						<li><pretty:link mappingId="photowers">
+								<f:param value="#{profileBean.user.nick}" />
+								<i class="icon-arrow-left icon-white" />
+										Photowers
+									</pretty:link></li>
+
+						<li><pretty:link mappingId="photowing">
+								<f:param value="#{profileBean.user.nick}" />
+								<i class="icon-arrow-right icon-white" />
+										Photowings
+									</pretty:link></li>
+
+
+						<li><pretty:link mappingId="user-profile">
+								<f:param value="#{profileBean.user.nick}" />
+								<i class="icon-user icon-white" />
+									Profile
+								</pretty:link></li>
+					</ul>
+
+
+					<ul class="nav pull-right">
+						<li>#{userBean.user.name} #{userBean.user.surname}
+							(#{userBean.user.nick}) <h:graphicImage
+								value="/dynamic/image?db=#{dashboardBean.thumbnailDatabase}&amp;bucket=square.75&amp;id=#{userBean.user.avatar}" />
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		</h:panelGroup>
+		<ui:insert name="user_body">
+
+
+		</ui:insert>
 
 	</ui:define>
 

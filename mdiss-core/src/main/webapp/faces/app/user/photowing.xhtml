@@ -50,7 +50,7 @@
 
 	</ui:define>
 
-	<ui:define name="body">
+	<ui:define name="user_body">
 
 		<div class="row-fluid">
 			<div class="span12">
@@ -68,7 +68,7 @@
 
 		<div class="offset3 table table-condensed connections-top">
 			<h:form id="form">
-				<h:dataTable value="#{userBean.follows}" var="follow">
+				<h:dataTable styleClass="well" value="#{userBean.follows}" var="follow">
 					<div class="row-fluid">
 						<div class="span6">
 							<p:column>
@@ -96,7 +96,6 @@
 							</p:column>
 						</div>
 					</div>
-
 					<br />
 				</h:dataTable>
 			</h:form>
