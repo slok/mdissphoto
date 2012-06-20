@@ -16,7 +16,7 @@ import org.mdissjava.api.helpers.ApiHelper;
 public class AlbumsTest {
 	
 	private final String user = "cerealguy";
-	private final String secret = "iiW35PK+9APga+Ci9f1Bq9BTA25TDNf4MavLwLhG1xs=";
+	private final String secret = "eau2Z1WczR7mwJsZWq/dYBBgD+FKN/UgfuymSFFdw2g=";
 	
 	@Test
 	public void HttpGetAlbumsTest() throws ClientProtocolException, IOException {
