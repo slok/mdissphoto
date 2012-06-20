@@ -69,7 +69,7 @@
 
 		<div class="offset3 table table-condensed connections-top">
 			<h:form id="form">
-				<h:dataTable rowIndexVar="row" value="#{userBean.followers}" var="follower" id="followerDatatable">
+				<h:dataTable styleClass="well" rowIndexVar="row" value="#{userBean.followers}" var="follower" id="followerDatatable">
 					<div class="row-fluid" id="separator">
 						<div class="span6">
 							<p:column>
@@ -103,11 +103,9 @@
 							</p:column>
 						</div>
 					</div>
-
 					<br />
 				</h:dataTable>
 			</h:form>
-			
 			
 		</div>
 
