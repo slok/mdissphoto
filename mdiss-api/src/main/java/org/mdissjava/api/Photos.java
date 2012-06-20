@@ -157,6 +157,8 @@ public class Photos {
 			
 			photo.setAlbum(album);
 			
+			photoDao.insertPhoto(photo);
+			
 			try
 			{
 				List<String> tags4Search = photo.getTags();
@@ -198,7 +200,6 @@ public class Photos {
 			{
 				e.printStackTrace();
 			}
-			photoDao.insertPhoto(photo);
 			return Response.status(200).entity("Photo successfully created").build();		
 		}
 		
