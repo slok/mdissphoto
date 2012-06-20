@@ -567,6 +567,11 @@ div.captcha
 }
 
 /* Logo */
+
+.logo-container{
+	margin-top:20px;
+}
+
 .logo{
     margin: 50px;
     width: 320px;
