@@ -84,12 +84,20 @@ public class DashboardBean {
 		notifications = mdissNotificationsDao.findUsersMdissNotifications(this.user, NOTIFICATION_BATCH_NUMBER, (page-1) * NOTIFICATION_BATCH_NUMBER);
 		this.users = new HashMap<String, User>();
 		
+		String userNickHelper = null;
 		for (MdissNotification n: notifications){
 			if (n instanceof PhotoUploadedNotification){
-				//do something...
+				PhotoUploadedNotification pn = (PhotoUploadedNotification)n;
+				userNickHelper = pn.getUploaderUsername();
 			}else if (n instanceof FollowingNotification){
 				FollowingNotification fn = (FollowingNotification)n;
-				User follower = userManager.getUserByNick(fn.getFollowerUserName());
+				userNickHelper = fn.getFollowerUserName();
+			}
+			
+			//check if already exists
+			if (!this.users.containsKey(userNickHelper))
+			{
+				User follower = userManager.getUserByNick(userNickHelper);
 				users.put(follower.getNick(), follower);
 			}
 		} 
