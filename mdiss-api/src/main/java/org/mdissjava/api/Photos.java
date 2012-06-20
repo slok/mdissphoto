@@ -145,20 +145,19 @@ public class Photos {
 		AlbumDao albumDao = new AlbumDaoImpl(this.datastore);
 		List<Album> albums = albumDao.findAlbum(a);
 		if(albums.size() == 1)
-		{		
+		{			
 			Album album = new Album();
 			album = albums.get(0);
+			
+			photo.setAlbum(album);
+			photoDao.insertPhoto(photo);
 			
 			//add photo to album
 			album.getPhotos().add(photo);
 			
 			//update the album
 			albumDao.updateAlbum(album);
-			
-			photo.setAlbum(album);
-			
-			photoDao.insertPhoto(photo);
-			
+				
 			try
 			{
 				List<String> tags4Search = photo.getTags();
