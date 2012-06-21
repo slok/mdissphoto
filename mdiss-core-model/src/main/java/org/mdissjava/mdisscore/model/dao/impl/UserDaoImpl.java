@@ -120,7 +120,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void addFollow(String userNickname,  User follow) {
-		session = HibernateUtil.getSession();
 		User user = getUserByNick(userNickname);						
 		user.addFollow(follow);		
 		follow.addFollower(user);		
@@ -130,14 +129,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteFollow(String userNickname, User follow) {
-		session = HibernateUtil.getSession();
+	public void deleteFollow(String userNickname, User follow) {		
 		User user = getUserByNick(userNickname);						
 		user.removeFollow(follow);		
 		follow.removeFollower(user);				
-		session.update(user);
-		session.update(follow);
-		
+		updateUser(user);
+		updateUser(follow);		
 	}
 
 
@@ -160,7 +157,7 @@ public class UserDaoImpl implements UserDao {
 		session = HibernateUtil.getSession();
 		User user = getUserByNick(userNickname);				
 		user.addFollower(follower);				
-		session.save(user);		
+		session.update(user);		
 	}
 
 	@Override
