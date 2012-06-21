@@ -236,7 +236,7 @@ public class PhotoDetailsBean {
 		{
 			new TwitterApiManager().getUserOauthCredentials(loggedUserNick);
 			this.executeModal = "$('#myModal').modal('show')";
-		}catch(IllegalAccessError e)
+		}catch(Exception e)
 		{
 			TwitterApiManager twitterApi = new TwitterApiManager();
 			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
