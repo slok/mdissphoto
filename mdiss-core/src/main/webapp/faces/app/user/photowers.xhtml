@@ -91,12 +91,14 @@
 							</p:column>
 							<p:column>
 								<h:commandButton styleClass="btn btn-success" id="btnFollow"
-									rendered="#{userBean.followsUser(follower) == false}"
+									rendered="#{userBean.followsUser(follower) == false
+											&amp;&amp; follower.nick != userBean.userNickname}"																								
 									actionListener="#{userBean.addFollow(follower)}" 
 									value="Follow"
 									update="btnFollow" />
 								<h:commandButton styleClass="btn btn-warning" id="btnUnfollow"
-									rendered="#{userBean.followsUser(follower) != false}"
+									rendered="#{userBean.followsUser(follower) != false
+											&amp;&amp; follower.nick != userBean.userNickname}"
 									actionListener="#{userBean.deleteFollow(follower)}" 
 									value="Unfollow"
 								    update="btnUnfollow" />

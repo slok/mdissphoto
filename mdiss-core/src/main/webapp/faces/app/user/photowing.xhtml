@@ -91,7 +91,8 @@
 							</p:column>
 							<p:column>
 								<h:commandButton styleClass="btn btn-warning"
-									actionListener="#{userBean.deleteFollow(follow)}"
+									actionListener="#{userBean.deleteFollow(follow)}"									
+									rendered="#{follow.nick != userBean.userNickname}"									
 									value="Unfollow" update="growl" />
 							</p:column>
 						</div>
