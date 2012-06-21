@@ -242,6 +242,11 @@ public class PhotoDetailsBean {
 			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect(url);
+		}catch(IllegalAccessError iae){
+			TwitterApiManager twitterApi = new TwitterApiManager();
+			String url = twitterApi.getTwitterTokenUrl(this.loggedUserNick);
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			externalContext.redirect(url);
 		}
 	}
 	
