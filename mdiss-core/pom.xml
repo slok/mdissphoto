@@ -13,7 +13,7 @@
   	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.jboss.as>7.0.2.Final</version.jboss.as>
-        <spring-security.version>3.0.7.RELEASE</spring-security.version>
+        <spring-security.version>5.2.22.RELEASE</spring-security.version>
     </properties>
     
     <parent> 
